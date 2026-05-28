@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>كرار موتورز | سوق السيارات الفاخر في العراق</title>
-<meta name="description" content="أفضل موقع لبيع وشراء السيارات الفاخرة في العراق - بغداد، البصرة، أربيل">
+<meta name="description" content="أفضل موقع لبيع وشراء السيارات الفاخرة في العراق - بغداد، البصرة، زاخو">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -1697,11 +1697,11 @@ body.light-mode .hero-bg {
     <h1 class="hero-title">
       سوق السيارات
       <span class="gold">الأفخم في العراق</span>
-      <span class="line2">من البصرة إلى أربيل — نجيب كل سيارة</span>
+      <span class="line2">من البصرة إلى زاخو — نجيب كل سيارة</span>
     </h1>
 
     <p class="hero-desc">
-      من الكامري اليومية حتى البوغاتي النادرة — ابحث، قارن، وتواصل مع البائع بضغطة واحدة.
+      من الكامري اليومية حتى السيارات الي بالك موجوده!! — ابحث، قارن، وتواصل مع البائع بضغطة واحدة.
     </p>
 
     <div class="hero-search">
@@ -1714,7 +1714,7 @@ body.light-mode .hero-bg {
           <option>Porsche</option>
           <option>Ferrari</option>
           <option>Lamborghini</option>
-          <option>Bugatti</option>
+          <option>Tesla</option>
           <option>Ford</option>
           <option>Dodge</option>
           <option>Lexus</option>
@@ -1723,6 +1723,11 @@ body.light-mode .hero-bg {
           <option>Chevrolet</option>
           <option>Kia</option>
           <option>Hyundai</option>
+          <option>jetour</option>
+          <option>Jeep</option>
+          <option>Nissan</option>
+          <option>Lexus</option>
+          <option>Genesis</option>
         </select>
         <select>
           <option value="">الموديل</option>
@@ -1736,6 +1741,10 @@ body.light-mode .hero-bg {
           <option>النجف</option>
           <option>كربلاء</option>
           <option>السليمانية</option>
+            <option>صلاح الدين</option>
+            <option>السماوة</option>
+            <option>المثنى</option>
+            <option>دهوك(زاخو)</option>
         </select>
         <button class="btn-search" onclick="scrollToCars()">🔍 بحث</button>
       </div>
@@ -1774,7 +1783,7 @@ body.light-mode .hero-bg {
   <div class="section-header">
     <div class="section-tag">— أحدث الإعلانات —</div>
     <h2 class="section-title">تصفح السيارات</h2>
-    <p class="section-desc">اعثر على سيارتك المثالية من آلاف الخيارات المتاحة الآن</p>
+    <p class="section-desc">اعثر على سيارتك المثالية من العديد من الخيارات المتاحة الآن</p>
   </div>
 
   <div class="cars-layout">
@@ -1810,6 +1819,11 @@ body.light-mode .hero-bg {
           <option>Lexus</option>
           <option>Audi</option>
           <option>Range Rover</option>
+           <option>jetour</option>
+          <option>Jeep</option>
+          <option>Nissan</option>
+          <option>Lexus</option>
+          <option>Genesis</option>
         </select>
       </div>
 
@@ -1914,7 +1928,7 @@ body.light-mode .hero-bg {
       <div class="featured-info">
         <div class="featured-brand">Lamborghini</div>
         <div class="featured-name">Huracán EVO 2023</div>
-        <div class="featured-price">$280,000</div>
+        <div class="featured-price">$220,000</div>
       </div>
     </div>
     <div class="featured-card" onclick="openModal(3)">
@@ -1923,7 +1937,7 @@ body.light-mode .hero-bg {
       <div class="featured-info">
         <div class="featured-brand">Range Rover</div>
         <div class="featured-name">SVR 2024</div>
-        <div class="featured-price">$220,000</div>
+        <div class="featured-price">$180,000</div>
       </div>
     </div>
     <div class="featured-card" onclick="openModal(4)">
@@ -1932,7 +1946,7 @@ body.light-mode .hero-bg {
       <div class="featured-info">
         <div class="featured-brand">Dodge</div>
         <div class="featured-name">Challenger Hellcat 2023</div>
-        <div class="featured-price">$78,000</div>
+        <div class="featured-price">$60,000</div>
       </div>
     </div>
   </div>
@@ -2071,7 +2085,7 @@ body.light-mode .hero-bg {
   <div class="section-header">
     <div class="section-tag">— قسم نادر —</div>
     <h2 class="section-title">⚡ Hypercars العراق</h2>
-    <p class="section-desc">أندر السيارات في العالم — متوفرة للعراقيين الذواقة</p>
+    <p class="section-desc">أندر السيارات في العالم — قريباّ سوف تتوقر في العراق متوفرة...</p>
   </div>
   <div class="hypercars-grid" id="hypercarsGrid"></div>
 </section>
@@ -2303,7 +2317,7 @@ body.light-mode .hero-bg {
   <div class="footer-grid">
     <div class="footer-brand">
       <div class="footer-logo">كرار <span>موتورز</span></div>
-      <p class="footer-desc">أفضل منصة لبيع وشراء السيارات في العراق. من البصرة حتى أربيل — نجيب كل سيارة وكل ميزانية.</p>
+      <p class="footer-desc">أفضل منصة لبيع وشراء السيارات في العراق. من البصرة حتى زاخو — نجيب كل سيارة وكل ميزانية.</p>
       <div class="social-links">
         <a href="#" class="social-link">📘</a>
         <a href="#" class="social-link">📸</a>
@@ -2336,7 +2350,7 @@ body.light-mode .hero-bg {
       <h4>تواصل معنا</h4>
       <ul class="footer-links">
         <li><a href="#">📍 بغداد، شارع الصناعة</a></li>
-        <li><a href="#">📞 +964 770 000 0000</a></li>
+        <li><a href="#">📞 +964 77xxxxxxx</a></li>
         <li><a href="#">✉️ info@kraarmotors.iq</a></li>
         <li><a href="#">💬 واتساب مباشر</a></li>
       </ul>
@@ -2462,9 +2476,9 @@ const cars = [
 ];
 
 const hypercars = [
-  { brand:'Bugatti', name:'Chiron Super Sport', img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80', price:'$3,900,000', hp:'1600 HP', top:'440 كم/س', accel:'2.3 ث', engine:'8.0L W16 Quad-Turbo' },
-  { brand:'Koenigsegg', name:'Jesko Absolut', img:'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=600&q=80', price:'$3,000,000', hp:'1600 HP', top:'531 كم/س', accel:'2.5 ث', engine:'5.0L Twin-Turbo V8' },
-  { brand:'Pagani', name:'Huayra Roadster BC', img:'https://images.unsplash.com/photo-1617788138017-80ad40651399?w=600&q=80', price:'$2,800,000', hp:'840 HP', top:'350 كم/س', accel:'2.8 ث', engine:'6.0L Twin-Turbo AMG V12' },
+  { brand:'Bugatti', name:'Chiron Super Sport', img:'https://www.ilusso.com/news/bugatti-chiron-super-sport-300-hits-speeds-in-excess-of-300-mph/', price:'$3,900,000', hp:'1600 HP', top:'440 كم/س', accel:'2.3 ث', engine:'8.0L W16 Quad-Turbo' },
+  { brand:'Koenigsegg', name:'Jesko Absolut', img:'https://www.auto-data.net/en/koenigsegg-jesko-model-2654', price:'$3,000,000', hp:'1600 HP', top:'531 كم/س', accel:'2.5 ث', engine:'5.0L Twin-Turbo V8' },
+  { brand:'Pagani', name:'Huayra Roadster BC', img:'https://en.wikipedia.org/wiki/Pagani_Huayra', price:'$2,800,000', hp:'840 HP', top:'350 كم/س', accel:'2.8 ث', engine:'6.0L Twin-Turbo AMG V12' },
 ];
 
 let favorites = [];
