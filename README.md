@@ -2804,153 +2804,66 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   observer.observe(document.getElementById('home'));
-});
-</script>// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyAb4MheuHSlF4yOxuDfhnxZtIMyXy7g-l8",
-  authDomain: "iraq-motors-38983.firebaseapp.com",
-  projectId: "iraq-motors-38983",
-  storageBucket: "iraq-motors-38983.firebasestorage.app",
-  messagingSenderId: "80307836321",
-  appId: "1:80307836321:web:0dbdbf4d0cf9794a4c67e0",
-  measurementId: "G-D34TNDH680"
-};
+  // إعدادات فايربيس الحقيقية لمشروع كررار موتورز
+  const firebaseConfig = {
+    apiKey: "AIzaSyAb4MheuHSLF4yOxuDfhnxZTiMyXy7g-l8",
+    authDomain: "iraq-motors-38983.firebaseapp.com",
+    projectId: "iraq-motors-38983",
+    storageBucket: "iraq-motors-38983.appspot.com",
+    messagingSenderId: "80307836321",
+    appId: "1:80307836321:web:d61f734a86f5be5a4c67e0",
+    measurementId: "G-5T2H9Q89F7"
+  };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-    <script type="module">
-        // 1. استيراد المكاتب اللازمة من السيرفر مباشرة
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  // تهيئة الفايربيس والـ Auth
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
-        // إعدادات مشروعك الخاصة بـ Iraq Motors
-        const firebaseConfig = {
-          apiKey: "AIzaSyAb4MheuHSlF4yOxuDfhnxZtIMyXy7g-l8",
-          authDomain: "iraq-motors-38983.firebaseapp.com",
-          projectId: "iraq-motors-38983",
-          storageBucket: "iraq-motors-38983.firebasestorage.app",
-          messagingSenderId: "80307836321",
-          appId: "1:80307836321:web:0dbdbf4d0cf9794a4c67e0",
-          measurementId: "G-D34TNDH680"
-        };
+  // كود مسك الحقول الحقيقية والزر الأصفر
+  document.addEventListener('DOMContentLoaded', () => {
+    // نجلب الزر عن طريق الكلاس مالتك الحقيقي
+    const loginButton = document.querySelector('.btn-email-login');
 
-        // 2. تفعيل Firebase وقاعدة البيانات
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+    if (loginButton) {
+      // نلغي الـ onclick القديم برمجياً حتى ما يضرب الكود
+      loginButton.removeAttribute('onclick');
+      
+      loginButton.addEventListener('click', (e) => {
+        e.preventDefault();
 
-            // استيراد أدوات الحسابات المتقدمة (جوجل + هاتف)
-        import { 
-            getAuth, 
-            GoogleAuthProvider, 
-            signInWithPopup, 
-            RecaptchaVerifier, 
-            signInWithPhoneNumber 
-        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        // سحب البيانات من الحقول بالـ ID مالتها الحقيقي
+        const emailInput = document.getElementById('real-email');
+        const passwordInput = document.getElementById('real-password');
 
-        const auth = getAuth(app); // تفعيل الحسابات
+        if (emailInput && passwordInput) {
+          const email = emailInput.value.trim();
+          const password = passwordInput.value.trim();
 
-        // ==========================================
-        // أولاً: دالة تسجيل الدخول بحساب جوجل (Google)
-        // ==========================================
-        const googleProvider = new GoogleAuthProvider();
-        window.loginWithGoogle = async function() {
-            try {
-                const result = await signInWithPopup(auth, googleProvider);
-                alert("أهلاً بك يا " + result.user.displayName + "! تم الدخول بجوجل.");
-                return result.user;
-            } catch (error) {
-                alert("فشل تسجيل الدخول بجوجل: " + error.message);
-            }
-        };
-
-        // ==========================================
-        // ثانياً: نظام تسجيل الدخول برقم الهاتف (SMS)
-        // ==========================================
-        window.setupRecaptcha = function() {
-            if (!window.recaptchaVerifier) {
-                window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-                    'size': 'invisible'
-                });
-            }
-        };
-
-        // دالة إرسال الـ SMS (الرقم لازم يبدأ بمفتاح العراق مثل +964)
-        window.sendSMSCode = async function(phoneNumber) {
-            try {
-                window.setupRecaptcha();
-                const appVerifier = window.recaptchaVerifier;
-                const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
-                window.confirmationResult = confirmationResult;
-                alert("تم إرسال رمز التأكيد إلى هاتفك بنجاح!");
-            } catch (error) {
-                alert("فشل إرسال الـ SMS: " + error.message);
-            }
-        };
-
-        // دالة التحقق من الرمز المكتوب من المستخدم
-        window.verifySMSCode = async function(otpCode) {
-            try {
-                if (!window.confirmationResult) {
-                    alert("الرجاء إرسال الرقم أولاً!");
-                    return;
-                }
-                const result = await window.confirmationResult.confirm(otpCode);
-                alert("تم التحقق بنجاح! مبروك الدخول برقم الهاتف.");
-                return result.user;
-            } catch (error) {
-                alert("الرمز الذي أدخلته غير صحيح!");
-            }
-        };
-
- <script>
-    window.addEventListener('DOMContentLoaded', () => {
-        // 1. ربط زر غوغل الحقيقي بالفايربيز
-        const googleButton = document.getElementById('google-login-btn');
-        if (googleButton) {
-            googleButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                window.loginWithGoogle();
-            });
-        }
-
-        // 2. ربط أزرار الهاتف الحقيقية بالفايربيز
-        const sendSmsButton = document.getElementById('send-sms-btn');
-        const verifyCodeButton = document.getElementById('verify-btn');
-
-        if (sendSmsButton) {
-            sendSmsButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                const phoneNumber = document.getElementById('phone-input').value.trim();
-                if (phoneNumber) {
-                    window.sendSMSCode(phoneNumber);
+          if (email && password) {
+            // الإرسال المباشر والصحيح لـ Firebase Auth
+            signInWithEmailAndPassword(auth, email, password)
+              .then((userCredential) => {
+                alert('🎉 تم تسجيل الدخول بنجاح في كررار موتورز!');
+                window.location.reload();
+              })
+              .catch((error) => {
+                if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
+                  alert('❌ خطأ: الحساب غير موجود أو كلمة المرور غير صحيحة');
                 } else {
-                    alert("الرجاء كتابة رقم الهاتف أولاً!");
+                  alert('⚠️ استجابة من الفايربيس: ' + error.message);
                 }
-            });
+              });
+          } else {
+            alert('⚠️ الرجاء كتابة البريد الإلكتروني وكلمة المرور أولاً!');
+          }
+        } else {
+          alert('⚠️ تنبيه: لم يتم العثور على حقول الإدخال real-email أو real-password');
         }
-
-        if (verifyCodeButton) {
-            verifyCodeButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                const otpCode = document.getElementById('otp-input').value.trim();
-                if (otpCode) {
-                    window.verifySMSCode(otpCode);
-                } else {
-                    alert("الرجاء كتابة رمز التأكيد الواصل لهاتفك!");
-                }
-            });
-        }
-    });
+      });
+    }
+  });
 </script>
-
-<div id="recaptcha-container"></div>
-</body>
-</html>
