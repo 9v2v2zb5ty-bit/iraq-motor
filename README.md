@@ -2422,7 +2422,7 @@ body.light-mode .hero-bg {
     <div class="login-divider">أو بالإيميل</div>
 
     <input type="email" id="real-email" class="email-input" placeholder="ادخل إيميلك">
-    <input type="password" id="real-password" class="email-input" placeholder="كلمة المرور" style="margin-top:0;">
+    <button type="button" class="btn-email-login" id="submitLoginBtn">دخول</button>
 <button type="button" class="btn-email-login" onclick="fakeLogin('Email')">دخول</button>
     <div style="font-size:13px; color: var(--text-dim); margin-top:14px;">
       ماعندك حساب؟ <a href="#" style="color:var(--gold); text-decoration:none;" onclick="fakeLogin('new')">سجّل الآن</a>
