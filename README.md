@@ -2926,54 +2926,47 @@ const analytics = getAnalytics(app);
             }
         };
 
-    <script>
-        // دالة يتم تشغيلها عند تحميل الصفحة بالكامل لضمان وجود الأزرار
-        window.addEventListener('DOMContentLoaded', () => {
+ <script>
+    window.addEventListener('DOMContentLoaded', () => {
+        // 1. ربط زر غوغل الحقيقي بالفايربيز
+        const googleButton = document.getElementById('google-login-btn');
+        if (googleButton) {
+            googleButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.loginWithGoogle();
+            });
+        }
 
-            // =====================================
-            // ١. ربط زر تسجيل دخول جوجل
-            // =====================================
-            // استبدل 'google-btn' بـ id زر جوجل الحقيقي الموجود بتصميمك
-            const googleButton = document.getElementById('google-btn');
-            if (googleButton) {
-                googleButton.addEventListener('click', () => {
-                    window.loginWithGoogle();
-                });
-            }
+        // 2. ربط أزرار الهاتف الحقيقية بالفايربيز
+        const sendSmsButton = document.getElementById('send-sms-btn');
+        const verifyCodeButton = document.getElementById('verify-btn');
 
-            // =====================================
-            // ٢. ربط أزرار رقم الهاتف والـ SMS
-            // =====================================
-            // استبدل الايديات المكتوبة هنا بالايديات الحقيقية المبرمجة بالـ 2000 سطر مالتك
-            const sendSmsButton = document.getElementById('send-sms-btn'); // زر إرسال الرمز
-            const verifyCodeButton = document.getElementById('verify-btn'); // زر تأكيد الرمز
+        if (sendSmsButton) {
+            sendSmsButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                const phoneNumber = document.getElementById('phone-input').value.trim();
+                if (phoneNumber) {
+                    window.sendSMSCode(phoneNumber);
+                } else {
+                    alert("الرجاء كتابة رقم الهاتف أولاً!");
+                }
+            });
+        }
 
-            if (sendSmsButton) {
-                sendSmsButton.addEventListener('click', () => {
-                    // input الذي يكتب فيه المستخدم رقم الهاتف (مثل: phone-input)
-                    const phoneNumber = document.getElementById('phone-input').value.trim();
-                    if (phoneNumber) {
-                        window.sendSMSCode(phoneNumber);
-                    } else {
-                        alert("الرجاء كتابة رقم الهاتف أولاً!");
-                    }
-                });
-            }
+        if (verifyCodeButton) {
+            verifyCodeButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                const otpCode = document.getElementById('otp-input').value.trim();
+                if (otpCode) {
+                    window.verifySMSCode(otpCode);
+                } else {
+                    alert("الرجاء كتابة رمز التأكيد الواصل لهاتفك!");
+                }
+            });
+        }
+    });
+</script>
 
-            if (verifyCodeButton) {
-                verifyCodeButton.addEventListener('click', () => {
-                    // input الذي يكتب فيه المستخدم الـ 6 أرقام الواصلة للموبايل
-                    const otpCode = document.getElementById('otp-input').value.trim();
-                    if (otpCode) {
-                        window.verifySMSCode(otpCode);
-                    } else {
-                        alert("الرجاء كتابة رمز التأكيد الواصل لهاتفك!");
-                    }
-                });
-            }
-        });
-    </script>
-
-    <div id="recaptcha-container"></div>
+<div id="recaptcha-container"></div>
 </body>
 </html>
