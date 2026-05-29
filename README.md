@@ -2622,22 +2622,7 @@ function fakeLogin(method) {
     }
 }
 
-    closeLogin();
-    
-    // إذا ضغط على دخول بالإيميل، يسحب الحقول الحقيقية ويبعثها للفايربيز
-    if (method === 'Email') {
-        const email = document.getElementById('real-email').value.trim();
-        const password = document.getElementById('real-password').value.trim();
-        
-        if (email && password) {
-            window.loginWithEmail(email, password);
-        } else {
-            alert("الرجاء كتابة البريد الإلكتروني وكلمة المرور كاملة!");
-        }
-    }
-}
-
-
+  
 // ===== FAVORITES =====
 function toggleFav(id, btn) {
   if (favorites.includes(id)) {
