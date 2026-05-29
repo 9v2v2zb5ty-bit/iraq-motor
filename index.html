@@ -2910,7 +2910,7 @@ const analytics = getAnalytics(app);
             }
         };
 
- <script>
+ <script type="module">
     window.addEventListener('DOMContentLoaded', () => {
         // 1. ربط زر غوغل الحقيقي بالفايربيز
         const googleButton = document.getElementById('google-login-btn');
@@ -2982,6 +2982,28 @@ const analytics = getAnalytics(app);
         const email = emailInput.value.trim();
         const password = passwordInput.value.trim();
         
+        if (email && password) {
+          const currentAuth = typeof auth !== 'undefined' ? auth : window.auth;
+          
+          if (currentAuth) {
+            signInWithEmailAndPassword(currentAuth, email, password)
+              .then((userCredential) => {
+                alert('تم تسجيل الدخول بنجاح في كررار موتورز!');
+                window.location.reload();
+              })
+              .catch((error) => {
+                alert('خطأ من Firebase: ' + error.message);
+              });
+          } else {
+            alert('تنبيه: جاري تحميل مكتبة تسجيل الدخول، يرجى المحاولة بعد ثوانٍ.');
+          }
+        } else {
+          alert('الرجاء كتابة البريد الإلكتروني وكلمة المرور أولاً!');
+        }
+      }
+    });
+  }
+
         if (email && password) {
           // جلب متغير الـ auth الصحيح
           const currentAuth = typeof auth !== 'undefined' ? auth : window.auth;
