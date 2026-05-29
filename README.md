@@ -2606,6 +2606,24 @@ function closeLogin() {
 function fakeLogin(method) {
     closeLogin();
     
+    if (method === 'Email') {
+        const email = document.getElementById('real-email').value.trim();
+        const password = document.getElementById('real-password').value.trim();
+        
+        if (email && password) {
+            // تشغيل الفايربيز الحقيقي للإيميل
+            window.loginWithEmail(email, password); 
+        } else {
+            alert("الرجاء كتابة البريد الإلكتروني وكلمة المرور كاملة!");
+        }
+    } else if (method === 'Google') {
+        // تشغيل الفايربيز الحقيقي لجوجل
+        window.loginWithGoogle();
+    }
+}
+
+    closeLogin();
+    
     // إذا ضغط على دخول بالإيميل، يسحب الحقول الحقيقية ويبعثها للفايربيز
     if (method === 'Email') {
         const email = document.getElementById('real-email').value.trim();
