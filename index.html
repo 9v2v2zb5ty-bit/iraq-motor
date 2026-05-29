@@ -1,0 +1,2956 @@
+# iraq-motor
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>كرار موتورز | سوق السيارات الفاخر في العراق</title>
+<meta name="description" content="أفضل موقع لبيع وشراء السيارات الفاخرة في العراق - بغداد، البصرة، زاخو">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C9A84C;
+  --gold-light: #E8C97A;
+  --gold-dim: #8a6e2f;
+  --dark: #080A0F;
+  --dark2: #0D1017;
+  --dark3: #121820;
+  --dark4: #1A2332;
+  --card: #111822;
+  --card2: #162030;
+  --text: #E8EDF5;
+  --text-dim: #8A9AB5;
+  --red: #E84545;
+  --green: #2ECC71;
+  --blue: #3498DB;
+  --border: rgba(201,168,76,0.2);
+  --border2: rgba(255,255,255,0.06);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Tajawal', sans-serif;
+  background: var(--dark);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ========== SCROLLBAR ========== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--dark2); }
+::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 3px; }
+
+/* ========== NAVBAR ========== */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 70px;
+  background: rgba(8,10,15,0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.3s;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.logo-icon {
+  width: 40px; height: 40px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  color: #000;
+}
+
+.logo-text {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.logo-text span { color: var(--gold); }
+
+.nav-links {
+  display: flex;
+  gap: 6px;
+  list-style: none;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-dim);
+  font-size: 15px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.nav-links a:hover, .nav-links a.active {
+  color: var(--gold);
+  background: rgba(201,168,76,0.08);
+}
+
+.nav-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn-dark-mode {
+  width: 40px; height: 40px;
+  background: var(--dark3);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  color: var(--text);
+  transition: all 0.2s;
+}
+
+.btn-dark-mode:hover { border-color: var(--gold); color: var(--gold); }
+
+.btn-fav {
+  width: 40px; height: 40px;
+  background: var(--dark3);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  color: var(--text);
+  transition: all 0.2s;
+  position: relative;
+}
+
+.fav-count {
+  position: absolute;
+  top: -5px; left: -5px;
+  background: var(--red);
+  color: #fff;
+  font-size: 10px;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700;
+}
+
+.btn-login {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  color: #000;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: 'Tajawal', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-login:hover { opacity: 0.85; transform: translateY(-1px); }
+
+.btn-post {
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: 'Tajawal', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-post:hover { background: rgba(201,168,76,0.1); }
+
+/* ========== HERO ========== */
+#home {
+  position: relative;
+  height: 100vh;
+  min-height: 700px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding-top: 70px;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse 80% 60% at 30% 60%, rgba(201,168,76,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 80% at 80% 30%, rgba(52,152,219,0.04) 0%, transparent 60%),
+    linear-gradient(180deg, var(--dark) 0%, var(--dark2) 100%);
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(201,168,76,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,168,76,0.05) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+}
+
+.hero-car-bg {
+  position: absolute;
+  right: -5%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 65%;
+  height: 90%;
+  background: url('https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1400&q=80') center/cover no-repeat;
+  mask-image: linear-gradient(to right, transparent 0%, black 30%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%);
+  opacity: 0.4;
+  border-radius: 20px;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 80px;
+  max-width: 700px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.3);
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 13px;
+  color: var(--gold);
+  margin-bottom: 28px;
+  animation: fadeUp 0.6s ease both;
+}
+
+.hero-badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,100% { opacity:1; transform: scale(1); }
+  50% { opacity:0.5; transform: scale(1.5); }
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(30px); }
+  to { opacity:1; transform: translateY(0); }
+}
+
+.hero-title {
+  font-size: clamp(36px, 5vw, 68px);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+
+.hero-title .gold { color: var(--gold); }
+.hero-title .line2 {
+  display: block;
+  font-size: 0.65em;
+  font-weight: 300;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+.hero-desc {
+  font-size: 17px;
+  color: var(--text-dim);
+  line-height: 1.8;
+  margin-bottom: 36px;
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+
+/* SEARCH BOX */
+.hero-search {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 20px;
+  animation: fadeUp 0.6s 0.3s ease both;
+  margin-bottom: 28px;
+}
+
+.search-row {٦
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.search-row select, .search-row input {
+  background: var(--dark3);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 12px 16px;
+  color: var(--text);
+  font-family: 'Tajawal', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-row select:focus, .search-row input:focus {
+  border-color: var(--gold);
+}
+
+.search-row select option { background: var(--dark3); }
+
+.btn-search {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  color: #000;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 800;
+  font-family: 'Tajawal', sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.btn-search:hover { opacity: 0.85; transform: scale(1.03); }
+
+.hero-stats {
+  display: flex;
+  gap: 36px;
+  animation: fadeUp 0.6s 0.4s ease both;
+}
+
+.stat { text-align: center; }
+.stat-num {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--gold);
+  font-family: 'Rajdhani', sans-serif;
+}
+.stat-label { font-size: 12px; color: var(--text-dim); }
+
+/* TICKER */
+.ticker-wrap {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  height: 46px;
+  background: rgba(201,168,76,0.08);
+  border-top: 1px solid var(--border);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.ticker-label {
+  background: var(--gold);
+  color: #000;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 4px 16px;
+  white-space: nowrap;
+  z-index: 2;
+}
+
+.ticker-inner {
+  display: flex;
+  gap: 60px;
+  animation: ticker 30s linear infinite;
+  padding-right: 60px;
+  white-space: nowrap;
+}
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.ticker-item {
+  font-size: 13px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ticker-price { color: var(--gold); font-weight: 700; }
+.ticker-new { color: var(--green); font-size: 10px; background: rgba(46,204,113,0.1); padding: 2px 8px; border-radius: 50px; }
+
+/* ========== SECTION HEADER ========== */
+.section-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.section-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.section-desc {
+  font-size: 16px;
+  color: var(--text-dim);
+  max-width: 550px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ========== BRANDS ========== */
+#brands {
+  padding: 60px 0;
+  border-bottom: 1px solid var(--border2);
+  overflow: hidden;
+}
+
+.brands-scroll {
+  display: flex;
+  gap: 16px;
+  animation: brandScroll 25s linear infinite;
+  width: max-content;
+}
+
+.brands-scroll:hover { animation-play-state: paused; }
+
+@keyframes brandScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.brand-card {
+  flex-shrink: 0;
+  width: 120px; height: 70px;
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 12px;
+}
+
+.brand-card:hover {
+  border-color: var(--gold);
+  background: rgba(201,168,76,0.05);
+  transform: translateY(-3px);
+}
+
+.brand-logo { font-size: 22px; }
+.brand-name { font-size: 10px; color: var(--text-dim); font-weight: 600; letter-spacing: 1px; }
+
+/* ========== FILTERS ========== */
+#cars { padding: 80px 60px; }
+
+.cars-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 30px;
+}
+
+.filter-sidebar {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 18px;
+  padding: 24px;
+  height: fit-content;
+  position: sticky;
+  top: 90px;
+}
+
+.filter-title {
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filter-reset {
+  font-size: 12px;
+  color: var(--gold);
+  cursor: pointer;
+  font-weight: 500;
+  background: none;
+  border: none;
+  font-family: 'Tajawal', sans-serif;
+}
+
+.filter-group {
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border2);
+  padding-bottom: 20px;
+}
+
+.filter-group:last-child { border-bottom: none; margin-bottom: 0; }
+
+.filter-label {
+  font-size: 13px;
+  color: var(--text-dim);
+  font-weight: 600;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filter-group select, .filter-group input[type="text"] {
+  width: 100%;
+  background: var(--dark3);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: var(--text);
+  font-family: 'Tajawal', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.filter-group select:focus, .filter-group input:focus {
+  border-color: var(--gold);
+}
+
+.range-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.range-inputs input {
+  width: 100%;
+  background: var(--dark3);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-family: 'Tajawal', sans-serif;
+  font-size: 13px;
+  outline: none;
+}
+
+.range-slider {
+  width: 100%;
+  accent-color: var(--gold);
+  margin-top: 8px;
+}
+
+.color-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.color-opt {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.color-opt.active, .color-opt:hover { border-color: var(--gold); transform: scale(1.15); }
+
+.fuel-btns, .drive-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.fuel-btn, .drive-btn {
+  background: var(--dark3);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 12px;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-family: 'Tajawal', sans-serif;
+  transition: all 0.2s;
+}
+
+.fuel-btn.active, .drive-btn.active,
+.fuel-btn:hover, .drive-btn:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(201,168,76,0.08);
+}
+
+/* CARS GRID */
+.cars-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.cars-count { font-size: 15px; color: var(--text-dim); }
+.cars-count span { color: var(--text); font-weight: 700; }
+
+.sort-select {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 8px 16px;
+  color: var(--text);
+  font-family: 'Tajawal', sans-serif;
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+}
+
+.cars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* CAR CARD */
+.car-card {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.car-card:hover {
+  border-color: rgba(201,168,76,0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+
+.car-img-wrap {
+  position: relative;
+  height: 190px;
+  overflow: hidden;
+}
+
+.car-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s;
+}
+
+.car-card:hover .car-img-wrap img { transform: scale(1.05); }
+
+.car-badges {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 50px;
+  letter-spacing: 0.5px;
+}
+
+.badge-featured {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  color: #000;
+}
+
+.badge-new { background: rgba(46,204,113,0.2); color: var(--green); border: 1px solid rgba(46,204,113,0.3); }
+.badge-verified { background: rgba(52,152,219,0.2); color: var(--blue); border: 1px solid rgba(52,152,219,0.3); }
+.badge-hot { background: rgba(232,69,69,0.2); color: var(--red); border: 1px solid rgba(232,69,69,0.3); }
+
+.car-fav {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 34px; height: 34px;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(10px);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s;
+  border: none;
+  color: var(--text-dim);
+}
+
+.car-fav.active, .car-fav:hover { color: var(--red); background: rgba(232,69,69,0.2); }
+
+.car-views {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.7);
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(5px);
+  padding: 3px 10px;
+  border-radius: 50px;
+  display: flex; align-items: center; gap: 4px;
+}
+
+.car-info { padding: 16px; }
+
+.car-make {
+  font-size: 11px;
+  color: var(--gold);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.car-name {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.car-specs {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.spec {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.spec-icon { font-size: 14px; }
+
+.car-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid var(--border2);
+}
+
+.car-price { font-size: 20px; font-weight: 800; color: var(--gold); font-family: 'Rajdhani', sans-serif; }
+.car-price-unit { font-size: 11px; color: var(--text-dim); font-family: 'Tajawal', sans-serif; font-weight: 400; }
+
+.car-city {
+  font-size: 12px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-details {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  color: #000;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: 'Tajawal', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-details:hover { opacity: 0.85; }
+
+/* AI PRICE BADGE */
+.ai-price {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-top: 8px;
+}
+
+.ai-price.overpriced { background: rgba(232,69,69,0.1); color: var(--red); border: 1px solid rgba(232,69,69,0.2); }
+.ai-price.fair { background: rgba(46,204,113,0.1); color: var(--green); border: 1px solid rgba(46,204,113,0.2); }
+.ai-price.good { background: rgba(52,152,219,0.1); color: var(--blue); border: 1px solid rgba(52,152,219,0.2); }
+
+/* ========== COMPARISON ========== */
+#compare {
+  padding: 80px 60px;
+  background: var(--dark2);
+}
+
+.compare-container {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.compare-header {
+  background: linear-gradient(135deg, rgba(201,168,76,0.1), transparent);
+  padding: 30px 40px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.compare-icon { font-size: 32px; }
+.compare-header h2 { font-size: 24px; font-weight: 800; }
+.compare-header p { font-size: 14px; color: var(--text-dim); margin-top: 4px; }
+
+.compare-cars {
+  display: grid;
+  grid-template-columns: 200px 1fr 1fr;
+  gap: 0;
+}
+
+.compare-labels {
+  padding: 20px;
+  border-left: 1px solid var(--border2);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.compare-col {
+  border-left: 1px solid var(--border2);
+  padding: 0;
+}
+
+.compare-car-header {
+  padding: 20px;
+  text-align: center;
+  border-bottom: 1px solid var(--border2);
+}
+
+.compare-car-img {
+  width: 100%; height: 140px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.compare-car-name { font-size: 16px; font-weight: 800; }
+.compare-car-price { font-size: 20px; font-weight: 800; color: var(--gold); font-family: 'Rajdhani', sans-serif; margin-top: 4px; }
+
+.compare-row {
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border2);
+  font-size: 14px;
+}
+
+.compare-row-label {
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
+.compare-row-val {
+  font-weight: 700;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 16px;
+}
+
+.compare-row-val.winner { color: var(--gold); }
+
+.compare-bar {
+  height: 6px;
+  background: var(--dark3);
+  border-radius: 3px;
+  margin-top: 4px;
+  overflow: hidden;
+}
+
+.compare-bar-fill {
+  height: 100%;
+  background: linear-gradient(to left, var(--gold), var(--gold-dim));
+  border-radius: 3px;
+  transition: width 1s ease;
+}
+
+.compare-bar-fill.second { background: linear-gradient(to left, #3498DB, #2980B9); }
+
+/* ========== DETAIL MODAL ========== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(10px);
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-overlay.open { display: flex; }
+
+.modal {
+  background: var(--dark2);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: 36px; height: 36px;
+  background: var(--dark3);
+  border: 1px solid var(--border2);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  color: var(--text);
+  z-index: 10;
+  transition: all 0.2s;
+}
+
+.modal-close:hover { border-color: var(--red); color: var(--red); }
+
+.modal-gallery {
+  height: 320px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px 24px 0 0;
+}
+
+.modal-gallery img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+.gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--dark2) 0%, transparent 60%);
+}
+
+.modal-body { padding: 30px; }
+
+.modal-title { font-size: 30px; font-weight: 900; margin-bottom: 6px; }
+.modal-subtitle { font-size: 14px; color: var(--text-dim); margin-bottom: 24px; }
+
+.modal-price { font-size: 36px; font-weight: 800; color: var(--gold); font-family: 'Rajdhani', sans-serif; }
+
+.modal-specs-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.modal-spec {
+  background: var(--dark3);
+  border-radius: 14px;
+  padding: 16px;
+  text-align: center;
+}
+
+.modal-spec-icon { font-size: 24px; margin-bottom: 6px; }
+.modal-spec-val { font-size: 20px; font-weight: 800; color: var(--text); font-family: 'Rajdhani', sans-serif; }
+.modal-spec-label { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+
+.modal-sounds {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.sound-btn {
+  flex: 1;
+  background: var(--dark3);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Tajawal', sans-serif;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+
+.sound-btn:hover { border-color: var(--gold); color: var(--gold); }
+.sound-btn.playing { background: rgba(201,168,76,0.1); border-color: var(--gold); color: var(--gold); }
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.btn-whatsapp {
+  flex: 1;
+  background: #25D366;
+  color: #fff;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Tajawal', sans-serif;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+
+.btn-whatsapp:hover { opacity: 0.9; }
+
+.btn-call {
+  background: var(--dark3);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Tajawal', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex; align-items: center; gap: 8px;
+}
+
+.btn-call:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ========== FEATURED / HYPERCARS ========== */
+#featured { padding: 80px 60px; }
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 20px;
+}
+
+.featured-card {
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.3s;
+}
+
+.featured-card:hover { transform: scale(1.02); }
+.featured-card.main { grid-row: span 2; }
+
+.featured-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.featured-card.main .featured-img { height: 460px; }
+.featured-card:not(.main) .featured-img { height: 220px; }
+
+.featured-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%);
+}
+
+.featured-info {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  left: 20px;
+}
+
+.featured-brand { font-size: 11px; color: var(--gold); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+.featured-name { font-size: 22px; font-weight: 800; margin: 4px 0; }
+.featured-price { font-size: 24px; font-weight: 800; color: var(--gold); font-family: 'Rajdhani', sans-serif; }
+
+/* ========== HYPERCARS ========== */
+#hypercars {
+  padding: 80px 60px;
+  background: var(--dark2);
+}
+
+.hyper-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(201,168,76,0.04) 0%, transparent 70%);
+}
+
+.hypercars-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.hyper-card {
+  background: var(--card);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.hyper-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 0 40px rgba(201,168,76,0.1);
+  transform: translateY(-6px);
+}
+
+.hyper-img { width: 100%; height: 200px; object-fit: cover; }
+
+.hyper-body { padding: 20px; }
+
+.hyper-brand { font-size: 10px; color: var(--gold); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+.hyper-name { font-size: 22px; font-weight: 800; margin-bottom: 12px; }
+
+.hyper-stat {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border2);
+  font-size: 13px;
+}
+
+.hyper-stat:last-of-type { border-bottom: none; }
+.hyper-stat-label { color: var(--text-dim); }
+.hyper-stat-val { font-weight: 700; font-family: 'Rajdhani', sans-serif; }
+
+/* ========== NEWS / BLOG ========== */
+#news { padding: 80px 60px; }
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.news-card {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.news-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-3px); }
+
+.news-img { width: 100%; height: 190px; object-fit: cover; }
+
+.news-body { padding: 20px; }
+
+.news-cat {
+  font-size: 11px;
+  color: var(--gold);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.news-title { font-size: 18px; font-weight: 700; line-height: 1.4; margin-bottom: 10px; }
+.news-desc { font-size: 13px; color: var(--text-dim); line-height: 1.7; margin-bottom: 14px; }
+
+.news-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.news-read { color: var(--gold); font-weight: 600; text-decoration: none; }
+
+/* ========== PRICING ========== */
+#pricing { padding: 80px 60px; background: var(--dark2); }
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.price-card {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 20px;
+  padding: 32px 28px;
+  text-align: center;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.price-card.featured-plan {
+  border-color: var(--gold);
+  background: linear-gradient(135deg, rgba(201,168,76,0.06), var(--card));
+}
+
+.price-card.featured-plan::before {
+  content: 'الأكثر طلباً';
+  position: absolute;
+  top: 14px;
+  right: -24px;
+  background: var(--gold);
+  color: #000;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 40px;
+  transform: rotate(45deg);
+  transform-origin: center;
+}
+
+.price-icon { font-size: 36px; margin-bottom: 12px; }
+.price-name { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.price-desc { font-size: 13px; color: var(--text-dim); margin-bottom: 20px; }
+.price-amount { font-size: 44px; font-weight: 800; color: var(--gold); font-family: 'Rajdhani', sans-serif; }
+.price-currency { font-size: 18px; color: var(--text-dim); }
+
+.price-features {
+  list-style: none;
+  text-align: right;
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.price-features li {
+  font-size: 14px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.price-features li::before { content: '✓'; color: var(--green); font-weight: 700; }
+
+.btn-plan {
+  width: 100%;
+  padding: 13px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Tajawal', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.btn-plan-outline {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.btn-plan-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+.btn-plan-gold {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  color: #000;
+}
+
+.btn-plan-gold:hover { opacity: 0.85; }
+
+/* ========== LOGIN MODAL ========== */
+.login-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(10px);
+  z-index: 3000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-overlay.open { display: flex; }
+
+.login-box {
+  background: var(--dark2);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 40px;
+  width: 400px;
+  text-align: center;
+  position: relative;
+}
+
+.login-close {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: 32px; height: 32px;
+  background: var(--dark3);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--text);
+  font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.login-title { font-size: 26px; font-weight: 800; margin-bottom: 8px; }
+.login-sub { font-size: 14px; color: var(--text-dim); margin-bottom: 28px; }
+
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
+.login-divider::before, .login-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border2);
+}
+
+.social-btns { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+
+.social-btn {
+  width: 100%;
+  padding: 13px;
+  border-radius: 12px;
+  border: 1px solid var(--border2);
+  background: var(--dark3);
+  color: var(--text);
+  font-family: 'Tajawal', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+
+.social-btn:hover { border-color: var(--gold); }
+
+.email-input {
+  width: 100%;
+  background: var(--dark3);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 13px 16px;
+  color: var(--text);
+  font-family: 'Tajawal', sans-serif;
+  font-size: 14px;
+  outline: none;
+  margin-bottom: 10px;
+  text-align: right;
+}
+
+.email-input:focus { border-color: var(--gold); }
+
+.btn-email-login {
+  width: 100%;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  color: #000;
+  border: none;
+  padding: 13px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 800;
+  font-family: 'Tajawal', sans-serif;
+  cursor: pointer;
+}
+
+/* ========== ADMIN PANEL ========== */
+#admin {
+  padding: 80px 60px;
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 28px;
+  background: var(--card);
+  padding: 6px;
+  border-radius: 14px;
+  width: fit-content;
+}
+
+.admin-tab {
+  padding: 10px 22px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dim);
+  transition: all 0.2s;
+  border: none;
+  background: none;
+  font-family: 'Tajawal', sans-serif;
+}
+
+.admin-tab.active {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  color: #000;
+}
+
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.admin-stat {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.admin-stat-label { font-size: 13px; color: var(--text-dim); margin-bottom: 8px; }
+.admin-stat-val { font-size: 32px; font-weight: 800; font-family: 'Rajdhani', sans-serif; }
+.admin-stat-change { font-size: 12px; margin-top: 4px; }
+.positive { color: var(--green); }
+.negative { color: var(--red); }
+
+.admin-table {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.table-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border2);
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+table { width: 100%; border-collapse: collapse; }
+th {
+  text-align: right;
+  padding: 14px 20px;
+  font-size: 12px;
+  color: var(--text-dim);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border2);
+  background: rgba(255,255,255,0.02);
+}
+
+td {
+  padding: 14px 20px;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  vertical-align: middle;
+}
+
+.status-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 50px;
+}
+
+.status-pending { background: rgba(255,165,0,0.15); color: orange; }
+.status-active { background: rgba(46,204,113,0.15); color: var(--green); }
+.status-rejected { background: rgba(232,69,69,0.15); color: var(--red); }
+
+.action-btns { display: flex; gap: 6px; }
+
+.btn-approve {
+  background: rgba(46,204,113,0.1);
+  border: 1px solid rgba(46,204,113,0.3);
+  color: var(--green);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 600;
+}
+
+.btn-reject {
+  background: rgba(232,69,69,0.1);
+  border: 1px solid rgba(232,69,69,0.3);
+  color: var(--red);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 600;
+}
+
+/* ========== FOOTER ========== */
+footer {
+  background: var(--dark2);
+  border-top: 1px solid var(--border2);
+  padding: 60px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.footer-brand { }
+.footer-logo { font-size: 24px; font-weight: 800; margin-bottom: 12px; }
+.footer-logo span { color: var(--gold); }
+.footer-desc { font-size: 14px; color: var(--text-dim); line-height: 1.7; margin-bottom: 20px; }
+
+.social-links { display: flex; gap: 10px; }
+
+.social-link {
+  width: 38px; height: 38px;
+  background: var(--dark3);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  text-decoration: none;
+  color: var(--text-dim);
+  transition: all 0.2s;
+}
+
+.social-link:hover { border-color: var(--gold); color: var(--gold); }
+
+.footer-col h4 { font-size: 14px; font-weight: 800; margin-bottom: 16px; color: var(--text); }
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links a { text-decoration: none; color: var(--text-dim); font-size: 14px; transition: color 0.2s; }
+.footer-links a:hover { color: var(--gold); }
+
+.footer-bottom {
+  border-top: 1px solid var(--border2);
+  padding-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+/* ========== LIGHT MODE ========== */
+body.light-mode {
+  --dark: #F4F6FA;
+  --dark2: #EAECF2;
+  --dark3: #DDE0EA;
+  --dark4: #CDD2DF;
+  --card: #FFFFFF;
+  --card2: #F8FAFF;
+  --text: #1A2340;
+  --text-dim: #6B7894;
+  --border: rgba(201,168,76,0.3);
+  --border2: rgba(0,0,0,0.08);
+}
+
+body.light-mode nav { background: rgba(244,246,250,0.95); }
+body.light-mode .hero-bg {
+  background: 
+    radial-gradient(ellipse 80% 60% at 30% 60%, rgba(201,168,76,0.08) 0%, transparent 70%),
+    linear-gradient(180deg, #F4F6FA 0%, #EAECF2 100%);
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+  .cars-layout { grid-template-columns: 1fr; }
+  .filter-sidebar { position: static; }
+  .featured-grid { grid-template-columns: 1fr 1fr; }
+  .featured-card.main { grid-column: span 2; }
+  .hypercars-grid, .news-grid, .pricing-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero-content { padding: 0 24px; }
+  .search-row { grid-template-columns: 1fr 1fr; }
+  #cars, #featured, #hypercars, #news, #pricing, #compare, #admin, footer { padding: 60px 24px; }
+  .featured-grid, .hypercars-grid, .news-grid, .pricing-grid { grid-template-columns: 1fr; }
+  .admin-stats { grid-template-columns: 1fr 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .modal-specs-grid { grid-template-columns: repeat(2, 1fr); }
+  .compare-cars { grid-template-columns: 140px 1fr 1fr; }
+}
+
+/* ========== UTILS ========== */
+.section-wrap { position: relative; }
+.container { max-width: 1400px; margin: 0 auto; }
+.text-gold { color: var(--gold); }
+.text-dim { color: var(--text-dim); }
+.mt-8 { margin-top: 8px; }
+.mt-16 { margin-top: 16px; }
+
+/* Engine sound animation */
+@keyframes soundPulse {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.2); box-shadow: 0 0 20px var(--gold); }
+}
+
+.sound-btn.playing { animation: soundPulse 0.5s infinite; }
+
+/* Favorite animation */
+@keyframes heartPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.5); }
+  100% { transform: scale(1); }
+}
+
+.car-fav.pop { animation: heartPop 0.3s ease; }
+</style>
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">
+    <div class="logo-icon">KM</div>
+    <div class="logo-text">كرار <span>موتورز</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#home" class="active" onclick="setActive(this)">الرئيسية</a></li>
+    <li><a href="#cars" onclick="setActive(this)">السيارات</a></li>
+    <li><a href="#compare" onclick="setActive(this)">المقارنات</a></li>
+    <li><a href="#featured" onclick="setActive(this)">المعارض</a></li>
+    <li><a href="#news" onclick="setActive(this)">الأخبار</a></li>
+    <li><a href="#pricing" onclick="setActive(this)">الإعلانات</a></li>
+    <li><a href="#admin" onclick="setActive(this)">لوحة التحكم</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="btn-dark-mode" onclick="toggleMode()" title="تغيير الوضع">🌙</button>
+    <button class="btn-fav" onclick="document.getElementById('favSection').scrollIntoView()">
+      ❤️
+      <span class="fav-count" id="favCount">0</span>
+    </button>
+    <button class="btn-post" onclick="openLogin()">نشر إعلان</button>
+    <button class="btn-login" onclick="openLogin()">تسجيل الدخول</button>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-car-bg"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">🔥 أكثر من 2,400 سيارة معروضة الآن</div>
+
+    <h1 class="hero-title">
+      سوق السيارات
+      <span class="gold">الأفخم في العراق</span>
+      <span class="line2">من البصرة إلى زاخو — نجيب كل سيارة</span>
+    </h1>
+
+    <p class="hero-desc">
+      من الكامري اليومية حتى السيارات الي بالك موجوده!! — ابحث، قارن، وتواصل مع البائع بضغطة واحدة.
+    </p>
+
+    <div class="hero-search">
+      <div class="search-row">
+        <select id="searchBrand" onchange="filterByBrand()">
+          <option value="">الماركة</option>
+          <option>Toyota</option>
+          <option>BMW</option>
+          <option>Mercedes</option>
+          <option>Porsche</option>
+          <option>Ferrari</option>
+          <option>Lamborghini</option>
+          <option>Tesla</option>
+          <option>Ford</option>
+          <option>Dodge</option>
+          <option>Lexus</option>
+          <option>Audi</option>
+          <option>Range Rover</option>
+          <option>Chevrolet</option>
+          <option>Kia</option>
+          <option>Hyundai</option>
+          <option>jetour</option>
+          <option>Jeep</option>
+          <option>Nissan</option>
+          <option>Lexus</option>
+          <option>Genesis</option>
+        </select>
+        <select>
+          <option value="">الموديل</option>
+        </select>
+        <select>
+          <option value="">المدينة</option>
+          <option>بغداد</option>
+          <option>البصرة</option>
+          <option>أربيل</option>
+          <option>الموصل</option>
+          <option>النجف</option>
+          <option>كربلاء</option>
+          <option>السليمانية</option>
+            <option>صلاح الدين</option>
+            <option>السماوة</option>
+            <option>المثنى</option>
+            <option>دهوك(زاخو)</option>
+        </select>
+        <button class="btn-search" onclick="scrollToCars()">🔍 بحث</button>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num" id="counterCars">0</div>
+        <div class="stat-label">سيارة معروضة</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="counterDealers">0</div>
+        <div class="stat-label">معرض موثوق</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="counterCities">0</div>
+        <div class="stat-label">مدينة</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker-label">🔥 جديد</div>
+    <div class="ticker-inner" id="ticker"></div>
+  </div>
+</section>
+
+<!-- ========== BRANDS ========== -->
+<section id="brands">
+  <div class="brands-scroll" id="brandsScroll"></div>
+</section>
+
+<!-- ========== CARS + FILTERS ========== -->
+<section id="cars">
+  <div class="section-header">
+    <div class="section-tag">— أحدث الإعلانات —</div>
+    <h2 class="section-title">تصفح السيارات</h2>
+    <p class="section-desc">اعثر على سيارتك المثالية من العديد من الخيارات المتاحة الآن</p>
+  </div>
+
+  <div class="cars-layout">
+    <!-- FILTERS -->
+    <aside class="filter-sidebar">
+      <div class="filter-title">
+        🎯 فلترة ذكية
+        <button class="filter-reset" onclick="resetFilters()">إعادة ضبط</button>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-label">💰 نطاق السعر (USD)</div>
+        <div class="range-inputs">
+          <input type="text" placeholder="من" id="priceMin" oninput="applyFilters()">
+          <input type="text" placeholder="إلى" id="priceMax" oninput="applyFilters()">
+        </div>
+        <input type="range" class="range-slider" id="priceRange" min="0" max="5000000" step="5000" value="5000000" oninput="updatePriceRange(this.value)">
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-label">🏷️ الماركة</div>
+        <select id="filterBrand" onchange="applyFilters()">
+          <option value="">الكل</option>
+          <option>Toyota</option>
+          <option>BMW</option>
+          <option>Mercedes</option>
+          <option>Porsche</option>
+          <option>Ferrari</option>
+          <option>Lamborghini</option>
+          <option>Bugatti</option>
+          <option>Ford</option>
+          <option>Dodge</option>
+          <option>Lexus</option>
+          <option>Audi</option>
+          <option>Range Rover</option>
+           <option>jetour</option>
+          <option>Jeep</option>
+          <option>Nissan</option>
+          <option>Lexus</option>
+          <option>Genesis</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-label">📅 سنة الصنع</div>
+        <div class="range-inputs">
+          <input type="text" placeholder="من" id="yearMin" oninput="applyFilters()">
+          <input type="text" placeholder="إلى" id="yearMax" oninput="applyFilters()">
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-label">⚡ نوع الوقود</div>
+        <div class="fuel-btns" id="fuelBtns">
+          <button class="fuel-btn active" onclick="toggleFilter(this,'fuel')">الكل</button>
+          <button class="fuel-btn" onclick="toggleFilter(this,'fuel')">بنزين</button>
+          <button class="fuel-btn" onclick="toggleFilter(this,'fuel')">ديزل</button>
+          <button class="fuel-btn" onclick="toggleFilter(this,'fuel')">هايبرد</button>
+          <button class="fuel-btn" onclick="toggleFilter(this,'fuel')">كهربائي</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-label">🚗 نظام الدفع</div>
+        <div class="drive-btns">
+          <button class="drive-btn active" onclick="toggleFilter(this,'drive')">الكل</button>
+          <button class="drive-btn" onclick="toggleFilter(this,'drive')">RWD</button>
+          <button class="drive-btn" onclick="toggleFilter(this,'drive')">AWD</button>
+          <button class="drive-btn" onclick="toggleFilter(this,'drive')">FWD</button>
+          <button class="drive-btn" onclick="toggleFilter(this,'drive')">4WD</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-label">🐎 قوة المحرك (HP)</div>
+        <div class="range-inputs">
+          <input type="text" placeholder="من" id="hpMin" oninput="applyFilters()">
+          <input type="text" placeholder="إلى" id="hpMax" oninput="applyFilters()">
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-label">🎨 اللون</div>
+        <div class="color-options">
+          <div class="color-opt" style="background:#111" title="أسود" onclick="toggleColor(this)"></div>
+          <div class="color-opt" style="background:#fff; border:1px solid #444" title="أبيض" onclick="toggleColor(this)"></div>
+          <div class="color-opt" style="background:#c0392b" title="أحمر" onclick="toggleColor(this)"></div>
+          <div class="color-opt" style="background:#2980b9" title="أزرق" onclick="toggleColor(this)"></div>
+          <div class="color-opt" style="background:#7f8c8d" title="رمادي" onclick="toggleColor(this)"></div>
+          <div class="color-opt" style="background:#C9A84C" title="ذهبي" onclick="toggleColor(this)"></div>
+          <div class="color-opt" style="background:#27ae60" title="أخضر" onclick="toggleColor(this)"></div>
+          <div class="color-opt" style="background:#8e44ad" title="بنفسجي" onclick="toggleColor(this)"></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CARS LIST -->
+    <div>
+      <div class="cars-header">
+        <div class="cars-count">عرض <span id="carsShown">12</span> من <span id="carsTotal">2,418</span> سيارة</div>
+        <select class="sort-select" onchange="sortCars(this.value)">
+          <option value="newest">الأحدث أولاً</option>
+          <option value="price_low">السعر: الأرخص أولاً</option>
+          <option value="price_high">السعر: الأغلى أولاً</option>
+          <option value="popular">الأكثر مشاهدة</option>
+        </select>
+      </div>
+      <div class="cars-grid" id="carsGrid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FEATURED ========== -->
+<section id="featured" style="background: var(--dark2);">
+  <div class="section-header">
+    <div class="section-tag">— إعلانات مميزة —</div>
+    <h2 class="section-title">السيارات المميزة</h2>
+    <p class="section-desc">إعلانات مميزة من أفضل المعارض الموثوقة في العراق</p>
+  </div>
+  <div class="featured-grid">
+    <div class="featured-card main" onclick="openModal(0)">
+      <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&q=80" alt="Porsche GT3 RS" class="featured-img">
+      <div class="featured-overlay"></div>
+      <div class="featured-info">
+        <div class="featured-brand">Porsche</div>
+        <div class="featured-name">911 GT3 RS 2024</div>
+        <div class="featured-price">$385,000</div>
+      </div>
+    </div>
+    <div class="featured-card" onclick="openModal(1)">
+      <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&q=80" alt="BMW M5" class="featured-img">
+      <div class="featured-overlay"></div>
+      <div class="featured-info">
+        <div class="featured-brand">BMW</div>
+        <div class="featured-name">M5 Competition 2024</div>
+        <div class="featured-price">$145,000</div>
+      </div>
+    </div>
+    <div class="featured-card" onclick="openModal(2)">
+      <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?w=600&q=80" alt="Lamborghini Huracan" class="featured-img">
+      <div class="featured-overlay"></div>
+      <div class="featured-info">
+        <div class="featured-brand">Lamborghini</div>
+        <div class="featured-name">Huracán EVO 2023</div>
+        <div class="featured-price">$220,000</div>
+      </div>
+    </div>
+    <div class="featured-card" onclick="openModal(3)">
+      <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=600&q=80" alt="Range Rover" class="featured-img">
+      <div class="featured-overlay"></div>
+      <div class="featured-info">
+        <div class="featured-brand">Range Rover</div>
+        <div class="featured-name">SVR 2024</div>
+        <div class="featured-price">$180,000</div>
+      </div>
+    </div>
+    <div class="featured-card" onclick="openModal(4)">
+      <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&q=80" alt="Dodge Challenger" class="featured-img">
+      <div class="featured-overlay"></div>
+      <div class="featured-info">
+        <div class="featured-brand">Dodge</div>
+        <div class="featured-name">Challenger Hellcat 2023</div>
+        <div class="featured-price">$60,000</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== COMPARISON ========== -->
+<section id="compare">
+  <div class="section-header">
+    <div class="section-tag">— مقارنة السيارات —</div>
+    <h2 class="section-title">قارن قبل تشتري</h2>
+    <p class="section-desc">قارن المواصفات التقنية لأهم السيارات مع بعض</p>
+  </div>
+
+  <div class="compare-container">
+    <div class="compare-header">
+      <div class="compare-icon">⚔️</div>
+      <div>
+        <h2>Dodge TRX vs Ford Raptor R</h2>
+        <p>أيهما يستحق؟ الأرقام تقرر.</p>
+      </div>
+    </div>
+    <div class="compare-cars">
+      <div class="compare-labels">
+        <div style="height: 220px; border-bottom: 1px solid var(--border2); padding: 20px; display:flex; align-items:center; font-size:13px; color: var(--text-dim);">المواصفات</div>
+        <div class="compare-row"><span class="compare-row-label">السعر</span></div>
+        <div class="compare-row"><span class="compare-row-label">القوة HP</span></div>
+        <div class="compare-row"><span class="compare-row-label">عزم الدوران</span></div>
+        <div class="compare-row"><span class="compare-row-label">0-100 كم/س</span></div>
+        <div class="compare-row"><span class="compare-row-label">السرعة القصوى</span></div>
+        <div class="compare-row"><span class="compare-row-label">الوزن</span></div>
+        <div class="compare-row"><span class="compare-row-label">نوع المحرك</span></div>
+      </div>
+
+      <!-- CAR 1 -->
+      <div class="compare-col">
+        <div class="compare-car-header">
+          <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?w=400&q=80" class="compare-car-img" alt="Dodge TRX">
+          <div class="compare-car-name">Dodge RAM TRX</div>
+          <div class="compare-car-price">$98,000</div>
+        </div>
+        <div class="compare-row">
+          <div>
+            <div class="compare-row-val winner">$98,000</div>
+            <div class="compare-bar"><div class="compare-bar-fill" style="width:65%"></div></div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div>
+            <div class="compare-row-val winner">702 HP</div>
+            <div class="compare-bar"><div class="compare-bar-fill" style="width:90%"></div></div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div>
+            <div class="compare-row-val winner">881 Nm</div>
+            <div class="compare-bar"><div class="compare-bar-fill" style="width:88%"></div></div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div>
+            <div class="compare-row-val winner">4.5 ث</div>
+            <div class="compare-bar"><div class="compare-bar-fill" style="width:82%"></div></div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div>
+            <div class="compare-row-val">180 كم/س</div>
+            <div class="compare-bar"><div class="compare-bar-fill" style="width:55%"></div></div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div>
+            <div class="compare-row-val">2,722 كغ</div>
+            <div class="compare-bar"><div class="compare-bar-fill" style="width:60%"></div></div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-row-val">6.2L Supercharged V8</div>
+        </div>
+      </div>
+
+      <!-- CAR 2 -->
+      <div class="compare-col">
+        <div class="compare-car-header">
+          <img src="https://images.unsplash.com/photo-1582639510494-c80b5de9f148?w=400&q=80" class="compare-car-img" alt="Ford Raptor R">
+          <div class="compare-car-name">Ford F-150 Raptor R</div>
+          <div class="compare-car-price">$109,145</div>
+        </div>
+        <div class="compare-row">
+          <div>
+            <div class="compare-row-val winner">$109,145</div>
+            <div class="compare-bar"><div class="compare-bar-fill second" style="width:72%"></div></div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div>
+            <div class="compare-row-val">700 HP</div>
+            <div class="compare-bar"><div class="compare-bar-fill second" style="width:89%"></div></div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div>
+            <div class="compare-row-val">870 Nm</div>
+            <div class="compare-bar"><div class="compare-bar-fill second" style="width:86%"></div></div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div>
+            <div class="compare-row-val">4.4 ث</div>
+            <div class="compare-bar"><div class="compare-bar-fill second" style="width:85%"></div></div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div>
+            <div class="compare-row-val winner">193 كم/س</div>
+            <div class="compare-bar"><div class="compare-bar-fill second" style="width:60%"></div></div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div>
+            <div class="compare-row-val winner">2,585 كغ</div>
+            <div class="compare-bar"><div class="compare-bar-fill second" style="width:55%"></div></div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-row-val">5.2L Supercharged V8</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== HYPERCARS ========== -->
+<section id="hypercars" class="section-wrap">
+  <div class="hyper-bg"></div>
+  <div class="section-header">
+    <div class="section-tag">— قسم نادر —</div>
+    <h2 class="section-title">⚡ Hypercars العراق</h2>
+    <p class="section-desc">أندر السيارات في العالم — قريباّ سوف تتوقر في العراق متوفرة...</p>
+  </div>
+  <div class="hypercars-grid" id="hypercarsGrid"></div>
+</section>
+
+<!-- ========== NEWS ========== -->
+<section id="news">
+  <div class="section-header">
+    <div class="section-tag">— أخبار وتقارير —</div>
+    <h2 class="section-title">أحدث الأخبار</h2>
+    <p class="section-desc">مقالات متخصصة لمحبي السيارات في العراق والعالم العربي</p>
+  </div>
+  <div class="news-grid">
+    <div class="news-card">
+      <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?w=600&q=80" alt="News" class="news-img">
+      <div class="news-body">
+        <div class="news-cat">📊 مقارنات</div>
+        <div class="news-title">M5 CS ضد RS7 Performance: أيهما ملك السيدانات الخارقة لـ 2026؟</div>
+        <div class="news-desc">مقارنة تفصيلية شاملة بين أقوى سيداني ألماني في السوق من حيث الأداء والراحة والسعر.</div>
+        <div class="news-footer">
+          <span>15 مايو 2026</span>
+          <a href="#" class="news-read">اقرأ الكامل ←</a>
+        </div>
+      </div>
+    </div>
+    <div class="news-card">
+      <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&q=80" alt="News" class="news-img">
+      <div class="news-body">
+        <div class="news-cat">🏆 أفضل اختيارات</div>
+        <div class="news-title">أفضل 10 سيارات SUV في العراق لعام 2026 — الدراسة الكاملة</div>
+        <div class="news-desc">من الـ GX حتى الـ Cullinan، انتقينا لك أفضل خيارات الـ SUV حسب ميزانيتك وطريق البغداديين.</div>
+        <div class="news-footer">
+          <span>10 مايو 2026</span>
+          <a href="#" class="news-read">اقرأ الكامل ←</a>
+        </div>
+      </div>
+    </div>
+    <div class="news-card">
+      <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=600&q=80" alt="News" class="news-img">
+      <div class="news-body">
+        <div class="news-cat">💡 نصائح</div>
+        <div class="news-title">أقوى سيارة عضلية في التاريخ — Challenger قبل الموت الرسمي</div>
+        <div class="news-desc">قصة وداع آخر الـ Muscle Cars الحقيقية، ولماذا سعرها يرتفع كل شهر في السوق العراقي.</div>
+        <div class="news-footer">
+          <span>5 مايو 2026</span>
+          <a href="#" class="news-read">اقرأ الكامل ←</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PRICING ========== -->
+<section id="pricing">
+  <div class="section-header">
+    <div class="section-tag">— باقات الإعلان —</div>
+    <h2 class="section-title">انشر إعلانك الآن</h2>
+    <p class="section-desc">اختر الباقة المناسبة وابدأ تبيع سيارتك بأسرع وقت ممكن</p>
+  </div>
+
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-icon">📌</div>
+      <div class="price-name">إعلان عادي</div>
+      <div class="price-desc">مناسب للأفراد — سريع وبسيط</div>
+      <div>
+        <span class="price-amount">5</span>
+        <span class="price-currency"> $ / شهر</span>
+      </div>
+      <ul class="price-features">
+        <li>صورة واحدة للسيارة</li>
+        <li>ظهور في نتائج البحث</li>
+        <li>30 يوم نشاط</li>
+        <li>تواصل عبر الواتساب</li>
+      </ul>
+      <button class="btn-plan btn-plan-outline" onclick="openLogin()">ابدأ الآن</button>
+    </div>
+
+    <div class="price-card featured-plan">
+      <div class="price-icon">⭐</div>
+      <div class="price-name">إعلان مميز</div>
+      <div class="price-desc">ظهور أعلى وانتشار أوسع</div>
+      <div>
+        <span class="price-amount">15</span>
+        <span class="price-currency"> $ / شهر</span>
+      </div>
+      <ul class="price-features">
+        <li>حتى 10 صور</li>
+        <li>شارة "مميز" ذهبية</li>
+        <li>ظهور في القسم المميز</li>
+        <li>60 يوم نشاط</li>
+        <li>إشعار للمتابعين</li>
+      </ul>
+      <button class="btn-plan btn-plan-gold" onclick="openLogin()">اختر هذه الباقة</button>
+    </div>
+
+    <div class="price-card">
+      <div class="price-icon">🚀</div>
+      <div class="price-name">تثبيت بالأعلى</div>
+      <div class="price-desc">أول ما يراه الزوار</div>
+      <div>
+        <span class="price-amount">25</span>
+        <span class="price-currency"> $ / شهر</span>
+      </div>
+      <ul class="price-features">
+        <li>تثبيت في صدر الصفحة</li>
+        <li>صور + فيديو</li>
+        <li>شارة "ثابت" حمراء</li>
+        <li>90 يوم نشاط</li>
+        <li>تقرير مشاهدات يومي</li>
+        <li>دعم أولوية 24/7</li>
+      </ul>
+      <button class="btn-plan btn-plan-outline" onclick="openLogin()">احجز مكانك</button>
+    </div>
+  </div>
+
+  <!-- DEALER SUBSCRIPTION -->
+  <div style="margin-top: 40px; background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 32px; display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center;">
+    <div>
+      <div style="font-size:11px; color: var(--gold); font-weight:700; letter-spacing:2px; margin-bottom:8px;">🏪 للمعارض والتجار</div>
+      <h3 style="font-size:22px; font-weight:800; margin-bottom:8px;">اشتراك المعارض — Verified Dealer ✓</h3>
+      <p style="font-size:14px; color: var(--text-dim); line-height:1.7;">نشر عدد غير محدود من السيارات، شارة التوثيق الزرقاء، ظهور أعلى في النتائج، صفحة معرض خاصة، وإدارة كاملة للإعلانات.</p>
+    </div>
+    <div style="text-align:center; min-width: 200px;">
+      <div style="font-size:40px; font-weight:800; color: var(--gold); font-family: 'Rajdhani', sans-serif;">$99<span style="font-size:16px; color: var(--text-dim);">/شهر</span></div>
+      <button class="btn-plan btn-plan-gold" style="margin-top:12px;" onclick="openLogin()">تواصل معنا</button>
+    </div>
+  </div>
+</section>
+
+<!-- ========== ADMIN PANEL ========== -->
+<section id="admin">
+  <div class="section-header">
+    <div class="section-tag">— إدارة الموقع —</div>
+    <h2 class="section-title">🛡️ لوحة التحكم</h2>
+    <p class="section-desc">إدارة كاملة للإعلانات والمستخدمين والأرباح</p>
+  </div>
+
+  <div class="admin-tabs">
+    <button class="admin-tab active" onclick="switchTab(this)">📊 الإحصاء</button>
+    <button class="admin-tab" onclick="switchTab(this)">🚗 السيارات</button>
+    <button class="admin-tab" onclick="switchTab(this)">👥 المستخدمون</button>
+    <button class="admin-tab" onclick="switchTab(this)">💰 الأرباح</button>
+  </div>
+
+  <div class="admin-stats">
+    <div class="admin-stat">
+      <div class="admin-stat-label">إجمالي الإعلانات</div>
+      <div class="admin-stat-val" style="color: var(--gold);">2,418</div>
+      <div class="admin-stat-change positive">↑ +124 هذا الأسبوع</div>
+    </div>
+    <div class="admin-stat">
+      <div class="admin-stat-label">بانتظار الموافقة</div>
+      <div class="admin-stat-val" style="color: orange;">47</div>
+      <div class="admin-stat-change positive">↓ أقل من الأمس</div>
+    </div>
+    <div class="admin-stat">
+      <div class="admin-stat-label">الأرباح هذا الشهر</div>
+      <div class="admin-stat-val" style="color: var(--green);">$4,820</div>
+      <div class="admin-stat-change positive">↑ +18% عن الشهر الماضي</div>
+    </div>
+    <div class="admin-stat">
+      <div class="admin-stat-label">المستخدمون النشطون</div>
+      <div class="admin-stat-val" style="color: var(--blue);">8,943</div>
+      <div class="admin-stat-change positive">↑ +312 هذا الأسبوع</div>
+    </div>
+  </div>
+
+  <div class="admin-table">
+    <div class="table-header">
+      إعلانات بانتظار المراجعة
+      <button class="btn-approve" style="font-size:13px; padding:6px 16px;">موافقة على الكل</button>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>السيارة</th>
+          <th>البائع</th>
+          <th>المدينة</th>
+          <th>السعر</th>
+          <th>الباقة</th>
+          <th>الحالة</th>
+          <th>إجراء</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>BMW M3 Competition 2024</strong></td>
+          <td>أحمد الكرخي</td>
+          <td>بغداد</td>
+          <td style="color: var(--gold); font-weight:700;">$89,000</td>
+          <td><span class="badge badge-featured">مميز</span></td>
+          <td><span class="status-badge status-pending">بانتظار</span></td>
+          <td><div class="action-btns"><button class="btn-approve">موافقة</button><button class="btn-reject">رفض</button></div></td>
+        </tr>
+        <tr>
+          <td><strong>Lamborghini Urus 2023</strong></td>
+          <td>معرض بغداد الفاخر</td>
+          <td>بغداد</td>
+          <td style="color: var(--gold); font-weight:700;">$310,000</td>
+          <td><span class="badge" style="background:rgba(232,69,69,0.2);color:var(--red);">مثبت</span></td>
+          <td><span class="status-badge status-pending">بانتظار</span></td>
+          <td><div class="action-btns"><button class="btn-approve">موافقة</button><button class="btn-reject">رفض</button></div></td>
+        </tr>
+        <tr>
+          <td><strong>Toyota Land Cruiser 2024</strong></td>
+          <td>خالد الربيعي</td>
+          <td>البصرة</td>
+          <td style="color: var(--gold); font-weight:700;">$95,000</td>
+          <td><span class="badge badge-new">عادي</span></td>
+          <td><span class="status-badge status-active">نشط</span></td>
+          <td><div class="action-btns"><button class="btn-reject">حذف</button></div></td>
+        </tr>
+        <tr>
+          <td><strong>Ferrari F8 Tributo 2022</strong></td>
+          <td>معرض أربيل برستيج</td>
+          <td>أربيل</td>
+          <td style="color: var(--gold); font-weight:700;">$340,000</td>
+          <td><span class="badge" style="background:rgba(232,69,69,0.2);color:var(--red);">مثبت</span></td>
+          <td><span class="status-badge status-pending">بانتظار</span></td>
+          <td><div class="action-btns"><button class="btn-approve">موافقة</button><button class="btn-reject">رفض</button></div></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">كرار <span>موتورز</span></div>
+      <p class="footer-desc">أفضل منصة لبيع وشراء السيارات في العراق. من البصرة حتى زاخو — نجيب كل سيارة وكل ميزانية.</p>
+      <div class="social-links">
+        <a href="#" class="social-link">📘</a>
+        <a href="#" class="social-link">📸</a>
+        <a href="#" class="social-link">🐦</a>
+        <a href="#" class="social-link">📱</a>
+        <a href="#" class="social-link">🎵</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>روابط سريعة</h4>
+      <ul class="footer-links">
+        <li><a href="#home">الرئيسية</a></li>
+        <li><a href="#cars">تصفح السيارات</a></li>
+        <li><a href="#compare">المقارنات</a></li>
+        <li><a href="#hypercars">Hypercars</a></li>
+        <li><a href="#news">الأخبار</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>الماركات</h4>
+      <ul class="footer-links">
+        <li><a href="#">Toyota</a></li>
+        <li><a href="#">BMW</a></li>
+        <li><a href="#">Mercedes-Benz</a></li>
+        <li><a href="#">Porsche</a></li>
+        <li><a href="#">Ferrari</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>تواصل معنا</h4>
+      <ul class="footer-links">
+        <li><a href="#">📍 بغداد، شارع الصناعة</a></li>
+        <li><a href="#">📞 +964 77xxxxxxx</a></li>
+        <li><a href="#">✉️ info@kraarmotors.iq</a></li>
+        <li><a href="#">💬 واتساب مباشر</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 كرار موتورز — جميع الحقوق محفوظة</span>
+    <span>صُنع في العراق 🇮🇶 بشغف حقيقي</span>
+  </div>
+</footer>
+
+<!-- ========== CAR DETAIL MODAL ========== -->
+<div class="modal-overlay" id="carModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-gallery">
+      <img id="modalImg" src="" alt="">
+      <div class="gallery-overlay"></div>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+        <div>
+          <div id="modalMake" class="car-make"></div>
+          <div id="modalName" class="modal-title"></div>
+          <div id="modalCity" class="modal-subtitle"></div>
+        </div>
+        <div>
+          <div id="modalPrice" class="modal-price"></div>
+          <div id="modalAI" class="ai-price" style="margin-top:8px;"></div>
+        </div>
+      </div>
+
+      <div class="modal-specs-grid" id="modalSpecs"></div>
+
+      <div style="font-size:13px; color: var(--text-dim); margin-bottom:12px; font-weight:700;">🔊 صوت السيارة</div>
+      <div class="modal-sounds">
+        <button class="sound-btn" onclick="playSound(this,'idle')">🔈 Cold Start</button>
+        <button class="sound-btn" onclick="playSound(this,'rev')">🔥 Rev Engine</button>
+        <button class="sound-btn" onclick="playSound(this,'launch')">🚀 Launch Control</button>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-whatsapp">
+          <span>💬</span> تواصل عبر واتساب
+        </button>
+        <button class="btn-call">📞 اتصل</button>
+        <button class="btn-fav" style="width:48px; height:48px; border-radius:12px; background:var(--dark3); border:1px solid var(--border2); font-size:20px; cursor:pointer;" onclick="toggleFavModal(this)">🤍</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== LOGIN MODAL ========== -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <button class="login-close" onclick="closeLogin()">✕</button>
+    <div style="font-size:36px; margin-bottom:12px;">🔑</div>
+    <div class="login-title">تسجيل الدخول</div>
+    <div class="login-sub">ادخل عالموقع وابدأ تبيع أو تشتري</div>
+
+    <div class="social-btns">
+     <button type="button" id="google-login-btn" class="social-btn">
+        <span>🔵</span> تسجيل الدخول بـ Google
+      </button>
+      <button class="social-btn" onclick="fakeLogin('Apple')">
+        <span>🍎</span> تسجيل الدخول بـ Apple
+      </button>
+    </div>
+
+    <div class="login-divider">أو بالإيميل</div>
+
+    <input type="email" id="real-email" class="email-input" placeholder="ادخل إيميلك">
+    <input type="password" id="real-password" class="email-input" placeholder="كلمة المرور" style="margin-top:0;">
+<button type="button" class="btn-email-login" onclick="fakeLogin('Email')">دخول</button>
+    <div style="font-size:13px; color: var(--text-dim); margin-top:14px;">
+      ماعندك حساب؟ <a href="#" style="color:var(--gold); text-decoration:none;" onclick="fakeLogin('new')">سجّل الآن</a>
+    </div>
+  </div>
+</div>
+
+<!-- ========== JAVASCRIPT ========== -->
+<script>
+// ===== DATA =====
+const brands = [
+  {name:'Toyota', icon:'🚗'},
+  {name:'BMW', icon:'🔵'},
+  {name:'Mercedes', icon:'⭐'},
+  {name:'Porsche', icon:'🏎️'},
+  {name:'Ferrari', icon:'🐎'},
+  {name:'Lamborghini', icon:'🔱'},
+  {name:'Bugatti', icon:'💎'},
+  {name:'Ford', icon:'🔧'},
+  {name:'Dodge', icon:'💪'},
+  {name:'Lexus', icon:'🍃'},
+  {name:'Audi', icon:'⚪'},
+  {name:'Range Rover', icon:'🌿'},
+  {name:'Chevrolet', icon:'⚡'},
+  {name:'Kia', icon:'🌀'},
+  {name:'Hyundai', icon:'🔷'},
+  {name:'Bentley', icon:'👑'},
+  {name:'Rolls-Royce', icon:'🎩'},
+  {name:'Maserati', icon:'🔱'},
+  {name:'McLaren', icon:'🧡'},
+  {name:'Aston Martin', icon:'🏴'},
+  {name:'Koenigsegg', icon:'🇸🇪'},
+  {name:'Pagani', icon:'🇮🇹'},
+];
+
+const cars = [
+  { id:0, make:'Porsche', name:'911 GT3 RS 2024', price:385000, year:2024, city:'بغداد', img:'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80', hp:525, fuel:'بنزين', drive:'RWD', views:4821, featured:true, verified:true, ai:'overpriced', aiMsg:'السعر أعلى من السوق بـ 8%', color:'أبيض', engine:'4.0L Flat-6', top:'296 كم/س', accel:'3.2 ث' },
+  { id:1, make:'BMW', name:'M5 Competition 2024', price:145000, year:2024, city:'البصرة', img:'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&q=80', hp:627, fuel:'بنزين', drive:'AWD', views:3290, featured:true, verified:true, ai:'fair', aiMsg:'السعر مناسب للسوق', color:'أسود', engine:'4.4L V8 Twin-Turbo', top:'305 كم/س', accel:'3.3 ث' },
+  { id:2, make:'Lamborghini', name:'Huracán EVO 2023', price:280000, year:2023, city:'أربيل', img:'https://images.unsplash.com/photo-1617788138017-80ad40651399?w=600&q=80', hp:630, fuel:'بنزين', drive:'AWD', views:6100, featured:true, verified:true, ai:'good', aiMsg:'السعر أقل من السوق بـ 5%', color:'أصفر', engine:'5.2L V10', top:'325 كم/س', accel:'2.9 ث' },
+  { id:3, make:'Range Rover', name:'SVR 2024', price:220000, year:2024, city:'بغداد', img:'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=600&q=80', hp:575, fuel:'بنزين', drive:'AWD', views:2800, featured:false, verified:true, ai:'fair', aiMsg:'السعر مناسب للسوق', color:'رمادي', engine:'5.0L V8 Supercharged', top:'280 كم/س', accel:'4.3 ث' },
+  { id:4, make:'Dodge', name:'Challenger Hellcat 2023', price:78000, year:2023, city:'الموصل', img:'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&q=80', hp:717, fuel:'بنزين', drive:'RWD', views:5500, featured:false, verified:false, ai:'good', aiMsg:'سعر ممتاز — أسرع!', color:'أحمر', engine:'6.2L V8 Supercharged', top:'320 كم/س', accel:'3.4 ث' },
+  { id:5, make:'Toyota', name:'Land Cruiser 300 2024', price:95000, year:2024, city:'النجف', img:'https://images.unsplash.com/photo-1623869675781-80aa31012fb0?w=600&q=80', hp:409, fuel:'بنزين', drive:'4WD', views:9200, featured:false, verified:true, ai:'overpriced', aiMsg:'السعر أعلى من السوق بـ 12%', color:'أبيض', engine:'3.5L V6 Twin-Turbo', top:'235 كم/س', accel:'6.7 ث' },
+  { id:6, make:'Mercedes', name:'AMG GT Black Series', price:420000, year:2022, city:'بغداد', img:'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&q=80', hp:730, fuel:'بنزين', drive:'RWD', views:7300, featured:true, verified:true, ai:'fair', aiMsg:'السعر مناسب للسوق', color:'رمادي', engine:'4.0L V8 Twin-Turbo', top:'325 كم/س', accel:'3.2 ث' },
+  { id:7, make:'Audi', name:'RS7 Performance 2024', price:135000, year:2024, city:'أربيل', img:'https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?w=600&q=80', hp:630, fuel:'هايبرد', drive:'AWD', views:2100, featured:false, verified:false, ai:'good', aiMsg:'سعر ممتاز للـ RS7', color:'أزرق', engine:'4.0L V8 TFSI', top:'280 كم/س', accel:'3.4 ث' },
+  { id:8, make:'Ford', name:'Mustang GT500 2024', price:82000, year:2024, city:'البصرة', img:'https://images.unsplash.com/photo-1547744152-14d985cb937f?w=600&q=80', hp:760, fuel:'بنزين', drive:'RWD', views:4400, featured:false, verified:false, ai:'fair', aiMsg:'السعر مناسب', color:'أزرق', engine:'5.2L Supercharged V8', top:'290 كم/س', accel:'3.3 ث' },
+  { id:9, make:'Lexus', name:'LC 500 2023', price:115000, year:2023, city:'بغداد', img:'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=600&q=80', hp:471, fuel:'بنزين', drive:'RWD', views:1800, featured:false, verified:true, ai:'fair', aiMsg:'سعر مناسب', color:'أبيض', engine:'5.0L V8', top:'270 كم/س', accel:'4.7 ث' },
+  { id:10, make:'Chevrolet', name:'Corvette Z06 2023', price:115000, year:2023, city:'السليمانية', img:'https://images.unsplash.com/photo-1542282811-943ef1a977c3?w=600&q=80', hp:670, fuel:'بنزين', drive:'RWD', views:5600, featured:false, verified:false, ai:'good', aiMsg:'سعر ممتاز للـ Z06!', color:'أصفر', engine:'5.5L Flat-Plane V8', top:'312 كم/س', accel:'2.6 ث' },
+  { id:11, make:'Kia', name:'Stinger GT 2023', price:48000, year:2023, city:'بغداد', img:'https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=600&q=80', hp:368, fuel:'بنزين', drive:'AWD', views:1400, featured:false, verified:false, ai:'fair', aiMsg:'سعر مناسب جداً', color:'أحمر', engine:'3.3L Twin-Turbo V6', top:'270 كم/س', accel:'4.7 ث' },
+];
+
+const hypercars = [
+  { brand:'Bugatti', name:'Chiron Super Sport', img:'https://www.ilusso.com/news/bugatti-chiron-super-sport-300-hits-speeds-in-excess-of-300-mph/', price:'$3,900,000', hp:'1600 HP', top:'440 كم/س', accel:'2.3 ث', engine:'8.0L W16 Quad-Turbo' },
+  { brand:'Koenigsegg', name:'Jesko Absolut', img:'https://www.auto-data.net/en/koenigsegg-jesko-model-2654', price:'$3,000,000', hp:'1600 HP', top:'531 كم/س', accel:'2.5 ث', engine:'5.0L Twin-Turbo V8' },
+  { brand:'Pagani', name:'Huayra Roadster BC', img:'https://en.wikipedia.org/wiki/Pagani_Huayra', price:'$2,800,000', hp:'840 HP', top:'350 كم/س', accel:'2.8 ث', engine:'6.0L Twin-Turbo AMG V12' },
+];
+
+let favorites = [];
+let allCars = [...cars];
+
+// ===== RENDER =====
+function renderCars(list) {
+  const grid = document.getElementById('carsGrid');
+  grid.innerHTML = list.map(car => `
+    <div class="car-card" onclick="openModal(${car.id})">
+      <div class="car-img-wrap">
+        <img src="${car.img}" alt="${car.name}" loading="lazy">
+        <div class="car-badges">
+          ${car.featured ? '<span class="badge badge-featured">⭐ مميز</span>' : ''}
+          ${car.year >= 2024 ? '<span class="badge badge-new">جديد</span>' : ''}
+          ${car.verified ? '<span class="badge badge-verified">✓ موثوق</span>' : ''}
+        </div>
+        <button class="car-fav ${favorites.includes(car.id) ? 'active' : ''}" onclick="event.stopPropagation(); toggleFav(${car.id}, this)">
+          ${favorites.includes(car.id) ? '❤️' : '🤍'}
+        </button>
+        <div class="car-views">👁️ ${car.views.toLocaleString()}</div>
+      </div>
+      <div class="car-info">
+        <div class="car-make">${car.make}</div>
+        <div class="car-name">${car.name}</div>
+        <div class="car-specs">
+          <span class="spec"><span class="spec-icon">📅</span>${car.year}</span>
+          <span class="spec"><span class="spec-icon">⛽</span>${car.fuel}</span>
+          <span class="spec"><span class="spec-icon">🐎</span>${car.hp} HP</span>
+          <span class="spec"><span class="spec-icon">⚙️</span>${car.drive}</span>
+        </div>
+        <div class="ai-price ${car.ai}">
+          🤖 ${car.aiMsg}
+        </div>
+        <div class="car-footer">
+          <div>
+            <div class="car-price">$${car.price.toLocaleString()} <span class="car-price-unit">USD</span></div>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div class="car-city">📍 ${car.city}</div>
+            <button class="btn-details" onclick="event.stopPropagation(); openModal(${car.id})">تفاصيل</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('carsShown').textContent = list.length;
+}
+
+function renderBrands() {
+  const wrap = document.getElementById('brandsScroll');
+  const all = [...brands, ...brands];
+  wrap.innerHTML = all.map(b => `
+    <div class="brand-card">
+      <div class="brand-logo">${b.icon}</div>
+      <div class="brand-name">${b.name}</div>
+    </div>
+  `).join('');
+}
+
+function renderHypercars() {
+  const grid = document.getElementById('hypercarsGrid');
+  grid.innerHTML = hypercars.map(h => `
+    <div class="hyper-card" onclick="alert('تواصل مع الإدارة لهذه السيارة النادرة')">
+      <img src="${h.img}" alt="${h.name}" class="hyper-img">
+      <div class="hyper-body">
+        <div class="hyper-brand">${h.brand}</div>
+        <div class="hyper-name">${h.name}</div>
+        <div class="hyper-stat"><span class="hyper-stat-label">السعر</span><span class="hyper-stat-val" style="color:var(--gold)">${h.price}</span></div>
+        <div class="hyper-stat"><span class="hyper-stat-label">القوة</span><span class="hyper-stat-val">${h.hp}</span></div>
+        <div class="hyper-stat"><span class="hyper-stat-label">السرعة القصوى</span><span class="hyper-stat-val">${h.top}</span></div>
+        <div class="hyper-stat"><span class="hyper-stat-label">0-100 كم/س</span><span class="hyper-stat-val">${h.accel}</span></div>
+        <div class="hyper-stat"><span class="hyper-stat-label">المحرك</span><span class="hyper-stat-val" style="font-size:13px; font-family:Tajawal">${h.engine}</span></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderTicker() {
+  const items = cars.slice(0, 6);
+  const html = [...items, ...items].map(c => `
+    <div class="ticker-item">
+      <strong>${c.make} ${c.name}</strong>
+      <span class="ticker-price">$${c.price.toLocaleString()}</span>
+      <span class="ticker-new">جديد</span>
+      <span>📍${c.city}</span>
+    </div>
+  `).join('');
+  document.getElementById('ticker').innerHTML = html;
+}
+
+// ===== MODAL =====
+function openModal(id) {
+  const car = cars[id];
+  if (!car) return;
+  document.getElementById('modalImg').src = car.img;
+  document.getElementById('modalMake').textContent = car.make;
+  document.getElementById('modalName').textContent = car.name;
+  document.getElementById('modalCity').textContent = `📍 ${car.city} · 👁️ ${car.views.toLocaleString()} مشاهدة`;
+  document.getElementById('modalPrice').textContent = `$${car.price.toLocaleString()}`;
+  document.getElementById('modalAI').className = `ai-price ${car.ai}`;
+  document.getElementById('modalAI').textContent = `🤖 ${car.aiMsg}`;
+  document.getElementById('modalSpecs').innerHTML = `
+    <div class="modal-spec"><div class="modal-spec-icon">🐎</div><div class="modal-spec-val">${car.hp}</div><div class="modal-spec-label">حصان HP</div></div>
+    <div class="modal-spec"><div class="modal-spec-icon">🚀</div><div class="modal-spec-val">${car.accel}</div><div class="modal-spec-label">0-100 كم/س</div></div>
+    <div class="modal-spec"><div class="modal-spec-icon">⚡</div><div class="modal-spec-val">${car.top}</div><div class="modal-spec-label">السرعة القصوى</div></div>
+    <div class="modal-spec"><div class="modal-spec-icon">⚙️</div><div class="modal-spec-val" style="font-size:12px; font-family:Tajawal">${car.engine}</div><div class="modal-spec-label">المحرك</div></div>
+  `;
+  document.getElementById('carModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('carModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ===== LOGIN =====
+function openLogin() {
+  document.getElementById('loginOverlay').classList.add('open');
+}
+
+function closeLogin() {
+  document.getElementById('loginOverlay').classList.remove('open');
+}
+
+function fakeLogin(method) {
+    closeLogin();
+    
+    if (method === 'Email') {
+        const email = document.getElementById('real-email').value.trim();
+        const password = document.getElementById('real-password').value.trim();
+        
+        if (email && password) {
+            window.loginWithEmail(email, password);
+        } else {
+            alert("الرجاء كتابة البريد الإلكتروني وكلمة المرور كاملة!");
+        }
+    } else if (method === 'Google') {
+        window.loginWithGoogle();
+    }
+}
+
+
+  
+// ===== FAVORITES =====
+function toggleFav(id, btn) {
+  if (favorites.includes(id)) {
+    favorites = favorites.filter(f => f !== id);
+    btn.textContent = '🤍';
+    btn.classList.remove('active');
+  } else {
+    favorites.push(id);
+    btn.textContent = '❤️';
+    btn.classList.add('active');
+    btn.classList.add('pop');
+    setTimeout(() => btn.classList.remove('pop'), 300);
+  }
+  document.getElementById('favCount').textContent = favorites.length;
+}
+
+function toggleFavModal(btn) {
+  btn.textContent = btn.textContent === '🤍' ? '❤️' : '🤍';
+}
+
+// ===== FILTERS =====
+function applyFilters() {
+  let list = [...cars];
+  const brand = document.getElementById('filterBrand').value;
+  const priceMin = parseFloat(document.getElementById('priceMin').value) || 0;
+  const priceMax = parseFloat(document.getElementById('priceMax').value) || Infinity;
+  const yearMin = parseInt(document.getElementById('yearMin').value) || 0;
+  const yearMax = parseInt(document.getElementById('yearMax').value) || Infinity;
+
+  if (brand) list = list.filter(c => c.make === brand);
+  list = list.filter(c => c.price >= priceMin && c.price <= priceMax);
+  list = list.filter(c => c.year >= yearMin && c.year <= yearMax);
+  renderCars(list);
+}
+
+function resetFilters() {
+  document.getElementById('filterBrand').value = '';
+  document.getElementById('priceMin').value = '';
+  document.getElementById('priceMax').value = '';
+  document.getElementById('yearMin').value = '';
+  document.getElementById('yearMax').value = '';
+  renderCars(cars);
+  document.querySelectorAll('.fuel-btn, .drive-btn').forEach((b,i) => {
+    b.classList.toggle('active', i === 0 || i === 5);
+  });
+}
+
+function updatePriceRange(val) {
+  document.getElementById('priceMax').value = parseInt(val).toLocaleString();
+  applyFilters();
+}
+
+function toggleFilter(btn, group) {
+  const parent = btn.parentElement;
+  parent.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function toggleColor(el) {
+  el.classList.toggle('active');
+}
+
+function sortCars(val) {
+  let list = [...allCars];
+  if (val === 'price_low') list.sort((a,b) => a.price - b.price);
+  if (val === 'price_high') list.sort((a,b) => b.price - a.price);
+  if (val === 'popular') list.sort((a,b) => b.views - a.views);
+  if (val === 'newest') list.sort((a,b) => b.year - a.year);
+  renderCars(list);
+}
+
+function filterByBrand() {
+  const brand = document.getElementById('searchBrand').value;
+  document.getElementById('filterBrand').value = brand;
+  scrollToCars();
+  applyFilters();
+}
+
+function scrollToCars() {
+  document.getElementById('cars').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ===== DARK/LIGHT MODE =====
+function toggleMode() {
+  document.body.classList.toggle('light-mode');
+  const btn = document.querySelector('.btn-dark-mode');
+  btn.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
+}
+
+// ===== NAVBAR ACTIVE =====
+function setActive(el) {
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ===== ADMIN TABS =====
+function switchTab(btn) {
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ===== SOUND =====
+function playSound(btn, type) {
+  document.querySelectorAll('.sound-btn').forEach(b => b.classList.remove('playing'));
+  btn.classList.add('playing');
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+
+  if (type === 'idle') {
+    osc.frequency.setValueAtTime(80, ctx.currentTime);
+    osc.frequency.linearRampToValueAtTime(90, ctx.currentTime + 0.5);
+    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 1.5);
+    osc.start(); osc.stop(ctx.currentTime + 1.5);
+  } else if (type === 'rev') {
+    osc.frequency.setValueAtTime(100, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.5);
+    osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 1);
+    gain.gain.setValueAtTime(0.4, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 1.2);
+    osc.start(); osc.stop(ctx.currentTime + 1.2);
+  } else {
+    osc.frequency.setValueAtTime(150, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(2000, ctx.currentTime + 0.3);
+    gain.gain.setValueAtTime(0.5, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.4);
+    osc.start(); osc.stop(ctx.currentTime + 0.4);
+  }
+  setTimeout(() => btn.classList.remove('playing'), 1500);
+}
+
+// ===== COUNTERS =====
+function animateCounter(id, target, suffix='') {
+  const el = document.getElementById(id);
+  let current = 0;
+  const step = Math.ceil(target / 60);
+  const timer = setInterval(() => {
+    current = Math.min(current + step, target);
+    el.textContent = current.toLocaleString() + suffix;
+    if (current >= target) clearInterval(timer);
+  }, 30);
+}
+
+// ===== NAVBAR SCROLL =====
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('navbar');
+  nav.style.background = window.scrollY > 50
+    ? 'rgba(8,10,15,0.98)'
+    : 'rgba(8,10,15,0.92)';
+});
+
+// Close modal on overlay click
+document.getElementById('carModal').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) closeModal();
+});
+document.getElementById('loginOverlay').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) closeLogin();
+});
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+  renderCars(cars);
+  renderBrands();
+  renderHypercars();
+  renderTicker();
+  
+  // Counters with intersection observer
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        animateCounter('counterCars', 2418);
+        animateCounter('counterDealers', 340);
+        animateCounter('counterCities', 18);
+        observer.disconnect();
+      }
+    });
+  });
+  observer.observe(document.getElementById('home'));
+});
+</script>// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAb4MheuHSlF4yOxuDfhnxZtIMyXy7g-l8",
+  authDomain: "iraq-motors-38983.firebaseapp.com",
+  projectId: "iraq-motors-38983",
+  storageBucket: "iraq-motors-38983.firebasestorage.app",
+  messagingSenderId: "80307836321",
+  appId: "1:80307836321:web:0dbdbf4d0cf9794a4c67e0",
+  measurementId: "G-D34TNDH680"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+    <script type="module">
+        // 1. استيراد المكاتب اللازمة من السيرفر مباشرة
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // إعدادات مشروعك الخاصة بـ Iraq Motors
+        const firebaseConfig = {
+          apiKey: "AIzaSyAb4MheuHSlF4yOxuDfhnxZtIMyXy7g-l8",
+          authDomain: "iraq-motors-38983.firebaseapp.com",
+          projectId: "iraq-motors-38983",
+          storageBucket: "iraq-motors-38983.firebasestorage.app",
+          messagingSenderId: "80307836321",
+          appId: "1:80307836321:web:0dbdbf4d0cf9794a4c67e0",
+          measurementId: "G-D34TNDH680"
+        };
+
+        // 2. تفعيل Firebase وقاعدة البيانات
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+            // استيراد أدوات الحسابات المتقدمة (جوجل + هاتف)
+        import { 
+            getAuth, 
+            GoogleAuthProvider, 
+            signInWithPopup, 
+            RecaptchaVerifier, 
+            signInWithPhoneNumber 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const auth = getAuth(app); // تفعيل الحسابات
+
+        // ==========================================
+        // أولاً: دالة تسجيل الدخول بحساب جوجل (Google)
+        // ==========================================
+        const googleProvider = new GoogleAuthProvider();
+        window.loginWithGoogle = async function() {
+            try {
+                const result = await signInWithPopup(auth, googleProvider);
+                alert("أهلاً بك يا " + result.user.displayName + "! تم الدخول بجوجل.");
+                return result.user;
+            } catch (error) {
+                alert("فشل تسجيل الدخول بجوجل: " + error.message);
+            }
+        };
+
+        // ==========================================
+        // ثانياً: نظام تسجيل الدخول برقم الهاتف (SMS)
+        // ==========================================
+        window.setupRecaptcha = function() {
+            if (!window.recaptchaVerifier) {
+                window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+                    'size': 'invisible'
+                });
+            }
+        };
+
+        // دالة إرسال الـ SMS (الرقم لازم يبدأ بمفتاح العراق مثل +964)
+        window.sendSMSCode = async function(phoneNumber) {
+            try {
+                window.setupRecaptcha();
+                const appVerifier = window.recaptchaVerifier;
+                const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
+                window.confirmationResult = confirmationResult;
+                alert("تم إرسال رمز التأكيد إلى هاتفك بنجاح!");
+            } catch (error) {
+                alert("فشل إرسال الـ SMS: " + error.message);
+            }
+        };
+
+        // دالة التحقق من الرمز المكتوب من المستخدم
+        window.verifySMSCode = async function(otpCode) {
+            try {
+                if (!window.confirmationResult) {
+                    alert("الرجاء إرسال الرقم أولاً!");
+                    return;
+                }
+                const result = await window.confirmationResult.confirm(otpCode);
+                alert("تم التحقق بنجاح! مبروك الدخول برقم الهاتف.");
+                return result.user;
+            } catch (error) {
+                alert("الرمز الذي أدخلته غير صحيح!");
+            }
+        };
+
+ <script>
+    window.addEventListener('DOMContentLoaded', () => {
+        // 1. ربط زر غوغل الحقيقي بالفايربيز
+        const googleButton = document.getElementById('google-login-btn');
+        if (googleButton) {
+            googleButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.loginWithGoogle();
+            });
+        }
+
+        // 2. ربط أزرار الهاتف الحقيقية بالفايربيز
+        const sendSmsButton = document.getElementById('send-sms-btn');
+        const verifyCodeButton = document.getElementById('verify-btn');
+
+        if (sendSmsButton) {
+            sendSmsButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                const phoneNumber = document.getElementById('phone-input').value.trim();
+                if (phoneNumber) {
+                    window.sendSMSCode(phoneNumber);
+                } else {
+                    alert("الرجاء كتابة رقم الهاتف أولاً!");
+                }
+            });
+        }
+
+        if (verifyCodeButton) {
+            verifyCodeButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                const otpCode = document.getElementById('otp-input').value.trim();
+                if (otpCode) {
+                    window.verifySMSCode(otpCode);
+                } else {
+                    alert("الرجاء كتابة رمز التأكيد الواصل لهاتفك!");
+                }
+            });
+        }
+    });
+</script>
+
+<div id="recaptcha-container"></div>
+</body>
+</html>
