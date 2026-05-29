@@ -2985,7 +2985,12 @@ const analytics = getAnalytics(app);
     // ==========================================
     // [2] كود نظام الإيميل والزر الأصفر الجديد
     // ==========================================
-    const loginButton = document.querySelector('.btn-gold') || document.getElementById('submitLoginBtn') || document.querySelector('.modal-content button[type="submit"]');
+        const loginButton = document.getElementById('submitLoginBtn') || 
+                        document.querySelector('.btn-gold') || 
+                        document.querySelector('button[type="submit"]') || 
+                        document.querySelector('.modal-content button') ||
+                        document.querySelector('button.btn-login') ||
+                        document.querySelector('.login-form button');
     
     if (loginButton) {
       loginButton.addEventListener('click', (e) => {
