@@ -2909,47 +2909,12 @@ const analytics = getAnalytics(app);
                 alert("الرمز الذي أدخلته غير صحيح!");
             }
         };
+        <script type="module">
+  // 1. استيراد كل الدوال المطلوبة من الفايربيس في مكان واحد
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
- <script type="module">
-    window.addEventListener('DOMContentLoaded', () => {
-        // 1. ربط زر غوغل الحقيقي بالفايربيز
-        const googleButton = document.getElementById('google-login-btn');
-        if (googleButton) {
-            googleButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                window.loginWithGoogle();
-            });
-        }
-
-        // 2. ربط أزرار الهاتف الحقيقية بالفايربيز
-        const sendSmsButton = document.getElementById('send-sms-btn');
-        const verifyCodeButton = document.getElementById('verify-btn');
-
-        if (sendSmsButton) {
-            sendSmsButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                const phoneNumber = document.getElementById('phone-input').value.trim();
-                if (phoneNumber) {
-                    window.sendSMSCode(phoneNumber);
-                } else {
-                    alert("الرجاء كتابة رقم الهاتف أولاً!");
-                }
-            });
-        }
-
-        if (verifyCodeButton) {
-            verifyCodeButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                const otpCode = document.getElementById('otp-input').value.trim();
-                if (otpCode) {
-                    window.verifySMSCode(otpCode);
-                } else {
-                    alert("الرجاء كتابة رمز التأكيد الواصل لهاتفك!");
-                }
-            });
-        }
-    });
-        // 1. تهيئة الإعدادات الحقيقية لـ Firebase الخاصة بـ كررار موتورز
+  // 2. إعدادات فايربيس الحقيقية لـ كررار موتورز
   const firebaseConfig = {
     apiKey: "AIzaSyAb4MheuHSLF4yOxuDfhnxZTiMyXy7g-l8",
     authDomain: "iraq-motors-38983.firebaseapp.com",
@@ -2960,75 +2925,101 @@ const analytics = getAnalytics(app);
     measurementId: "G-5T2H9Q89F7"
   };
 
-  // 2. تفعيل المتغيرات والـ Auth لربطها بالملف
-  if (typeof app === 'undefined' && typeof initializeApp !== 'undefined') {
-    window.app = initializeApp(firebaseConfig);
-  }
-  if (typeof auth === 'undefined' && typeof getAuth !== 'undefined') {
-    window.auth = getAuth(window.app);
-  }
+  // 3. تهيئة الفايربيس لمرة واحدة فقط وبشكل عالمي
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
-  // 3. كود تشغيل زر الدخول الأصفر لـ كررار موتورز
-  const loginButton = document.querySelector('.btn-gold') || document.querySelector('button[type="submit"]') || document.querySelector('.modal-content button') || document.querySelector('.login-box button');
-  
-  if (loginButton) {
-    loginButton.addEventListener('click', (e) => {
-      e.preventDefault();
-      
-      const emailInput = document.querySelector('input[type="text"]') || document.querySelector('input[type="email"]') || document.querySelector('.modal-content input[type="text"]');
-      const passwordInput = document.querySelector('input[type="password"]') || document.querySelector('.modal-content input[type="password"]');
-      
-      if (emailInput && passwordInput) {
-        const email = emailInput.value.trim();
-        const password = passwordInput.value.trim();
+  // لضمان عمل الأكواد القديمة إذا كانت تستدعيها من النافذة
+  window.app = app;
+  window.auth = auth;
+
+  // عند تحميل الصفحة بالكامل
+  window.addEventListener('DOMContentLoaded', () => {
+
+    // ==========================================
+    // [1] الأكواد القديمة مالتك (غوغل والهاتف)
+    // ==========================================
+    const googleButton = document.getElementById('google-login-btn');
+    if (googleButton) {
+      googleButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (typeof window.loginWithGoogle === 'function') {
+          window.loginWithGoogle();
+        } else {
+          alert('جاري تهيئة الدخول بواسطة غوغل...');
+        }
+      });
+    }
+
+    const sendSmsButton = document.getElementById('send-sms-btn');
+    const verifyCodeButton = document.getElementById('verify-btn');
+
+    if (sendSmsButton) {
+      sendSmsButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        const phoneNumber = document.getElementById('phone-input')?.value.trim();
+        if (phoneNumber) {
+          if (typeof window.sendSMSCode === 'function') {
+            window.sendSMSCode(phoneNumber);
+          }
+        } else {
+          alert("الرجاء كتابة رقم الهاتف أولاً!");
+        }
+      });
+    }
+
+    if (verifyCodeButton) {
+      verifyCodeButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        const otpCode = document.getElementById('otp-input')?.value.trim();
+        if (otpCode) {
+          if (typeof window.verifySMSCode === 'function') {
+            window.verifySMSCode(otpCode);
+          }
+        } else {
+          alert("الرجاء كتابة رمز التأكيد الواصل لهاتفك!");
+        }
+      });
+    }
+
+    // ==========================================
+    // [2] كود نظام الإيميل والزر الأصفر الجديد
+    // ==========================================
+    const loginButton = document.querySelector('.btn-gold') || document.getElementById('submitLoginBtn') || document.querySelector('.modal-content button[type="submit"]');
+    
+    if (loginButton) {
+      loginButton.addEventListener('click', (e) => {
+        e.preventDefault();
         
-        if (email && password) {
-          const currentAuth = typeof auth !== 'undefined' ? auth : window.auth;
+        // جلب الحقول من واجهتك الفخمة
+        const emailInput = document.querySelector('input[type="email"]') || document.querySelector('input[placeholder*="إيميل"]');
+        const passwordInput = document.querySelector('input[type="password"]') || document.querySelector('input[placeholder*="المرور"]');
+        
+        if (emailInput && passwordInput) {
+          const email = emailInput.value.trim();
+          const password = passwordInput.value.trim();
           
-          if (currentAuth) {
-            signInWithEmailAndPassword(currentAuth, email, password)
+          if (email && password) {
+            // إرسال مباشر وصريح لسيرفر الفايربيس
+            signInWithEmailAndPassword(auth, email, password)
               .then((userCredential) => {
                 alert('تم تسجيل الدخول بنجاح في كررار موتورز!');
                 window.location.reload();
               })
               .catch((error) => {
-                alert('خطأ من Firebase: ' + error.message);
+                if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
+                  alert('خطأ: الحساب غير موجود أو كلمة المرور غير صحيحة!');
+                } else {
+                  alert('استجابة من الفايربيس: ' + error.message);
+                }
               });
           } else {
-            alert('تنبيه: جاري تحميل مكتبة تسجيل الدخول، يرجى المحاولة بعد ثوانٍ.');
+            alert('الرجاء كتابة البريد الإلكتروني وكلمة المرور أولاً!');
           }
         } else {
-          alert('الرجاء كتابة البريد الإلكتروني وكلمة المرور أولاً!');
+          alert('تنبيه: لم يتم العثور على حقول الإدخال، تأكد من وجود حقل الإيميل والباسورد.');
         }
-      }
-    });
-  }
-
-        if (email && password) {
-          // جلب متغير الـ auth الصحيح
-          const currentAuth = typeof auth !== 'undefined' ? auth : window.auth;
-          
-          if (currentAuth) {
-            signInWithEmailAndPassword(currentAuth, email, password)
-              .then((userCredential) => {
-                alert('تم تسجيل الدخول بنجاح في كررار موتورز!');
-                window.location.reload();
-              })
-              .catch((error) => {
-                alert('خطأ من Firebase: ' + error.message);
-              });
-          } else {
-            alert('تنبيه: جاري تحميل مكتبة تسجيل الدخول، يرجى المحاولة بعد ثوانٍ.');
-          }
-        } else {
-          alert('الرجاء كتابة البريد الإلكتروني وكلمة المرور أولاً!');
-        }
-      }
-    });
-  }
- 
+      });
+    }
+  });
 </script>
-
-<div id="recaptcha-container"></div>
-</body>
-</html>
