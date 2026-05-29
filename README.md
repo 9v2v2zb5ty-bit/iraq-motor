@@ -27,7 +27,6 @@
   --border: rgba(201,168,76,0.2);
   --border2: rgba(255,255,255,0.06);
 }
-
 * { margin:0; padding:0; box-sizing:border-box; }
 
 html { scroll-behavior: smooth; }
@@ -302,7 +301,7 @@ nav {
   margin-bottom: 28px;
 }
 
-.search-row {
+.search-row {٦
   display: grid;
   grid-template-columns: 1fr 1fr 1fr auto;
   gap: 10px;
@@ -2797,6 +2796,26 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   observer.observe(document.getElementById('home'));
 });
-</script>
+</script>// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAb4MheuHSlF4yOxuDfhnxZtIMyXy7g-l8",
+  authDomain: "iraq-motors-38983.firebaseapp.com",
+  projectId: "iraq-motors-38983",
+  storageBucket: "iraq-motors-38983.firebasestorage.app",
+  messagingSenderId: "80307836321",
+  appId: "1:80307836321:web:0dbdbf4d0cf9794a4c67e0",
+  measurementId: "G-D34TNDH680"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 </body>
 </html>
