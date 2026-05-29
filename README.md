@@ -2423,7 +2423,7 @@ body.light-mode .hero-bg {
 
     <input type="email" id="real-email" class="email-input" placeholder="ادخل إيميلك">
     <input type="password" id="real-password" class="email-input" placeholder="كلمة المرور" style="margin-top:0;">
-<button type="button" id="real-login-btn" class="btn-email-login" onclick="fakeLogin('Email')">دخول</button>
+<button type="button" class="btn-email-login" onclick="fakeLogin('Email')">دخول</button>
     <div style="font-size:13px; color: var(--text-dim); margin-top:14px;">
       ماعندك حساب؟ <a href="#" style="color:var(--gold); text-decoration:none;" onclick="fakeLogin('new')">سجّل الآن</a>
     </div>
@@ -2611,16 +2611,15 @@ function fakeLogin(method) {
         const password = document.getElementById('real-password').value.trim();
         
         if (email && password) {
-            // تشغيل الفايربيز الحقيقي للإيميل
-            window.loginWithEmail(email, password); 
+            window.loginWithEmail(email, password);
         } else {
             alert("الرجاء كتابة البريد الإلكتروني وكلمة المرور كاملة!");
         }
     } else if (method === 'Google') {
-        // تشغيل الفايربيز الحقيقي لجوجل
         window.loginWithGoogle();
     }
 }
+
 
   
 // ===== FAVORITES =====
