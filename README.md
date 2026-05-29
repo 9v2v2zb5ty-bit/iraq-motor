@@ -2411,7 +2411,7 @@ body.light-mode .hero-bg {
     <div class="login-sub">ادخل عالموقع وابدأ تبيع أو تشتري</div>
 
     <div class="social-btns">
-      <button class="social-btn" onclick="fakeLogin('Google')">
+     <button type="button" id="google-login-btn" class="social-btn">
         <span>🔵</span> تسجيل الدخول بـ Google
       </button>
       <button class="social-btn" onclick="fakeLogin('Apple')">
