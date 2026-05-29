@@ -2949,6 +2949,39 @@ const analytics = getAnalytics(app);
             });
         }
     });
+      // كود تشغيل زر الدخول الأصفر (إيميل وباسورد) الخاص بـ كررار موتورز
+  const loginButton = document.querySelector('.btn-gold') || document.querySelector('button[type="submit"]') || document.querySelector('.modal-content button');
+  
+  if (loginButton) {
+    loginButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      
+      const emailInput = document.querySelector('input[type="text"]') || document.querySelector('input[type="email"]');
+      const passwordInput = document.querySelector('input[type="password"]');
+      
+      if (emailInput && passwordInput) {
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+        
+        if (email && password) {
+          if (typeof auth !== 'undefined') {
+            signInWithEmailAndPassword(auth, email, password)
+              .then((userCredential) => {
+                alert('تم تسجيل الدخول بنجاح في كررار موتورز!');
+                window.location.reload();
+              })
+              .catch((error) => {
+                alert('خطأ في تسجيل الدخول: ' + error.message);
+              });
+          } else {
+            alert('تنبيه: لم يتم العثور على متغير auth في أعلى الملف. تأكد من تهيئة Firebase Config.');
+          }
+        } else {
+          alert('الرجاء كتابة البريد الإلكتروني وكلمة المرور أولاً!');
+        }
+      }
+    });
+  }
 </script>
 
 <div id="recaptcha-container"></div>
