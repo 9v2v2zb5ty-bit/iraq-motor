@@ -30,7 +30,6 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 
 html { scroll-behavior: smooth; }
-
 body {
   font-family: 'Tajawal', sans-serif;
   background: var(--dark);
@@ -2997,8 +2996,16 @@ const analytics = getAnalytics(app);
         e.preventDefault();
         
         // جلب الحقول من واجهتك الفخمة
-        const emailInput = document.querySelector('input[type="email"]') || document.querySelector('input[placeholder*="إيميل"]');
-        const passwordInput = document.querySelector('input[type="password"]') || document.querySelector('input[placeholder*="المرور"]');
+                const emailInput = document.querySelector('input[placeholder*="إيميل"]') || 
+                           document.querySelector('input[placeholder*="Email"]') || 
+                           document.querySelector('input[placeholder*="البريد"]') ||
+                           document.querySelectorAll('.modal-content input')[0];
+                           
+        const passwordInput = document.querySelector('input[placeholder*="مرور"]') || 
+                              document.querySelector('input[placeholder*="Password"]') || 
+                              document.querySelector('input[placeholder*="الرمز"]') ||
+                              document.querySelectorAll('.modal-content input')[1];
+
         
         if (emailInput && passwordInput) {
           const email = emailInput.value.trim();
