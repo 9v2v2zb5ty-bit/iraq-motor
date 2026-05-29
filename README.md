@@ -2837,35 +2837,118 @@ const analytics = getAnalytics(app);
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // 3. الجسر البرمجي (window) لكي يستدعيه كودك القديم الـ 2000 سطر من أي مكان
-        window.saveCarToFirebase = async function(carData) {
+            // استيراد أدوات الحسابات المتقدمة (جوجل + هاتف)
+        import { 
+            getAuth, 
+            GoogleAuthProvider, 
+            signInWithPopup, 
+            RecaptchaVerifier, 
+            signInWithPhoneNumber 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const auth = getAuth(app); // تفعيل الحسابات
+
+        // ==========================================
+        // أولاً: دالة تسجيل الدخول بحساب جوجل (Google)
+        // ==========================================
+        const googleProvider = new GoogleAuthProvider();
+        window.loginWithGoogle = async function() {
             try {
-                const docRef = await addDoc(collection(db, "cars"), carData);
-                console.log("تم الحفظ بنجاح! المعرف الحركي للمستند:", docRef.id);
-                return docRef.id;
+                const result = await signInWithPopup(auth, googleProvider);
+                alert("أهلاً بك يا " + result.user.displayName + "! تم الدخول بجوجل.");
+                return result.user;
             } catch (error) {
-                console.error("خطأ أثناء الإرسال إلى Firebase:", error);
-                throw error;
+                alert("فشل تسجيل الدخول بجوجل: " + error.message);
             }
         };
 
-        // 4. دالة الفحص التلقائي (تشتغل فوراً عند فتح الصفحة للتأكد من نجاح الربط)
-        async function runAutoTest() {
-            try {
-                await addDoc(collection(db, "cars"), {
-                    carName: "تجربة اتصال الآيباد بجوجل فايربيز",
-                    status: "متصل بنجاح 100%",
-                    time: new Date().toLocaleString("ar-IQ")
+        // ==========================================
+        // ثانياً: نظام تسجيل الدخول برقم الهاتف (SMS)
+        // ==========================================
+        window.setupRecaptcha = function() {
+            if (!window.recaptchaVerifier) {
+                window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+                    'size': 'invisible'
                 });
-                alert("مبروك! تم الاتصال بقاعدة البيانات وحفظ مستند الفحص بنجاح.");
-            } catch (e) {
-                console.error("فشل الفحص التلقائي، تأكد من إعدادات الـ Test Mode في الموقع:", e);
             }
-        }
-        
-        // تشغيل الفحص التلقائي
-        runAutoTest();
+        };
+
+        // دالة إرسال الـ SMS (الرقم لازم يبدأ بمفتاح العراق مثل +964)
+        window.sendSMSCode = async function(phoneNumber) {
+            try {
+                window.setupRecaptcha();
+                const appVerifier = window.recaptchaVerifier;
+                const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
+                window.confirmationResult = confirmationResult;
+                alert("تم إرسال رمز التأكيد إلى هاتفك بنجاح!");
+            } catch (error) {
+                alert("فشل إرسال الـ SMS: " + error.message);
+            }
+        };
+
+        // دالة التحقق من الرمز المكتوب من المستخدم
+        window.verifySMSCode = async function(otpCode) {
+            try {
+                if (!window.confirmationResult) {
+                    alert("الرجاء إرسال الرقم أولاً!");
+                    return;
+                }
+                const result = await window.confirmationResult.confirm(otpCode);
+                alert("تم التحقق بنجاح! مبروك الدخول برقم الهاتف.");
+                return result.user;
+            } catch (error) {
+                alert("الرمز الذي أدخلته غير صحيح!");
+            }
+        };
+
+    <script>
+        // دالة يتم تشغيلها عند تحميل الصفحة بالكامل لضمان وجود الأزرار
+        window.addEventListener('DOMContentLoaded', () => {
+
+            // =====================================
+            // ١. ربط زر تسجيل دخول جوجل
+            // =====================================
+            // استبدل 'google-btn' بـ id زر جوجل الحقيقي الموجود بتصميمك
+            const googleButton = document.getElementById('google-btn');
+            if (googleButton) {
+                googleButton.addEventListener('click', () => {
+                    window.loginWithGoogle();
+                });
+            }
+
+            // =====================================
+            // ٢. ربط أزرار رقم الهاتف والـ SMS
+            // =====================================
+            // استبدل الايديات المكتوبة هنا بالايديات الحقيقية المبرمجة بالـ 2000 سطر مالتك
+            const sendSmsButton = document.getElementById('send-sms-btn'); // زر إرسال الرمز
+            const verifyCodeButton = document.getElementById('verify-btn'); // زر تأكيد الرمز
+
+            if (sendSmsButton) {
+                sendSmsButton.addEventListener('click', () => {
+                    // input الذي يكتب فيه المستخدم رقم الهاتف (مثل: phone-input)
+                    const phoneNumber = document.getElementById('phone-input').value.trim();
+                    if (phoneNumber) {
+                        window.sendSMSCode(phoneNumber);
+                    } else {
+                        alert("الرجاء كتابة رقم الهاتف أولاً!");
+                    }
+                });
+            }
+
+            if (verifyCodeButton) {
+                verifyCodeButton.addEventListener('click', () => {
+                    // input الذي يكتب فيه المستخدم الـ 6 أرقام الواصلة للموبايل
+                    const otpCode = document.getElementById('otp-input').value.trim();
+                    if (otpCode) {
+                        window.verifySMSCode(otpCode);
+                    } else {
+                        alert("الرجاء كتابة رمز التأكيد الواصل لهاتفك!");
+                    }
+                });
+            }
+        });
     </script>
 
+    <div id="recaptcha-container"></div>
 </body>
 </html>
