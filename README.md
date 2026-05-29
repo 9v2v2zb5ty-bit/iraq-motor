@@ -2423,7 +2423,7 @@ body.light-mode .hero-bg {
 
     <input type="email" id="real-email" class="email-input" placeholder="ادخل إيميلك">
     <input type="password" id="real-password" class="email-input" placeholder="كلمة المرور" style="margin-top:0;">
-   <button type="button" id="real-login-btn" class="btn-email-login">دخول</button>
+<button type="button" id="real-login-btn" class="btn-email-login" onclick="fakeLogin('Email')">دخول</button>
     <div style="font-size:13px; color: var(--text-dim); margin-top:14px;">
       ماعندك حساب؟ <a href="#" style="color:var(--gold); text-decoration:none;" onclick="fakeLogin('new')">سجّل الآن</a>
     </div>
@@ -2604,13 +2604,21 @@ function closeLogin() {
 }
 
 function fakeLogin(method) {
-  closeLogin();
-  const toast = document.createElement('div');
-  toast.style.cssText = 'position:fixed;bottom:30px;right:30px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 24px;z-index:9999;font-size:15px;font-weight:700;animation:fadeUp 0.3s ease;box-shadow:0 20px 60px rgba(0,0,0,0.4);';
-  toast.textContent = `✅ تم تسجيل الدخول بـ ${method}`;
-  document.body.appendChild(toast);
-  setTimeout(() => toast.remove(), 3000);
+    closeLogin();
+    
+    // إذا ضغط على دخول بالإيميل، يسحب الحقول الحقيقية ويبعثها للفايربيز
+    if (method === 'Email') {
+        const email = document.getElementById('real-email').value.trim();
+        const password = document.getElementById('real-password').value.trim();
+        
+        if (email && password) {
+            window.loginWithEmail(email, password);
+        } else {
+            alert("الرجاء كتابة البريد الإلكتروني وكلمة المرور كاملة!");
+        }
+    }
 }
+
 
 // ===== FAVORITES =====
 function toggleFav(id, btn) {
