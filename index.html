@@ -2949,32 +2949,54 @@ const analytics = getAnalytics(app);
             });
         }
     });
-      // كود تشغيل زر الدخول الأصفر (إيميل وباسورد) الخاص بـ كررار موتورز
-  const loginButton = document.querySelector('.btn-gold') || document.querySelector('button[type="submit"]') || document.querySelector('.modal-content button');
+        // 1. تهيئة الإعدادات الحقيقية لـ Firebase الخاصة بـ كررار موتورز
+  const firebaseConfig = {
+    apiKey: "AIzaSyAb4MheuHSLF4yOxuDfhnxZTiMyXy7g-l8",
+    authDomain: "iraq-motors-38983.firebaseapp.com",
+    projectId: "iraq-motors-38983",
+    storageBucket: "iraq-motors-38983.appspot.com",
+    messagingSenderId: "80307836321",
+    appId: "1:80307836321:web:d61f734a86f5be5a4c67e0",
+    measurementId: "G-5T2H9Q89F7"
+  };
+
+  // 2. تفعيل المتغيرات والـ Auth لربطها بالملف
+  if (typeof app === 'undefined' && typeof initializeApp !== 'undefined') {
+    window.app = initializeApp(firebaseConfig);
+  }
+  if (typeof auth === 'undefined' && typeof getAuth !== 'undefined') {
+    window.auth = getAuth(window.app);
+  }
+
+  // 3. كود تشغيل زر الدخول الأصفر لـ كررار موتورز
+  const loginButton = document.querySelector('.btn-gold') || document.querySelector('button[type="submit"]') || document.querySelector('.modal-content button') || document.querySelector('.login-box button');
   
   if (loginButton) {
     loginButton.addEventListener('click', (e) => {
       e.preventDefault();
       
-      const emailInput = document.querySelector('input[type="text"]') || document.querySelector('input[type="email"]');
-      const passwordInput = document.querySelector('input[type="password"]');
+      const emailInput = document.querySelector('input[type="text"]') || document.querySelector('input[type="email"]') || document.querySelector('.modal-content input[type="text"]');
+      const passwordInput = document.querySelector('input[type="password"]') || document.querySelector('.modal-content input[type="password"]');
       
       if (emailInput && passwordInput) {
         const email = emailInput.value.trim();
         const password = passwordInput.value.trim();
         
         if (email && password) {
-          if (typeof auth !== 'undefined') {
-            signInWithEmailAndPassword(auth, email, password)
+          // جلب متغير الـ auth الصحيح
+          const currentAuth = typeof auth !== 'undefined' ? auth : window.auth;
+          
+          if (currentAuth) {
+            signInWithEmailAndPassword(currentAuth, email, password)
               .then((userCredential) => {
                 alert('تم تسجيل الدخول بنجاح في كررار موتورز!');
                 window.location.reload();
               })
               .catch((error) => {
-                alert('خطأ في تسجيل الدخول: ' + error.message);
+                alert('خطأ من Firebase: ' + error.message);
               });
           } else {
-            alert('تنبيه: لم يتم العثور على متغير auth في أعلى الملف. تأكد من تهيئة Firebase Config.');
+            alert('تنبيه: جاري تحميل مكتبة تسجيل الدخول، يرجى المحاولة بعد ثوانٍ.');
           }
         } else {
           alert('الرجاء كتابة البريد الإلكتروني وكلمة المرور أولاً!');
@@ -2982,6 +3004,7 @@ const analytics = getAnalytics(app);
       }
     });
   }
+ 
 </script>
 
 <div id="recaptcha-container"></div>
