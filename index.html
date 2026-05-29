@@ -2984,28 +2984,19 @@ const analytics = getAnalytics(app);
     // ==========================================
     // [2] كود نظام الإيميل والزر الأصفر الجديد
     // ==========================================
-        const loginButton = document.getElementById('submitLoginBtn') || 
-                        document.querySelector('.btn-gold') || 
-                        document.querySelector('button[type="submit"]') || 
-                        document.querySelector('.modal-content button') ||
-                        document.querySelector('button.btn-login') ||
-                        document.querySelector('.login-form button');
-    
+            // 1. الإمساك بالزر الأصفر الحقيقي مالتك بالـ Class
+    const loginButton = document.querySelector('.btn-email-login') || document.getElementById('submitLoginBtn');
+
     if (loginButton) {
+      // إزالة أي onclick قديم حتى لا تضرب الدالتين سوا
+      loginButton.removeAttribute('onclick'); 
+      
       loginButton.addEventListener('click', (e) => {
         e.preventDefault();
         
-        // جلب الحقول من واجهتك الفخمة
-                const emailInput = document.querySelector('input[placeholder*="إيميل"]') || 
-                           document.querySelector('input[placeholder*="Email"]') || 
-                           document.querySelector('input[placeholder*="البريد"]') ||
-                           document.querySelectorAll('.modal-content input')[0];
-                           
-        const passwordInput = document.querySelector('input[placeholder*="مرور"]') || 
-                              document.querySelector('input[placeholder*="Password"]') || 
-                              document.querySelector('input[placeholder*="الرمز"]') ||
-                              document.querySelectorAll('.modal-content input')[1];
-
+        // 2. الإمساك بالحقول الحقيقية بالـ ID مالتها من واجهتك الفخمة
+        const emailInput = document.getElementById('real-email');
+        const passwordInput = document.getElementById('real-password');
         
         if (emailInput && passwordInput) {
           const email = emailInput.value.trim();
@@ -3027,11 +3018,10 @@ const analytics = getAnalytics(app);
               });
           } else {
             alert('الرجاء كتابة البريد الإلكتروني وكلمة المرور أولاً!');
-          }
-        } else {
-          alert('تنبيه: لم يتم العثور على حقول الإدخال، تأكد من وجود حقل الإيميل والباسورد.');
-        }
-      });
-    }
+                } else {
+        alert('⚠️ تنبيه: لم يتم العثور على حقول الإدخال، تأكد من وجود حقل الإيميل والباسورد');
+      }
+    });
   });
+});
 </script>
