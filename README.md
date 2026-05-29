@@ -2817,5 +2817,55 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+    <script type="module">
+        // 1. استيراد المكاتب اللازمة من السيرفر مباشرة
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // إعدادات مشروعك الخاصة بـ Iraq Motors
+        const firebaseConfig = {
+          apiKey: "AIzaSyAb4MheuHSlF4yOxuDfhnxZtIMyXy7g-l8",
+          authDomain: "iraq-motors-38983.firebaseapp.com",
+          projectId: "iraq-motors-38983",
+          storageBucket: "iraq-motors-38983.firebasestorage.app",
+          messagingSenderId: "80307836321",
+          appId: "1:80307836321:web:0dbdbf4d0cf9794a4c67e0",
+          measurementId: "G-D34TNDH680"
+        };
+
+        // 2. تفعيل Firebase وقاعدة البيانات
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // 3. الجسر البرمجي (window) لكي يستدعيه كودك القديم الـ 2000 سطر من أي مكان
+        window.saveCarToFirebase = async function(carData) {
+            try {
+                const docRef = await addDoc(collection(db, "cars"), carData);
+                console.log("تم الحفظ بنجاح! المعرف الحركي للمستند:", docRef.id);
+                return docRef.id;
+            } catch (error) {
+                console.error("خطأ أثناء الإرسال إلى Firebase:", error);
+                throw error;
+            }
+        };
+
+        // 4. دالة الفحص التلقائي (تشتغل فوراً عند فتح الصفحة للتأكد من نجاح الربط)
+        async function runAutoTest() {
+            try {
+                await addDoc(collection(db, "cars"), {
+                    carName: "تجربة اتصال الآيباد بجوجل فايربيز",
+                    status: "متصل بنجاح 100%",
+                    time: new Date().toLocaleString("ar-IQ")
+                });
+                alert("مبروك! تم الاتصال بقاعدة البيانات وحفظ مستند الفحص بنجاح.");
+            } catch (e) {
+                console.error("فشل الفحص التلقائي، تأكد من إعدادات الـ Test Mode في الموقع:", e);
+            }
+        }
+        
+        // تشغيل الفحص التلقائي
+        runAutoTest();
+    </script>
+
 </body>
 </html>
