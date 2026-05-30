@@ -2849,7 +2849,7 @@ import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopu
 window.loginWithGoogle = async function() {
   try {
     const provider = new GoogleAuthProvider();
-    const result = await signInWithPopup(auth, provider);
+    const result = await signInWithRedirect(auth, provider);
     alert('أهلاً ' + result.user.displayName + '!');
     window.location.reload();
   } catch (error) {
