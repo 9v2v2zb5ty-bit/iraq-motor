@@ -2829,7 +2829,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.auth = firebase.auth();
   window.auth.onAuthStateChanged((user) => {
   if (user) {
-    const loginBtn = document.querySelector('[onclick="openLogin()"]');
+   const loginBtn = document.querySelector('.btn-login');
     if (loginBtn) loginBtn.style.display = 'none';
   }
 });
