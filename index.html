@@ -2619,7 +2619,16 @@ function fakeLogin(method) {
             alert("الرجاء كتابة البريد الإلكتروني وكلمة المرور كاملة!");
         }
     } else if (method === 'Google') {
-        window.loginWithGoogle();
+      const provider = new GoogleAuthProvider();
+signInWithPopup(window.auth, provider)
+
+.then((result) => {
+    alert('أهلاً ' + result.user.displayName + '!');
+    window.location.reload();
+})
+.catch((error) => {
+    alert('فشل: ' + error.message);
+});
     }
 }
 
