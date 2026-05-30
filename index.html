@@ -2667,7 +2667,7 @@ function showAdMsg(msg, color, bg) {
 
 async function loadCarsFromFirestore() {
   try {
-    const snapshot = await window.db.collection('cars').orderBy('createdAt', 'desc').get();
+ const snapshot = await window.db.collection('cars').get();
     const firestoreCars = snapshot.docs.map((doc, index) => ({
       id: index,
       docId: doc.id,
