@@ -2877,11 +2877,17 @@ document.addEventListener('DOMContentLoaded', () => {
 window.storage = firebase.storage();
 
   window.auth.onAuthStateChanged((user) => {
+  const loginBtn = document.querySelector('.btn-login');
+  const profileBtn = document.getElementById('profileBtn');
   if (user) {
-   const loginBtn = document.querySelector('.btn-login');
     if (loginBtn) loginBtn.style.display = 'none';
+    if (profileBtn) profileBtn.style.display = 'inline-block';
+  } else {
+    if (loginBtn) loginBtn.style.display = 'inline-block';
+    if (profileBtn) profileBtn.style.display = 'none';
   }
 });
+
 window.auth.getRedirectResult().then((result) => {
   if (result && result.user) {
     window.location.reload();
@@ -2899,6 +2905,104 @@ window.auth.getRedirectResult().then((result) => {
 
   window.GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
 window.signInWithPopup = (auth, provider) => auth.signInWithRedirect(provider);
+// ===== PROFILE =====
+function openProfile() {
+  const user = window.auth.currentUser;
+  if (!user) return;
+  document.getElementById('profileEmail').textContent = user.email || '';
+  document.getElementById('profileName').value = user.displayName || '';
+  document.getElementById('profilePhoto').src = user.photoURL || 'https://via.placeholder.com/80x80/1A2332/C9A84C?text=👤';
+  window.db.collection('users').doc(user.uid).get().then(doc => {
+    if (doc.exists) {
+      document.getElementById('profilePhone').value = doc.data().phone || '';
+    }
+  }).catch(() => {});
+  const isGoogle = user.providerData.some(p => p.providerId === 'google.com');
+  document.getElementById('passwordSection').style.display = isGoogle ? 'none' : 'block';
+  ['oldPassword','newPassword','confirmPassword'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('profileMsg').style.display = 'none';
+  document.getElementById('profileOverlay').style.display = 'flex';
+}
+
+function closeProfile() {
+  document.getElementById('profileOverlay').style.display = 'none';
+}
+
+function showProfileMsg(msg, color, bg) {
+  const el = document.getElementById('profileMsg');
+  el.textContent = msg;
+  el.style.color = color;
+  el.style.background = bg;
+  el.style.display = 'block';
+}
+
+async function uploadPhoto(input) {
+  const user = window.auth.currentUser;
+  if (!input.files[0] || !user) return;
+  const file = input.files[0];
+  if (file.size > 5 * 1024 * 1024) {
+    showProfileMsg('❌ حجم الصورة كبير — الحد الأقصى 5MB', '#e74c3c', 'rgba(232,69,69,0.1)');
+    return;
+  }
+  showProfileMsg('⏳ جاري رفع الصورة...', '#f39c12', 'rgba(243,156,18,0.1)');
+  try {
+    const ref = window.storage.ref(`profilePhotos/${user.uid}`);
+    await ref.put(file);
+    const url = await ref.getDownloadURL();
+    await user.updateProfile({ photoURL: url });
+    document.getElementById('profilePhoto').src = url;
+    showProfileMsg('✅ تم رفع الصورة بنجاح', '#2ecc71', 'rgba(46,204,113,0.1)');
+  } catch (e) {
+    showProfileMsg('❌ فشل رفع الصورة', '#e74c3c', 'rgba(232,69,69,0.1)');
+  }
+}
+
+async function saveProfile() {
+  const user = window.auth.currentUser;
+  if (!user) return;
+  const name = document.getElementById('profileName').value.trim();
+  const phone = document.getElementById('profilePhone').value.trim();
+  const oldPass = document.getElementById('oldPassword')?.value || '';
+  const newPass = document.getElementById('newPassword')?.value || '';
+  const confPass = document.getElementById('confirmPassword')?.value || '';
+  showProfileMsg('⏳ جاري الحفظ...', '#f39c12', 'rgba(243,156,18,0.1)');
+  try {
+    if (name && name !== user.displayName) {
+      await user.updateProfile({ displayName: name });
+    }
+    await window.db.collection('users').doc(user.uid).set({
+      name: name, phone: phone, email: user.email
+    }, { merge: true });
+    if (oldPass || newPass || confPass) {
+      if (!oldPass) { showProfileMsg('❌ أدخل كلمة المرور الحالية', '#e74c3c', 'rgba(232,69,69,0.1)'); return; }
+      if (newPass !== confPass) { showProfileMsg('❌ كلمتا المرور غير متطابقتين', '#e74c3c', 'rgba(232,69,69,0.1)'); return; }
+      if (newPass.length < 6) { showProfileMsg('❌ كلمة المرور أقل من 6 أحرف', '#e74c3c', 'rgba(232,69,69,0.1)'); return; }
+      const credential = firebase.auth.EmailAuthProvider.credential(user.email, oldPass);
+      await user.reauthenticateWithCredential(credential);
+      await user.updatePassword(newPass);
+    }
+    showProfileMsg('✅ تم حفظ التغييرات بنجاح', '#2ecc71', 'rgba(46,204,113,0.1)');
+    setTimeout(closeProfile, 1800);
+  } catch (e) {
+    if (e.code === 'auth/wrong-password') {
+      showProfileMsg('❌ كلمة المرور الحالية غير صحيحة', '#e74c3c', 'rgba(232,69,69,0.1)');
+    } else {
+      showProfileMsg('❌ خطأ: ' + e.message, '#e74c3c', 'rgba(232,69,69,0.1)');
+    }
+  }
+}
+
+function signOutUser() {
+  if (confirm('تريد تسجيل الخروج؟')) {
+    window.auth.signOut().then(() => {
+      closeProfile();
+      window.location.reload();
+    });
+  }
+}
 
 </script>
 
