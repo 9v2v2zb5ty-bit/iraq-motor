@@ -2827,8 +2827,7 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
   // 1. استيراد كل الدوال المطلوبة من الفايربيس في مكان واحد
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
+import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
   // 2. إعدادات فايربيس الحقيقية لـ كررار موتورز
   const firebaseConfig = {
     apiKey: "AIzaSyAb4MheuHSLF4yOxuDfhnxZTiMyXy7g-l8",
@@ -2847,7 +2846,16 @@ const analytics = getAnalytics(app);
   // لضمان عمل الأكواد القديمة إذا كانت تستدعيها من النافذة
   window.app = app;
   window.auth = auth;
-
+window.loginWithGoogle = async function() {
+  try {
+    const provider = new GoogleAuthProvider();
+    const result = await signInWithPopup(auth, provider);
+    alert('أهلاً ' + result.user.displayName + '!');
+    window.location.reload();
+  } catch (error) {
+    alert('فشل تسجيل الدخول: ' + error.message);
+  }
+};
   // عند تحميل الصفحة بالكامل
   window.addEventListener('DOMContentLoaded', () => {
 
