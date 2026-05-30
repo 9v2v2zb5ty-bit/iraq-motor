@@ -2619,17 +2619,9 @@ function fakeLogin(method) {
             alert("الرجاء كتابة البريد الإلكتروني وكلمة المرور كاملة!");
         }
     } else if (method === 'Google') {
-      const provider = new GoogleAuthProvider();
-signInWithPopup(window.auth, provider)
+    alert('فشل: ' + typeof window.GoogleAuthProvider);
+}
 
-.then((result) => {
-    alert('أهلاً ' + result.user.displayName + '!');
-    window.location.reload();
-})
-.catch((error) => {
-    alert('فشل: ' + error.message);
-});
-    }
 }
 
 
