@@ -2431,7 +2431,7 @@ body.light-mode .hero-bg {
 </div>
 
 <!-- ========== JAVASCRIPT ========== -->
-<script>
+<script type="module">
 // ===== DATA =====
 const brands = [
   {name:'Toyota', icon:'🚗'},
