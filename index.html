@@ -2403,20 +2403,6 @@ const brands = [
   {name:'Pagani', icon:'🇮🇹'},
 ];
 
-const cars = [
-  { id:0, make:'Porsche', name:'911 GT3 RS 2024', price:385000, year:2024, city:'بغداد', img:'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80', hp:525, fuel:'بنزين', drive:'RWD', views:4821, featured:true, verified:true, ai:'overpriced', aiMsg:'السعر أعلى من السوق بـ 8%', color:'أبيض', engine:'4.0L Flat-6', top:'296 كم/س', accel:'3.2 ث' },
-  { id:1, make:'BMW', name:'M5 Competition 2024', price:145000, year:2024, city:'البصرة', img:'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&q=80', hp:627, fuel:'بنزين', drive:'AWD', views:3290, featured:true, verified:true, ai:'fair', aiMsg:'السعر مناسب للسوق', color:'أسود', engine:'4.4L V8 Twin-Turbo', top:'305 كم/س', accel:'3.3 ث' },
-  { id:2, make:'Lamborghini', name:'Huracán EVO 2023', price:280000, year:2023, city:'أربيل', img:'https://images.unsplash.com/photo-1617788138017-80ad40651399?w=600&q=80', hp:630, fuel:'بنزين', drive:'AWD', views:6100, featured:true, verified:true, ai:'good', aiMsg:'السعر أقل من السوق بـ 5%', color:'أصفر', engine:'5.2L V10', top:'325 كم/س', accel:'2.9 ث' },
-  { id:3, make:'Range Rover', name:'SVR 2024', price:220000, year:2024, city:'بغداد', img:'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=600&q=80', hp:575, fuel:'بنزين', drive:'AWD', views:2800, featured:false, verified:true, ai:'fair', aiMsg:'السعر مناسب للسوق', color:'رمادي', engine:'5.0L V8 Supercharged', top:'280 كم/س', accel:'4.3 ث' },
-  { id:4, make:'Dodge', name:'Challenger Hellcat 2023', price:78000, year:2023, city:'الموصل', img:'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&q=80', hp:717, fuel:'بنزين', drive:'RWD', views:5500, featured:false, verified:false, ai:'good', aiMsg:'سعر ممتاز — أسرع!', color:'أحمر', engine:'6.2L V8 Supercharged', top:'320 كم/س', accel:'3.4 ث' },
-  { id:5, make:'Toyota', name:'Land Cruiser 300 2024', price:95000, year:2024, city:'النجف', img:'https://images.unsplash.com/photo-1623869675781-80aa31012fb0?w=600&q=80', hp:409, fuel:'بنزين', drive:'4WD', views:9200, featured:false, verified:true, ai:'overpriced', aiMsg:'السعر أعلى من السوق بـ 12%', color:'أبيض', engine:'3.5L V6 Twin-Turbo', top:'235 كم/س', accel:'6.7 ث' },
-  { id:6, make:'Mercedes', name:'AMG GT Black Series', price:420000, year:2022, city:'بغداد', img:'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&q=80', hp:730, fuel:'بنزين', drive:'RWD', views:7300, featured:true, verified:true, ai:'fair', aiMsg:'السعر مناسب للسوق', color:'رمادي', engine:'4.0L V8 Twin-Turbo', top:'325 كم/س', accel:'3.2 ث' },
-  { id:7, make:'Audi', name:'RS7 Performance 2024', price:135000, year:2024, city:'أربيل', img:'https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?w=600&q=80', hp:630, fuel:'هايبرد', drive:'AWD', views:2100, featured:false, verified:false, ai:'good', aiMsg:'سعر ممتاز للـ RS7', color:'أزرق', engine:'4.0L V8 TFSI', top:'280 كم/س', accel:'3.4 ث' },
-  { id:8, make:'Ford', name:'Mustang GT500 2024', price:82000, year:2024, city:'البصرة', img:'https://images.unsplash.com/photo-1547744152-14d985cb937f?w=600&q=80', hp:760, fuel:'بنزين', drive:'RWD', views:4400, featured:false, verified:false, ai:'fair', aiMsg:'السعر مناسب', color:'أزرق', engine:'5.2L Supercharged V8', top:'290 كم/س', accel:'3.3 ث' },
-  { id:9, make:'Lexus', name:'LC 500 2023', price:115000, year:2023, city:'بغداد', img:'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=600&q=80', hp:471, fuel:'بنزين', drive:'RWD', views:1800, featured:false, verified:true, ai:'fair', aiMsg:'سعر مناسب', color:'أبيض', engine:'5.0L V8', top:'270 كم/س', accel:'4.7 ث' },
-  { id:10, make:'Chevrolet', name:'Corvette Z06 2023', price:115000, year:2023, city:'السليمانية', img:'https://images.unsplash.com/photo-1542282811-943ef1a977c3?w=600&q=80', hp:670, fuel:'بنزين', drive:'RWD', views:5600, featured:false, verified:false, ai:'good', aiMsg:'سعر ممتاز للـ Z06!', color:'أصفر', engine:'5.5L Flat-Plane V8', top:'312 كم/س', accel:'2.6 ث' },
-  { id:11, make:'Kia', name:'Stinger GT 2023', price:48000, year:2023, city:'بغداد', img:'https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=600&q=80', hp:368, fuel:'بنزين', drive:'AWD', views:1400, featured:false, verified:false, ai:'fair', aiMsg:'سعر مناسب جداً', color:'أحمر', engine:'3.3L Twin-Turbo V6', top:'270 كم/س', accel:'4.7 ث' },
-];
 
 const hypercars = [
   { brand:'Bugatti', name:'Chiron Super Sport', img:'https://www.ilusso.com/news/bugatti-chiron-super-sport-300-hits-speeds-in-excess-of-300-mph/', price:'$3,900,000', hp:'1600 HP', top:'440 كم/س', accel:'2.3 ث', engine:'8.0L W16 Quad-Turbo' },
@@ -2430,6 +2416,17 @@ let allCars = [...cars];
 // ===== RENDER =====
 function renderCars(list) {
   const grid = document.getElementById('carsGrid');
+  if (list.length === 0) {
+  grid.innerHTML = `
+    <div style="grid-column:1/-1; text-align:center; padding:80px 20px;">
+      <div style="font-size:60px; margin-bottom:20px;">🚗</div>
+      <div style="font-size:32px; font-weight:800; color:var(--gold); margin-bottom:12px;">قريباً سوف تتوفر</div>
+      <div style="font-size:16px; color:var(--text-dim);">نعمل على تطوير الموقع— قريباً...ا!</div>
+    </div>
+  `;
+  return;
+}
+
   grid.innerHTML = list.map(car => `
     <div class="car-card" onclick="openModal(${car.id})">
       <div class="car-img-wrap">
