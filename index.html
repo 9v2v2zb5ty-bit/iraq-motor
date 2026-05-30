@@ -2584,6 +2584,104 @@ function closeModal() {
   document.getElementById('carModal').classList.remove('open');
   document.body.style.overflow = '';
 }
+// ===== POST AD =====
+function openPostAd() {
+  const user = window.auth.currentUser;
+  if (!user) {
+    openLogin();
+    return;
+  }
+  document.getElementById('postAdOverlay').style.display = 'flex';
+}
+
+function closePostAd() {
+  document.getElementById('postAdOverlay').style.display = 'none';
+}
+
+async function submitAd() {
+  const user = window.auth.currentUser;
+  if (!user) { openLogin(); return; }
+
+  const make = document.getElementById('adMake').value.trim();
+  const name = document.getElementById('adName').value.trim();
+  const price = document.getElementById('adPrice').value.trim();
+  const year = document.getElementById('adYear').value.trim();
+  const city = document.getElementById('adCity').value;
+  const hp = document.getElementById('adHp').value.trim();
+  const fuel = document.getElementById('adFuel').value;
+  const drive = document.getElementById('adDrive').value;
+  const phone = document.getElementById('adPhone').value.trim();
+  const engine = document.getElementById('adEngine').value.trim();
+  const photoFile = document.getElementById('adPhoto').files[0];
+
+  if (!make || !name || !price || !year || !city || !phone) {
+    showAdMsg('❌ الرجاء ملء جميع الحقول المطلوبة', '#e74c3c', 'rgba(232,69,69,0.1)');
+    return;
+  }
+
+  showAdMsg('⏳ جاري نشر الإعلان...', '#f39c12', 'rgba(243,156,18,0.1)');
+
+  try {
+    let imgUrl = 'https://via.placeholder.com/600x400/1A2332/C9A84C?text=' + make;
+
+    if (photoFile) {
+      const ref = window.storage.ref(`carPhotos/${user.uid}/${Date.now()}`);
+      await ref.put(photoFile);
+      imgUrl = await ref.getDownloadURL();
+    }
+
+    const adData = {
+      make, name,
+      price: parseInt(price),
+      year: parseInt(year),
+      city, hp: parseInt(hp) || 0,
+      fuel, drive, phone, engine,
+      img: imgUrl,
+      userId: user.uid,
+      userName: user.displayName || 'مستخدم',
+      views: 0,
+      featured: false,
+      verified: false,
+      ai: 'fair',
+      aiMsg: 'إعلان جديد',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    await window.db.collection('cars').add(adData);
+    showAdMsg('✅ تم نشر إعلانك بنجاح!', '#2ecc71', 'rgba(46,204,113,0.1)');
+    loadCarsFromFirestore();
+    setTimeout(closePostAd, 2000);
+
+  } catch (e) {
+    showAdMsg('❌ خطأ: ' + e.message, '#e74c3c', 'rgba(232,69,69,0.1)');
+  }
+}
+
+function showAdMsg(msg, color, bg) {
+  const el = document.getElementById('adMsg');
+  el.textContent = msg;
+  el.style.color = color;
+  el.style.background = bg;
+  el.style.display = 'block';
+}
+
+async function loadCarsFromFirestore() {
+  try {
+    const snapshot = await window.db.collection('cars').orderBy('createdAt', 'desc').get();
+    const firestoreCars = snapshot.docs.map((doc, index) => ({
+      id: index,
+      docId: doc.id,
+      ...doc.data()
+    }));
+    if (firestoreCars.length > 0) {
+      renderCars(firestoreCars);
+    } else {
+      renderCars([]);
+    }
+  } catch (e) {
+    renderCars([]);
+  }
+}
 
 // ===== LOGIN =====
 function openLogin() {
