@@ -1670,7 +1670,7 @@ body.light-mode .hero-bg {
     <li><a href="#featured" onclick="setActive(this)">المعارض</a></li>
     <li><a href="#news" onclick="setActive(this)">الأخبار</a></li>
     <li><a href="#pricing" onclick="setActive(this)">الإعلانات</a></li>
-    <li><a href="#admin" onclick="setActive(this)">لوحة التحكم</a></li>
+
   </ul>
   <div class="nav-actions">
     <button class="btn-dark-mode" onclick="toggleMode()" title="تغيير الوضع">🌙</button>
@@ -2212,103 +2212,6 @@ body.light-mode .hero-bg {
       <div style="font-size:40px; font-weight:800; color: var(--gold); font-family: 'Rajdhani', sans-serif;">$99<span style="font-size:16px; color: var(--text-dim);">/شهر</span></div>
       <button class="btn-plan btn-plan-gold" style="margin-top:12px;" onclick="openLogin()">تواصل معنا</button>
     </div>
-  </div>
-</section>
-
-<!-- ========== ADMIN PANEL ========== -->
-<section id="admin">
-  <div class="section-header">
-    <div class="section-tag">— إدارة الموقع —</div>
-    <h2 class="section-title">🛡️ لوحة التحكم</h2>
-    <p class="section-desc">إدارة كاملة للإعلانات والمستخدمين والأرباح</p>
-  </div>
-
-  <div class="admin-tabs">
-    <button class="admin-tab active" onclick="switchTab(this)">📊 الإحصاء</button>
-    <button class="admin-tab" onclick="switchTab(this)">🚗 السيارات</button>
-    <button class="admin-tab" onclick="switchTab(this)">👥 المستخدمون</button>
-    <button class="admin-tab" onclick="switchTab(this)">💰 الأرباح</button>
-  </div>
-
-  <div class="admin-stats">
-    <div class="admin-stat">
-      <div class="admin-stat-label">إجمالي الإعلانات</div>
-      <div class="admin-stat-val" style="color: var(--gold);">2,418</div>
-      <div class="admin-stat-change positive">↑ +124 هذا الأسبوع</div>
-    </div>
-    <div class="admin-stat">
-      <div class="admin-stat-label">بانتظار الموافقة</div>
-      <div class="admin-stat-val" style="color: orange;">47</div>
-      <div class="admin-stat-change positive">↓ أقل من الأمس</div>
-    </div>
-    <div class="admin-stat">
-      <div class="admin-stat-label">الأرباح هذا الشهر</div>
-      <div class="admin-stat-val" style="color: var(--green);">$4,820</div>
-      <div class="admin-stat-change positive">↑ +18% عن الشهر الماضي</div>
-    </div>
-    <div class="admin-stat">
-      <div class="admin-stat-label">المستخدمون النشطون</div>
-      <div class="admin-stat-val" style="color: var(--blue);">8,943</div>
-      <div class="admin-stat-change positive">↑ +312 هذا الأسبوع</div>
-    </div>
-  </div>
-
-  <div class="admin-table">
-    <div class="table-header">
-      إعلانات بانتظار المراجعة
-      <button class="btn-approve" style="font-size:13px; padding:6px 16px;">موافقة على الكل</button>
-    </div>
-    <table>
-      <thead>
-        <tr>
-          <th>السيارة</th>
-          <th>البائع</th>
-          <th>المدينة</th>
-          <th>السعر</th>
-          <th>الباقة</th>
-          <th>الحالة</th>
-          <th>إجراء</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>BMW M3 Competition 2024</strong></td>
-          <td>أحمد الكرخي</td>
-          <td>بغداد</td>
-          <td style="color: var(--gold); font-weight:700;">$89,000</td>
-          <td><span class="badge badge-featured">مميز</span></td>
-          <td><span class="status-badge status-pending">بانتظار</span></td>
-          <td><div class="action-btns"><button class="btn-approve">موافقة</button><button class="btn-reject">رفض</button></div></td>
-        </tr>
-        <tr>
-          <td><strong>Lamborghini Urus 2023</strong></td>
-          <td>معرض بغداد الفاخر</td>
-          <td>بغداد</td>
-          <td style="color: var(--gold); font-weight:700;">$310,000</td>
-          <td><span class="badge" style="background:rgba(232,69,69,0.2);color:var(--red);">مثبت</span></td>
-          <td><span class="status-badge status-pending">بانتظار</span></td>
-          <td><div class="action-btns"><button class="btn-approve">موافقة</button><button class="btn-reject">رفض</button></div></td>
-        </tr>
-        <tr>
-          <td><strong>Toyota Land Cruiser 2024</strong></td>
-          <td>خالد الربيعي</td>
-          <td>البصرة</td>
-          <td style="color: var(--gold); font-weight:700;">$95,000</td>
-          <td><span class="badge badge-new">عادي</span></td>
-          <td><span class="status-badge status-active">نشط</span></td>
-          <td><div class="action-btns"><button class="btn-reject">حذف</button></div></td>
-        </tr>
-        <tr>
-          <td><strong>Ferrari F8 Tributo 2022</strong></td>
-          <td>معرض أربيل برستيج</td>
-          <td>أربيل</td>
-          <td style="color: var(--gold); font-weight:700;">$340,000</td>
-          <td><span class="badge" style="background:rgba(232,69,69,0.2);color:var(--red);">مثبت</span></td>
-          <td><span class="status-badge status-pending">بانتظار</span></td>
-          <td><div class="action-btns"><button class="btn-approve">موافقة</button><button class="btn-reject">رفض</button></div></td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 </section>
 
