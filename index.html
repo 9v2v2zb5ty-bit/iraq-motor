@@ -2828,7 +2828,8 @@ document.addEventListener('DOMContentLoaded', () => {
   firebase.initializeApp(firebaseConfig);
   window.auth = firebase.auth();
   window.GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
-  window.signInWithPopup = (auth, provider) => auth.signInWithPopup(provider);
+window.signInWithPopup = (auth, provider) => auth.signInWithRedirect(provider);
+
 </script>
 
   // عند تحميل الصفحة بالكامل
