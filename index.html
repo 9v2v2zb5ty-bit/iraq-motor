@@ -2404,18 +2404,43 @@ body.light-mode .hero-bg {
 </div>
 <!-- ========== PROFILE MODAL ========== -->
 <div class="login-overlay" id="profileOverlay">
-  <div class="login-box">
-    <button class="login-close" onclick="closeProfile()">x</button>
-    <div style="text-align:center; margin-bottom:16px">
-      <img id="profilePhoto" src="" style="width:80px; height:80px; border-radius:50%; object-fit:cover; border:2px solid var(--gold)">
+  <div class="login-box" style="max-width:420px; max-height:90vh; overflow-y:auto;">
+    <button class="login-close" onclick="closeProfile()">✕</button>
+
+    <!-- صورة البروفايل -->
+    <div style="text-align:center; margin-bottom:16px; position:relative; display:inline-block; left:50%; transform:translateX(-50%)">
+      <img id="profilePhoto" src="https://via.placeholder.com/80x80/1A2332/C9A84C?text=👤"
+           style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);display:block;">
+      <label for="photoInput"
+             style="position:absolute;bottom:0;right:0;background:var(--gold);border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;">✏️</label>
+      <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="uploadPhoto(this)">
     </div>
+
     <div class="login-title">حسابي</div>
-    <input type="text" id="profileName" class="email-input" placeholder="الاسم">
-    <input type="text" id="profilePhone" class="email-input" placeholder="رقم الهاتف" style="margin-top:8px">
-    <button class="btn-email-login" onclick="saveProfile()" style="margin-top:12px">حفظ التغييرات</button>
-    <button class="btn-email-login" onclick="signOutUser()" style="margin-top:8px; background:var(--red)">تسجيل الخروج</button>
+    <div id="profileEmail" style="font-size:13px;color:var(--text-dim);text-align:center;margin-bottom:14px;"></div>
+
+    <!-- الاسم -->
+    <input type="text" id="profileName" class="email-input" placeholder="الاسم الكامل">
+
+    <!-- رقم الهاتف -->
+    <input type="text" id="profilePhone" class="email-input" placeholder="رقم الهاتف" style="margin-top:8px;">
+
+    <!-- قسم تغيير الباسورد -->
+    <div id="passwordSection">
+      <div style="color:var(--gold);font-size:13px;font-weight:700;margin:16px 0 8px;text-align:right;border-top:1px solid var(--border2);padding-top:16px;">
+        🔒 تغيير كلمة المرور
+      </div>
+      <input type="password" id="oldPassword" class="email-input" placeholder="كلمة المرور الحالية">
+      <input type="password" id="newPassword" class="email-input" placeholder="كلمة المرور الجديدة" style="margin-top:8px;">
+      <input type="password" id="confirmPassword" class="email-input" placeholder="تأكيد كلمة المرور الجديدة" style="margin-top:8px;">
+    </div>
+
+    <!-- رسالة الحالة -->
+    <div id="profileMsg" style="display:none;font-size:13px;text-align:center;padding:8px;border-radius:8px;margin-top:10px;"></div>
+
+    <button class="btn-email-login" onclick="saveProfile()" style="margin-top:14px;">💾 حفظ التغييرات</button>
+    <button class="btn-email-login" onclick="signOutUser()" style="margin-top:8px;background:var(--red);">🚪 تسجيل الخروج</button>
   </div>
-</div>
 
 <!-- ========== LOGIN MODAL ========== -->
 <div class="login-overlay" id="loginOverlay">
@@ -2835,14 +2860,22 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+
 <script>
   const firebaseConfig = {
     apiKey: "AIzaSyAb4MheuHSlF4yOxuDfhnxZtIMyXy7g-l8",
     authDomain: "iraq-motors-38983.firebaseapp.com",
-    projectId: "iraq-motors-38983"
-  };
-  firebase.initializeApp(firebaseConfig);
+    projectId: "iraq-motors-38983",
+  storageBucket: "iraq-motors-38983.appspot.com",
+};
+
+  firebase.initializeApp(firebaseConfig
   window.auth = firebase.auth();
+  window.db = firebase.firestore();
+window.storage = firebase.storage();
+
   window.auth.onAuthStateChanged((user) => {
   if (user) {
    const loginBtn = document.querySelector('.btn-login');
