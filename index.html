@@ -2847,7 +2847,10 @@ import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopu
   window.app = app;
   window.auth = auth;
 window.loginWithGoogle = async function() {
-  try {
+  try {try {
+  alert('جاري...');
+  const provider = new GoogleAuthProvider();
+  
     const provider = new GoogleAuthProvider();
     const result = await signInWithRedirect(auth, provider);
     alert('أهلاً ' + result.user.displayName + '!');
