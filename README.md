@@ -2806,7 +2806,8 @@ document.addEventListener('DOMContentLoaded', () => {
   observer.observe(document.getElementById('home'));
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
 
   // إعدادات فايربيس الحقيقية لمشروع كررار موتورز
   const firebaseConfig = {
@@ -2822,6 +2823,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // تهيئة الفايربيس والـ Auth
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  window.auth = auth;
+window.GoogleAuthProvider = GoogleAuthProvider;
+window.signInWithPopup = signInWithPopup;
 
   // كود مسك الحقول الحقيقية والزر الأصفر
   document.addEventListener('DOMContentLoaded', () => {
