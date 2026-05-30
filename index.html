@@ -2827,6 +2827,15 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   firebase.initializeApp(firebaseConfig);
   window.auth = firebase.auth();
+  window.auth.getRedirectResult().then((result) => {
+  if (result.user) {
+    alert('أهلاً ' + result.user.displayName + '!');
+    window.location.reload();
+  }
+}).catch((error) => {
+  console.log(error);
+});
+
   window.GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
 window.signInWithPopup = (auth, provider) => auth.signInWithRedirect(provider);
 
