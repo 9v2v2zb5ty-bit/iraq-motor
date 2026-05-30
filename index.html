@@ -2617,7 +2617,16 @@ function fakeLogin(method) {
             alert("الرجاء كتابة البريد الإلكتروني وكلمة المرور كاملة!");
         }
     } else if (method === 'Google') {
-    alert('فشل: ' + typeof window.GoogleAuthProvider);
+    const provider = new window.GoogleAuthProvider();
+window.signInWithPopup(window.auth, provider)
+.then((result) => {
+    alert('أهلاً ' + result.user.displayName + '!');
+    window.location.reload();
+})
+.catch((error) => {
+    alert('فشل: ' + error.message);
+});
+
 }
 
 }
@@ -2838,6 +2847,9 @@ import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopu
   // لضمان عمل الأكواد القديمة إذا كانت تستدعيها من النافذة
   window.app = app;
   window.auth = auth;
+  window.GoogleAuthProvider = GoogleAuthProvider;
+window.signInWithPopup = signInWithPopup;
+
 window.loginWithGoogle = async function() {
   try {
   alert('جاري...');
