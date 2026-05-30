@@ -2646,32 +2646,54 @@ function closeLogin() {
 }
 
 function fakeLogin(method) {
-  
-    
-    if (method === 'Email') {
-        const email = document.getElementById('real-email').value.trim();
-        const password = document.getElementById('real-password').value.trim();
-        
-        if (email && password) {
-            window.loginWithEmail(email, password);
-        } else {
-            alert("الرجاء كتابة البريد الإلكتروني وكلمة المرور كاملة!");
-        }
-    } else if (method === 'Google') {
-    const provider = new window.GoogleAuthProvider();
-window.signInWithPopup(window.auth, provider)
-.then((result) => {
-    alert('أهلاً ' + result.user.displayName + '!');
-    window.location.reload();
-})
-.catch((error) => {
-    alert('فشل: ' + error.message);
-});
-
+  if (method === 'Email') {
+    const email = document.getElementById('real-email').value.trim();
+    const password = document.getElementById('real-password').value.trim();
+    if (email && password) {
+      window.auth.signInWithEmailAndPassword(email, password)
+        .then((result) => {
+          closeLogin();
+          window.location.reload();
+        })
+        .catch((error) => {
+          if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+            alert('الإيميل أو كلمة المرور غلط!');
+          } else if (error.code === 'auth/invalid-credential') {
+            alert('بيانات الدخول غير صحيحة!');
+          } else {
+            alert('خطأ: ' + error.message);
+          }
+        });
+    } else {
+      alert('الرجاء كتابة الإيميل وكلمة المرور!');
+    }
+  } else if (method === 'Google') {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    window.auth.signInWithPopup(provider)
+      .then((result) => {
+        closeLogin();
+        window.location.reload();
+      })
+      .catch((error) => {
+        alert('فشل تسجيل الدخول: ' + error.message);
+      });
+  } else if (method === 'new') {
+    const email = document.getElementById('real-email').value.trim();
+    const password = document.getElementById('real-password').value.trim();
+    if (email && password) {
+      window.auth.createUserWithEmailAndPassword(email, password)
+        .then((result) => {
+          closeLogin();
+          window.location.reload();
+        })
+        .catch((error) => {
+          alert('خطأ في إنشاء الحساب: ' + error.message);
+        });
+    } else {
+      alert('الرجاء كتابة الإيميل وكلمة المرور!');
+    }
+  }
 }
-
-}
-
 
   
 // ===== FAVORITES =====
