@@ -2784,7 +2784,7 @@ function resetFilters() {
   document.getElementById('priceMax').value = '';
   document.getElementById('yearMin').value = '';
   document.getElementById('yearMax').value = '';
-  renderCars(cars);
+loadCarsFromFirestore();
   document.querySelectorAll('.fuel-btn, .drive-btn').forEach((b,i) => {
     b.classList.toggle('active', i === 0 || i === 5);
   });
@@ -2908,7 +2908,7 @@ document.getElementById('loginOverlay').addEventListener('click', (e) => {
 
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
-  renderCars(cars);
+  loadCarsFromFirestore();
   renderBrands();
   renderHypercars();
   renderTicker();
