@@ -1680,6 +1680,8 @@ body.light-mode .hero-bg {
     </button>
     <button class="btn-post" onclick="openLogin()">نشر إعلان</button>
     <button class="btn-login" onclick="openLogin()">تسجيل الدخول</button>
+    <button class="btn-profile" id="profileBtn" onclick="openProfile()" style="display:none">👤 حسابي</button>
+
   </div>
 </nav>
 
@@ -2398,6 +2400,20 @@ body.light-mode .hero-bg {
         <button class="btn-fav" style="width:48px; height:48px; border-radius:12px; background:var(--dark3); border:1px solid var(--border2); font-size:20px; cursor:pointer;" onclick="toggleFavModal(this)">🤍</button>
       </div>
     </div>
+  </div>
+</div>
+<!-- ========== PROFILE MODAL ========== -->
+<div class="login-overlay" id="profileOverlay">
+  <div class="login-box">
+    <button class="login-close" onclick="closeProfile()">x</button>
+    <div style="text-align:center; margin-bottom:16px">
+      <img id="profilePhoto" src="" style="width:80px; height:80px; border-radius:50%; object-fit:cover; border:2px solid var(--gold)">
+    </div>
+    <div class="login-title">حسابي</div>
+    <input type="text" id="profileName" class="email-input" placeholder="الاسم">
+    <input type="text" id="profilePhone" class="email-input" placeholder="رقم الهاتف" style="margin-top:8px">
+    <button class="btn-email-login" onclick="saveProfile()" style="margin-top:12px">حفظ التغييرات</button>
+    <button class="btn-email-login" onclick="signOutUser()" style="margin-top:8px; background:var(--red)">تسجيل الخروج</button>
   </div>
 </div>
 
