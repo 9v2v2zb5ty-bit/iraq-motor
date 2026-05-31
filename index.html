@@ -2970,7 +2970,6 @@ window.storage = firebase.storage();
 });
 
   window.GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
-window.signInWithPopup = (auth, provider) => auth.signInWithRedirect(provider);
 // ===== PROFILE =====
 function openProfile() {
   const user = window.auth.currentUser;
