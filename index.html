@@ -2957,6 +2957,7 @@ window.storage = firebase.storage();
   if (user) {
     if (loginBtn) loginBtn.style.display = 'none';
     if (profileBtn) profileBtn.style.display = 'inline-block';
+    if (document.getElementById('postAdOverlay') && document.getElementById('postAdOverlay').style.display === 'flex') return;
   } else {
     if (loginBtn) loginBtn.style.display = 'inline-block';
     if (profileBtn) profileBtn.style.display = 'none';
