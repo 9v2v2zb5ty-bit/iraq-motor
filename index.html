@@ -2586,6 +2586,7 @@ function closeModal() {
 }
 // ===== POST AD =====
 function openPostAd() {
+    document.getElementById('profileOverlay').style.display = 'none';
   const user = window.auth.currentUser;
   if (!user) {
     openLogin();
