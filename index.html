@@ -1678,7 +1678,7 @@ body.light-mode .hero-bg {
       ❤️
       <span class="fav-count" id="favCount">0</span>
     </button>
-<button class="btn-post" onclick="openPostAd()" style="z-index:99999; position:relative; pointer-events:auto;">نشر إعلان</button>
+<button class="btn-post" onclick="openPostAd()" style="z-index:9999; position:relative; pointer-events:auto;">نشر إعلان</button>
     <button class="btn-login" onclick="openLogin()">تسجيل الدخول</button>
  <button class="btn-profile" id="profileBtn" onclick="openProfile()" style="display:none;">🧑‍💼 حسابي</button>
 
@@ -2957,7 +2957,7 @@ window.storage = firebase.storage();
   const profileBtn = document.getElementById('profileBtn');
   if (user) {
     if (loginBtn) loginBtn.style.display = 'none';
-    if (profileBtn) profileBtn.style.display = 'inline-block';
+    if (profileBtn) { profileBtn.style.display = 'inline-block'; profileBtn.style.zIndex = '1'; }
     if (document.getElementById('postAdOverlay') && document.getElementById('postAdOverlay').style.display === 'flex') return;
   } else {
     if (loginBtn) loginBtn.style.display = 'inline-block';
