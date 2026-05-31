@@ -2594,13 +2594,9 @@ function closeModal() {
 }
 // ===== POST AD =====
 function openPostAd() {
-    document.getElementById('profileOverlay').style.display = 'none';
-  const user = window.auth.currentUser;
-  if (!user) {
-    openLogin();
-    return;
-  }
-  document.getElementById('postAdOverlay').style.display = 'flex';
+  setTimeout(function() {
+    document.getElementById('postAdOverlay').style.display = 'flex';
+  }, 100);
 }
 
 function closePostAd() {
