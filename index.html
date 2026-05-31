@@ -2766,7 +2766,7 @@ function toggleFavModal(btn) {
 
 // ===== FILTERS =====
 function applyFilters() {
-  let list = [...cars];
+ let list = [...allCars];
   const brand = document.getElementById('filterBrand').value;
   const priceMin = parseFloat(document.getElementById('priceMin').value) || 0;
   const priceMax = parseFloat(document.getElementById('priceMax').value) || Infinity;
