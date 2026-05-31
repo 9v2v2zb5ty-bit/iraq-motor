@@ -2412,7 +2412,7 @@ body.light-mode .hero-bg {
     <div class="login-title">تسجيل الدخول</div>
     <div class="login-sub">ادخل عالموقع وابدأ تبيع أو تشتري</div>
 
-    <div class="social-btns">
+    <div class="social-btns">ا
     <button type="button" id="google-login-btn" class="social-btn" onclick="fakeLogin('Google')">
         <span>🔵</span> تسجيل الدخول بـ Google
       </button>
@@ -2598,12 +2598,12 @@ function closeModal() {
 // ===== POST AD =====
 function openPostAd() {
   setTimeout(function() {
-    document.getElementById('postAdOverlay').style.display = 'flex';
+    document.getElementById('postAdOverlay').classList.add('open');
   }, 100);
 }
 
 function closePostAd() {
-  document.getElementById('postAdOverlay').style.display = 'none';
+  document.getElementById('postAdOverlay').classList.remove('open');
 }
 
 async function submitAd() {
