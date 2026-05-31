@@ -2980,6 +2980,8 @@ window.storage = firebase.storage();
   window.GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
 // ===== PROFILE =====
 function openProfile() {
+  document.getElementById('postAdOverlay').classList.remove('open');
+
   const user = window.auth.currentUser;
   if (!user) return;
   document.getElementById('profileEmail').textContent = user.email || '';
