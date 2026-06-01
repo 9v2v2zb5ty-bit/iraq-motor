@@ -577,6 +577,14 @@ async function loadCars() {
               <div class="car-city">📍 ${car.city||''}</div>
             </div>
             ${car.phone ? `<a href="https://wa.me/${car.phone.replace(/\D/g,'')}" target="_blank" class="car-phone" onclick="event.stopPropagation()">💬 تواصل واتساب</a>` : ''}
+            ${auth.currentUser && auth.currentUser.uid === car.userId ? `
+<button class="btn-danger"
+onclick="deleteCar('${car.id}')"
+style="margin-top:8px;">
+🗑️ حذف الإعلان
+</button>
+` : ''}
+            
           </div>
         </div>`;
     }).join('');
