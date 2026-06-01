@@ -2597,10 +2597,9 @@ function closeModal() {
 }
 // ===== POST AD =====
 function openPostAd() {
-  setTimeout(function() {
-    document.getElementById('postAdOverlay').classList.add('open');
-  }, 100);
+  document.getElementById('postAdOverlay').classList.add('open');
 }
+
 
 function closePostAd() {
   document.getElementById('postAdOverlay').classList.remove('open');
