@@ -308,7 +308,7 @@ async function loadCars() {
         </div>` : `<div class="car-no-img">🚗</div>`;
 
       // 🔥 هنا الذكاء: إذا كان هذا إعلانك، راح يصنع زر الحذف، وإذا مو إعلانك ما يطلع شيء
-      const deleteBtnHtml = (currentUserUid && currentUserUid === car.userId) ? `
+    const deleteBtnHtml = (currentUserUid && (currentUserUid === car.userId || currentUserUid === car.userid)) ? `
         <button class="btn-danger" onclick="event.stopPropagation(); doDeleteCar('${car.id}')" style="margin-top: 10px; padding: 8px; font-size: 13px; font-weight: bold; background: rgba(232, 69, 69, 0.15); border: 1px solid var(--red); color: var(--red); border-radius: 10px; width: 100%; cursor: pointer;">
           🗑️ حذف هذا الإعلان
         </button>
