@@ -279,48 +279,70 @@ footer span { color:var(--gold); }
       <option>السليمانية</option><option>دهوك</option><option>كركوك</option>
       <option>ديالى</option><option>الأنبار</option><option>واسط</option>
     </select>
-    <input type="text" class="input" id="adPhone" placeholder="رقم الواتساب (مثال: 9647701234567)">
-    <input type="number" class="input" id="adKm" placeholder="عدد الكيلومترات">
-    <select class="input" id="adFuel">
-      <option value="">نوع الوقود</option>
-      <option>بنزين</option><option>ديزل</option><option>هايبرد</option><option>كهربائي</option>
-    </select>
-    <textarea class="input" id="adDesc" placeholder="وصف إضافي (اختياري)" rows="3" style="resize:none;"></textarea>
+// LOAD CARS WITH DELETE FUNCTION
+async function loadCars() {
+  const grid = document.getElementById('carsGrid');
+  grid.innerHTML = '<div class="loading">⏳ جاري التحميل...</div>';
+  try {
+    const snap = await db.collection('cars').get();
+    const cars = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    document.getElementById('cntCars').textContent = cars.length;
+    if (cars.length === 0) {
+      grid.innerHTML = `<div class="empty-state"><div class="empty-icon">🚗</div><div class="empty-title">قريباً سوف تتوفر</div><div class="empty-desc">نعمل على إضافة أفضل السيارات — ترقبوا!</div></div>`;
+      return;
+    }
+    
+    // جلب الـ UID للمستخدم الحالي إذا كان مسجل دخول
+    const currentUserUid = auth.currentUser ? auth.currentUser.uid : null;
 
-    <!-- PHOTOS -->
-    <div style="margin-top:10px;">
-      <div style="font-size:14px;font-weight:700;margin-bottom:8px;">📸 الصور (حتى 15 صورة)</div>
-      <input type="file" id="photoInput" accept="image/*" multiple style="display:none" onchange="addPhotos(this)">
-      <div class="photos-grid" id="photosGrid">
-        <div class="photo-add" onclick="document.getElementById('photoInput').click()">+</div>
-      </div>
-      <div class="photos-count" id="photosCount">0 / 15 صورة</div>
-    </div>
+    grid.innerHTML = cars.map(car => {
+      const imgs = car.imgs && car.imgs.length > 0 ? car.imgs : (car.img ? [car.img] : []);
+      const sliderHtml = imgs.length > 0 ? `
+        <div class="car-slider" id="slider-${car.id}">
+          ${imgs.map((img, i) => `<img src="${img}" class="${i===0?'active':''}" loading="lazy">`).join('')}
+          ${imgs.length > 1 ? `
+            <button class="slider-btn prev" onclick="event.stopPropagation();slidePhoto('${car.id}',-1)">‹</button>
+            <button class="slider-btn next" onclick="event.stopPropagation();slidePhoto('${car.id}',1)">›</button>
+            <div class="slider-dots">${imgs.map((_,i)=>`<div class="slider-dot ${i===0?'active':''}" onclick="event.stopPropagation();goToSlide('${car.id}',${i})"></div>`).join('')}</div>
+          ` : ''}
+        </div>` : `<div class="car-no-img">🚗</div>`;
 
-    <div class="progress-bar" id="progressBar">
-      <div class="progress-fill" id="progressFill"></div>
-    </div>
+      // 🔥 هنا الذكاء: إذا كان هذا إعلانك، راح يصنع زر الحذف، وإذا مو إعلانك ما يطلع شيء
+      const deleteBtnHtml = (currentUserUid && currentUserUid === car.userId) ? `
+        <button class="btn-danger" onclick="event.stopPropagation(); doDeleteCar('${car.id}')" style="margin-top: 10px; padding: 8px; font-size: 13px; font-weight: bold; background: rgba(232, 69, 69, 0.15); border: 1px solid var(--red); color: var(--red); border-radius: 10px; width: 100%; cursor: pointer;">
+          🗑️ حذف هذا الإعلان
+        </button>
+      ` : '';
+  return `
 
-    <button class="btn-submit" onclick="submitAd()">🚀 نشر الإعلان</button>
-    <div class="msg" id="adMsg"></div>
-  </div>
-</div>
+        <div class="car-card">
+          ${sliderHtml}
+          <div class="car-info">
+            <div class="car-make">${car.make||''}</div>
+            <div class="car-name">${car.model||''}</div>
+            <div class="car-specs">
+              <span class="car-spec">📅 ${car.year||''}</span>
+              <span class="car-spec">⛽ ${car.fuel||''}</span>
+              ${car.km ? `<span class="car-spec">🛣️ ${car.km.toLocaleString()} كم</span>` : ''}
+            </div>
+            <div class="car-footer">
+              <div class="car-price">$${(car.price||0).toLocaleString()}</div>
+              <div class="car-city">📍 ${car.city||''}</div>
+            </div>
+            ${car.phone ? `<a href="https://wa.me/${car.phone.replace(/\D/g,'')}" target="_blank" class="car-phone" onclick="event.stopPropagation()">💬 تواصل واتساب</a>` : ''}
+            
+            ${deleteBtnHtml}
+          </div>
+        </div>`;
+    }).join('');
 
-<!-- PROFILE -->
-<div class="overlay" id="profileOverlay">
-  <div class="modal">
-    <button class="modal-close" onclick="closeProfile()">✕</button>
-    <div class="profile-photo-wrap">
-      <img id="profilePhoto" src="" class="profile-photo" alt="">
-    </div>
-    <div class="modal-title" style="margin-bottom:4px;">حسابي</div>
-    <div class="profile-email" id="profileEmail"></div>
-    <input type="text" class="input" id="profileName" placeholder="الاسم">
-    <input type="text" class="input" id="profilePhone2" placeholder="رقم الهاتف">
-    <button class="btn-submit" onclick="saveProfile()">💾 حفظ التغييرات</button>
-    <button class="btn-danger" onclick="doSignOut()">🚪 تسجيل الخروج</button>
-    <div class="msg" id="profileMsg"></div>
-  </div>
+    // Init sliders
+    cars.forEach(car => { window['slide_'+car.id] = 0; });
+  } catch(e) {
+    grid.innerHTML = '<div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-title">خطأ في التحميل</div></div>';
+  }
+}
+
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -329,6 +351,19 @@ footer span { color:var(--gold); }
 
 <script>
 const IMGBB_KEY = '3897918b48e89d2b67351676170056ed';
+
+// دالة حذف السيارة من قاعدة البيانات (Firestore)
+async function doDeleteCar(carId) {
+  if (confirm("هل أنت متأكد من أنك تريد حذف هذا الإعلان نهائياً من العراق موتورز؟")) {
+    try {
+      await db.collection('cars').doc(carId).delete();
+      alert("🗑️ تم حذف الإعلان بنجاح!");
+      loadCars(); // إعادة تحميل السيارات لتحديث الواجهة فوراً
+    } catch (error) {
+      alert("❌ فشل الحذف: " + error.message);
+    }
+  }
+}
 
 firebase.initializeApp({
   apiKey: "AIzaSyAb4MheuHSlF4yOxuDfhnxZtIMyXy7g-l8",
