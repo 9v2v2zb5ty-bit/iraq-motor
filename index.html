@@ -3,617 +3,1027 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Iraq Motors | سوق السيارات الأفخم في العراق</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Iraq Motors | سوق السيارات</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --gold: #C9A84C;
-  --gold2: #E8C97A;
-  --dark: #080A0F;
-  --dark2: #0D1017;
-  --dark3: #121820;
-  --card: #111822;
-  --text: #E8EDF5;
-  --text-dim: #8A9AB5;
-  --border: rgba(201,168,76,0.2);
-  --red: #E84545;
-  --green: #2ECC71;
-}
-* { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior:smooth; }
-body { font-family:'Tajawal',sans-serif; background:var(--dark); color:var(--text); overflow-x:hidden; }
-::-webkit-scrollbar { width:6px; }
-::-webkit-scrollbar-track { background:var(--dark2); }
-::-webkit-scrollbar-thumb { background:var(--gold); border-radius:3px; }
+:root{--gold:#C9A84C;--gold2:#E8C97A;--dark:#080A0F;--dark2:#0D1017;--dark3:#121820;--card:#111822;--text:#E8EDF5;--dim:#8A9AB5;--border:rgba(201,168,76,0.2);--red:#E84545;--green:#2ECC71;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Tajawal',sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--dark2);}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px;}
 
-/* NAVBAR */
-nav {
-  position:fixed; top:0; left:0; right:0; z-index:1000;
-  display:flex; align-items:center; justify-content:space-between;
-  padding:0 40px; height:70px;
-  background:rgba(8,10,15,0.95);
-  border-bottom:1px solid var(--border);
-  backdrop-filter:blur(20px);
-}
-.nav-logo { font-size:22px; font-weight:900; color:var(--gold); letter-spacing:1px; text-decoration:none; }
-.nav-logo span { color:var(--text); }
-.nav-links { display:flex; gap:30px; list-style:none; }
-.nav-links a { color:var(--text-dim); text-decoration:none; font-size:14px; transition:color 0.2s; }
-.nav-links a:hover { color:var(--gold); }
-.nav-actions { display:flex; gap:10px; align-items:center; }
-.btn-login { background:transparent; color:var(--gold); border:1px solid var(--gold); padding:8px 20px; border-radius:8px; font-family:'Tajawal',sans-serif; font-size:14px; cursor:pointer; transition:all 0.2s; }
-.btn-login:hover { background:var(--gold); color:#000; }
-.btn-post { background:var(--gold); color:#000; border:none; padding:8px 20px; border-radius:8px; font-family:'Tajawal',sans-serif; font-size:14px; font-weight:700; cursor:pointer; transition:all 0.2s; display:none; }
-.btn-post:hover { background:var(--gold2); }
-.btn-profile { background:transparent; color:var(--text); border:1px solid var(--border); padding:7px 16px; border-radius:8px; font-family:'Tajawal',sans-serif; font-size:14px; cursor:pointer; display:none; align-items:center; gap:6px; }
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:64px;background:rgba(8,10,15,0.97);border-bottom:1px solid var(--border);backdrop-filter:blur(20px);}
+.logo{font-size:20px;font-weight:900;color:var(--gold);cursor:pointer;}.logo span{color:var(--text);}
+.nav-links{display:flex;gap:24px;list-style:none;}
+.nav-links a{color:var(--dim);text-decoration:none;font-size:14px;cursor:pointer;transition:color .2s;}.nav-links a:hover{color:var(--gold);}
+.nav-actions{display:flex;gap:8px;align-items:center;}
+.btn-nav{padding:7px 18px;border-radius:8px;font-family:'Tajawal',sans-serif;font-size:13px;cursor:pointer;transition:all .2s;}
+.btn-login-nav{background:transparent;color:var(--gold);border:1px solid var(--gold);}.btn-login-nav:hover{background:var(--gold);color:#000;}
+.btn-post-nav{background:var(--gold);color:#000;border:none;font-weight:700;display:none;}.btn-post-nav:hover{background:var(--gold2);}
+.btn-profile-nav{background:transparent;color:var(--text);border:1px solid var(--border);display:none;align-items:center;gap:6px;}
+.btn-profile-nav img{width:24px;height:24px;border-radius:50%;object-fit:cover;}
 
-/* HERO */
-.hero {
-  min-height:100vh; display:flex; align-items:center; justify-content:center;
-  position:relative; overflow:hidden; padding-top:70px;
-  background:radial-gradient(ellipse 80% 60% at 30% 60%, rgba(201,168,76,0.06) 0%, transparent 70%),
-             linear-gradient(180deg, var(--dark) 0%, var(--dark2) 100%);
-}
-.hero-content { text-align:center; z-index:2; max-width:800px; padding:0 20px; }
-.hero-badge { display:inline-block; background:rgba(201,168,76,0.1); border:1px solid var(--border); color:var(--gold); padding:6px 16px; border-radius:20px; font-size:12px; margin-bottom:24px; letter-spacing:2px; }
-.hero-title { font-size:clamp(40px,8vw,80px); font-weight:900; line-height:1.1; margin-bottom:20px; }
-.hero-title .gold { color:var(--gold); }
-.hero-sub { font-size:18px; color:var(--text-dim); margin-bottom:40px; line-height:1.7; }
-.hero-btns { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
-.btn-hero-main { background:var(--gold); color:#000; border:none; padding:16px 40px; border-radius:12px; font-family:'Tajawal',sans-serif; font-size:16px; font-weight:800; cursor:pointer; transition:all 0.2s; }
-.btn-hero-main:hover { background:var(--gold2); transform:translateY(-2px); }
-.btn-hero-sec { background:transparent; color:var(--text); border:1px solid var(--border); padding:16px 40px; border-radius:12px; font-family:'Tajawal',sans-serif; font-size:16px; cursor:pointer; transition:all 0.2s; }
-.btn-hero-sec:hover { border-color:var(--gold); color:var(--gold); }
-.hero-stats { display:flex; gap:40px; justify-content:center; margin-top:60px; flex-wrap:wrap; }
-.stat { text-align:center; }
-.stat-num { font-size:36px; font-weight:900; color:var(--gold); font-family:'Rajdhani',sans-serif; }
-.stat-label { font-size:13px; color:var(--text-dim); }
+/* PAGES */
+.page{display:none;min-height:100vh;padding-top:64px;}
+.page.active{display:block;}
 
-/* SECTION */
-.section { padding:80px 40px; }
-.section-header { text-align:center; margin-bottom:50px; }
-.section-tag { color:var(--gold); font-size:12px; letter-spacing:3px; margin-bottom:10px; }
-.section-title { font-size:36px; font-weight:800; margin-bottom:10px; }
-.section-desc { color:var(--text-dim); font-size:15px; }
+/* HOME HERO */
+.hero{min-height:calc(100vh - 64px);display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse 80% 60% at 30% 60%,rgba(201,168,76,0.07) 0%,transparent 70%),linear-gradient(180deg,var(--dark),var(--dark2));}
+.hero-inner{text-align:center;max-width:700px;padding:0 20px;}
+.hero-badge{display:inline-block;background:rgba(201,168,76,0.1);border:1px solid var(--border);color:var(--gold);padding:5px 14px;border-radius:20px;font-size:11px;margin-bottom:20px;letter-spacing:2px;}
+.hero-title{font-size:clamp(36px,8vw,72px);font-weight:900;line-height:1.1;margin-bottom:16px;}
+.hero-title .g{color:var(--gold);}
+.hero-sub{font-size:16px;color:var(--dim);margin-bottom:36px;line-height:1.8;}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn-hero{padding:14px 36px;border-radius:12px;font-family:'Tajawal',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-hero-gold{background:var(--gold);color:#000;border:none;}.btn-hero-gold:hover{background:var(--gold2);transform:translateY(-2px);}
+.btn-hero-out{background:transparent;color:var(--text);border:1px solid var(--border);}.btn-hero-out:hover{border-color:var(--gold);color:var(--gold);}
+.hero-stats{display:flex;gap:40px;justify-content:center;margin-top:50px;flex-wrap:wrap;}
+.stat-num{font-size:32px;font-weight:900;color:var(--gold);font-family:'Rajdhani',sans-serif;}
+.stat-label{font-size:12px;color:var(--dim);}
 
-/* POST AD BANNER */
-.post-ad-banner {
-  background:linear-gradient(135deg, rgba(201,168,76,0.1), rgba(201,168,76,0.05));
-  border:1px solid var(--border); border-radius:16px;
-  padding:30px; text-align:center; margin-bottom:40px;
-}
-.post-ad-banner h3 { font-size:20px; font-weight:700; margin-bottom:8px; }
-.post-ad-banner p { color:var(--text-dim); font-size:14px; margin-bottom:20px; }
-.btn-post-big { background:var(--gold); color:#000; border:none; padding:14px 40px; border-radius:12px; font-family:'Tajawal',sans-serif; font-size:16px; font-weight:800; cursor:pointer; transition:all 0.2s; }
-.btn-post-big:hover { background:var(--gold2); transform:translateY(-2px); }
+/* CARS PAGE */
+.page-header{padding:40px 32px 24px;border-bottom:1px solid var(--border);}
+.page-title{font-size:28px;font-weight:800;}
+.page-sub{color:var(--dim);font-size:14px;margin-top:4px;}
+.cars-toolbar{display:flex;gap:12px;align-items:center;padding:20px 32px;flex-wrap:wrap;}
+.search-input{flex:1;min-width:200px;background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:10px 16px;color:var(--text);font-family:'Tajawal',sans-serif;font-size:14px;outline:none;}
+.search-input:focus{border-color:var(--gold);}
+select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:10px 12px;color:var(--text);font-family:'Tajawal',sans-serif;font-size:13px;outline:none;cursor:pointer;}
+.post-banner{margin:0 32px 24px;background:linear-gradient(135deg,rgba(201,168,76,0.1),rgba(201,168,76,0.05));border:1px solid var(--border);border-radius:16px;padding:24px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+.post-banner h3{font-size:18px;font-weight:700;}
+.post-banner p{color:var(--dim);font-size:13px;margin-top:4px;}
+.btn-post-banner{background:var(--gold);color:#000;border:none;padding:12px 28px;border-radius:10px;font-family:'Tajawal',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.btn-post-banner:hover{background:var(--gold2);}
+.cars-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;padding:0 32px 60px;}
 
-/* CARS GRID */
-.cars-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:24px; }
-.car-card { background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden; cursor:pointer; transition:all 0.3s; }
-.car-card:hover { transform:translateY(-6px); border-color:var(--gold); box-shadow:0 20px 40px rgba(0,0,0,0.4); }
+/* CAR CARD */
+.car-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .3s;}
+.car-card:hover{transform:translateY(-5px);border-color:var(--gold);box-shadow:0 16px 40px rgba(0,0,0,0.4);}
+.card-slider{position:relative;height:180px;overflow:hidden;background:var(--dark3);}
+.card-slider img{width:100%;height:180px;object-fit:cover;position:absolute;top:0;left:0;opacity:0;transition:opacity .3s;}
+.card-slider img.on{opacity:1;}
+.sl-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.6);color:#fff;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;z-index:2;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;}
+.car-card:hover .sl-btn{opacity:1;}
+.sl-btn.p{right:8px;}.sl-btn.n{left:8px;}
+.card-no-img{height:180px;display:flex;align-items:center;justify-content:center;font-size:50px;background:var(--dark3);}
+.card-badge{position:absolute;top:10px;right:10px;background:rgba(201,168,76,0.9);color:#000;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;}
+.card-body{padding:16px;}
+.card-make{font-size:11px;color:var(--gold);letter-spacing:2px;margin-bottom:3px;}
+.card-name{font-size:16px;font-weight:700;margin-bottom:10px;}
+.card-specs{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;}
+.card-spec{font-size:11px;color:var(--dim);}
+.card-footer{display:flex;justify-content:space-between;align-items:center;}
+.card-price{font-size:18px;font-weight:800;color:var(--gold);font-family:'Rajdhani',sans-serif;}
+.card-city{font-size:12px;color:var(--dim);}
 
-/* IMAGE SLIDER */
-.car-slider { position:relative; height:200px; overflow:hidden; }
-.car-slider img { width:100%; height:200px; object-fit:cover; position:absolute; top:0; left:0; opacity:0; transition:opacity 0.3s; }
-.car-slider img.active { opacity:1; }
-.slider-btn { position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:#fff; border:none; width:30px; height:30px; border-radius:50%; cursor:pointer; font-size:14px; z-index:2; display:flex; align-items:center; justify-content:center; }
-.slider-btn.prev { right:8px; }
-.slider-btn.next { left:8px; }
-.slider-dots { position:absolute; bottom:8px; left:50%; transform:translateX(-50%); display:flex; gap:4px; }
-.slider-dot { width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,0.5); cursor:pointer; }
-.slider-dot.active { background:var(--gold); }
-.car-no-img { height:200px; background:var(--dark3); display:flex; align-items:center; justify-content:center; font-size:60px; }
+/* CAR DETAIL PAGE */
+.detail-back{display:flex;align-items:center;gap:8px;color:var(--dim);cursor:pointer;font-size:14px;padding:20px 32px;transition:color .2s;}
+.detail-back:hover{color:var(--gold);}
+.detail-main{display:grid;grid-template-columns:1fr 380px;gap:32px;padding:0 32px 60px;}
+.detail-gallery{position:relative;}
+.gallery-main{width:100%;height:400px;border-radius:14px;overflow:hidden;background:var(--dark3);position:relative;}
+.gallery-main img{width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;opacity:0;transition:opacity .3s;}
+.gallery-main img.on{opacity:1;}
+.gal-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.6);color:#fff;border:none;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:20px;z-index:2;display:flex;align-items:center;justify-content:center;}
+.gal-btn.p{right:12px;}.gal-btn.n{left:12px;}
+.gallery-thumbs{display:flex;gap:8px;margin-top:10px;overflow-x:auto;padding-bottom:4px;}
+.gallery-thumb{width:70px;height:55px;border-radius:8px;overflow:hidden;cursor:pointer;border:2px solid transparent;flex-shrink:0;transition:border .2s;}
+.gallery-thumb.on{border-color:var(--gold);}
+.gallery-thumb img{width:100%;height:100%;object-fit:cover;}
+.detail-info{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;height:fit-content;}
+.detail-make{font-size:12px;color:var(--gold);letter-spacing:2px;margin-bottom:4px;}
+.detail-name{font-size:24px;font-weight:800;margin-bottom:8px;}
+.detail-price{font-size:32px;font-weight:900;color:var(--gold);font-family:'Rajdhani',sans-serif;margin-bottom:20px;}
+.detail-specs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.spec-item{background:var(--dark3);border-radius:10px;padding:12px;}
+.spec-label{font-size:11px;color:var(--dim);margin-bottom:3px;}
+.spec-val{font-size:14px;font-weight:600;}
+.detail-desc{color:var(--dim);font-size:14px;line-height:1.7;margin-bottom:20px;border-top:1px solid var(--border);padding-top:16px;}
+.btn-whatsapp{display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.3);color:#25d366;padding:14px;border-radius:12px;font-family:'Tajawal',sans-serif;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;transition:all .2s;margin-bottom:10px;}
+.btn-whatsapp:hover{background:rgba(37,211,102,0.2);}
+.btn-delete-ad{width:100%;background:transparent;color:var(--red);border:1px solid var(--red);padding:10px;border-radius:10px;font-family:'Tajawal',sans-serif;font-size:14px;cursor:pointer;transition:all .2s;margin-top:8px;}
+.btn-delete-ad:hover{background:rgba(232,69,69,0.1);}
+.detail-seller{background:var(--dark3);border-radius:10px;padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.seller-img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--border);}
+.seller-name{font-size:14px;font-weight:600;}
+.seller-label{font-size:11px;color:var(--dim);}
 
-.car-info { padding:20px; }
-.car-make { font-size:12px; color:var(--gold); letter-spacing:2px; margin-bottom:4px; }
-.car-name { font-size:18px; font-weight:700; margin-bottom:12px; }
-.car-specs { display:flex; gap:16px; flex-wrap:wrap; margin-bottom:16px; }
-.car-spec { font-size:12px; color:var(--text-dim); }
-.car-footer { display:flex; justify-content:space-between; align-items:center; }
-.car-price { font-size:20px; font-weight:800; color:var(--gold); font-family:'Rajdhani',sans-serif; }
-.car-city { font-size:12px; color:var(--text-dim); }
-.car-phone { display:block; margin-top:12px; background:rgba(46,204,113,0.1); border:1px solid rgba(46,204,113,0.3); color:var(--green); padding:10px; border-radius:10px; text-align:center; font-family:'Tajawal',sans-serif; font-size:14px; cursor:pointer; text-decoration:none; transition:all 0.2s; }
-.car-phone:hover { background:rgba(46,204,113,0.2); }
+/* ACCIDENT SECTION */
+.accident-section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-top:20px;}
+.accident-title{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--red);}
+.accident-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px;}
+.acc-img{width:100%;aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;}
+.acc-img img{width:100%;height:100%;object-fit:cover;}
+.damaged-parts{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.part-badge{background:rgba(232,69,69,0.15);border:1px solid rgba(232,69,69,0.3);color:var(--red);padding:4px 10px;border-radius:20px;font-size:12px;}
 
-/* EMPTY */
-.empty-state { grid-column:1/-1; text-align:center; padding:80px 20px; }
-.empty-icon { font-size:60px; margin-bottom:20px; }
-.empty-title { font-size:28px; font-weight:800; color:var(--gold); margin-bottom:10px; }
-.empty-desc { color:var(--text-dim); font-size:15px; }
-
-/* OVERLAY */
-.overlay { position:fixed; inset:0; background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); z-index:2000; display:none; align-items:center; justify-content:center; padding:20px; }
-.overlay.open { display:flex; }
-.modal { background:var(--dark2); border:1px solid var(--border); border-radius:20px; padding:40px; width:100%; max-width:480px; max-height:90vh; overflow-y:auto; position:relative; }
-.modal-close { position:absolute; top:16px; left:16px; background:transparent; border:none; color:var(--text-dim); font-size:20px; cursor:pointer; }
-.modal-title { font-size:24px; font-weight:800; margin-bottom:6px; text-align:center; }
-.modal-sub { font-size:14px; color:var(--text-dim); text-align:center; margin-bottom:30px; }
-.input { width:100%; background:var(--dark3); border:1px solid var(--border); border-radius:10px; padding:12px 16px; color:var(--text); font-family:'Tajawal',sans-serif; font-size:14px; margin-bottom:10px; outline:none; transition:border 0.2s; }
-.input:focus { border-color:var(--gold); }
-.btn-submit { width:100%; background:var(--gold); color:#000; border:none; padding:14px; border-radius:10px; font-family:'Tajawal',sans-serif; font-size:16px; font-weight:800; cursor:pointer; margin-top:10px; transition:all 0.2s; }
-.btn-submit:hover { background:var(--gold2); }
-.btn-google { width:100%; background:transparent; color:var(--text); border:1px solid var(--border); padding:12px; border-radius:10px; font-family:'Tajawal',sans-serif; font-size:14px; cursor:pointer; margin-bottom:16px; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:10px; }
-.btn-google:hover { border-color:var(--gold); }
-.divider { text-align:center; color:var(--text-dim); font-size:13px; margin:16px 0; position:relative; }
-.divider::before,.divider::after { content:''; position:absolute; top:50%; width:40%; height:1px; background:var(--border); }
-.divider::before { right:0; }
-.divider::after { left:0; }
-.msg { padding:10px; border-radius:8px; font-size:13px; text-align:center; margin-top:10px; display:none; }
-.switch-auth { text-align:center; margin-top:16px; font-size:13px; color:var(--text-dim); }
-.switch-auth a { color:var(--gold); cursor:pointer; }
+/* POST AD PAGE */
+.post-page{max-width:800px;margin:0 auto;padding:32px;}
+.post-section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:20px;}
+.post-section-title{font-size:16px;font-weight:700;margin-bottom:16px;color:var(--gold);border-bottom:1px solid var(--border);padding-bottom:10px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-group.full{grid-column:1/-1;}
+.form-label{font-size:13px;color:var(--dim);}
+.form-input{background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:11px 14px;color:var(--text);font-family:'Tajawal',sans-serif;font-size:14px;outline:none;transition:border .2s;}
+.form-input:focus{border-color:var(--gold);}
+.price-wrap{display:flex;gap:8px;}
+.price-wrap .form-input{flex:1;}
+.currency-toggle{display:flex;border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.cur-btn{padding:0 16px;background:transparent;color:var(--dim);border:none;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:13px;transition:all .2s;}
+.cur-btn.active{background:var(--gold);color:#000;font-weight:700;}
 
 /* PHOTOS UPLOAD */
-.photos-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:10px; }
-.photo-thumb { position:relative; aspect-ratio:1; border-radius:8px; overflow:hidden; background:var(--dark3); border:1px solid var(--border); }
-.photo-thumb img { width:100%; height:100%; object-fit:cover; }
-.photo-remove { position:absolute; top:4px; left:4px; background:rgba(232,69,69,0.8); color:#fff; border:none; width:20px; height:20px; border-radius:50%; font-size:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
-.photo-add { aspect-ratio:1; border-radius:8px; border:2px dashed var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:24px; color:var(--text-dim); transition:all 0.2s; background:var(--dark3); }
-.photo-add:hover { border-color:var(--gold); color:var(--gold); }
-.photos-count { font-size:12px; color:var(--text-dim); margin-top:6px; text-align:center; }
+.photos-upload-area{border:2px dashed var(--border);border-radius:12px;padding:24px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:12px;}
+.photos-upload-area:hover{border-color:var(--gold);}
+.photos-upload-icon{font-size:36px;margin-bottom:8px;}
+.photos-upload-text{font-size:14px;color:var(--dim);}
+.photos-preview{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;}
+.photo-thumb{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;border:1px solid var(--border);}
+.photo-thumb img{width:100%;height:100%;object-fit:cover;}
+.photo-rm{position:absolute;top:3px;left:3px;background:rgba(232,69,69,0.85);color:#fff;border:none;width:20px;height:20px;border-radius:50%;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.photos-info{font-size:12px;color:var(--dim);margin-top:6px;}
 
-/* PROGRESS */
-.progress-bar { width:100%; height:6px; background:var(--dark3); border-radius:3px; margin-top:10px; overflow:hidden; display:none; }
-.progress-fill { height:100%; background:var(--gold); border-radius:3px; transition:width 0.3s; width:0%; }
+/* ACCIDENT UPLOAD */
+.acc-parts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;}
+.part-check{display:flex;align-items:center;gap:6px;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px 10px;cursor:pointer;transition:all .2s;}
+.part-check input{accent-color:var(--gold);}
+.part-check span{font-size:13px;}
+.part-check:has(input:checked){border-color:var(--gold);background:rgba(201,168,76,0.08);}
 
-/* PROFILE */
-.profile-photo-wrap { text-align:center; margin-bottom:20px; }
-.profile-photo { width:80px; height:80px; border-radius:50%; object-fit:cover; border:2px solid var(--gold); }
-.profile-email { text-align:center; color:var(--text-dim); font-size:13px; margin-bottom:20px; }
-.btn-danger { width:100%; background:transparent; color:var(--red); border:1px solid var(--red); padding:12px; border-radius:10px; font-family:'Tajawal',sans-serif; font-size:14px; cursor:pointer; margin-top:8px; transition:all 0.2s; }
-.btn-danger:hover { background:rgba(232,69,69,0.1); }
+.progress-wrap{margin-top:12px;display:none;}
+.progress-bar{width:100%;height:6px;background:var(--dark3);border-radius:3px;overflow:hidden;}
+.progress-fill{height:100%;background:var(--gold);border-radius:3px;transition:width .3s;width:0%;}
+.progress-text{font-size:12px;color:var(--dim);margin-top:4px;text-align:center;}
+.btn-submit-big{width:100%;background:var(--gold);color:#000;border:none;padding:16px;border-radius:12px;font-family:'Tajawal',sans-serif;font-size:17px;font-weight:800;cursor:pointer;transition:all .2s;margin-top:8px;}
+.btn-submit-big:hover{background:var(--gold2);}
+.msg-box{padding:12px;border-radius:10px;font-size:14px;text-align:center;margin-top:10px;display:none;}
 
-footer { background:var(--dark2); border-top:1px solid var(--border); padding:40px; text-align:center; color:var(--text-dim); font-size:14px; }
-footer span { color:var(--gold); }
-.loading { text-align:center; padding:60px; color:var(--text-dim); grid-column:1/-1; }
+/* PROFILE PAGE */
+.profile-page{max-width:600px;margin:0 auto;padding:32px;}
+.profile-header{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:32px;text-align:center;margin-bottom:20px;}
+.profile-pic-wrap{position:relative;width:90px;height:90px;margin:0 auto 16px;}
+.profile-pic{width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid var(--gold);}
+.profile-pic-edit{position:absolute;bottom:0;left:0;background:var(--gold);color:#000;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;}
+.profile-name-big{font-size:22px;font-weight:800;}
+.profile-email-sm{font-size:13px;color:var(--dim);margin-top:4px;}
+.profile-section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:16px;}
+.profile-section-title{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--gold);}
+.btn-save{background:var(--gold);color:#000;border:none;padding:12px 32px;border-radius:10px;font-family:'Tajawal',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-save:hover{background:var(--gold2);}
+.btn-danger{background:transparent;color:var(--red);border:1px solid var(--red);padding:12px 32px;border-radius:10px;font-family:'Tajawal',sans-serif;font-size:14px;cursor:pointer;transition:all .2s;}
+.btn-danger:hover{background:rgba(232,69,69,0.1);}
 
-@media(max-width:768px) {
-  nav { padding:0 16px; }
-  .nav-links { display:none; }
-  .section { padding:60px 16px; }
-  .hero-title { font-size:40px; }
-  .modal { padding:24px; }
+/* MY ADS */
+.my-ads-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;}
+.my-ad-card{background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:12px;display:flex;gap:10px;align-items:center;}
+.my-ad-img{width:60px;height:50px;border-radius:8px;object-fit:cover;background:var(--dark2);}
+.my-ad-name{font-size:13px;font-weight:600;}
+.my-ad-price{font-size:12px;color:var(--gold);}
+.my-ad-del{background:transparent;border:1px solid var(--red);color:var(--red);padding:4px 10px;border-radius:6px;font-family:'Tajawal',sans-serif;font-size:12px;cursor:pointer;margin-top:4px;transition:all .2s;}
+.my-ad-del:hover{background:rgba(232,69,69,0.1);}
+
+/* AUTH OVERLAY */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.87);backdrop-filter:blur(12px);z-index:900;display:none;align-items:center;justify-content:center;padding:20px;}
+.overlay.open{display:flex;}
+.modal{background:var(--dark2);border:1px solid var(--border);border-radius:20px;padding:36px;width:100%;max-width:440px;max-height:90vh;overflow-y:auto;position:relative;}
+.modal-close{position:absolute;top:14px;left:14px;background:transparent;border:none;color:var(--dim);font-size:18px;cursor:pointer;}
+.modal-title{font-size:22px;font-weight:800;text-align:center;margin-bottom:6px;}
+.modal-sub{font-size:13px;color:var(--dim);text-align:center;margin-bottom:28px;}
+.inp{width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:11px 14px;color:var(--text);font-family:'Tajawal',sans-serif;font-size:14px;margin-bottom:10px;outline:none;transition:border .2s;}
+.inp:focus{border-color:var(--gold);}
+.btn-sub{width:100%;background:var(--gold);color:#000;border:none;padding:13px;border-radius:10px;font-family:'Tajawal',sans-serif;font-size:15px;font-weight:800;cursor:pointer;margin-top:8px;transition:all .2s;}
+.btn-sub:hover{background:var(--gold2);}
+.btn-g{width:100%;background:transparent;color:var(--text);border:1px solid var(--border);padding:11px;border-radius:10px;font-family:'Tajawal',sans-serif;font-size:13px;cursor:pointer;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;}
+.btn-g:hover{border-color:var(--gold);}
+.div-line{text-align:center;color:var(--dim);font-size:12px;margin:14px 0;position:relative;}
+.div-line::before,.div-line::after{content:'';position:absolute;top:50%;width:42%;height:1px;background:var(--border);}
+.div-line::before{right:0;}.div-line::after{left:0;}
+.sw{text-align:center;margin-top:14px;font-size:13px;color:var(--dim);}
+.sw a{color:var(--gold);cursor:pointer;}
+.msg{padding:10px;border-radius:8px;font-size:13px;text-align:center;margin-top:8px;display:none;}
+
+/* EMPTY */
+.empty{grid-column:1/-1;text-align:center;padding:80px 20px;}
+.empty-ico{font-size:56px;margin-bottom:16px;}
+.empty-tit{font-size:24px;font-weight:800;color:var(--gold);margin-bottom:8px;}
+.empty-sub{color:var(--dim);}
+.loading{grid-column:1/-1;text-align:center;padding:60px;color:var(--dim);}
+
+@media(max-width:768px){
+  nav{padding:0 16px;}
+  .nav-links{display:none;}
+  .detail-main{grid-template-columns:1fr;}
+  .form-grid{grid-template-columns:1fr;}
+  .my-ads-grid{grid-template-columns:1fr;}
+  .post-page,.profile-page{padding:20px 16px;}
+  .cars-toolbar,.cars-grid,.post-banner,.detail-back{padding-left:16px;padding-right:16px;}
 }
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo">Iraq <span>Motors</span></a>
+  <div class="logo" onclick="goPage('home')">Iraq <span>Motors</span></div>
   <ul class="nav-links">
-    <li><a href="#home">الرئيسية</a></li>
-    <li><a href="#cars">السيارات</a></li>
+    <li><a onclick="goPage('home')">الرئيسية</a></li>
+    <li><a onclick="goPage('cars')">السيارات</a></li>
+    <li><a onclick="goPage('profile')" id="navProfile" style="display:none">حسابي</a></li>
   </ul>
   <div class="nav-actions">
-    <button class="btn-login" onclick="openLogin()">تسجيل الدخول</button>
-    <button class="btn-post" onclick="openPostAd()">+ نشر إعلان</button>
-    <button class="btn-profile" id="profileBtn" onclick="openProfile()">👤 حسابي</button>
+    <button class="btn-nav btn-login-nav" onclick="openLogin()">تسجيل الدخول</button>
+    <button class="btn-nav btn-post-nav" id="btnPostNav" onclick="goPage('post')">+ نشر إعلان</button>
+    <button class="btn-nav btn-profile-nav" id="btnProfileNav" onclick="goPage('profile')">
+      <img id="navAvatar" src=""> <span id="navName"></span>
+    </button>
   </div>
 </nav>
 
-<section class="hero" id="home">
-  <div class="hero-content">
-    <div class="hero-badge">🔥 سوق السيارات الأفخم في العراق</div>
-    <h1 class="hero-title">اشتري وبع<br><span class="gold">سيارتك بثقة</span></h1>
-    <p class="hero-sub">من البصرة إلى زاخو — نجيب كل سيارة.</p>
-    <div class="hero-btns">
-      <button class="btn-hero-main" onclick="document.getElementById('cars').scrollIntoView({behavior:'smooth'})">تصفح السيارات 🚗</button>
-      <button class="btn-hero-sec" onclick="openPostAd()">نشر إعلان</button>
-    </div>
-    <div class="hero-stats">
-      <div class="stat"><div class="stat-num" id="cntCars">0</div><div class="stat-label">سيارة معروضة</div></div>
-      <div class="stat"><div class="stat-num">18</div><div class="stat-label">مدينة</div></div>
-      <div class="stat"><div class="stat-num">100%</div><div class="stat-label">مجاني</div></div>
+<!-- HOME PAGE -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">🔥 سوق السيارات الأفخم في العراق</div>
+      <h1 class="hero-title">اشتري وبع<br><span class="g">سيارتك بثقة</span></h1>
+      <p class="hero-sub">من البصرة إلى زاخو — نجيب كل سيارة.<br>أفضل منصة لبيع وشراء السيارات في العراق.</p>
+      <div class="hero-btns">
+        <button class="btn-hero btn-hero-gold" onclick="goPage('cars')">تصفح السيارات 🚗</button>
+        <button class="btn-hero btn-hero-out" onclick="goPage('post')">نشر إعلان</button>
+      </div>
+      <div class="hero-stats">
+        <div><div class="stat-num" id="cntCars">0</div><div class="stat-label">سيارة معروضة</div></div>
+        <div><div class="stat-num">18</div><div class="stat-label">مدينة</div></div>
+        <div><div class="stat-num">100%</div><div class="stat-label">مجاني</div></div>
+      </div>
     </div>
   </div>
-</section>
+</div>
 
-<section class="section" id="cars">
-  <div class="section-header">
-    <div class="section-tag">— أحدث الإعلانات —</div>
-    <h2 class="section-title">تصفح السيارات</h2>
-    <p class="section-desc">اعثر على سيارتك المثالية</p>
+<!-- CARS PAGE -->
+<div class="page" id="page-cars">
+  <div class="page-header">
+    <div class="page-title">🚗 تصفح السيارات</div>
+    <div class="page-sub">اعثر على سيارتك المثالية</div>
   </div>
-  <div class="post-ad-banner">
-    <h3>🚗 عندك سيارة تبيعها؟</h3>
-    <p>انشر إعلانك مجاناً مع حتى 15 صورة</p>
-    <button class="btn-post-big" onclick="openPostAd()">نشر إعلان الآن</button>
+  <div class="cars-toolbar">
+    <input class="search-input" placeholder="🔍 ابحث عن سيارة..." oninput="filterCars()" id="searchInput">
+    <select class="filter-sel" onchange="filterCars()" id="filterMake">
+      <option value="">كل الشركات</option>
+    </select>
+    <select class="filter-sel" onchange="filterCars()" id="filterCity">
+      <option value="">كل المدن</option>
+      <option>بغداد</option><option>البصرة</option><option>أربيل</option><option>الموصل</option>
+      <option>النجف</option><option>كربلاء</option><option>السليمانية</option><option>دهوك</option><option>كركوك</option>
+    </select>
+  </div>
+  <div class="post-banner">
+    <div><h3>🚗 عندك سيارة تبيعها؟</h3><p>انشر إعلانك مجاناً مع حتى 15 صورة</p></div>
+    <button class="btn-post-banner" onclick="goPage('post')">نشر إعلان الآن</button>
   </div>
   <div class="cars-grid" id="carsGrid">
-    <div class="loading">⏳ جاري تحميل السيارات...</div>
+    <div class="loading">⏳ جاري التحميل...</div>
   </div>
-</section>
+</div>
 
-<footer>
-  <p>© 2026 <span>Iraq Motors</span> — جميع الحقوق محفوظة</p>
-</footer>
+<!-- CAR DETAIL PAGE -->
+<div class="page" id="page-detail">
+  <div class="detail-back" onclick="goPage('cars')">← العودة للسيارات</div>
+  <div class="detail-main" id="detailMain"></div>
+</div>
 
-<!-- LOGIN -->
+<!-- POST AD PAGE -->
+<div class="page" id="page-post">
+  <div class="post-page">
+    <h2 style="font-size:26px;font-weight:800;margin-bottom:24px;">🚗 نشر إعلان سيارة</h2>
+
+    <!-- BASIC INFO -->
+    <div class="post-section">
+      <div class="post-section-title">معلومات السيارة</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">الشركة *</label>
+          <select class="form-input" id="adMake" onchange="updateModels()">
+            <option value="">اختر الشركة</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">الموديل *</label>
+          <select class="form-input" id="adModel">
+            <option value="">اختر الموديل</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">سنة الصنع *</label>
+          <input type="number" class="form-input" id="adYear" placeholder="2024" min="1990" max="2025">
+        </div>
+        <div class="form-group">
+          <label class="form-label">نوع الوقود</label>
+          <select class="form-input" id="adFuel">
+            <option value="">اختر</option>
+            <option>بنزين</option><option>ديزل</option><option>هايبرد</option><option>كهربائي</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">المحرك</label>
+          <input type="text" class="form-input" id="adEngine" placeholder="مثال: 3.5L V6">
+        </div>
+        <div class="form-group">
+          <label class="form-label">ناقل الحركة</label>
+          <select class="form-input" id="adGear">
+            <option value="">اختر</option>
+            <option>أوتوماتيك</option><option>مانيوال</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">عدد الكيلومترات</label>
+          <div class="price-wrap">
+            <input type="number" class="form-input" id="adKm" placeholder="50000">
+            <select class="form-input" id="adKmUnit" style="width:100px">
+              <option>كم</option><option>ميل</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">اللون</label>
+          <input type="text" class="form-input" id="adColor" placeholder="مثال: أبيض">
+        </div>
+      </div>
+    </div>
+
+    <!-- PRICE -->
+    <div class="post-section">
+      <div class="post-section-title">السعر والموقع</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">السعر *</label>
+          <div class="price-wrap">
+            <input type="number" class="form-input" id="adPrice" placeholder="15000">
+            <div class="currency-toggle">
+              <button class="cur-btn active" id="curUSD" onclick="setCurrency('USD')">USD</button>
+              <button class="cur-btn" id="curIQD" onclick="setCurrency('IQD')">IQD</button>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">المدينة *</label>
+          <select class="form-input" id="adCity">
+            <option value="">اختر المدينة</option>
+            <option>بغداد</option><option>البصرة</option><option>أربيل</option><option>الموصل</option>
+            <option>النجف</option><option>كربلاء</option><option>السليمانية</option><option>دهوك</option>
+            <option>كركوك</option><option>ديالى</option><option>الأنبار</option><option>واسط</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">رقم الواتساب *</label>
+          <input type="text" class="form-input" id="adPhone" placeholder="9647701234567">
+        </div>
+      </div>
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="post-section">
+      <div class="post-section-title">الوصف</div>
+      <textarea class="form-input" id="adDesc" rows="4" placeholder="اكتب تفاصيل إضافية عن السيارة..." style="resize:vertical;"></textarea>
+    </div>
+
+    <!-- PHOTOS -->
+    <div class="post-section">
+      <div class="post-section-title">صور السيارة (حتى 15 صورة)</div>
+      <div class="photos-upload-area" onclick="document.getElementById('photoInp').click()">
+        <div class="photos-upload-icon">📸</div>
+        <div class="photos-upload-text">اضغط لإضافة صور السيارة</div>
+        <div style="font-size:12px;color:var(--dim);margin-top:4px;">حتى 15 صورة</div>
+      </div>
+      <input type="file" id="photoInp" accept="image/*" multiple style="display:none" onchange="addCarPhotos(this)">
+      <div class="photos-preview" id="photosPreview"></div>
+      <div class="photos-info" id="photosInfo">0 / 15 صورة مضافة</div>
+    </div>
+
+    <!-- ACCIDENT -->
+    <div class="post-section">
+      <div class="post-section-title">🔧 معلومات الحوادث (اختياري)</div>
+      <div class="form-group" style="margin-bottom:14px;">
+        <label class="form-label">هل السيارة بحادث؟</label>
+        <select class="form-input" id="adAccident" onchange="toggleAccident()">
+          <option value="no">لا — سالمة</option>
+          <option value="yes">نعم — فيها حادث</option>
+        </select>
+      </div>
+      <div id="accidentSection" style="display:none;">
+        <div class="form-label" style="margin-bottom:8px;">القطع المتضررة</div>
+        <div class="acc-parts-grid" id="accPartsGrid"></div>
+        <div style="margin-top:14px;">
+          <div class="form-label" style="margin-bottom:8px;">صور الحادث (حتى 10 صور)</div>
+          <div class="photos-upload-area" onclick="document.getElementById('accInp').click()" style="padding:16px;">
+            <div class="photos-upload-text">اضغط لإضافة صور الحادث</div>
+          </div>
+          <input type="file" id="accInp" accept="image/*" multiple style="display:none" onchange="addAccPhotos(this)">
+          <div class="photos-preview" id="accPreview"></div>
+          <div class="photos-info" id="accInfo">0 / 10 صور حادث</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-text" id="progressText">جاري الرفع...</div>
+    </div>
+
+    <button class="btn-submit-big" onclick="submitAd()">🚀 نشر الإعلان</button>
+    <div class="msg-box" id="adMsg"></div>
+  </div>
+</div>
+
+<!-- PROFILE PAGE -->
+<div class="page" id="page-profile">
+  <div class="profile-page">
+    <h2 style="font-size:24px;font-weight:800;margin-bottom:24px;">👤 حسابي</h2>
+    <div class="profile-header">
+      <div class="profile-pic-wrap">
+        <img class="profile-pic" id="profPic" src="">
+        <button class="profile-pic-edit" onclick="document.getElementById('profPicInp').click()">✏️</button>
+        <input type="file" id="profPicInp" accept="image/*" style="display:none" onchange="changeProfilePic(this)">
+      </div>
+      <div class="profile-name-big" id="profName">—</div>
+      <div class="profile-email-sm" id="profEmail">—</div>
+    </div>
+    <div class="profile-section">
+      <div class="profile-section-title">تعديل المعلومات</div>
+      <div class="form-group" style="margin-bottom:12px;">
+        <label class="form-label">الاسم</label>
+        <input type="text" class="form-input" id="editName" placeholder="اسمك الكامل">
+      </div>
+      <div class="form-group" style="margin-bottom:16px;">
+        <label class="form-label">رقم الهاتف</label>
+        <input type="text" class="form-input" id="editPhone" placeholder="07XX XXX XXXX">
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn-save" onclick="saveProfile()">💾 حفظ</button>
+        <button class="btn-danger" onclick="doSignOut()">🚪 تسجيل الخروج</button>
+      </div>
+      <div class="msg-box" id="profMsg"></div>
+    </div>
+    <div class="profile-section">
+      <div class="profile-section-title">إعلاناتي</div>
+      <div class="my-ads-grid" id="myAdsGrid">
+        <div style="color:var(--dim);font-size:14px;">جاري التحميل...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LOGIN OVERLAY -->
 <div class="overlay" id="loginOverlay">
   <div class="modal">
     <button class="modal-close" onclick="closeLogin()">✕</button>
     <div class="modal-title">🔑 تسجيل الدخول</div>
     <div class="modal-sub">ادخل عالموقع وابدأ تبيع أو تشتري</div>
-    <button class="btn-google" onclick="loginGoogle()">
-      <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+    <button class="btn-g" onclick="loginGoogle()">
+      <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
       تسجيل الدخول بـ Google
     </button>
-    <div class="divider">أو بالإيميل</div>
-    <input type="email" class="input" id="loginEmail" placeholder="الإيميل">
-    <input type="password" class="input" id="loginPass" placeholder="كلمة المرور">
-    <button class="btn-submit" onclick="doLoginEmail()">تسجيل الدخول</button>
-    <div class="msg" id="loginMsg"></div>
-    <div class="switch-auth">ما عندك حساب؟ <a onclick="switchToRegister()">سجل الآن</a></div>
+    <div class="div-line">أو بالإيميل</div>
+    <input type="email" class="inp" id="liEmail" placeholder="الإيميل">
+    <input type="password" class="inp" id="liPass" placeholder="كلمة المرور">
+    <button class="btn-sub" onclick="doLoginEmail()">دخول</button>
+    <div class="msg" id="liMsg"></div>
+    <div class="sw">ما عندك حساب؟ <a onclick="switchReg()">سجل الآن</a></div>
   </div>
 </div>
 
-<!-- REGISTER -->
-<div class="overlay" id="registerOverlay">
+<!-- REGISTER OVERLAY -->
+<div class="overlay" id="regOverlay">
   <div class="modal">
-    <button class="modal-close" onclick="closeRegister()">✕</button>
+    <button class="modal-close" onclick="closeReg()">✕</button>
     <div class="modal-title">✨ حساب جديد</div>
     <div class="modal-sub">انضم لـ Iraq Motors مجاناً</div>
-    <input type="text" class="input" id="regName" placeholder="الاسم الكامل">
-    <input type="email" class="input" id="regEmail" placeholder="الإيميل">
-    <input type="password" class="input" id="regPass" placeholder="كلمة المرور">
-    <button class="btn-submit" onclick="doRegister()">إنشاء حساب</button>
-    <div class="msg" id="registerMsg"></div>
-    <div class="switch-auth">عندك حساب؟ <a onclick="switchToLogin()">سجل دخول</a></div>
-  </div>
-</div>
-
-<!-- POST AD -->
-<div class="overlay" id="postAdOverlay">
-  <div class="modal">
-    <button class="modal-close" onclick="closePostAd()">✕</button>
-    <div class="modal-title">🚗 نشر إعلان</div>
-    <div class="modal-sub">املأ التفاصيل وانشر سيارتك</div>
-    <input type="text" class="input" id="adMake" placeholder="الماركة (مثال: Toyota)">
-    <input type="text" class="input" id="adModel" placeholder="الموديل (مثال: Land Cruiser 2024)">
-    <input type="number" class="input" id="adPrice" placeholder="السعر بالدولار">
-    <input type="number" class="input" id="adYear" placeholder="سنة الصنع">
-    <select class="input" id="adCity">
-      <option value="">اختر المدينة</option>
-      <option>بغداد</option><option>البصرة</option><option>أربيل</option>
-      <option>الموصل</option><option>النجف</option><option>كربلاء</option>
-      <option>السليمانية</option><option>دهوك</option><option>كركوك</option>
-      <option>ديالى</option><option>الأنبار</option><option>واسط</option>
-    </select>
-    <input type="text" class="input" id="adPhone" placeholder="رقم الواتساب (مثال: 9647701234567)">
-    <input type="number" class="input" id="adKm" placeholder="عدد الكيلومترات">
-    <select class="input" id="adFuel">
-      <option value="">نوع الوقود</option>
-      <option>بنزين</option><option>ديزل</option><option>هايبرد</option><option>كهربائي</option>
-    </select>
-    <textarea class="input" id="adDesc" placeholder="وصف إضافي (اختياري)" rows="3" style="resize:none;"></textarea>
-
-    <!-- PHOTOS -->
-    <div style="margin-top:10px;">
-      <div style="font-size:14px;font-weight:700;margin-bottom:8px;">📸 الصور (حتى 15 صورة)</div>
-      <input type="file" id="photoInput" accept="image/*" multiple style="display:none" onchange="addPhotos(this)">
-      <div class="photos-grid" id="photosGrid">
-        <div class="photo-add" onclick="document.getElementById('photoInput').click()">+</div>
-      </div>
-      <div class="photos-count" id="photosCount">0 / 15 صورة</div>
-    </div>
-
-    <div class="progress-bar" id="progressBar">
-      <div class="progress-fill" id="progressFill"></div>
-    </div>
-
-    <button class="btn-submit" onclick="submitAd()">🚀 نشر الإعلان</button>
-    <div class="msg" id="adMsg"></div>
-  </div>
-</div>
-
-<!-- PROFILE -->
-<div class="overlay" id="profileOverlay">
-  <div class="modal">
-    <button class="modal-close" onclick="closeProfile()">✕</button>
-    <div class="profile-photo-wrap">
-      <img id="profilePhoto" src="" class="profile-photo" alt="">
-    </div>
-    <div class="modal-title" style="margin-bottom:4px;">حسابي</div>
-    <div class="profile-email" id="profileEmail"></div>
-    <input type="text" class="input" id="profileName" placeholder="الاسم">
-    <input type="text" class="input" id="profilePhone2" placeholder="رقم الهاتف">
-    <button class="btn-submit" onclick="saveProfile()">💾 حفظ التغييرات</button>
-    <button class="btn-danger" onclick="doSignOut()">🚪 تسجيل الخروج</button>
-    <div class="msg" id="profileMsg"></div>
+    <input type="text" class="inp" id="regName" placeholder="الاسم الكامل">
+    <input type="email" class="inp" id="regEmail" placeholder="الإيميل">
+    <input type="password" class="inp" id="regPass" placeholder="كلمة المرور">
+    <button class="btn-sub" onclick="doRegister()">إنشاء حساب</button>
+    <div class="msg" id="regMsg"></div>
+    <div class="sw">عندك حساب؟ <a onclick="switchLogin()">سجل دخول</a></div>
   </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
 <script>
-const IMGBB_KEY = '3897918b48e89d2b67351676170056ed';
-
+// ===== CONFIG =====
+const IMGBB = '3897918b48e89d2b67351676170056ed';
 firebase.initializeApp({
-  apiKey: "AIzaSyAb4MheuHSlF4yOxuDfhnxZtIMyXy7g-l8",
-  authDomain: "iraq-motors-38983.firebaseapp.com",
-  projectId: "iraq-motors-38983",
-  storageBucket: "iraq-motors-38983.firebasestorage.app",
-  messagingSenderId: "80307836321",
-  appId: "1:80307836321:web:d61f734a86f5be5a4c67e0"
+  apiKey:"AIzaSyAb4MheuHSlF4yOxuDfhnxZtIMyXy7g-l8",
+  authDomain:"iraq-motors-38983.firebaseapp.com",
+  projectId:"iraq-motors-38983",
+  storageBucket:"iraq-motors-38983.firebasestorage.app",
+  messagingSenderId:"80307836321",
+  appId:"1:80307836321:web:d61f734a86f5be5a4c67e0"
 });
-
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// Photos array
-let selectedPhotos = [];
+// ===== CAR DATA =====
+const CAR_DATA = {
+  'Toyota':['كورولا','كامري','يارس','أفالون','راڤ 4','هايلاندر','برادو','لاندكروزر','هايلوكس','فورتشنر','إنوفا'],
+  'Kia':['بيكانتو','ريو','سيراتو / K3','K5','K8','سبورتاج','سورينتو','تيلورايد','سيلتوس','سونيت'],
+  'Hyundai':['أكسنت','إلنترا','سوناتا','أزيرا','توسان','سانتافي','كريتا','باليسيد','ستاريا'],
+  'Nissan':['صني','سنترا','ألتيما','ماكسيما','كيكس','إكس تريل','باثفايندر','باترول','نافارا'],
+  'Chevrolet':['ماليبو','كابتيفا','ترافرس','تاهو','سوبربان','سلفرادو','كورفيت','كامارو'],
+  'MG':['MG5','MG6','MG7','ZS','HS','RX5','RX8'],
+  'Chery':['أريزو 5','أريزو 8','تيغو 2','تيغو 4','تيغو 7','تيغو 8'],
+  'Changan':['ألسفن','UNI-V','UNI-K','CS35','CS55','CS75','CS95'],
+  'Ford':['فوكس','تورس','موستانغ','إكسبلورر','إكسبيديشن','F-150','رابتور'],
+  'BMW':['الفئة 3','الفئة 5','الفئة 7','M3','M5','X5','X6','X7','XM'],
+  'Mercedes-Benz':['C-Class','E-Class','S-Class','CLA','GLA','GLE','GLS','G-Class'],
+  'Audi':['A4','A6','A8','RS3','RS6','RS7','Q5','Q7','Q8'],
+  'Porsche':['718 Cayman','718 Boxster','911','Panamera','Macan','Cayenne','Taycan'],
+  'Land Rover':['Defender','Discovery','Discovery Sport','Range Rover','Range Rover Sport','Range Rover Velar'],
+  'Dodge':['Charger','Challenger','Durango','Hornet'],
+  'Jeep':['Wrangler','Grand Cherokee','Cherokee','Compass','Gladiator'],
+  'Bentley':['Flying Spur','Continental GT','Bentayga']
+};
 
-// AUTH
+const ACC_PARTS = ['المقدمة','المؤخرة','الجانب الأيمن','الجانب الأيسر','السقف','الكبوت','باب أمامي أيمن','باب أمامي أيسر','باب خلفي أيمن','باب خلفي أيسر','الزجاج الأمامي','زجاج خلفي','رادياتير','محرك','ناقل حركة'];
+
+// ===== STATE =====
+let allCars = [];
+let carPhotos = [];
+let accPhotos = [];
+let currency = 'USD';
+let currentCar = null;
+
+// ===== AUTH =====
 auth.onAuthStateChanged(user => {
-  const loginBtn = document.querySelector('.btn-login');
-  const postBtn = document.querySelector('.btn-post');
-  const profileBtn = document.getElementById('profileBtn');
+  const btnLogin = document.querySelector('.btn-login-nav');
+  const btnPost = document.getElementById('btnPostNav');
+  const btnProf = document.getElementById('btnProfileNav');
+  const navProf = document.getElementById('navProfile');
   if (user) {
-    if (loginBtn) loginBtn.style.display = 'none';
-    if (postBtn) postBtn.style.display = 'block';
-    if (profileBtn) profileBtn.style.display = 'flex';
+    btnLogin.style.display = 'none';
+    btnPost.style.display = 'block';
+    btnProf.style.display = 'flex';
+    if (navProf) navProf.style.display = 'block';
+    document.getElementById('navName').textContent = user.displayName || 'حسابي';
+    document.getElementById('navAvatar').src = user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName||'U') + '&background=C9A84C&color=000&size=40';
   } else {
-    if (loginBtn) loginBtn.style.display = 'block';
-    if (postBtn) postBtn.style.display = 'none';
-    if (profileBtn) profileBtn.style.display = 'none';
+    btnLogin.style.display = 'block';
+    btnPost.style.display = 'none';
+    btnProf.style.display = 'none';
+    if (navProf) navProf.style.display = 'none';
   }
 });
 
-// OVERLAYS
-function openOverlay(id) { document.getElementById(id).classList.add('open'); }
-function closeOverlay(id) { document.getElementById(id).classList.remove('open'); }
-function openLogin() { openOverlay('loginOverlay'); }
-function closeLogin() { closeOverlay('loginOverlay'); }
-function openRegister() { openOverlay('registerOverlay'); }
-function closeRegister() { closeOverlay('registerOverlay'); }
-function switchToRegister() { closeLogin(); openRegister(); }
-function switchToLogin() { closeRegister(); openLogin(); }
-function openPostAd() {
-  if (!auth.currentUser) { openLogin(); return; }
-  openOverlay('postAdOverlay');
+// ===== PAGES =====
+function goPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  window.scrollTo(0, 0);
+  if (page === 'cars') { initMakeFilter(); loadCars(); }
+  if (page === 'post') { checkAuthForPost(); initPostForm(); }
+  if (page === 'profile') { checkAuthForProfile(); loadProfile(); }
 }
-function closePostAd() { closeOverlay('postAdOverlay'); }
-function openProfile() {
-  const user = auth.currentUser;
-  if (!user) return;
-  document.getElementById('profileEmail').textContent = user.email || '';
-  document.getElementById('profileName').value = user.displayName || '';
-  document.getElementById('profilePhoto').src = user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName||'U') + '&background=C9A84C&color=000&size=80';
-  db.collection('users').doc(user.uid).get().then(doc => {
-    if (doc.exists) document.getElementById('profilePhone2').value = doc.data().phone || '';
-  }).catch(()=>{});
-  openOverlay('profileOverlay');
-}
-function closeProfile() { closeOverlay('profileOverlay'); }
 
-// Close on bg click
-['loginOverlay','registerOverlay','postAdOverlay','profileOverlay'].forEach(id => {
-  document.getElementById(id).addEventListener('click', e => {
-    if (e.target === e.currentTarget) closeOverlay(id);
+function checkAuthForPost() {
+  if (!auth.currentUser) { goPage('home'); openLogin(); }
+}
+function checkAuthForProfile() {
+  if (!auth.currentUser) { goPage('home'); openLogin(); }
+}
+
+// ===== INIT FORMS =====
+function initPostForm() {
+  const makeEl = document.getElementById('adMake');
+  makeEl.innerHTML = '<option value="">اختر الشركة</option>';
+  Object.keys(CAR_DATA).forEach(m => {
+    makeEl.innerHTML += `<option>${m}</option>`;
   });
-});
+  // Accident parts
+  const partsGrid = document.getElementById('accPartsGrid');
+  partsGrid.innerHTML = ACC_PARTS.map(p => `
+    <label class="part-check">
+      <input type="checkbox" value="${p}"> <span>${p}</span>
+    </label>`).join('');
+}
 
-// AUTH FUNCTIONS
-function loginGoogle() {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  auth.signInWithPopup(provider).then(() => closeLogin())
-    .catch(e => showMsg('loginMsg', '❌ ' + e.message, '#e74c3c'));
+function initMakeFilter() {
+  const el = document.getElementById('filterMake');
+  if (el.options.length > 1) return;
+  Object.keys(CAR_DATA).forEach(m => {
+    el.innerHTML += `<option>${m}</option>`;
+  });
 }
-function doLoginEmail() {
-  const email = document.getElementById('loginEmail').value.trim();
-  const pass = document.getElementById('loginPass').value.trim();
-  if (!email || !pass) { showMsg('loginMsg', '❌ أدخل الإيميل وكلمة المرور', '#e74c3c'); return; }
-  auth.signInWithEmailAndPassword(email, pass)
-    .then(() => closeLogin())
-    .catch(() => showMsg('loginMsg', '❌ إيميل أو كلمة مرور غلط', '#e74c3c'));
-}
-function doRegister() {
-  const name = document.getElementById('regName').value.trim();
-  const email = document.getElementById('regEmail').value.trim();
-  const pass = document.getElementById('regPass').value.trim();
-  if (!name || !email || !pass) { showMsg('registerMsg', '❌ الرجاء ملء جميع الحقول', '#e74c3c'); return; }
-  auth.createUserWithEmailAndPassword(email, pass).then(r => {
-    r.user.updateProfile({ displayName: name });
-    db.collection('users').doc(r.user.uid).set({ name, email, phone: '' });
-    closeRegister();
-  }).catch(e => showMsg('registerMsg', '❌ ' + e.message, '#e74c3c'));
-}
-function saveProfile() {
-  const user = auth.currentUser;
-  if (!user) return;
-  const name = document.getElementById('profileName').value.trim();
-  const phone = document.getElementById('profilePhone2').value.trim();
-  user.updateProfile({ displayName: name }).then(() => {
-    db.collection('users').doc(user.uid).set({ name, phone }, { merge: true });
-    showMsg('profileMsg', '✅ تم الحفظ', '#2ecc71');
-  }).catch(e => showMsg('profileMsg', '❌ ' + e.message, '#e74c3c'));
-}
-function doSignOut() { auth.signOut().then(() => closeProfile()); }
 
-// PHOTOS
-function addPhotos(input) {
+function updateModels() {
+  const make = document.getElementById('adMake').value;
+  const modelEl = document.getElementById('adModel');
+  modelEl.innerHTML = '<option value="">اختر الموديل</option>';
+  if (CAR_DATA[make]) {
+    CAR_DATA[make].forEach(m => modelEl.innerHTML += `<option>${m}</option>`);
+  }
+}
+
+function toggleAccident() {
+  const val = document.getElementById('adAccident').value;
+  document.getElementById('accidentSection').style.display = val === 'yes' ? 'block' : 'none';
+}
+
+function setCurrency(c) {
+  currency = c;
+  document.getElementById('curUSD').classList.toggle('active', c === 'USD');
+  document.getElementById('curIQD').classList.toggle('active', c === 'IQD');
+}
+
+// ===== PHOTOS =====
+function addCarPhotos(input) {
   const files = Array.from(input.files);
-  const remaining = 15 - selectedPhotos.length;
-  const toAdd = files.slice(0, remaining);
-  toAdd.forEach(file => {
-    selectedPhotos.push(file);
-  });
-  renderPhotos();
+  const rem = 15 - carPhotos.length;
+  carPhotos = [...carPhotos, ...files.slice(0, rem)];
+  renderPhotos('photosPreview', carPhotos, 'carPhotos', 'photosInfo', 15);
   input.value = '';
 }
+function addAccPhotos(input) {
+  const files = Array.from(input.files);
+  const rem = 10 - accPhotos.length;
+  accPhotos = [...accPhotos, ...files.slice(0, rem)];
+  renderPhotos('accPreview', accPhotos, 'accPhotos', 'accInfo', 10);
+  input.value = '';
+}
+function removeCarPhoto(i) { carPhotos.splice(i,1); renderPhotos('photosPreview',carPhotos,'carPhotos','photosInfo',15); }
+function removeAccPhoto(i) { accPhotos.splice(i,1); renderPhotos('accPreview',accPhotos,'accPhotos','accInfo',10); }
 
-function removePhoto(index) {
-  selectedPhotos.splice(index, 1);
-  renderPhotos();
+function renderPhotos(gridId, arr, type, infoId, max) {
+  const grid = document.getElementById(gridId);
+  grid.innerHTML = arr.map((f,i) => `
+    <div class="photo-thumb">
+      <img src="${URL.createObjectURL(f)}">
+      <button class="photo-rm" onclick="remove${type==='carPhotos'?'Car':'Acc'}Photo(${i})">✕</button>
+    </div>`).join('');
+  document.getElementById(infoId).textContent = arr.length + ' / ' + max + (type==='carPhotos'?' صورة مضافة':' صور حادث');
 }
 
-function renderPhotos() {
-  const grid = document.getElementById('photosGrid');
-  const count = document.getElementById('photosCount');
-  grid.innerHTML = '';
-  selectedPhotos.forEach((file, i) => {
-    const url = URL.createObjectURL(file);
-    grid.innerHTML += `
-      <div class="photo-thumb">
-        <img src="${url}">
-        <button class="photo-remove" onclick="removePhoto(${i})">✕</button>
-      </div>`;
-  });
-  if (selectedPhotos.length < 15) {
-    grid.innerHTML += `<div class="photo-add" onclick="document.getElementById('photoInput').click()">+</div>`;
-  }
-  count.textContent = selectedPhotos.length + ' / 15 صورة';
-}
-
-// UPLOAD TO IMGBB
-async function uploadToImgBB(file) {
-  const formData = new FormData();
-  formData.append('image', file);
-  const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, {
-    method: 'POST', body: formData
-  });
-  const data = await res.json();
-  if (data.success) return data.data.url;
+// ===== UPLOAD IMGBB =====
+async function uploadImg(file) {
+  const fd = new FormData();
+  fd.append('image', file);
+  const r = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB}`, { method:'POST', body:fd });
+  const d = await r.json();
+  if (d.success) return d.data.url;
   throw new Error('فشل رفع الصورة');
 }
 
-// SUBMIT AD
+// ===== SUBMIT AD =====
 async function submitAd() {
-  const user = auth.currentUser;
-  if (!user) { openLogin(); return; }
-  const make = document.getElementById('adMake').value.trim();
-  const model = document.getElementById('adModel').value.trim();
-  const price = document.getElementById('adPrice').value.trim();
-  const year = document.getElementById('adYear').value.trim();
+  if (!auth.currentUser) { openLogin(); return; }
+  const make = document.getElementById('adMake').value;
+  const model = document.getElementById('adModel').value;
+  const price = document.getElementById('adPrice').value;
+  const year = document.getElementById('adYear').value;
   const city = document.getElementById('adCity').value;
   const phone = document.getElementById('adPhone').value.trim();
-  const km = document.getElementById('adKm').value.trim();
-  const fuel = document.getElementById('adFuel').value;
-  const desc = document.getElementById('adDesc').value.trim();
-
-  if (!make || !model || !price || !year || !city || !phone) {
-    showMsg('adMsg', '❌ الرجاء ملء جميع الحقول المطلوبة', '#e74c3c'); return;
+  if (!make||!model||!price||!year||!city||!phone) {
+    showMsg('adMsg','❌ الرجاء ملء جميع الحقول المطلوبة','#e74c3c'); return;
   }
-
-  showMsg('adMsg', '⏳ جاري رفع الصور...', '#f39c12');
-  document.getElementById('progressBar').style.display = 'block';
+  const pw = document.getElementById('progressWrap');
+  pw.style.display = 'block';
+  showMsg('adMsg','⏳ جاري رفع الصور...','#f39c12');
 
   try {
-    const imgUrls = [];
-    for (let i = 0; i < selectedPhotos.length; i++) {
-      const pct = Math.round(((i) / Math.max(selectedPhotos.length, 1)) * 80);
+    const allFiles = [...carPhotos, ...accPhotos];
+    const urls = [];
+    for (let i=0; i<allFiles.length; i++) {
+      const pct = Math.round((i/Math.max(allFiles.length,1))*85);
       document.getElementById('progressFill').style.width = pct + '%';
-      showMsg('adMsg', `⏳ جاري رفع الصورة ${i+1} من ${selectedPhotos.length}...`, '#f39c12');
-      const url = await uploadToImgBB(selectedPhotos[i]);
-      imgUrls.push(url);
+      document.getElementById('progressText').textContent = `رفع الصورة ${i+1} من ${allFiles.length}`;
+      urls.push(await uploadImg(allFiles[i]));
     }
+    const carImgs = urls.slice(0, carPhotos.length);
+    const accImgs = urls.slice(carPhotos.length);
+    document.getElementById('progressFill').style.width = '95%';
+    showMsg('adMsg','⏳ جاري نشر الإعلان...','#f39c12');
 
-    document.getElementById('progressFill').style.width = '90%';
-    showMsg('adMsg', '⏳ جاري نشر الإعلان...', '#f39c12');
+    const checkedParts = Array.from(document.querySelectorAll('#accPartsGrid input:checked')).map(c=>c.value);
 
     await db.collection('cars').add({
       make, model,
       price: parseInt(price),
+      currency,
       year: parseInt(year),
       city, phone,
-      km: parseInt(km) || 0,
-      fuel, desc,
-      imgs: imgUrls,
-      img: imgUrls[0] || '',
-      userId: user.uid,
-      userName: user.displayName || 'مستخدم',
+      km: parseInt(document.getElementById('adKm').value)||0,
+      kmUnit: document.getElementById('adKmUnit').value,
+      fuel: document.getElementById('adFuel').value,
+      engine: document.getElementById('adEngine').value,
+      gear: document.getElementById('adGear').value,
+      color: document.getElementById('adColor').value,
+      desc: document.getElementById('adDesc').value,
+      accident: document.getElementById('adAccident').value === 'yes',
+      damagedParts: checkedParts,
+      imgs: carImgs,
+      accImgs,
+      img: carImgs[0]||'',
+      userId: auth.currentUser.uid,
+      userName: auth.currentUser.displayName||'مستخدم',
+      userPhoto: auth.currentUser.photoURL||'',
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
 
     document.getElementById('progressFill').style.width = '100%';
-    showMsg('adMsg', '✅ تم نشر إعلانك بنجاح!', '#2ecc71');
-    selectedPhotos = [];
-    renderPhotos();
-    loadCars();
-    setTimeout(closePostAd, 2000);
+    showMsg('adMsg','✅ تم نشر إعلانك بنجاح!','#2ecc71');
+    carPhotos = []; accPhotos = [];
+    setTimeout(() => goPage('cars'), 2000);
   } catch(e) {
-    showMsg('adMsg', '❌ خطأ: ' + e.message, '#e74c3c');
+    showMsg('adMsg','❌ خطأ: '+e.message,'#e74c3c');
   }
 }
 
-// LOAD CARS
+// ===== LOAD CARS =====
 async function loadCars() {
   const grid = document.getElementById('carsGrid');
   grid.innerHTML = '<div class="loading">⏳ جاري التحميل...</div>';
   try {
     const snap = await db.collection('cars').get();
-    const cars = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    document.getElementById('cntCars').textContent = cars.length;
-    if (cars.length === 0) {
-      grid.innerHTML = `<div class="empty-state"><div class="empty-icon">🚗</div><div class="empty-title">قريباً سوف تتوفر</div><div class="empty-desc">نعمل على إضافة أفضل السيارات — ترقبوا!</div></div>`;
-      return;
-    }
-    grid.innerHTML = cars.map(car => {
-      const imgs = car.imgs && car.imgs.length > 0 ? car.imgs : (car.img ? [car.img] : []);
-      const sliderHtml = imgs.length > 0 ? `
-        <div class="car-slider" id="slider-${car.id}">
-          ${imgs.map((img, i) => `<img src="${img}" class="${i===0?'active':''}" loading="lazy">`).join('')}
-          ${imgs.length > 1 ? `
-            <button class="slider-btn prev" onclick="event.stopPropagation();slidePhoto('${car.id}',-1)">‹</button>
-            <button class="slider-btn next" onclick="event.stopPropagation();slidePhoto('${car.id}',1)">›</button>
-            <div class="slider-dots">${imgs.map((_,i)=>`<div class="slider-dot ${i===0?'active':''}" onclick="event.stopPropagation();goToSlide('${car.id}',${i})"></div>`).join('')}</div>
-          ` : ''}
-        </div>` : `<div class="car-no-img">🚗</div>`;
-      return `
-        <div class="car-card">
-          ${sliderHtml}
-          <div class="car-info">
-            <div class="car-make">${car.make||''}</div>
-            <div class="car-name">${car.model||''}</div>
-            <div class="car-specs">
-              <span class="car-spec">📅 ${car.year||''}</span>
-              <span class="car-spec">⛽ ${car.fuel||''}</span>
-              ${car.km ? `<span class="car-spec">🛣️ ${car.km.toLocaleString()} كم</span>` : ''}
-            </div>
-            <div class="car-footer">
-              <div class="car-price">$${(car.price||0).toLocaleString()}</div>
-              <div class="car-city">📍 ${car.city||''}</div>
-            </div>
-            ${car.phone ? `<a href="https://wa.me/${car.phone.replace(/\D/g,'')}" target="_blank" class="car-phone" onclick="event.stopPropagation()">💬 تواصل واتساب</a>` : ''}
-          </div>
-        </div>`;
-    }).join('');
-
-    // Init sliders
-    cars.forEach(car => { window['slide_'+car.id] = 0; });
+    allCars = snap.docs.map(doc => ({ id:doc.id, ...doc.data() }));
+    document.getElementById('cntCars').textContent = allCars.length;
+    renderCars(allCars);
   } catch(e) {
-    grid.innerHTML = '<div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-title">خطأ في التحميل</div></div>';
+    grid.innerHTML = '<div class="empty"><div class="empty-ico">⚠️</div><div class="empty-tit">خطأ في التحميل</div></div>';
   }
 }
 
-function slidePhoto(carId, dir) {
-  const slider = document.getElementById('slider-'+carId);
-  if (!slider) return;
-  const imgs = slider.querySelectorAll('img');
-  const dots = slider.querySelectorAll('.slider-dot');
-  let cur = window['slide_'+carId] || 0;
-  imgs[cur].classList.remove('active');
-  if (dots[cur]) dots[cur].classList.remove('active');
-  cur = (cur + dir + imgs.length) % imgs.length;
-  imgs[cur].classList.add('active');
-  if (dots[cur]) dots[cur].classList.add('active');
-  window['slide_'+carId] = cur;
+function renderCars(cars) {
+  const grid = document.getElementById('carsGrid');
+  if (cars.length === 0) {
+    grid.innerHTML = `<div class="empty"><div class="empty-ico">🚗</div><div class="empty-tit">قريباً سوف تتوفر</div><div class="empty-sub">نعمل على إضافة أفضل السيارات</div></div>`;
+    return;
+  }
+  grid.innerHTML = cars.map(car => {
+    const imgs = car.imgs && car.imgs.length > 0 ? car.imgs : (car.img ? [car.img] : []);
+    const priceStr = car.currency === 'IQD' ? (car.price||0).toLocaleString() + ' د.ع' : '$' + (car.price||0).toLocaleString();
+    return `<div class="car-card" onclick="openCarDetail('${car.id}')">
+      ${imgs.length > 0 ? `
+        <div class="card-slider" id="cs-${car.id}">
+          ${imgs.map((img,i) => `<img src="${img}" class="${i===0?'on':''}" loading="lazy">`).join('')}
+          ${imgs.length>1?`<button class="sl-btn p" onclick="event.stopPropagation();slPrev('${car.id}')">›</button><button class="sl-btn n" onclick="event.stopPropagation();slNext('${car.id}')">‹</button>`:''}
+          ${car.accident?'<div class="card-badge">🔧 فيها حادث</div>':''}
+        </div>` : `<div class="card-no-img">🚗</div>`}
+      <div class="card-body">
+        <div class="card-make">${car.make||''}</div>
+        <div class="card-name">${car.model||''}</div>
+        <div class="card-specs">
+          <span class="card-spec">📅 ${car.year||''}</span>
+          <span class="card-spec">⛽ ${car.fuel||''}</span>
+          ${car.km?`<span class="card-spec">🛣️ ${car.km.toLocaleString()} ${car.kmUnit||'كم'}</span>`:''}
+        </div>
+        <div class="card-footer">
+          <div class="card-price">${priceStr}</div>
+          <div class="card-city">📍 ${car.city||''}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  cars.forEach(car => { window['si_'+car.id] = 0; });
 }
 
-function goToSlide(carId, index) {
-  const slider = document.getElementById('slider-'+carId);
-  if (!slider) return;
-  const imgs = slider.querySelectorAll('img');
-  const dots = slider.querySelectorAll('.slider-dot');
-  let cur = window['slide_'+carId] || 0;
-  imgs[cur].classList.remove('active');
-  if (dots[cur]) dots[cur].classList.remove('active');
-  imgs[index].classList.add('active');
-  if (dots[index]) dots[index].classList.add('active');
-  window['slide_'+carId] = index;
+function slNext(id) {
+  const s = document.getElementById('cs-'+id);
+  if (!s) return;
+  const imgs = s.querySelectorAll('img');
+  let i = window['si_'+id]||0;
+  imgs[i].classList.remove('on');
+  i = (i+1)%imgs.length;
+  imgs[i].classList.add('on');
+  window['si_'+id] = i;
 }
+function slPrev(id) {
+  const s = document.getElementById('cs-'+id);
+  if (!s) return;
+  const imgs = s.querySelectorAll('img');
+  let i = window['si_'+id]||0;
+  imgs[i].classList.remove('on');
+  i = (i-1+imgs.length)%imgs.length;
+  imgs[i].classList.add('on');
+  window['si_'+id] = i;
+}
+
+function filterCars() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const make = document.getElementById('filterMake').value;
+  const city = document.getElementById('filterCity').value;
+  const filtered = allCars.filter(c => {
+    const match = !q || (c.model||'').toLowerCase().includes(q) || (c.make||'').toLowerCase().includes(q);
+    const matchMake = !make || c.make === make;
+    const matchCity = !city || c.city === city;
+    return match && matchMake && matchCity;
+  });
+  renderCars(filtered);
+}
+
+// ===== CAR DETAIL =====
+async function openCarDetail(id) {
+  const car = allCars.find(c => c.id === id);
+  if (!car) return;
+  currentCar = car;
+  const imgs = car.imgs && car.imgs.length > 0 ? car.imgs : (car.img ? [car.img] : []);
+  const priceStr = car.currency === 'IQD' ? (car.price||0).toLocaleString() + ' د.ع' : '$' + (car.price||0).toLocaleString();
+  const isOwner = auth.currentUser && auth.currentUser.uid === car.userId;
+
+  const galHtml = imgs.length > 0 ? `
+    <div class="gallery-main" id="galMain">
+      ${imgs.map((img,i)=>`<img src="${img}" class="${i===0?'on':''}" loading="lazy">`).join('')}
+      ${imgs.length>1?`<button class="gal-btn p" onclick="galSlide(1)">›</button><button class="gal-btn n" onclick="galSlide(-1)">‹</button>`:''}
+    </div>
+    <div class="gallery-thumbs">
+      ${imgs.map((img,i)=>`<div class="gallery-thumb ${i===0?'on':''}" onclick="galGo(${i})"><img src="${img}" loading="lazy"></div>`).join('')}
+    </div>` : `<div class="card-no-img" style="border-radius:14px;height:300px;">🚗</div>`;
+
+  const accSection = car.accident && (car.damagedParts?.length > 0 || car.accImgs?.length > 0) ? `
+    <div class="accident-section">
+      <div class="accident-title">🔧 معلومات الحادث</div>
+      ${car.damagedParts?.length > 0 ? `
+        <div style="margin-bottom:10px;font-size:13px;color:var(--dim);">القطع المتضررة:</div>
+        <div class="damaged-parts">${car.damagedParts.map(p=>`<span class="part-badge">${p}</span>`).join('')}</div>` : ''}
+      ${car.accImgs?.length > 0 ? `
+        <div style="margin-top:12px;font-size:13px;color:var(--dim);">صور الحادث:</div>
+        <div class="accident-grid" style="margin-top:8px;">
+          ${car.accImgs.map(img=>`<div class="acc-img"><img src="${img}" loading="lazy"></div>`).join('')}
+        </div>` : ''}
+    </div>` : '';
+
+  document.getElementById('detailMain').innerHTML = `
+    <div>
+      ${galHtml}
+      ${accSection}
+    </div>
+    <div>
+      <div class="detail-info">
+        <div class="detail-make">${car.make||''}</div>
+        <div class="detail-name">${car.model||''} ${car.year||''}</div>
+        <div class="detail-price">${priceStr}</div>
+        <div class="detail-seller">
+          <img class="seller-img" src="${car.userPhoto||'https://ui-avatars.com/api/?name='+encodeURIComponent(car.userName||'U')+'&background=C9A84C&color=000&size=44'}">
+          <div><div class="seller-name">${car.userName||'مستخدم'}</div><div class="seller-label">البائع</div></div>
+        </div>
+        <div class="detail-specs">
+          <div class="spec-item"><div class="spec-label">سنة الصنع</div><div class="spec-val">${car.year||'—'}</div></div>
+          <div class="spec-item"><div class="spec-label">الكيلومترات</div><div class="spec-val">${car.km?car.km.toLocaleString()+' '+(car.kmUnit||'كم'):'—'}</div></div>
+          <div class="spec-item"><div class="spec-label">نوع الوقود</div><div class="spec-val">${car.fuel||'—'}</div></div>
+          <div class="spec-item"><div class="spec-label">ناقل الحركة</div><div class="spec-val">${car.gear||'—'}</div></div>
+          <div class="spec-item"><div class="spec-label">المحرك</div><div class="spec-val">${car.engine||'—'}</div></div>
+          <div class="spec-item"><div class="spec-label">اللون</div><div class="spec-val">${car.color||'—'}</div></div>
+          <div class="spec-item"><div class="spec-label">المدينة</div><div class="spec-val">📍 ${car.city||'—'}</div></div>
+          <div class="spec-item"><div class="spec-label">حادث</div><div class="spec-val">${car.accident?'🔧 نعم':'✅ لا'}</div></div>
+        </div>
+        ${car.desc?`<div class="detail-desc">${car.desc}</div>`:''}
+        ${car.phone?`<a href="https://wa.me/${car.phone.replace(/\D/g,'')}" target="_blank" class="btn-whatsapp">💬 تواصل عبر واتساب</a>`:''}
+        ${isOwner?`<button class="btn-delete-ad" onclick="deleteAd('${car.id}')">🗑️ حذف إعلاني</button>`:''}
+      </div>
+    </div>`;
+
+  window['galIdx'] = 0;
+  goPage('detail');
+}
+
+function galSlide(dir) {
+  const main = document.getElementById('galMain');
+  if (!main) return;
+  const imgs = main.querySelectorAll('img');
+  const thumbs = document.querySelectorAll('.gallery-thumb');
+  let i = window['galIdx']||0;
+  imgs[i].classList.remove('on');
+  if (thumbs[i]) thumbs[i].classList.remove('on');
+  i = (i+dir+imgs.length)%imgs.length;
+  imgs[i].classList.add('on');
+  if (thumbs[i]) thumbs[i].classList.add('on');
+  window['galIdx'] = i;
+}
+function galGo(idx) {
+  const main = document.getElementById('galMain');
+  if (!main) return;
+  const imgs = main.querySelectorAll('img');
+  const thumbs = document.querySelectorAll('.gallery-thumb');
+  let i = window['galIdx']||0;
+  imgs[i].classList.remove('on');
+  if (thumbs[i]) thumbs[i].classList.remove('on');
+  imgs[idx].classList.add('on');
+  if (thumbs[idx]) thumbs[idx].classList.add('on');
+  window['galIdx'] = idx;
+}
+
+// ===== DELETE AD =====
+async function deleteAd(id) {
+  if (!confirm('هل تريد حذف هذا الإعلان؟')) return;
+  try {
+    await db.collection('cars').doc(id).delete();
+    allCars = allCars.filter(c => c.id !== id);
+    goPage('cars');
+  } catch(e) { alert('خطأ في الحذف: ' + e.message); }
+}
+
+// ===== PROFILE =====
+function loadProfile() {
+  const user = auth.currentUser;
+  if (!user) return;
+  document.getElementById('profName').textContent = user.displayName||'—';
+  document.getElementById('profEmail').textContent = user.email||'—';
+  document.getElementById('profPic').src = user.photoURL||'https://ui-avatars.com/api/?name='+encodeURIComponent(user.displayName||'U')+'&background=C9A84C&color=000&size=90';
+  document.getElementById('editName').value = user.displayName||'';
+  db.collection('users').doc(user.uid).get().then(doc => {
+    if (doc.exists) document.getElementById('editPhone').value = doc.data().phone||'';
+  }).catch(()=>{});
+  loadMyAds();
+}
+
+async function loadMyAds() {
+  const user = auth.currentUser;
+  if (!user) return;
+  const grid = document.getElementById('myAdsGrid');
+  grid.innerHTML = '<div style="color:var(--dim);font-size:14px;">جاري التحميل...</div>';
+  try {
+    const snap = await db.collection('cars').where('userId','==',user.uid).get();
+    const myAds = snap.docs.map(doc => ({ id:doc.id, ...doc.data() }));
+    if (myAds.length === 0) { grid.innerHTML = '<div style="color:var(--dim);font-size:14px;">ما عندك إعلانات بعد</div>'; return; }
+    grid.innerHTML = myAds.map(car => `
+      <div class="my-ad-card">
+        ${car.img?`<img class="my-ad-img" src="${car.img}">`:`<div class="my-ad-img" style="display:flex;align-items:center;justify-content:center;font-size:20px;background:var(--dark2);">🚗</div>`}
+        <div>
+          <div class="my-ad-name">${car.make} ${car.model}</div>
+          <div class="my-ad-price">${car.currency==='IQD'?car.price.toLocaleString()+' د.ع':'$'+car.price.toLocaleString()}</div>
+          <button class="my-ad-del" onclick="deleteAd('${car.id}')">🗑️ حذف</button>
+        </div>
+      </div>`).join('');
+  } catch(e) { grid.innerHTML = '<div style="color:var(--dim);">خطأ في التحميل</div>'; }
+}
+
+function saveProfile() {
+  const user = auth.currentUser;
+  if (!user) return;
+  const name = document.getElementById('editName').value.trim();
+  const phone = document.getElementById('editPhone').value.trim();
+  user.updateProfile({ displayName: name }).then(() => {
+    db.collection('users').doc(user.uid).set({ name, phone }, { merge:true });
+    document.getElementById('profName').textContent = name;
+    document.getElementById('navName').textContent = name;
+    showMsg('profMsg','✅ تم الحفظ','#2ecc71');
+  }).catch(e => showMsg('profMsg','❌ '+e.message,'#e74c3c'));
+}
+
+async function changeProfilePic(input) {
+  const file = input.files[0];
+  if (!file) return;
+  showMsg('profMsg','⏳ جاري رفع الصورة...','#f39c12');
+  try {
+    const url = await uploadImg(file);
+    await auth.currentUser.updateProfile({ photoURL: url });
+    document.getElementById('profPic').src = url;
+    document.getElementById('navAvatar').src = url;
+    showMsg('profMsg','✅ تم تغيير الصورة','#2ecc71');
+  } catch(e) { showMsg('profMsg','❌ '+e.message,'#e74c3c'); }
+}
+
+function doSignOut() {
+  auth.signOut().then(() => goPage('home'));
+}
+
+// ===== AUTH FUNCS =====
+function openLogin() { document.getElementById('loginOverlay').classList.add('open'); }
+function closeLogin() { document.getElementById('loginOverlay').classList.remove('open'); }
+function openReg() { document.getElementById('regOverlay').classList.add('open'); }
+function closeReg() { document.getElementById('regOverlay').classList.remove('open'); }
+function switchReg() { closeLogin(); openReg(); }
+function switchLogin() { closeReg(); openLogin(); }
+
+function loginGoogle() {
+  const p = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(p).then(() => closeLogin()).catch(e => showMsg('liMsg','❌ '+e.message,'#e74c3c'));
+}
+function doLoginEmail() {
+  const e = document.getElementById('liEmail').value.trim();
+  const p = document.getElementById('liPass').value.trim();
+  if (!e||!p) { showMsg('liMsg','❌ أدخل الإيميل وكلمة المرور','#e74c3c'); return; }
+  auth.signInWithEmailAndPassword(e,p).then(()=>closeLogin()).catch(()=>showMsg('liMsg','❌ إيميل أو كلمة مرور غلط','#e74c3c'));
+}
+function doRegister() {
+  const n = document.getElementById('regName').value.trim();
+  const e = document.getElementById('regEmail').value.trim();
+  const p = document.getElementById('regPass').value.trim();
+  if (!n||!e||!p) { showMsg('regMsg','❌ الرجاء ملء جميع الحقول','#e74c3c'); return; }
+  auth.createUserWithEmailAndPassword(e,p).then(r => {
+    r.user.updateProfile({ displayName:n });
+    db.collection('users').doc(r.user.uid).set({ name:n, email:e, phone:'' });
+    closeReg();
+  }).catch(er => showMsg('regMsg','❌ '+er.message,'#e74c3c'));
+}
+
+// Close overlays on bg click
+['loginOverlay','regOverlay'].forEach(id => {
+  document.getElementById(id).addEventListener('click', e => {
+    if (e.target === e.currentTarget) e.currentTarget.classList.remove('open');
+  });
+});
 
 function showMsg(id, text, color) {
   const el = document.getElementById(id);
@@ -624,6 +1034,8 @@ function showMsg(id, text, color) {
   el.style.display = 'block';
 }
 
+// Init
+initMakeFilter();
 loadCars();
 </script>
 </body>
