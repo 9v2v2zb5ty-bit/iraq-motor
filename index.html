@@ -632,37 +632,113 @@ function showMsg(id, text, color) {
   el.style.display = 'block';
 }
 
-loadCars();
+<script>
+firebase.initializeApp({
+  apiKey: "AIzaSyAb4MheuHSlF4yOxuDfhnxZtIMyXy7g-l8",
+  authDomain: "iraq-motors-38983.firebaseapp.com",
+  projectId: "iraq-motors-38983",
+  storageBucket: "iraq-motors-38983.firebasestorage.app",
+  messagingSenderId: "80307836321",
+  appId: "1:80307836321:web:d61f734a86f5be5a4c67e0"
+});
 
-  // كل كودك موجود هنا (auth, firestore, loadCars ...)
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-  function loadCars() {
-    ...
+async function deleteCar(id) {
+  const user = auth.currentUser;
+  if (!user) {
+    alert("لازم تسجل دخول");
+    return;
   }
 
-  // 👇 هنا تحطها
-  async function deleteCar(id) {
-    const user = auth.currentUser;
-    if (!user) return;
+  try {
+    const docRef = db.collection('cars').doc(id);
+    const doc = await docRef.get();
 
-    try {
-      const doc = await db.collection('cars').doc(id).get();
-      if (!doc.exists) return;
-
-      const data = doc.data();
-
-      if (data.userId !== user.uid) {
-        alert("مو إعلانك");
-        return;
-      }
-
-      await db.collection('cars').doc(id).delete();
-      loadCars();
-
-    } catch (e) {
-      alert("خطأ بالحذف: " + e.message);
+    if (!doc.exists) {
+      alert("الإعلان غير موجود");
+      return;
     }
-  }
 
+    const data = doc.data();
+
+    if (data.userId !== user.uid) {
+      alert("مو إعلانك");
+      return;
+    }
+
+    await docRef.delete();
+
+    loadCars();
+
+  } catch (e) {
+    console.error(e);
+    alert("خطأ بالحذف: " + e.message);
+  }
+}
+
+async function loadCars() {
+  const grid = document.getElementById('carsGrid');
+  grid.innerHTML = '<div class="loading">⏳ جاري التحميل...</div>';
+
+  try {
+    const snap = await db.collection('cars').get();
+    const cars = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+    document.getElementById('cntCars').textContent = cars.length;
+
+    if (cars.length === 0) {
+      grid.innerHTML = `<div class="empty-state">
+        <div class="empty-icon">🚗</div>
+        <div class="empty-title">ماكو سيارات حالياً</div>
+      </div>`;
+      return;
+    }
+
+    grid.innerHTML = cars.map(car => `
+      <div class="car-card">
+        <div class="car-info">
+
+          <div class="car-make">${car.make || ''}</div>
+          <div class="car-name">${car.model || ''}</div>
+
+          <div class="car-footer">
+            <div class="car-price">$${car.price || 0}</div>
+            <div class="car-city">${car.city || ''}</div>
+          </div>
+
+          ${car.phone ? `
+            <a href="https://wa.me/${car.phone.replace(/\D/g,'')}" 
+               class="car-phone" target="_blank">
+              💬 واتساب
+            </a>
+          ` : ''}
+
+          ${car.userId === auth.currentUser?.uid ? `
+            <button class="btn-danger"
+              onclick="deleteCar('${car.id}')"
+              style="margin-top:8px;">
+              🗑️ حذف الإعلان
+            </button>
+          ` : ''}
+
+        </div>
+      </div>
+    `).join('');
+
+  } catch (e) {
+    console.error(e);
+    grid.innerHTML = '<div class="empty-state">خطأ بالتحميل</div>';
+  }
+}
+
+auth.onAuthStateChanged(() => {
   loadCars();
+});
+
+loadCars();
 </script>
+
+</body>
+</html>
