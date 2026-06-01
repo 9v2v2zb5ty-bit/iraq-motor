@@ -1783,7 +1783,8 @@ body.light-mode .hero-bg {
 <!-- ========== CARS + FILTERS ========== -->
 <section id="cars">
   <div style="text-align:center; margin-bottom:20px;">
-<button onclick="document.getElementById('postAdOverlay').classList.add('open')" style="background:var(--gold); color:#000; border:none; padding:14px 40px; border-radius:12px; font-size:16px; font-weight:800; cursor:pointer; font-family:Tajawal,sans-serif;">🚗 نشر إعلان سيارتك</button>
+<button onclick="document.getElementById('postAdOverlay').style.cssText='display:flex !important; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:3000; align-items:center; justify-content:center;'" style="background:var(--gold); color:#000; border:none; padding:14px 40px; border-radius:12px; font-size:16px; font-weight:800; cursor:pointer; font-family:Tajawal,sans-serif;">🚗 نشر إعلان سيارتك</button>
+
 </div>
 
   <div class="section-header">
