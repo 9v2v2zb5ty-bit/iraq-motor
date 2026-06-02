@@ -270,8 +270,14 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
   </div>
   <div class="cars-toolbar">
     <input class="search-input" placeholder="🔍 ابحث عن سيارة..." oninput="filterCars()" id="searchInput">
-    <select class="filter-sel" onchange="filterCars()" id="filterMake">
+    <select class="filter-sel" onchange="onFilterMakeChange()" id="filterMake">
       <option value="">كل الشركات</option>
+    </select>
+    <select class="filter-sel" onchange="filterCars()" id="filterModel">
+      <option value="">كل الموديلات</option>
+    </select>
+    <select class="filter-sel" onchange="filterCars()" id="filterEngine">
+      <option value="">كل المحركات</option>
     </select>
     <select class="filter-sel" onchange="filterCars()" id="filterCity">
       <option value="">كل المدن</option>
@@ -328,7 +334,9 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
         </div>
         <div class="form-group">
           <label class="form-label">المحرك</label>
-          <input type="text" class="form-input" id="adEngine" placeholder="مثال: 3.5L V6">
+          <select class="form-input" id="adEngine">
+            <option value="">اختر المحرك</option>
+          </select>
         </div>
         <div class="form-group">
           <label class="form-label">ناقل الحركة</label>
@@ -528,23 +536,74 @@ const db = firebase.firestore();
 
 // ===== CAR DATA =====
 const CAR_DATA = {
-  'Toyota':['كورولا','كامري','يارس','أفالون','راڤ 4','هايلاندر','برادو','لاندكروزر','هايلوكس','فورتشنر','إنوفا'],
-  'Kia':['بيكانتو','ريو','سيراتو / K3','K5','K8','سبورتاج','سورينتو','تيلورايد','سيلتوس','سونيت'],
-  'Hyundai':['أكسنت','إلنترا','سوناتا','أزيرا','توسان','سانتافي','كريتا','باليسيد','ستاريا'],
-  'Nissan':['صني','سنترا','ألتيما','ماكسيما','كيكس','إكس تريل','باثفايندر','باترول','نافارا'],
-  'Chevrolet':['ماليبو','كابتيفا','ترافرس','تاهو','سوبربان','سلفرادو','كورفيت','كامارو'],
-  'MG':['MG5','MG6','MG7','ZS','HS','RX5','RX8'],
-  'Chery':['أريزو 5','أريزو 8','تيغو 2','تيغو 4','تيغو 7','تيغو 8'],
-  'Changan':['ألسفن','UNI-V','UNI-K','CS35','CS55','CS75','CS95'],
-  'Ford':['فوكس','تورس','موستانغ','إكسبلورر','إكسبيديشن','F-150','رابتور'],
-  'BMW':['الفئة 3','الفئة 5','الفئة 7','M3','M5','X5','X6','X7','XM'],
-  'Mercedes-Benz':['C-Class','E-Class','S-Class','CLA','GLA','GLE','GLS','G-Class'],
-  'Audi':['A4','A6','A8','RS3','RS6','RS7','Q5','Q7','Q8'],
-  'Porsche':['718 Cayman','718 Boxster','911','Panamera','Macan','Cayenne','Taycan'],
-  'Land Rover':['Defender','Discovery','Discovery Sport','Range Rover','Range Rover Sport','Range Rover Velar'],
-  'Dodge':['Charger','Challenger','Durango','Hornet'],
-  'Jeep':['Wrangler','Grand Cherokee','Cherokee','Compass','Gladiator'],
-  'Bentley':['Flying Spur','Continental GT','Bentayga']
+  'Toyota':{
+    models:['كورولا','كامري','يارس','أفالون','راڤ 4','هايلاندر','برادو','لاندكروزر','هايلوكس','فورتشنر','إنوفا'],
+    engines:['1.3L 4-سيلندر','1.5L 4-سيلندر','1.8L 4-سيلندر','2.0L 4-سيلندر','2.5L 4-سيلندر','2.7L 4-سيلندر','3.5L V6','4.0L V6','4.5L V8','4.6L V8','5.7L V8']
+  },
+  'Kia':{
+    models:['بيكانتو','ريو','سيراتو / K3','K5','K8','سبورتاج','سورينتو','تيلورايد','سيلتوس','سونيت'],
+    engines:['1.0L Turbo','1.4L 4-سيلندر','1.6L 4-سيلندر','1.6L Turbo','2.0L 4-سيلندر','2.5L 4-سيلندر','2.2L ديزل','3.5L V6']
+  },
+  'Hyundai':{
+    models:['أكسنت','إلنترا','سوناتا','أزيرا','توسان','سانتافي','كريتا','باليسيد','ستاريا'],
+    engines:['1.4L 4-سيلندر','1.6L 4-سيلندر','1.6L Turbo','2.0L 4-سيلندر','2.5L 4-سيلندر','2.2L ديزل','3.5L V6','3.8L V6']
+  },
+  'Nissan':{
+    models:['صني','سنترا','ألتيما','ماكسيما','كيكس','إكس تريل','باثفايندر','باترول','نافارا'],
+    engines:['1.6L 4-سيلندر','1.8L 4-سيلندر','2.0L 4-سيلندر','2.5L 4-سيلندر','3.5L V6','4.0L V6','5.6L V8']
+  },
+  'Chevrolet':{
+    models:['ماليبو','كابتيفا','ترافرس','تاهو','سوبربان','سلفرادو','كورفيت','كامارو'],
+    engines:['1.5L Turbo','2.0L Turbo','2.5L 4-سيلندر','3.6L V6','5.3L V8','6.2L V8','6.2L V8 Supercharged','8.1L V8']
+  },
+  'MG':{
+    models:['MG5','MG6','MG7','ZS','HS','RX5','RX8'],
+    engines:['1.0L Turbo','1.5L Turbo','2.0L Turbo','1.5L 4-سيلندر']
+  },
+  'Chery':{
+    models:['أريزو 5','أريزو 8','تيغو 2','تيغو 4','تيغو 7','تيغو 8'],
+    engines:['1.5L Turbo','1.6L 4-سيلندر','2.0L Turbo','2.0L 4-سيلندر']
+  },
+  'Changan':{
+    models:['ألسفن','UNI-V','UNI-K','CS35','CS55','CS75','CS95'],
+    engines:['1.4L Turbo','1.5L Turbo','2.0L Turbo','2.0L 4-سيلندر']
+  },
+  'Ford':{
+    models:['فوكس','تورس','موستانغ','إكسبلورر','إكسبيديشن','F-150','رابتور'],
+    engines:['1.5L EcoBoost','2.0L EcoBoost','2.3L EcoBoost','2.7L EcoBoost V6','3.0L EcoBoost V6','3.5L EcoBoost V6','3.5L V6','5.0L V8 Coyote','5.2L V8 Voodoo','7.3L V8 Godzilla']
+  },
+  'BMW':{
+    models:['الفئة 3','الفئة 5','الفئة 7','M3','M5','X5','X6','X7','XM'],
+    engines:['2.0L TwinPower Turbo 4-سيلندر','3.0L TwinPower Turbo 6-سيلندر','3.0L M TwinPower 6-سيلندر','4.4L V8 TwinTurbo','4.4L V8 M TwinPower','6.0L V12']
+  },
+  'Mercedes-Benz':{
+    models:['C-Class','E-Class','S-Class','CLA','GLA','GLE','GLS','G-Class'],
+    engines:['1.5L Turbo','2.0L Turbo','2.0L AMG Turbo','3.0L 6-سيلندر Turbo','4.0L V8 Biturbo AMG','5.5L V8 AMG','6.0L V12 Biturbo AMG']
+  },
+  'Audi':{
+    models:['A4','A6','A8','RS3','RS6','RS7','Q5','Q7','Q8'],
+    engines:['2.0L TFSI Turbo','2.5L TFSI 5-سيلندر RS','3.0L TFSI V6','4.0L TFSI V8 Biturbo RS','5.2L FSI V10']
+  },
+  'Porsche':{
+    models:['718 Cayman','718 Boxster','911','Panamera','Macan','Cayenne','Taycan'],
+    engines:['2.0L Turbo 4-سيلندر','2.5L Turbo 4-سيلندر','3.0L Twin-Turbo 6-سيلندر','3.8L Twin-Turbo 6-سيلندر','4.0L GT Flat-6','4.0L Turbo S Flat-6']
+  },
+  'Land Rover':{
+    models:['Defender','Discovery','Discovery Sport','Range Rover','Range Rover Sport','Range Rover Velar'],
+    engines:['2.0L Ingenium Turbo 4-سيلندر','3.0L Ingenium 6-سيلندر Turbo','4.4L V8 BMW TwinTurbo','5.0L V8 Supercharged']
+  },
+  'Dodge':{
+    models:['Charger','Challenger','Durango','Hornet'],
+    engines:['2.0L Turbo','3.6L Pentastar V6','5.7L HEMI V8','6.4L HEMI SRT V8','6.2L HEMI Supercharged Hellcat 717HP','6.2L Redeye Supercharged 797HP','6.2L Super Stock 807HP','6.2L Demon 170 1025HP']
+  },
+  'Jeep':{
+    models:['Wrangler','Grand Cherokee','Cherokee','Compass','Gladiator'],
+    engines:['2.0L Turbo','2.4L 4-سيلندر','3.6L Pentastar V6','3.0L EcoDiesel V6','5.7L HEMI V8','6.4L SRT HEMI V8']
+  },
+  'Bentley':{
+    models:['Flying Spur','Continental GT','Bentayga'],
+    engines:['4.0L V8 Twin-Turbo','6.0L W12 Twin-Turbo']
+  }
 };
 
 const ACC_PARTS = ['المقدمة','المؤخرة','الجانب الأيمن','الجانب الأيسر','السقف','الكبوت','باب أمامي أيمن','باب أمامي أيسر','باب خلفي أيمن','باب خلفي أيسر','الزجاج الأمامي','زجاج خلفي','رادياتير','محرك','ناقل حركة'];
@@ -617,12 +676,28 @@ function initMakeFilter() {
   });
 }
 
+function onFilterMakeChange() {
+  const make = document.getElementById('filterMake').value;
+  const modelEl = document.getElementById('filterModel');
+  const engineEl = document.getElementById('filterEngine');
+  modelEl.innerHTML = '<option value="">كل الموديلات</option>';
+  engineEl.innerHTML = '<option value="">كل المحركات</option>';
+  if (make && CAR_DATA[make]) {
+    CAR_DATA[make].models.forEach(m => modelEl.innerHTML += `<option>${m}</option>`);
+    CAR_DATA[make].engines.forEach(e => engineEl.innerHTML += `<option>${e}</option>`);
+  }
+  filterCars();
+}
+
 function updateModels() {
   const make = document.getElementById('adMake').value;
   const modelEl = document.getElementById('adModel');
+  const engineEl = document.getElementById('adEngine');
   modelEl.innerHTML = '<option value="">اختر الموديل</option>';
-  if (CAR_DATA[make]) {
-    CAR_DATA[make].forEach(m => modelEl.innerHTML += `<option>${m}</option>`);
+  engineEl.innerHTML = '<option value="">اختر المحرك</option>';
+  if (make && CAR_DATA[make]) {
+    CAR_DATA[make].models.forEach(m => modelEl.innerHTML += `<option>${m}</option>`);
+    CAR_DATA[make].engines.forEach(e => engineEl.innerHTML += `<option>${e}</option>`);
   }
 }
 
@@ -812,12 +887,16 @@ function slPrev(id) {
 function filterCars() {
   const q = document.getElementById('searchInput').value.toLowerCase();
   const make = document.getElementById('filterMake').value;
+  const model = document.getElementById('filterModel').value;
+  const engine = document.getElementById('filterEngine').value;
   const city = document.getElementById('filterCity').value;
   const filtered = allCars.filter(c => {
-    const match = !q || (c.model||'').toLowerCase().includes(q) || (c.make||'').toLowerCase().includes(q);
+    const matchQ = !q || (c.model||'').toLowerCase().includes(q) || (c.make||'').toLowerCase().includes(q);
     const matchMake = !make || c.make === make;
+    const matchModel = !model || c.model === model;
+    const matchEngine = !engine || c.engine === engine;
     const matchCity = !city || c.city === city;
-    return match && matchMake && matchCity;
+    return matchQ && matchMake && matchModel && matchEngine && matchCity;
   });
   renderCars(filtered);
 }
