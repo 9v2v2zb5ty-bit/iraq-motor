@@ -3,10 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iraq Motors | سوق السيارات الفاخرة في العراق</title>
-    <meta name="google-site-verification" content="kaTD7Vhrj3ukiVBBk0BKpeN0e4CY1Or4THiB6sm5HEU" />
-    <meta name="description" content="موقع عراق موتورز (Iraq Motors) هو منصتك المجانية لبيع وشراء السيارات الحديثة والفاخرة في العراق. انشر إعلانك الآن مجاناً.">
-    <meta name="keywords" content="iraq motors, عراق موتورز, سوق السيارات في العراق, بيع سيارات في العراق, سيارات اربيل, سيارات بغداد">
+<title>Iraq Motors | سوق السيارات</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--gold:#C9A84C;--gold2:#E8C97A;--dark:#080A0F;--dark2:#0D1017;--dark3:#121820;--card:#111822;--text:#E8EDF5;--dim:#8A9AB5;--border:rgba(201,168,76,0.2);--red:#E84545;--green:#2ECC71;}
@@ -246,6 +243,27 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 .suggest-btn{background:var(--dark3);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:20px;font-family:Tajawal,sans-serif;font-size:12px;cursor:pointer;transition:all .2s;}
 .suggest-btn:hover{border-color:var(--gold);color:var(--gold);}
 
+
+/* ADMIN */
+.admin-stat-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;}
+.admin-stat-icon{font-size:28px;margin-bottom:8px;}
+.admin-stat-num{font-size:32px;font-weight:900;color:var(--gold);font-family:Rajdhani,sans-serif;}
+.admin-stat-label{font-size:12px;color:var(--dim);margin-top:4px;}
+.admin-tab{background:var(--dark3);border:1px solid var(--border);color:var(--dim);padding:8px 16px;border-radius:8px;font-family:Tajawal,sans-serif;font-size:13px;cursor:pointer;transition:all .2s;}
+.admin-tab.active{background:var(--gold);color:#000;border-color:var(--gold);font-weight:700;}
+.admin-tab:hover{border-color:var(--gold);color:var(--gold);}
+.admin-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;display:flex;gap:14px;align-items:flex-start;}
+.admin-card-img{width:80px;height:65px;border-radius:8px;object-fit:cover;background:var(--dark3);flex-shrink:0;}
+.admin-card-info{flex:1;}
+.admin-card-name{font-size:15px;font-weight:700;margin-bottom:4px;}
+.admin-card-meta{font-size:12px;color:var(--dim);margin-bottom:8px;}
+.admin-card-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.btn-approve{background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);color:var(--green);padding:6px 14px;border-radius:8px;font-family:Tajawal,sans-serif;font-size:13px;cursor:pointer;transition:all .2s;}
+.btn-approve:hover{background:rgba(46,204,113,0.2);}
+.btn-reject{background:rgba(232,69,69,0.1);border:1px solid rgba(232,69,69,0.3);color:var(--red);padding:6px 14px;border-radius:8px;font-family:Tajawal,sans-serif;font-size:13px;cursor:pointer;transition:all .2s;}
+.btn-reject:hover{background:rgba(232,69,69,0.2);}
+.btn-view-ad{background:rgba(201,168,76,0.1);border:1px solid var(--border);color:var(--gold);padding:6px 14px;border-radius:8px;font-family:Tajawal,sans-serif;font-size:13px;cursor:pointer;transition:all .2s;}
+.report-badge{background:rgba(232,69,69,0.15);border:1px solid rgba(232,69,69,0.3);color:var(--red);padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;}
 @media(max-width:768px){
   nav{padding:0 16px;}
   .nav-links{display:none;}
@@ -268,6 +286,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
     <li><a onclick="goPage('compare')">المقارنة</a></li>
     <li><a onclick="goPage('ai')">مستشار AI 🤖</a></li>
     <li><a onclick="goPage('profile')" id="navProfile" style="display:none">حسابي</a></li>
+    <li><a onclick="goPage('admin')" id="navAdmin" style="display:none;color:var(--red)">⚙️ الإدارة</a></li>
   </ul>
   <div class="nav-actions">
     <button class="btn-nav btn-login-nav" onclick="openLogin()">تسجيل الدخول</button>
@@ -430,6 +449,11 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
     <!-- DESCRIPTION -->
     <div class="post-section">
       <div class="post-section-title">الوصف</div>
+      <div class="form-group full" style="margin-bottom:14px;">
+        <label class="form-label">رقم الشاصي (اختياري)</label>
+        <input type="text" class="form-input" id="adVin" placeholder="مثال: 1HGBH41JXMN109186" maxlength="17">
+        <div style="font-size:11px;color:var(--dim);margin-top:4px;">رقم الشاصي يزيد من مصداقية إعلانك</div>
+      </div>
       <textarea class="form-input" id="adDesc" rows="4" placeholder="اكتب تفاصيل إضافية عن السيارة..." style="resize:vertical;"></textarea>
     </div>
 
@@ -576,6 +600,67 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
   </div>
 </div>
 
+
+<!-- ADMIN PAGE -->
+<div class="page" id="page-admin">
+  <div class="post-page" style="max-width:1100px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px;">
+      <div>
+        <h2 style="font-size:26px;font-weight:800;">⚙️ لوحة التحكم</h2>
+        <p style="color:var(--dim);font-size:13px;margin-top:4px;">Iraq Motors — Admin Panel</p>
+      </div>
+      <div style="font-size:13px;color:var(--dim);" id="adminLastUpdate"></div>
+    </div>
+
+    <!-- STATS -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin-bottom:28px;">
+      <div class="admin-stat-card">
+        <div class="admin-stat-icon">🚗</div>
+        <div class="admin-stat-num" id="statTotalAds">—</div>
+        <div class="admin-stat-label">إجمالي الإعلانات</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="admin-stat-icon">⏳</div>
+        <div class="admin-stat-num" id="statPending">—</div>
+        <div class="admin-stat-label">بانتظار الموافقة</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="admin-stat-icon">✅</div>
+        <div class="admin-stat-num" id="statApproved">—</div>
+        <div class="admin-stat-label">إعلانات مفعّلة</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="admin-stat-icon">💰</div>
+        <div class="admin-stat-num" id="statSold">—</div>
+        <div class="admin-stat-label">سيارات مباعة</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="admin-stat-icon">👥</div>
+        <div class="admin-stat-num" id="statUsers">—</div>
+        <div class="admin-stat-label">المستخدمين</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="admin-stat-icon">🚨</div>
+        <div class="admin-stat-num" id="statReports">—</div>
+        <div class="admin-stat-label">البلاغات</div>
+      </div>
+    </div>
+
+    <!-- TABS -->
+    <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;">
+      <button class="admin-tab active" onclick="switchAdminTab('pending')">⏳ بانتظار الموافقة</button>
+      <button class="admin-tab" onclick="switchAdminTab('approved')">✅ الإعلانات المفعّلة</button>
+      <button class="admin-tab" onclick="switchAdminTab('reports')">🚨 البلاغات</button>
+      <button class="admin-tab" onclick="switchAdminTab('users')">👥 المستخدمين</button>
+    </div>
+
+    <!-- TAB CONTENT -->
+    <div id="adminTabContent">
+      <div style="text-align:center;padding:40px;color:var(--dim);">⏳ جاري التحميل...</div>
+    </div>
+  </div>
+</div>
+
 <!-- LOGIN OVERLAY -->
 <div class="overlay" id="loginOverlay">
   <div class="modal">
@@ -615,6 +700,13 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 <script>
 // ===== CONFIG =====
+// AI Key loaded from config
+window.AI_KEY = '';
+fetch('config.js').then(r=>r.text()).then(t=>{
+  const m = t.match(/AI_KEY\s*=\s*['"](.+?)['"]/);
+  if(m) window.AI_KEY = m[1];
+}).catch(()=>{});
+
 const IMGBB = '3897918b48e89d2b67351676170056ed';
 firebase.initializeApp({
   apiKey:"AIzaSyAb4MheuHSlF4yOxuDfhnxZtIMyXy7g-l8",
@@ -721,11 +813,13 @@ auth.onAuthStateChanged(user => {
     if (navProf) navProf.style.display = 'block';
     document.getElementById('navName').textContent = user.displayName || 'حسابي';
     document.getElementById('navAvatar').src = user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName||'U') + '&background=C9A84C&color=000&size=40';
+    updateAdminNav(user);
   } else {
     btnLogin.style.display = 'block';
     btnPost.style.display = 'none';
     btnProf.style.display = 'none';
     if (navProf) navProf.style.display = 'none';
+    updateAdminNav(null);
   }
 });
 
@@ -738,6 +832,7 @@ function goPage(page) {
   if (page === 'post') { checkAuthForPost(); initPostForm(); }
   if (page === 'profile') { checkAuthForProfile(); loadProfile(); }
   if (page === 'compare') { initCmpSelects(); }
+  if (page === 'admin') { loadAdminPage(); }
 }
 
 function checkAuthForPost() {
@@ -886,6 +981,7 @@ async function submitAd() {
       kmUnit: document.getElementById('adKmUnit').value,
       fuel: document.getElementById('adFuel').value,
       engine: document.getElementById('adEngine').value,
+      vin: document.getElementById('adVin').value.trim(),
       gear: document.getElementById('adGear').value,
       color: document.getElementById('adColor').value,
       desc: document.getElementById('adDesc').value,
@@ -894,6 +990,7 @@ async function submitAd() {
       imgs: carImgs,
       accImgs,
       img: carImgs[0]||'',
+      approved: false,
       userId: auth.currentUser.uid,
       userName: auth.currentUser.displayName||'مستخدم',
       userPhoto: auth.currentUser.photoURL||'',
@@ -916,6 +1013,7 @@ async function loadCars() {
   try {
     const snap = await db.collection('cars').get();
     allCars = snap.docs.map(doc => ({ id:doc.id, ...doc.data() }));
+    if (!isAdmin()) allCars = allCars.filter(c => c.approved === true);
     document.getElementById('cntCars').textContent = allCars.length;
     renderCars(allCars);
   } catch(e) {
@@ -938,6 +1036,7 @@ function renderCars(cars) {
           ${imgs.map((img,i) => `<img src="${img}" class="${i===0?'on':''}" loading="lazy">`).join('')}
           ${imgs.length>1?`<button class="sl-btn p" onclick="event.stopPropagation();slPrev('${car.id}')">›</button><button class="sl-btn n" onclick="event.stopPropagation();slNext('${car.id}')">‹</button>`:''}
           ${car.accident?'<div class="card-badge">🔧 فيها حادث</div>':''}
+          ${car.sold?'<div class="card-badge" style="background:rgba(46,204,113,0.9);right:auto;left:10px;">✅ تم البيع</div>':''}
         </div>` : `<div class="card-no-img">🚗</div>`}
       <div class="card-body">
         <div class="card-make">${car.make||''}</div>
@@ -1049,10 +1148,18 @@ async function openCarDetail(id) {
           <div class="spec-item"><div class="spec-label">اللون</div><div class="spec-val">${car.color||'—'}</div></div>
           <div class="spec-item"><div class="spec-label">المدينة</div><div class="spec-val">📍 ${car.city||'—'}</div></div>
           <div class="spec-item"><div class="spec-label">حادث</div><div class="spec-val">${car.accident?'🔧 نعم':'✅ لا'}</div></div>
+          ${car.vin?`<div class="spec-item" style="grid-column:1/-1"><div class="spec-label">رقم الشاصي</div><div class="spec-val" style="font-family:monospace;letter-spacing:1px;">${car.vin}</div></div>`:''}
         </div>
         ${car.desc?`<div class="detail-desc">${car.desc}</div>`:''}
         ${car.phone?`<button onclick="event.stopPropagation();contactSeller('${car.phone}')" class="btn-whatsapp">💬 تواصل عبر واتساب</button>`:''}
-        ${isOwner?`<button class="btn-delete-ad" onclick="deleteAd('${car.id}')">🗑️ حذف إعلاني</button>`:''}
+        ${isOwner?`
+  <div style="display:flex;gap:8px;margin-top:8px;">
+    <button onclick="toggleSold('${car.id}', ${car.sold||false})" style="flex:1;background:${car.sold?'rgba(46,204,113,0.1)':'rgba(201,168,76,0.1)'};border:1px solid ${car.sold?'rgba(46,204,113,0.3)':'var(--border)'};color:${car.sold?'var(--green)':'var(--gold)'};padding:10px;border-radius:10px;font-family:Tajawal,sans-serif;font-size:14px;cursor:pointer;">
+      ${car.sold?'✅ تم البيع — اضغط للتراجع':'🏷️ وضع علامة تم البيع'}
+    </button>
+    <button class="btn-delete-ad" style="flex:1;margin-top:0;" onclick="deleteAd('${car.id}')">🗑️ حذف</button>
+  </div>
+`:''}
       </div>
     </div>`;
 
@@ -1087,6 +1194,35 @@ function galGo(idx) {
 }
 
 // ===== DELETE AD =====
+
+// ===== TOGGLE SOLD =====
+async function toggleSold(id, currentSold) {
+  try {
+    await db.collection('cars').doc(id).update({ sold: !currentSold });
+    const car = allCars.find(c => c.id === id);
+    if (car) car.sold = !currentSold;
+    openCarDetail(id);
+  } catch(e) { alert('خطأ: ' + e.message); }
+}
+
+
+async function reportAd(carId, carName) {
+  const reasons = ['إعلان وهمي', 'سعر مضلل', 'معلومات خاطئة', 'محتوى غير لائق', 'سبب آخر'];
+  const reason = prompt('سبب البلاغ:\n' + reasons.map((r,i) => (i+1)+'. '+r).join('\n'));
+  if (!reason) return;
+  const user = auth.currentUser;
+  try {
+    await db.collection('reports').add({
+      carId, carName,
+      reason,
+      reporterId: user ? user.uid : 'anonymous',
+      reporterName: user ? user.displayName : 'مجهول',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    alert('✅ تم إرسال البلاغ. سنراجعه قريباً.');
+  } catch(e) { alert('خطأ: ' + e.message); }
+}
+
 async function deleteAd(id) {
   if (!confirm('هل تريد حذف هذا الإعلان؟')) return;
   try {
@@ -1208,6 +1344,186 @@ function showMsg(id, text, color) {
 }
 
 
+
+// ===== ADMIN =====
+const ADMIN_EMAIL = 'iraq.motors0@gmail.com';
+
+function isAdmin() {
+  return auth.currentUser && auth.currentUser.email === ADMIN_EMAIL;
+}
+
+// Update auth state to show admin nav
+const origAuthHandler = auth.onAuthStateChanged;
+
+// Update nav for admin
+function updateAdminNav(user) {
+  const navAdmin = document.getElementById('navAdmin');
+  if (navAdmin) {
+    navAdmin.style.display = (user && user.email === ADMIN_EMAIL) ? 'block' : 'none';
+  }
+}
+
+async function loadAdminPage() {
+  if (!isAdmin()) { goPage('home'); return; }
+  document.getElementById('adminLastUpdate').textContent = 'آخر تحديث: ' + new Date().toLocaleTimeString('ar-IQ');
+  
+  try {
+    // Load all cars
+    const carsSnap = await db.collection('cars').get();
+    const allAdsCars = carsSnap.docs.map(d => ({id:d.id,...d.data()}));
+    const pending = allAdsCars.filter(c => !c.approved);
+    const approved = allAdsCars.filter(c => c.approved);
+    const sold = allAdsCars.filter(c => c.sold);
+
+    // Load users
+    const usersSnap = await db.collection('users').get();
+
+    // Load reports
+    const reportsSnap = await db.collection('reports').get();
+    const reports = reportsSnap.docs.map(d => ({id:d.id,...d.data()}));
+
+    document.getElementById('statTotalAds').textContent = allAdsCars.length;
+    document.getElementById('statPending').textContent = pending.length;
+    document.getElementById('statApproved').textContent = approved.length;
+    document.getElementById('statSold').textContent = sold.length;
+    document.getElementById('statUsers').textContent = usersSnap.size;
+    document.getElementById('statReports').textContent = reports.length;
+
+    // Store for tabs
+    window._adminData = { allAdsCars, pending, approved, reports, users: usersSnap.docs.map(d=>({id:d.id,...d.data()})) };
+    switchAdminTab('pending');
+  } catch(e) {
+    document.getElementById('adminTabContent').innerHTML = `<div style="color:var(--red);padding:20px;">خطأ: ${e.message}</div>`;
+  }
+}
+
+function switchAdminTab(tab) {
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  const data = window._adminData;
+  if (!data) return;
+  const content = document.getElementById('adminTabContent');
+
+  if (tab === 'pending') {
+    if (data.pending.length === 0) {
+      content.innerHTML = '<div style="text-align:center;padding:40px;color:var(--dim);">✅ ما في إعلانات بانتظار الموافقة</div>';
+      return;
+    }
+    content.innerHTML = data.pending.map(car => `
+      <div class="admin-card">
+        ${car.img ? `<img class="admin-card-img" src="${car.img}">` : `<div class="admin-card-img" style="display:flex;align-items:center;justify-content:center;font-size:24px;">🚗</div>`}
+        <div class="admin-card-info">
+          <div class="admin-card-name">${car.make} ${car.model} ${car.year}</div>
+          <div class="admin-card-meta">📍 ${car.city} • 💰 ${car.currency==='IQD'?car.price.toLocaleString()+' د.ع':'$'+car.price.toLocaleString()} • 👤 ${car.userName}</div>
+          <div class="admin-card-meta">📞 ${car.phone} • ${car.accident?'🔧 فيها حادث':'✅ سالمة'}</div>
+          <div class="admin-card-actions">
+            <button class="btn-approve" onclick="approveAd('${car.id}')">✅ موافقة</button>
+            <button class="btn-reject" onclick="rejectAd('${car.id}')">❌ رفض وحذف</button>
+          </div>
+        </div>
+      </div>`).join('');
+  }
+
+  else if (tab === 'approved') {
+    if (data.approved.length === 0) {
+      content.innerHTML = '<div style="text-align:center;padding:40px;color:var(--dim);">ما في إعلانات مفعّلة</div>';
+      return;
+    }
+    content.innerHTML = data.approved.map(car => `
+      <div class="admin-card">
+        ${car.img ? `<img class="admin-card-img" src="${car.img}">` : `<div class="admin-card-img" style="display:flex;align-items:center;justify-content:center;font-size:24px;">🚗</div>`}
+        <div class="admin-card-info">
+          <div class="admin-card-name">${car.make} ${car.model} ${car.year} ${car.sold?'<span style="color:var(--green);font-size:12px;">✅ مباعة</span>':''}</div>
+          <div class="admin-card-meta">📍 ${car.city} • 💰 ${car.currency==='IQD'?car.price.toLocaleString()+' د.ع':'$'+car.price.toLocaleString()} • 👤 ${car.userName}</div>
+          <div class="admin-card-actions">
+            <button class="btn-reject" onclick="rejectAd('${car.id}')">🗑️ حذف</button>
+          </div>
+        </div>
+      </div>`).join('');
+  }
+
+  else if (tab === 'reports') {
+    if (data.reports.length === 0) {
+      content.innerHTML = '<div style="text-align:center;padding:40px;color:var(--dim);">✅ ما في بلاغات</div>';
+      return;
+    }
+    content.innerHTML = data.reports.map(r => `
+      <div class="admin-card">
+        <div class="admin-card-info">
+          <div class="admin-card-name">🚨 بلاغ على إعلان</div>
+          <div class="admin-card-meta">السبب: ${r.reason} • من: ${r.reporterName||'مجهول'}</div>
+          <div class="admin-card-meta">الإعلان: ${r.carName||r.carId}</div>
+          <div class="admin-card-actions">
+            <button class="btn-reject" onclick="rejectAd('${r.carId}');dismissReport('${r.id}')">🗑️ حذف الإعلان</button>
+            <button class="btn-approve" onclick="dismissReport('${r.id}')">✅ تجاهل البلاغ</button>
+          </div>
+        </div>
+      </div>`).join('');
+  }
+
+  else if (tab === 'users') {
+    content.innerHTML = `
+      <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;">
+          <thead><tr style="background:var(--dark3);">
+            <th style="padding:12px;text-align:right;font-size:13px;border-bottom:1px solid var(--border);">المستخدم</th>
+            <th style="padding:12px;text-align:right;font-size:13px;border-bottom:1px solid var(--border);">الإيميل</th>
+            <th style="padding:12px;text-align:right;font-size:13px;border-bottom:1px solid var(--border);">الهاتف</th>
+          </tr></thead>
+          <tbody>
+            ${data.users.map(u => `
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:12px;font-size:14px;">${u.name||'—'}</td>
+                <td style="padding:12px;font-size:13px;color:var(--dim);">${u.email||'—'}</td>
+                <td style="padding:12px;font-size:13px;color:var(--dim);">${u.phone||'—'}</td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>`;
+  }
+}
+
+async function approveAd(id) {
+  try {
+    await db.collection('cars').doc(id).update({ approved: true });
+    const car = window._adminData.allAdsCars.find(c => c.id === id);
+    if (car) { car.approved = true; window._adminData.pending = window._adminData.pending.filter(c => c.id !== id); window._adminData.approved.push(car); }
+    document.getElementById('statPending').textContent = window._adminData.pending.length;
+    document.getElementById('statApproved').textContent = window._adminData.approved.length;
+    switchAdminTab('pending');
+    showAdminMsg('✅ تم الموافقة على الإعلان');
+  } catch(e) { alert('خطأ: ' + e.message); }
+}
+
+async function rejectAd(id) {
+  if (!confirm('هل تريد حذف هذا الإعلان؟')) return;
+  try {
+    await db.collection('cars').doc(id).delete();
+    window._adminData.allAdsCars = window._adminData.allAdsCars.filter(c => c.id !== id);
+    window._adminData.pending = window._adminData.pending.filter(c => c.id !== id);
+    window._adminData.approved = window._adminData.approved.filter(c => c.id !== id);
+    loadAdminPage();
+    showAdminMsg('🗑️ تم حذف الإعلان');
+  } catch(e) { alert('خطأ: ' + e.message); }
+}
+
+async function dismissReport(id) {
+  try {
+    await db.collection('reports').doc(id).delete();
+    window._adminData.reports = window._adminData.reports.filter(r => r.id !== id);
+    document.getElementById('statReports').textContent = window._adminData.reports.length;
+    showAdminMsg('✅ تم تجاهل البلاغ');
+  } catch(e) { alert('خطأ: ' + e.message); }
+}
+
+function showAdminMsg(msg) {
+  const el = document.createElement('div');
+  el.textContent = msg;
+  el.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--gold);color:#000;padding:10px 24px;border-radius:10px;font-family:Tajawal,sans-serif;font-weight:700;z-index:9999;';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 3000);
+}
+
 // ===== COMPARE DATA =====
 const COMPARE_DB = {
   'Toyota كورولا':     {hp:139,torque:169,engine:'1.8L',fuel:'بنزين',gear:'CVT',weight:1320,price:22000,accel:9.5,top:180,consumption:15},
@@ -1248,6 +1564,55 @@ const COMPARE_DB = {
   'Audi Q7':           {hp:335,torque:440,engine:'3.0L TFSI V6',fuel:'بنزين',gear:'أوتو',weight:2075,price:76000,accel:5.7,top:250,consumption:11},
   'Audi RS6':          {hp:591,torque:800,engine:'4.0L V8 Biturbo',fuel:'بنزين',gear:'أوتو',weight:2075,price:115000,accel:3.6,top:305,consumption:9},
   'Bentley Continental GT':{hp:542,torque:770,engine:'4.0L V8 Twin-Turbo',fuel:'بنزين',gear:'DCT',weight:2244,price:220000,accel:4.0,top:318,consumption:8},
+  'Toyota يارس':       {hp:107,torque:141,engine:'1.5L',fuel:'بنزين',gear:'CVT',weight:1050,price:18000,accel:11.8,top:170,consumption:17},
+  'Toyota هايلوكس':    {hp:163,torque:400,engine:'2.8L ديزل',fuel:'ديزل',gear:'أوتو',weight:1920,price:42000,accel:10.5,top:175,consumption:11},
+  'Toyota فورتشنر':    {hp:163,torque:400,engine:'2.8L ديزل',fuel:'ديزل',gear:'أوتو',weight:1940,price:45000,accel:11,top:175,consumption:11},
+  'Toyota إنوفا':      {hp:149,torque:342,engine:'2.0L',fuel:'بنزين',gear:'أوتو',weight:1760,price:30000,accel:12,top:170,consumption:13},
+  'Kia بيكانتو':       {hp:84,torque:118,engine:'1.0L',fuel:'بنزين',gear:'أوتو',weight:940,price:12000,accel:13.5,top:155,consumption:18},
+  'Kia ريو':           {hp:120,torque:151,engine:'1.4L',fuel:'بنزين',gear:'أوتو',weight:1080,price:16000,accel:10.5,top:175,consumption:16},
+  'Kia سيراتو / K3':  {hp:147,torque:179,engine:'2.0L',fuel:'بنزين',gear:'أوتو',weight:1300,price:21000,accel:9.5,top:190,consumption:14},
+  'Kia سورينتو':       {hp:281,torque:311,engine:'2.5L',fuel:'بنزين',gear:'أوتو',weight:1845,price:38000,accel:7.5,top:200,consumption:12},
+  'Kia سيلتوس':        {hp:146,torque:175,engine:'1.6L',fuel:'بنزين',gear:'أوتو',weight:1350,price:26000,accel:9.8,top:185,consumption:13},
+  'Hyundai أكسنت':     {hp:120,torque:151,engine:'1.4L',fuel:'بنزين',gear:'أوتو',weight:1080,price:15000,accel:10.8,top:175,consumption:16},
+  'Hyundai إلنترا':    {hp:147,torque:179,engine:'2.0L',fuel:'بنزين',gear:'CVT',weight:1340,price:22000,accel:9.5,top:190,consumption:14},
+  'Hyundai كريتا':     {hp:120,torque:151,engine:'1.4L',fuel:'بنزين',gear:'أوتو',weight:1200,price:22000,accel:10.5,top:180,consumption:14},
+  'Nissan صني':        {hp:99,torque:133,engine:'1.6L',fuel:'بنزين',gear:'CVT',weight:1090,price:14000,accel:12,top:168,consumption:16},
+  'Nissan سنترا':      {hp:149,torque:178,engine:'2.0L',fuel:'بنزين',gear:'CVT',weight:1348,price:20000,accel:9.8,top:185,consumption:14},
+  'Nissan كيكس':       {hp:122,torque:152,engine:'1.6L',fuel:'بنزين',gear:'CVT',weight:1230,price:23000,accel:10.5,top:175,consumption:14},
+  'Nissan إكس تريل':   {hp:181,torque:245,engine:'2.5L',fuel:'بنزين',gear:'CVT',weight:1600,price:33000,accel:9.0,top:190,consumption:12},
+  'Chevrolet ماليبو':  {hp:163,torque:243,engine:'1.5L Turbo',fuel:'بنزين',gear:'أوتو',weight:1444,price:24000,accel:8.5,top:195,consumption:14},
+  'Chevrolet كابتيفا': {hp:141,torque:204,engine:'1.5L Turbo',fuel:'بنزين',gear:'أوتو',weight:1570,price:28000,accel:10,top:185,consumption:13},
+  'Chevrolet ترافرس':  {hp:310,torque:366,engine:'3.6L V6',fuel:'بنزين',gear:'أوتو',weight:2090,price:44000,accel:7.5,top:200,consumption:11},
+  'Chevrolet سلفرادو': {hp:355,torque:383,engine:'5.3L V8',fuel:'بنزين',gear:'أوتو',weight:2100,price:45000,accel:7.8,top:185,consumption:10},
+  'Ford تورس':         {hp:288,torque:362,engine:'3.5L V6',fuel:'بنزين',gear:'أوتو',weight:1870,price:35000,accel:7.0,top:210,consumption:11},
+  'Ford إكسبيديشن':    {hp:375,torque:474,engine:'3.5L EcoBoost V6',fuel:'بنزين',gear:'أوتو',weight:2630,price:60000,accel:6.5,top:200,consumption:9},
+  'BMW الفئة 3':       {hp:184,torque:300,engine:'2.0L TwinPower',fuel:'بنزين',gear:'أوتو',weight:1500,price:45000,accel:7.0,top:235,consumption:14},
+  'BMW الفئة 7':       {hp:375,torque:500,engine:'3.0L TwinPower',fuel:'بنزين',gear:'أوتو',weight:2020,price:95000,accel:5.0,top:250,consumption:11},
+  'BMW X6':            {hp:335,torque:450,engine:'3.0L TwinPower',fuel:'بنزين',gear:'أوتو',weight:2145,price:76000,accel:5.4,top:250,consumption:11},
+  'BMW X7':            {hp:375,torque:500,engine:'3.0L TwinPower',fuel:'بنزين',gear:'أوتو',weight:2355,price:95000,accel:5.8,top:250,consumption:10},
+  'BMW M3':            {hp:503,torque:650,engine:'3.0L M TwinPower',fuel:'بنزين',gear:'M DCT',weight:1730,price:85000,accel:3.5,top:290,consumption:10},
+  'Mercedes-Benz C-Class':{hp:204,torque:300,engine:'2.0L Turbo',fuel:'بنزين',gear:'أوتو',weight:1560,price:48000,accel:7.0,top:240,consumption:13},
+  'Mercedes-Benz S-Class':{hp:429,torque:550,engine:'3.0L 6-سيلندر',fuel:'بنزين',gear:'أوتو',weight:2075,price:115000,accel:4.9,top:250,consumption:11},
+  'Mercedes-Benz CLA': {hp:224,torque:350,engine:'2.0L Turbo',fuel:'بنزين',gear:'DCT',weight:1560,price:45000,accel:6.2,top:250,consumption:13},
+  'Mercedes-Benz GLA': {hp:221,torque:350,engine:'2.0L Turbo',fuel:'بنزين',gear:'DCT',weight:1575,price:46000,accel:6.6,top:235,consumption:13},
+  'Mercedes-Benz GLS': {hp:429,torque:550,engine:'3.0L 6-سيلندر',fuel:'بنزين',gear:'أوتو',weight:2485,price:105000,accel:5.5,top:250,consumption:10},
+  'Audi A4':           {hp:201,torque:320,engine:'2.0L TFSI',fuel:'بنزين',gear:'S tronic',weight:1525,price:48000,accel:7.0,top:240,consumption:13},
+  'Audi A6':           {hp:252,torque:370,engine:'2.0L TFSI',fuel:'بنزين',gear:'S tronic',weight:1695,price:62000,accel:6.3,top:250,consumption:13},
+  'Audi A8':           {hp:340,torque:500,engine:'3.0L TFSI V6',fuel:'بنزين',gear:'Tiptronic',weight:1975,price:90000,accel:5.7,top:250,consumption:11},
+  'Audi Q5':           {hp:261,torque:370,engine:'2.0L TFSI',fuel:'بنزين',gear:'S tronic',weight:1840,price:58000,accel:5.9,top:235,consumption:12},
+  'Audi Q8':           {hp:340,torque:500,engine:'3.0L TFSI V6',fuel:'بنزين',gear:'Tiptronic',weight:2100,price:85000,accel:5.9,top:250,consumption:11},
+  'Porsche Macan':     {hp:265,torque:400,engine:'2.0L Turbo',fuel:'بنزين',gear:'PDK',weight:1875,price:60000,accel:6.5,top:230,consumption:12},
+  'Porsche Panamera':  {hp:330,torque:450,engine:'2.9L Turbo V6',fuel:'بنزين',gear:'PDK',weight:1995,price:95000,accel:5.4,top:270,consumption:11},
+  'Land Rover Defender':{hp:300,torque:400,engine:'2.0L Ingenium',fuel:'بنزين',gear:'أوتو',weight:2185,price:65000,accel:8.0,top:191,consumption:11},
+  'Land Rover Discovery':{hp:300,torque:400,engine:'2.0L Ingenium',fuel:'بنزين',gear:'أوتو',weight:2185,price:68000,accel:8.1,top:195,consumption:11},
+  'Jeep Cherokee':     {hp:271,torque:353,engine:'2.0L Turbo',fuel:'بنزين',gear:'أوتو',weight:1760,price:34000,accel:7.4,top:200,consumption:12},
+  'Jeep Compass':      {hp:177,torque:270,engine:'1.3L Turbo',fuel:'بنزين',gear:'DCT',weight:1540,price:28000,accel:8.5,top:190,consumption:13},
+  'Jeep Gladiator':    {hp:285,torque:353,engine:'3.6L V6',fuel:'بنزين',gear:'أوتو',weight:2150,price:40000,accel:8.0,top:175,consumption:11},
+  'Bentley Flying Spur':{hp:542,torque:770,engine:'4.0L V8 Twin-Turbo',fuel:'بنزين',gear:'DCT',weight:2437,price:215000,accel:4.1,top:318,consumption:8},
+  'Bentley Bentayga':  {hp:542,torque:770,engine:'4.0L V8 Twin-Turbo',fuel:'بنزين',gear:'ZF 8-speed',weight:2398,price:195000,accel:4.5,top:290,consumption:8},
+  'MG ZS':             {hp:111,torque:150,engine:'1.5L',fuel:'بنزين',gear:'CVT',weight:1300,price:18000,accel:10.5,top:175,consumption:14},
+  'MG HS':             {hp:162,torque:230,engine:'1.5L Turbo',fuel:'بنزين',gear:'DCT',weight:1520,price:24000,accel:9.5,top:185,consumption:13},
+  'MG MG6':            {hp:181,torque:265,engine:'2.0L Turbo',fuel:'بنزين',gear:'DCT',weight:1460,price:22000,accel:9.0,top:195,consumption:13},
 };
 
 function initCmpSelects() {
@@ -1351,14 +1716,33 @@ async function sendAiMsg() {
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
+      headers: { 'content-type': 'application/json', 'x-api-key': window.AI_KEY || '', 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
-        system: `أنت مستشار سيارات خبير متخصص فقط في مجال السيارات. تجيب باللغة العربية فقط.
-مسموح لك بالإجابة على: أسئلة السيارات، المحركات، الصيانة، المقارنات، نصائح الشراء والبيع، الأسعار، أنواع الوقود، قطع الغيار، والمشاكل الميكانيكية.
-ممنوع تماماً: الإجابة على أي موضوع خارج نطاق السيارات والمركبات. إذا سألك أحد عن موضوع آخر، قل بأدب: "أنا مختص فقط بأسئلة السيارات، هل لديك سؤال عن السيارات؟"
-كن موجزاً وواضحاً في إجاباتك.`,
+        system: `أنت مستشار سيارات عراقي خبير اسمك "أبو سيارة". تحكي بالعامية العراقية وتفهم المصطلحات العراقية للسيارات.
+
+أمثلة على المصطلحات العراقية اللي تفهمها:
+- "چنجر / كنجر" = تغيير / تبديل قطعة
+- "يشتل" = يشتغل / يعمل
+- "طاح" = توقف / خربان
+- "دهن / زيت" = زيت المحرك
+- "بنشر" = إطار مثقوب
+- "گير" = ناقل الحركة
+- "فرامل / براك" = فرامل
+- "ردياتير / رادياتر" = مبرد المحرك
+- "بطارية" = بطارية السيارة
+- "كمبروسر" = كمبريسور المكيف
+- "سير" = حزام التوقيت أو السير
+- "يكبح" = يتوقف / الفرامل تشتغل
+- "عفشة" = نظام التعليق
+- "مكينة" = المحرك
+
+قواعد مهمة:
+1. تجيب فقط على أسئلة السيارات — إذا سألوك عن موضوع ثاني گل: "والله أخوي أنا بس أفهم بالسيارات 😄 اسألني عن سيارتك!"
+2. حكيك عراقي طبيعي — مثل شخص خبير بالسيارات يحكي لصديقه
+3. كن مفيد وواضح وموجز
+4. استخدم إيموجي بشكل طبيعي`,
         messages: aiHistory.slice(-10)
       })
     });
