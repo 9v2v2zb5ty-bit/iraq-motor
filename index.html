@@ -1399,7 +1399,7 @@ async function loadAdminPage() {
 
 function switchAdminTab(tab) {
   document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-  event.target.classList.add('active');
+event?.target?.classList.add('active');
   const data = window._adminData;
   if (!data) return;
   const content = document.getElementById('adminTabContent');
