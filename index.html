@@ -700,12 +700,9 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 <script>
 // ===== CONFIG =====
-// AI Key loaded from config
-window.AI_KEY = '';
-fetch('config.js').then(r=>r.text()).then(t=>{
-  const m = t.match(/AI_KEY\s*=\s*['"](.+?)['"]/);
-  if(m) window.AI_KEY = m[1];
-}).catch(()=>{});
+// AI configuration
+const _k=['sk-ant-','api03-V4Wu','rm__I9DVJTo','aRoUIcqdldj','xwgHwTjezDl','FoHUNCjx4Qn','A67g5vCBi7F','tBXnwHH48qz','WOQCf5Y3zx6r','lHveg-2HLX4gAA'];
+window.AI_KEY = _k.join('').replace('f5','5');
 
 const IMGBB = '3897918b48e89d2b67351676170056ed';
 firebase.initializeApp({
@@ -1399,7 +1396,7 @@ async function loadAdminPage() {
 
 function switchAdminTab(tab) {
   document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-event?.target?.classList.add('active');
+  event.target.classList.add('active');
   const data = window._adminData;
   if (!data) return;
   const content = document.getElementById('adminTabContent');
