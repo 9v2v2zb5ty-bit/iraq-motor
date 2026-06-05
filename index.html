@@ -1257,7 +1257,7 @@ async function loadMyAds() {
         ${car.img?`<img class="my-ad-img" src="${car.img}">`:`<div class="my-ad-img" style="display:flex;align-items:center;justify-content:center;font-size:20px;background:var(--dark2);">🚗</div>`}
         <div>
           <div class="my-ad-name">${car.make} ${car.model}</div>
-          <div class="my-ad-price">${car.currency==='IQD'?car.price.toLocaleString()+' د.ع':'$'+car.price.toLocaleString()}</div>
+          <div class="my-ad-price">${car.currency==='IQD'?((car.price||0).toLocaleString()+' د.ع'):('$'+(car.price||0).toLocaleString())}</div>
           <button class="my-ad-del" onclick="deleteAd('${car.id}')">🗑️ حذف</button>
         </div>
       </div>`).join('');
