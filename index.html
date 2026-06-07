@@ -211,8 +211,8 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
   <ul class="nav-links">
     <li><a onclick="goPage('home')">الرئيسية</a></li>
     <li><a onclick="goPage('cars')">السيارات</a></li>
-    <li><a onclick="goPage('compare')">(تحت الصيانة)المقارنة</a></li>
-    <li><a onclick="goPage('ai')">مستشار(قريباّ...) AI 🤖</a></li>
+    <li><a onclick="goPage('compare')">المقارنة</a></li>
+    <li><a onclick="goPage('ai')">مستشار AI 🤖</a></li>
     <li><a onclick="goPage('profile')" id="navProfile" style="display:none">حسابي</a></li>
     <li><a onclick="goPage('admin')" id="navAdmin" style="display:none;color:var(--red)">⚙️ الإدارة</a></li>
   </ul>
@@ -231,7 +231,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
     <div class="hero-inner">
       <div class="hero-badge">🔥 سوق السيارات الأفخم في العراق</div>
       <h1 class="hero-title">اشتري وبع<br><span class="g">سيارتك بثقة</span></h1>
-      <p class="hero-sub">من البصرة إلى زاخو — نجيب كل سيارة.<br>(للتواصل iraq.motors0@gmail.com)أفضل منصة لبيع وشراء السيارات في العراق.</p>
+      <p class="hero-sub">من البصرة إلى زاخو — نجيب كل سيارة.<br>أفضل منصة لبيع وشراء السيارات في العراق.</p>
       <div class="hero-btns">
         <button class="btn-hero btn-hero-gold" onclick="goPage('cars')">تصفح السيارات 🚗</button>
         <button class="btn-hero btn-hero-out" onclick="goPage('post')">نشر إعلان</button>
@@ -1056,6 +1056,162 @@ function showAdminMsg(msg) {
   document.body.appendChild(el);
   setTimeout(()=>el.remove(),3000);
 }
+
+
+// ===== COMPARE =====
+const COMPARE_DB = {
+  'Toyota كورولا':{hp:139,torque:169,engine:'1.8L',fuel:'بنزين',gear:'CVT',weight:1320,price:22000,accel:9.5,top:180,consumption:15},
+  'Toyota كامري':{hp:203,torque:250,engine:'2.5L',fuel:'بنزين',gear:'أوتو',weight:1530,price:28000,accel:8.3,top:200,consumption:13},
+  'Toyota لاندكروزر':{hp:381,torque:479,engine:'3.5L V6',fuel:'بنزين',gear:'أوتو',weight:2490,price:85000,accel:6.8,top:210,consumption:9},
+  'Toyota برادو':{hp:163,torque:400,engine:'2.8L ديزل',fuel:'ديزل',gear:'أوتو',weight:2150,price:55000,accel:11,top:180,consumption:11},
+  'Toyota هايلاندر':{hp:295,torque:361,engine:'3.5L V6',fuel:'بنزين',gear:'أوتو',weight:2045,price:48000,accel:7.1,top:195,consumption:12},
+  'Toyota راڤ 4':{hp:203,torque:243,engine:'2.5L',fuel:'بنزين',gear:'CVT',weight:1650,price:35000,accel:8.0,top:195,consumption:13},
+  'Toyota يارس':{hp:107,torque:141,engine:'1.5L',fuel:'بنزين',gear:'CVT',weight:1050,price:18000,accel:11.8,top:170,consumption:17},
+  'Toyota هايلوكس':{hp:163,torque:400,engine:'2.8L ديزل',fuel:'ديزل',gear:'أوتو',weight:1920,price:42000,accel:10.5,top:175,consumption:11},
+  'Toyota فورتشنر':{hp:163,torque:400,engine:'2.8L ديزل',fuel:'ديزل',gear:'أوتو',weight:1940,price:45000,accel:11,top:175,consumption:11},
+  'Toyota إنوفا':{hp:149,torque:342,engine:'2.0L',fuel:'بنزين',gear:'أوتو',weight:1760,price:30000,accel:12,top:170,consumption:13},
+  'Kia K5':{hp:180,torque:264,engine:'1.6L Turbo',fuel:'بنزين',gear:'أوتو',weight:1480,price:25000,accel:8.5,top:205,consumption:14},
+  'Kia سبورتاج':{hp:187,torque:264,engine:'2.0L',fuel:'بنزين',gear:'أوتو',weight:1590,price:32000,accel:9.1,top:190,consumption:12},
+  'Kia تيلورايد':{hp:291,torque:355,engine:'3.8L V6',fuel:'بنزين',gear:'أوتو',weight:1996,price:46000,accel:7.2,top:200,consumption:11},
+  'Kia بيكانتو':{hp:84,torque:118,engine:'1.0L',fuel:'بنزين',gear:'أوتو',weight:940,price:12000,accel:13.5,top:155,consumption:18},
+  'Kia ريو':{hp:120,torque:151,engine:'1.4L',fuel:'بنزين',gear:'أوتو',weight:1080,price:16000,accel:10.5,top:175,consumption:16},
+  'Kia سيراتو / K3':{hp:147,torque:179,engine:'2.0L',fuel:'بنزين',gear:'أوتو',weight:1300,price:21000,accel:9.5,top:190,consumption:14},
+  'Kia سورينتو':{hp:281,torque:311,engine:'2.5L',fuel:'بنزين',gear:'أوتو',weight:1845,price:38000,accel:7.5,top:200,consumption:12},
+  'Kia سيلتوس':{hp:146,torque:175,engine:'1.6L',fuel:'بنزين',gear:'أوتو',weight:1350,price:26000,accel:9.8,top:185,consumption:13},
+  'Hyundai سوناتا':{hp:191,torque:245,engine:'2.5L',fuel:'بنزين',gear:'أوتو',weight:1504,price:27000,accel:8.7,top:195,consumption:13},
+  'Hyundai توسان':{hp:187,torque:264,engine:'2.0L',fuel:'بنزين',gear:'أوتو',weight:1590,price:33000,accel:9.3,top:185,consumption:12},
+  'Hyundai باليسيد':{hp:291,torque:355,engine:'3.8L V6',fuel:'بنزين',gear:'أوتو',weight:2056,price:47000,accel:7.5,top:195,consumption:11},
+  'Hyundai أكسنت':{hp:120,torque:151,engine:'1.4L',fuel:'بنزين',gear:'أوتو',weight:1080,price:15000,accel:10.8,top:175,consumption:16},
+  'Hyundai إلنترا':{hp:147,torque:179,engine:'2.0L',fuel:'بنزين',gear:'CVT',weight:1340,price:22000,accel:9.5,top:190,consumption:14},
+  'Hyundai كريتا':{hp:120,torque:151,engine:'1.4L',fuel:'بنزين',gear:'أوتو',weight:1200,price:22000,accel:10.5,top:180,consumption:14},
+  'Nissan باترول':{hp:400,torque:560,engine:'5.6L V8',fuel:'بنزين',gear:'أوتو',weight:2640,price:75000,accel:6.5,top:210,consumption:8},
+  'Nissan باثفايندر':{hp:284,torque:334,engine:'3.5L V6',fuel:'بنزين',gear:'CVT',weight:2012,price:42000,accel:7.8,top:190,consumption:11},
+  'Nissan ألتيما':{hp:188,torque:244,engine:'2.5L',fuel:'بنزين',gear:'CVT',weight:1451,price:26000,accel:8.9,top:195,consumption:14},
+  'Nissan صني':{hp:99,torque:133,engine:'1.6L',fuel:'بنزين',gear:'CVT',weight:1090,price:14000,accel:12,top:168,consumption:16},
+  'Nissan سنترا':{hp:149,torque:178,engine:'2.0L',fuel:'بنزين',gear:'CVT',weight:1348,price:20000,accel:9.8,top:185,consumption:14},
+  'Nissan كيكس':{hp:122,torque:152,engine:'1.6L',fuel:'بنزين',gear:'CVT',weight:1230,price:23000,accel:10.5,top:175,consumption:14},
+  'Nissan إكس تريل':{hp:181,torque:245,engine:'2.5L',fuel:'بنزين',gear:'CVT',weight:1600,price:33000,accel:9.0,top:190,consumption:12},
+  'Chevrolet تاهو':{hp:355,torque:383,engine:'5.3L V8',fuel:'بنزين',gear:'أوتو',weight:2630,price:58000,accel:7.2,top:185,consumption:9},
+  'Chevrolet سوبربان':{hp:355,torque:383,engine:'5.3L V8',fuel:'بنزين',gear:'أوتو',weight:2900,price:65000,accel:7.5,top:180,consumption:8},
+  'Chevrolet كامارو':{hp:455,torque:617,engine:'6.2L V8',fuel:'بنزين',gear:'أوتو',weight:1724,price:42000,accel:4.0,top:250,consumption:9},
+  'Chevrolet ماليبو':{hp:163,torque:243,engine:'1.5L Turbo',fuel:'بنزين',gear:'أوتو',weight:1444,price:24000,accel:8.5,top:195,consumption:14},
+  'Chevrolet كابتيفا':{hp:141,torque:204,engine:'1.5L Turbo',fuel:'بنزين',gear:'أوتو',weight:1570,price:28000,accel:10,top:185,consumption:13},
+  'Chevrolet ترافرس':{hp:310,torque:366,engine:'3.6L V6',fuel:'بنزين',gear:'أوتو',weight:2090,price:44000,accel:7.5,top:200,consumption:11},
+  'Ford موستانغ':{hp:450,torque:529,engine:'5.0L V8',fuel:'بنزين',gear:'أوتو',weight:1696,price:45000,accel:4.2,top:250,consumption:9},
+  'Ford رابتور':{hp:450,torque:691,engine:'3.5L EcoBoost V6',fuel:'بنزين',gear:'أوتو',weight:2490,price:75000,accel:5.2,top:190,consumption:9},
+  'Ford إكسبلورر':{hp:300,torque:407,engine:'2.3L EcoBoost',fuel:'بنزين',gear:'أوتو',weight:2041,price:46000,accel:7.0,top:200,consumption:11},
+  'Ford تورس':{hp:288,torque:362,engine:'3.5L V6',fuel:'بنزين',gear:'أوتو',weight:1870,price:35000,accel:7.0,top:210,consumption:11},
+  'BMW الفئة 5':{hp:248,torque:350,engine:'2.0L TwinPower',fuel:'بنزين',gear:'أوتو',weight:1630,price:58000,accel:6.2,top:240,consumption:13},
+  'BMW X5':{hp:335,torque:450,engine:'3.0L TwinPower',fuel:'بنزين',gear:'أوتو',weight:2130,price:72000,accel:5.3,top:250,consumption:11},
+  'BMW M5':{hp:600,torque:750,engine:'4.4L V8 M',fuel:'بنزين',gear:'أوتو',weight:1900,price:115000,accel:3.3,top:305,consumption:9},
+  'BMW الفئة 3':{hp:184,torque:300,engine:'2.0L TwinPower',fuel:'بنزين',gear:'أوتو',weight:1500,price:45000,accel:7.0,top:235,consumption:14},
+  'BMW X6':{hp:335,torque:450,engine:'3.0L TwinPower',fuel:'بنزين',gear:'أوتو',weight:2145,price:76000,accel:5.4,top:250,consumption:11},
+  'BMW M3':{hp:503,torque:650,engine:'3.0L M TwinPower',fuel:'بنزين',gear:'M DCT',weight:1730,price:85000,accel:3.5,top:290,consumption:10},
+  'Mercedes-Benz E-Class':{hp:255,torque:370,engine:'2.0L Turbo',fuel:'بنزين',gear:'أوتو',weight:1755,price:63000,accel:6.0,top:250,consumption:13},
+  'Mercedes-Benz GLE':{hp:367,torque:500,engine:'3.0L 6-سيلندر',fuel:'بنزين',gear:'أوتو',weight:2165,price:79000,accel:5.7,top:250,consumption:11},
+  'Mercedes-Benz G-Class':{hp:577,torque:850,engine:'4.0L V8 AMG',fuel:'بنزين',gear:'أوتو',weight:2560,price:158000,accel:4.5,top:240,consumption:8},
+  'Mercedes-Benz C-Class':{hp:204,torque:300,engine:'2.0L Turbo',fuel:'بنزين',gear:'أوتو',weight:1560,price:48000,accel:7.0,top:240,consumption:13},
+  'Mercedes-Benz S-Class':{hp:429,torque:550,engine:'3.0L 6-سيلندر',fuel:'بنزين',gear:'أوتو',weight:2075,price:115000,accel:4.9,top:250,consumption:11},
+  'Mercedes-Benz GLS':{hp:429,torque:550,engine:'3.0L 6-سيلندر',fuel:'بنزين',gear:'أوتو',weight:2485,price:105000,accel:5.5,top:250,consumption:10},
+  'Dodge Charger':{hp:370,torque:395,engine:'5.7L HEMI V8',fuel:'بنزين',gear:'أوتو',weight:1930,price:38000,accel:5.4,top:250,consumption:9},
+  'Dodge Challenger':{hp:485,torque:644,engine:'6.4L SRT V8',fuel:'بنزين',gear:'أوتو',weight:1918,price:52000,accel:4.5,top:270,consumption:8},
+  'Dodge Durango':{hp:360,torque:390,engine:'5.7L HEMI V8',fuel:'بنزين',gear:'أوتو',weight:2313,price:46000,accel:6.0,top:210,consumption:9},
+  'Jeep Wrangler':{hp:270,torque:400,engine:'2.0L Turbo',fuel:'بنزين',gear:'أوتو',weight:1950,price:35000,accel:8.5,top:175,consumption:11},
+  'Jeep Grand Cherokee':{hp:357,torque:390,engine:'5.7L HEMI V8',fuel:'بنزين',gear:'أوتو',weight:2200,price:52000,accel:6.0,top:220,consumption:10},
+  'Jeep Cherokee':{hp:271,torque:353,engine:'2.0L Turbo',fuel:'بنزين',gear:'أوتو',weight:1760,price:34000,accel:7.4,top:200,consumption:12},
+  'Land Rover Range Rover':{hp:395,torque:550,engine:'3.0L 6-سيلندر',fuel:'بنزين',gear:'أوتو',weight:2400,price:105000,accel:6.5,top:225,consumption:9},
+  'Land Rover Defender':{hp:300,torque:400,engine:'2.0L Ingenium',fuel:'بنزين',gear:'أوتو',weight:2185,price:65000,accel:8.0,top:191,consumption:11},
+  'Porsche Cayenne':{hp:348,torque:450,engine:'3.0L Turbo',fuel:'بنزين',gear:'أوتو',weight:2020,price:82000,accel:5.9,top:245,consumption:11},
+  'Porsche 911':{hp:379,torque:450,engine:'3.0L Twin-Turbo',fuel:'بنزين',gear:'PDK',weight:1500,price:110000,accel:4.0,top:293,consumption:11},
+  'Audi Q7':{hp:335,torque:440,engine:'3.0L TFSI V6',fuel:'بنزين',gear:'أوتو',weight:2075,price:76000,accel:5.7,top:250,consumption:11},
+  'Audi RS6':{hp:591,torque:800,engine:'4.0L V8 Biturbo',fuel:'بنزين',gear:'أوتو',weight:2075,price:115000,accel:3.6,top:305,consumption:9},
+  'Audi A4':{hp:201,torque:320,engine:'2.0L TFSI',fuel:'بنزين',gear:'S tronic',weight:1525,price:48000,accel:7.0,top:240,consumption:13},
+  'Audi A6':{hp:252,torque:370,engine:'2.0L TFSI',fuel:'بنزين',gear:'S tronic',weight:1695,price:62000,accel:6.3,top:250,consumption:13},
+  'Audi Q5':{hp:261,torque:370,engine:'2.0L TFSI',fuel:'بنزين',gear:'S tronic',weight:1840,price:58000,accel:5.9,top:235,consumption:12},
+  'Bentley Continental GT':{hp:542,torque:770,engine:'4.0L V8 Twin-Turbo',fuel:'بنزين',gear:'DCT',weight:2244,price:220000,accel:4.0,top:318,consumption:8},
+  'Bentley Flying Spur':{hp:542,torque:770,engine:'4.0L V8 Twin-Turbo',fuel:'بنزين',gear:'DCT',weight:2437,price:215000,accel:4.1,top:318,consumption:8},
+  'MG ZS':{hp:111,torque:150,engine:'1.5L',fuel:'بنزين',gear:'CVT',weight:1300,price:18000,accel:10.5,top:175,consumption:14},
+  'MG HS':{hp:162,torque:230,engine:'1.5L Turbo',fuel:'بنزين',gear:'DCT',weight:1520,price:24000,accel:9.5,top:185,consumption:13},
+};
+
+function initCmpSelects() {
+  ['cmp1Make','cmp2Make'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.options.length < 2) Object.keys(CAR_DATA).forEach(m => el.innerHTML += '<option>'+m+'</option>');
+  });
+}
+function updateCmpModels(num) {
+  const make = document.getElementById('cmp'+num+'Make').value;
+  const modelEl = document.getElementById('cmp'+num+'Model');
+  modelEl.innerHTML = '<option value="">اختر الموديل</option>';
+  if (make && CAR_DATA[make]) CAR_DATA[make].models.forEach(m => modelEl.innerHTML += '<option>'+m+'</option>');
+  runCompare();
+}
+function runCompare() {
+  const make1=document.getElementById('cmp1Make').value, model1=document.getElementById('cmp1Model').value;
+  const make2=document.getElementById('cmp2Make').value, model2=document.getElementById('cmp2Model').value;
+  if (!make1||!model1||!make2||!model2) { document.getElementById('compareResult').innerHTML=''; return; }
+  const d1=COMPARE_DB[make1+' '+model1], d2=COMPARE_DB[make2+' '+model2];
+  if (!d1||!d2) { document.getElementById('compareResult').innerHTML='<div style="text-align:center;padding:40px;color:var(--dim);">بيانات المقارنة غير متوفرة لهذا الموديل بعد</div>'; return; }
+  const rows=[
+    {label:'القوة (HP)',k:'hp',unit:'HP',higher:true},{label:'عزم الدوران (Nm)',k:'torque',unit:'Nm',higher:true},
+    {label:'المحرك',k:'engine',unit:'',higher:null},{label:'نوع الوقود',k:'fuel',unit:'',higher:null},
+    {label:'ناقل الحركة',k:'gear',unit:'',higher:null},{label:'الوزن (كغ)',k:'weight',unit:'كغ',higher:false},
+    {label:'0-100 كم/س',k:'accel',unit:'ث',higher:false},{label:'السرعة القصوى',k:'top',unit:'كم/س',higher:true},
+    {label:'استهلاك الوقود',k:'consumption',unit:'كم/L',higher:true},{label:'السعر التقريبي',k:'price',unit:'$',higher:false},
+  ];
+  let s1=0,s2=0;
+  const tableRows=rows.map(function(row){
+    const v1=d1[row.k],v2=d2[row.k];var c1='',c2='';
+    if(row.higher!==null&&typeof v1==='number'){if(row.higher?v1>v2:v1<v2){c1='cmp-win';s1++;}else if(row.higher?v2>v1:v2<v1){c2='cmp-win';s2++;}}
+    const f1=row.k==='price'?'$'+v1.toLocaleString():(v1+(row.unit?' '+row.unit:''));
+    const f2=row.k==='price'?'$'+v2.toLocaleString():(v2+(row.unit?' '+row.unit:''));
+    return '<tr><td>'+row.label+'</td><td class="'+c1+'">'+f1+'</td><td class="'+c2+'">'+f2+'</td></tr>';
+  }).join('');
+  const winner=s1>s2?make1+' '+model1:s2>s1?make2+' '+model2:'تعادل';
+  document.getElementById('compareResult').innerHTML=
+    '<div class="cmp-header"><div><div class="cmp-car-name">'+model1+'</div><div class="cmp-car-sub">'+make1+'</div><div class="cmp-score">'+s1+'</div></div><div class="cmp-vs">VS</div><div><div class="cmp-car-name">'+model2+'</div><div class="cmp-car-sub">'+make2+'</div><div class="cmp-score">'+s2+'</div></div></div>'+
+    (winner!=='تعادل'?'<div style="text-align:center;margin-bottom:16px;background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);border-radius:10px;padding:10px;color:var(--green);font-weight:700;">الفائز: '+winner+'</div>':'<div style="text-align:center;margin-bottom:16px;background:rgba(201,168,76,0.1);border:1px solid var(--border);border-radius:10px;padding:10px;color:var(--gold);font-weight:700;">تعادل!</div>')+
+    '<div class="post-section" style="overflow-x:auto;"><table class="cmp-table"><thead><tr><th>المواصفة</th><th style="color:var(--gold)">'+model1+'</th><th style="color:var(--gold)">'+model2+'</th></tr></thead><tbody>'+tableRows+'</tbody></table></div>';
+}
+
+// ===== AI =====
+var aiHistory = [];
+async function sendAiMsg() {
+  const input=document.getElementById('aiInput');
+  const msg=input.value.trim(); if(!msg) return;
+  input.value=''; addAiMsg(msg,'user');
+  const chat=document.getElementById('aiChat');
+  const tid='t_'+Date.now();
+  chat.innerHTML+='<div class="ai-msg ai-msg-bot" id="'+tid+'"><div class="ai-msg-inner"><div class="ai-typing"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div></div></div>';
+  chat.scrollTop=chat.scrollHeight;
+  aiHistory.push({role:'user',content:msg});
+  try {
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'content-type':'application/json','x-api-key':window.AI_KEY||'','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',max_tokens:1000,
+        system:'انت مستشار سيارات عراقي خبير اسمك ابو سيارة. تحكي بالعامية العراقية. تفهم مصطلحات: چنجر=تغيير قطعة، يشتل=يشتغل، طاح=خربان، دهن=زيت المحرك، بنشر=إطار مثقوب، گير=ناقل الحركة، فرامل=فرامل، ردياتير=مبرد المحرك، عفشة=نظام التعليق، مكينة=المحرك. تجيب فقط على اسئلة السيارات. اذا سالك عن موضوع ثاني گل: والله اخوي انا بس افهم بالسيارات اسالني عن سيارتك!',
+        messages:aiHistory.slice(-10)
+      })
+    });
+    const data=await res.json();
+    const reply=data.content&&data.content[0]?data.content[0].text:'عذرا حدث خطأ.';
+    aiHistory.push({role:'assistant',content:reply});
+    var el=document.getElementById(tid); if(el) el.remove();
+    addAiMsg(reply,'bot');
+  } catch(e) {
+    var el=document.getElementById(tid); if(el) el.remove();
+    addAiMsg('خطأ في الاتصال. تحقق من الإنترنت وحاول مرة أخرى.','bot');
+  }
+}
+function addAiMsg(text,type) {
+  const chat=document.getElementById('aiChat');
+  chat.innerHTML+='<div class="ai-msg ai-msg-'+type+'"><div class="ai-msg-inner">'+text.replace(/\n/g,'<br>')+'</div></div>';
+  chat.scrollTop=chat.scrollHeight;
+}
+function askSuggested(btn) { document.getElementById('aiInput').value=btn.textContent; sendAiMsg(); }
 
 initMakeFilter();
 loadCars();
