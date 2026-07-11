@@ -196,6 +196,33 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 .btn-reject{background:rgba(232,69,69,0.1);border:1px solid rgba(232,69,69,0.3);color:var(--red);padding:6px 14px;border-radius:8px;font-family:Tajawal,sans-serif;font-size:13px;cursor:pointer;transition:all .2s;}
 .btn-reject:hover{background:rgba(232,69,69,0.2);}
 .pending-notice{background:rgba(243,156,18,0.1);border:1px solid rgba(243,156,18,0.3);border-radius:10px;padding:12px 16px;font-size:14px;color:#f39c12;margin-top:12px;text-align:center;}
+
+/* DEALER CARD */
+.dealer-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;transition:all .3s;cursor:pointer;}
+.dealer-card:hover{transform:translateY(-4px);border-color:var(--gold);box-shadow:0 16px 40px rgba(0,0,0,0.3);}
+.dealer-logo{width:60px;height:60px;border-radius:12px;background:var(--dark3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:12px;}
+.dealer-name{font-size:18px;font-weight:700;margin-bottom:4px;}
+.dealer-city{font-size:13px;color:var(--dim);margin-bottom:8px;}
+.dealer-stats{display:flex;gap:16px;}
+.dealer-stat{font-size:12px;color:var(--dim);}
+.dealer-stat span{color:var(--gold);font-weight:700;}
+.verified-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);color:var(--green);padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;margin-bottom:8px;}
+
+/* PRICE BADGE */
+.price-badge{display:inline-block;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;margin-right:8px;}
+.price-good{background:rgba(46,204,113,0.1);color:var(--green);border:1px solid rgba(46,204,113,0.3);}
+.price-bad{background:rgba(232,69,69,0.1);color:var(--red);border:1px solid rgba(232,69,69,0.3);}
+.price-fair{background:rgba(243,156,18,0.1);color:#f39c12;border:1px solid rgba(243,156,18,0.3);}
+
+/* RATING */
+.rating-stars{display:flex;gap:4px;font-size:20px;margin:12px 0;}
+.star-btn{background:none;border:none;cursor:pointer;font-size:24px;transition:transform .1s;}
+.star-btn:hover{transform:scale(1.2);}
+.reviews-list{margin-top:16px;}
+.review-item{background:var(--dark3);border-radius:10px;padding:12px;margin-bottom:8px;}
+.review-stars{color:var(--gold);font-size:14px;margin-bottom:4px;}
+.review-text{font-size:13px;color:var(--dim);}
+.review-author{font-size:11px;color:var(--dim);margin-top:4px;}
 @media(max-width:768px){
   nav{padding:0 16px;}.nav-links{display:none;}
   .detail-main{grid-template-columns:1fr;}
@@ -213,12 +240,16 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
     <li><a onclick="goPage('cars')">السيارات</a></li>
     <li><a onclick="goPage('compare')">المقارنة</a></li>
     <li><a onclick="goPage('ai')">مستشار AI 🤖</a></li>
+    <li><a onclick="goPage('dealers')">المعارض</a></li>
+    <li><a onclick="goPage('calc')">حاسبة القسط</a></li>
+    <li><a onclick="goPage('favorites')" id="navFav" style="display:none">❤️ المفضلة</a></li>
     <li><a onclick="goPage('profile')" id="navProfile" style="display:none">حسابي</a></li>
     <li><a onclick="goPage('admin')" id="navAdmin" style="display:none;color:var(--red)">⚙️ الإدارة</a></li>
   </ul>
   <div class="nav-actions">
     <button class="btn-nav btn-login-nav" onclick="openLogin()">تسجيل الدخول</button>
     <button class="btn-nav btn-post-nav" id="btnPostNav" onclick="goPage('post')">+ نشر إعلان</button>
+    <button class="btn-nav" id="btnFavNav" onclick="goPage('favorites')" style="display:none;background:transparent;color:var(--text);border:1px solid var(--border);">❤️</button>
     <button class="btn-nav btn-profile-nav" id="btnProfileNav" onclick="goPage('profile')">
       <img id="navAvatar" src=""> <span id="navName"></span>
     </button>
@@ -445,6 +476,86 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
   </div>
 </div>
 
+
+<!-- CALCULATOR PAGE -->
+<div class="page" id="page-calc">
+  <div class="post-page" style="max-width:600px;">
+    <h2 style="font-size:26px;font-weight:800;margin-bottom:8px;">🧮 حاسبة قسط السيارة</h2>
+    <p style="color:var(--dim);font-size:14px;margin-bottom:24px;">احسب قسطك الشهري بسهولة</p>
+    <div class="post-section">
+      <div class="post-section-title">تفاصيل التمويل</div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label class="form-label">سعر السيارة (دولار)</label>
+          <input type="number" class="form-input" id="calcPrice" placeholder="25000" oninput="calcLoan()">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">الدفعة الأولى (دولار)</label>
+          <input type="number" class="form-input" id="calcDown" placeholder="5000" oninput="calcLoan()">
+        </div>
+        <div class="form-group">
+          <label class="form-label">مدة القرض (سنوات)</label>
+          <select class="form-input" id="calcYears" onchange="calcLoan()">
+            <option value="1">سنة واحدة</option>
+            <option value="2">سنتين</option>
+            <option value="3" selected>3 سنوات</option>
+            <option value="4">4 سنوات</option>
+            <option value="5">5 سنوات</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">نسبة الفائدة السنوية (%)</label>
+          <input type="number" class="form-input" id="calcRate" placeholder="8" value="8" oninput="calcLoan()">
+        </div>
+      </div>
+    </div>
+    <div class="post-section" id="calcResult" style="display:none;">
+      <div class="post-section-title">النتيجة</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div style="background:var(--dark3);border-radius:12px;padding:20px;text-align:center;">
+          <div style="font-size:12px;color:var(--dim);margin-bottom:8px;">القسط الشهري</div>
+          <div style="font-size:28px;font-weight:900;color:var(--gold);font-family:Rajdhani,sans-serif;" id="calcMonthly">—</div>
+          <div style="font-size:11px;color:var(--dim);">دولار / شهر</div>
+        </div>
+        <div style="background:var(--dark3);border-radius:12px;padding:20px;text-align:center;">
+          <div style="font-size:12px;color:var(--dim);margin-bottom:8px;">إجمالي الفائدة</div>
+          <div style="font-size:28px;font-weight:900;color:var(--red);font-family:Rajdhani,sans-serif;" id="calcInterest">—</div>
+          <div style="font-size:11px;color:var(--dim);">دولار</div>
+        </div>
+        <div style="background:var(--dark3);border-radius:12px;padding:20px;text-align:center;grid-column:1/-1;">
+          <div style="font-size:12px;color:var(--dim);margin-bottom:8px;">إجمالي المبلغ المدفوع</div>
+          <div style="font-size:28px;font-weight:900;color:var(--text);font-family:Rajdhani,sans-serif;" id="calcTotal">—</div>
+          <div style="font-size:11px;color:var(--dim);">دولار</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FAVORITES PAGE -->
+<div class="page" id="page-favorites">
+  <div class="page-header">
+    <div class="page-title">❤️ المفضلة</div>
+    <div class="page-sub">السيارات اللي حفظتها</div>
+  </div>
+  <div class="cars-grid" id="favGrid" style="padding:20px 32px 60px;">
+    <div class="loading">⏳ جاري التحميل...</div>
+  </div>
+</div>
+
+<!-- DEALERS PAGE -->
+<div class="page" id="page-dealers">
+  <div class="page-header">
+    <div class="page-title">🏢 المعارض والتجار</div>
+    <div class="page-sub">معارض موثوقة في العراق</div>
+  </div>
+  <div style="padding:24px 32px 60px;">
+    <div id="dealersGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;">
+      <div class="loading" style="grid-column:1/-1;">⏳ جاري التحميل...</div>
+    </div>
+  </div>
+</div>
+
 <!-- LOGIN -->
 <div class="overlay" id="loginOverlay">
   <div class="modal">
@@ -537,6 +648,11 @@ auth.onAuthStateChanged(user => {
     btnProf.style.display = 'flex';
     if (navProf) navProf.style.display = 'block';
     if (navAdmin) navAdmin.style.display = user.email === ADMIN_EMAIL ? 'block' : 'none';
+    const navFav = document.getElementById('navFav');
+    const btnFavNav = document.getElementById('btnFavNav');
+    if (navFav) navFav.style.display = 'block';
+    if (btnFavNav) btnFavNav.style.display = 'block';
+    updateFavNavCount();
     document.getElementById('navName').textContent = user.displayName || 'حسابي';
     document.getElementById('navAvatar').src = user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName||'U') + '&background=C9A84C&color=000&size=40';
   } else {
@@ -545,6 +661,10 @@ auth.onAuthStateChanged(user => {
     btnProf.style.display = 'none';
     if (navProf) navProf.style.display = 'none';
     if (navAdmin) navAdmin.style.display = 'none';
+    const navFav2 = document.getElementById('navFav');
+    const btnFavNav2 = document.getElementById('btnFavNav');
+    if (navFav2) navFav2.style.display = 'none';
+    if (btnFavNav2) btnFavNav2.style.display = 'none';
   }
 });
 
@@ -557,6 +677,7 @@ function goPage(page) {
   if (page === 'profile') { if (!auth.currentUser) { goPage('home'); openLogin(); return; } loadProfile(); }
   if (page === 'compare') initCmpSelects();
   if (page === 'admin') { if (!isAdmin()) { goPage('home'); return; } loadAdminPage(); }
+  goPageExtra(page);
 }
 
 function initPostForm() {
@@ -725,7 +846,10 @@ function renderCars(cars) {
         </div>
         <div class="card-footer">
           <div class="card-price">${priceStr}</div>
-          <div class="card-city">📍 ${car.city||''}</div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div class="card-city">📍 ${car.city||''}</div>
+            <button onclick="event.stopPropagation();toggleFav('${car.id}')" style="background:none;border:none;cursor:pointer;font-size:18px;padding:2px;" title="إضافة للمفضلة">${isFav(car.id)?'❤️':'🤍'}</button>
+          </div>
         </div>
       </div>
     </div>`;
@@ -774,7 +898,7 @@ async function openCarDetail(id) {
       <div class="detail-info">
         <div class="detail-make">${car.make||''}</div>
         <div class="detail-name">${car.model||''} ${car.year||''}</div>
-        <div class="detail-price">${priceStr}</div>
+        <div class="detail-price">${priceStr} ${getPriceBadge(car)}</div>
         <div class="detail-seller">
           <img class="seller-img" src="${car.userPhoto||'https://ui-avatars.com/api/?name='+encodeURIComponent(car.userName||'U')+'&background=C9A84C&color=000&size=44'}">
           <div><div class="seller-name">${car.userName||'مستخدم'}</div><div class="seller-label">البائع</div></div>
@@ -792,6 +916,7 @@ async function openCarDetail(id) {
         </div>
         ${car.desc?`<div class="detail-desc">${car.desc}</div>`:''}
         ${car.phone?`<button onclick="contactSeller('${car.phone}')" class="btn-whatsapp">💬 تواصل عبر واتساب</button>`:''}
+        ${!isOwner?`<button onclick="submitRating('${car.id}','${car.userId}')" style="width:100%;background:rgba(201,168,76,0.08);border:1px solid var(--border);color:var(--gold);padding:10px;border-radius:10px;font-family:Tajawal,sans-serif;font-size:13px;cursor:pointer;margin-bottom:8px;">⭐ قيّم البائع</button>`:''}
         ${isOwner?`<div style="display:flex;gap:8px;margin-top:8px;">
           <button onclick="toggleSold('${car.id}',${car.sold||false})" style="flex:1;background:${car.sold?'rgba(46,204,113,0.1)':'rgba(201,168,76,0.1)'};border:1px solid ${car.sold?'rgba(46,204,113,0.3)':'var(--border)'};color:${car.sold?'var(--green)':'var(--gold)'};padding:10px;border-radius:10px;font-family:Tajawal,sans-serif;font-size:14px;cursor:pointer;">
             ${car.sold?'✅ تم البيع — اضغط للتراجع':'🏷️ وضع علامة تم البيع'}
@@ -1173,6 +1298,140 @@ function runCompare() {
     '<div class="cmp-header"><div><div class="cmp-car-name">'+model1+'</div><div class="cmp-car-sub">'+make1+'</div><div class="cmp-score">'+s1+'</div></div><div class="cmp-vs">VS</div><div><div class="cmp-car-name">'+model2+'</div><div class="cmp-car-sub">'+make2+'</div><div class="cmp-score">'+s2+'</div></div></div>'+
     (winner!=='تعادل'?'<div style="text-align:center;margin-bottom:16px;background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);border-radius:10px;padding:10px;color:var(--green);font-weight:700;">الفائز: '+winner+'</div>':'<div style="text-align:center;margin-bottom:16px;background:rgba(201,168,76,0.1);border:1px solid var(--border);border-radius:10px;padding:10px;color:var(--gold);font-weight:700;">تعادل!</div>')+
     '<div class="post-section" style="overflow-x:auto;"><table class="cmp-table"><thead><tr><th>المواصفة</th><th style="color:var(--gold)">'+model1+'</th><th style="color:var(--gold)">'+model2+'</th></tr></thead><tbody>'+tableRows+'</tbody></table></div>';
+}
+
+
+// ===== GOPAGE UPDATE FOR NEW PAGES =====
+function goPageExtra(page) {
+  if (page === 'calc') { /* nothing needed, static page */ }
+  if (page === 'favorites') { loadFavorites(); }
+  if (page === 'dealers') { loadDealers(); }
+}
+
+// ===== FAVORITES =====
+function getFavs() {
+  try { return JSON.parse(localStorage.getItem('iraqMotorsFavs') || '[]'); } catch(e) { return []; }
+}
+function isFav(id) { return getFavs().includes(id); }
+function toggleFav(id) {
+  if (!auth.currentUser) { openLogin(); return; }
+  let favs = getFavs();
+  if (favs.includes(id)) favs = favs.filter(f => f !== id);
+  else favs.push(id);
+  localStorage.setItem('iraqMotorsFavs', JSON.stringify(favs));
+  updateFavNavCount();
+  if (document.getElementById('page-cars').classList.contains('active')) renderCars(allCars);
+  if (document.getElementById('page-favorites').classList.contains('active')) loadFavorites();
+}
+function updateFavNavCount() {
+  const count = getFavs().length;
+  const navFav = document.getElementById('navFav');
+  const btnFav = document.getElementById('btnFavNav');
+  if (navFav) navFav.textContent = '❤️ المفضلة' + (count > 0 ? ' ('+count+')' : '');
+  if (btnFav) btnFav.textContent = '❤️' + (count > 0 ? ' '+count : '');
+}
+async function loadFavorites() {
+  const grid = document.getElementById('favGrid');
+  grid.innerHTML = '<div class="loading">⏳ جاري التحميل...</div>';
+  const favIds = getFavs();
+  if (favIds.length === 0) {
+    grid.innerHTML = '<div class="empty"><div class="empty-ico">❤️</div><div class="empty-tit">المفضلة فاضية</div><div class="empty-sub">ضيف سيارات للمفضلة بالضغط على القلب</div></div>';
+    return;
+  }
+  try {
+    if (allCars.length === 0) await loadCars();
+    const favCars = allCars.filter(c => favIds.includes(c.id));
+    if (favCars.length === 0) {
+      grid.innerHTML = '<div class="empty"><div class="empty-ico">❤️</div><div class="empty-tit">المفضلة فاضية</div></div>';
+      return;
+    }
+    renderCarsInto(grid, favCars);
+  } catch(e) { grid.innerHTML = '<div class="empty"><div class="empty-ico">⚠️</div><div class="empty-tit">خطأ</div></div>'; }
+}
+function renderCarsInto(grid, cars) {
+  grid.innerHTML = cars.map(car => {
+    const imgs = car.imgs && car.imgs.length > 0 ? car.imgs : (car.img ? [car.img] : []);
+    const priceStr = car.currency === 'IQD' ? (car.price||0).toLocaleString() + ' د.ع' : '$' + (car.price||0).toLocaleString();
+    return '<div class="car-card" onclick="openCarDetail(\''+car.id+'\')">'+
+      (imgs.length > 0 ? '<div class="card-slider"><img src="'+imgs[0]+'" class="on" loading="lazy"></div>' : '<div class="card-no-img">🚗</div>')+
+      '<div class="card-body"><div class="card-make">'+(car.make||'')+'</div><div class="card-name">'+(car.model||'')+'</div>'+
+      '<div class="card-footer"><div class="card-price">'+priceStr+'</div><button onclick="event.stopPropagation();toggleFav(\''+car.id+'\')" style="background:none;border:none;cursor:pointer;font-size:18px;">❤️</button></div></div></div>';
+  }).join('');
+}
+
+// ===== PRICE ANALYSIS =====
+function getMarketPrice(make, model) {
+  const key = make + ' ' + model;
+  return COMPARE_DB[key] ? COMPARE_DB[key].price : null;
+}
+function getPriceBadge(car) {
+  const market = getMarketPrice(car.make, car.model);
+  if (!market || car.currency === 'IQD') return '';
+  const diff = ((car.price - market) / market) * 100;
+  if (diff < -10) return '<span class="price-badge price-good">🔥 سعر مميز -'+Math.abs(Math.round(diff))+'%</span>';
+  if (diff > 15) return '<span class="price-badge price-bad">⚠️ أعلى من السوق +'+Math.round(diff)+'%</span>';
+  return '<span class="price-badge price-fair">✓ سعر عادل</span>';
+}
+
+// ===== LOAN CALCULATOR =====
+function calcLoan() {
+  const price = parseFloat(document.getElementById('calcPrice').value) || 0;
+  const down = parseFloat(document.getElementById('calcDown').value) || 0;
+  const years = parseFloat(document.getElementById('calcYears').value) || 3;
+  const rate = parseFloat(document.getElementById('calcRate').value) || 8;
+  if (price <= 0) { document.getElementById('calcResult').style.display = 'none'; return; }
+  const principal = price - down;
+  const months = years * 12;
+  const monthlyRate = (rate/100) / 12;
+  let monthly;
+  if (monthlyRate === 0) monthly = principal / months;
+  else monthly = principal * (monthlyRate * Math.pow(1+monthlyRate, months)) / (Math.pow(1+monthlyRate, months) - 1);
+  const total = monthly * months;
+  const interest = total - principal;
+  document.getElementById('calcMonthly').textContent = '$' + Math.round(monthly).toLocaleString();
+  document.getElementById('calcInterest').textContent = '$' + Math.round(interest).toLocaleString();
+  document.getElementById('calcTotal').textContent = '$' + Math.round(total + down).toLocaleString();
+  document.getElementById('calcResult').style.display = 'block';
+}
+
+// ===== DEALERS =====
+const SAMPLE_DEALERS = [
+  {name:'معرض النخبة للسيارات', city:'بغداد', verified:true, cars:45, rating:4.8, icon:'🏢'},
+  {name:'معرض الفرات الذهبي', city:'البصرة', verified:true, cars:32, rating:4.6, icon:'🚗'},
+  {name:'معرض أربيل الفاخر', city:'أربيل', verified:true, cars:28, rating:4.7, icon:'⭐'},
+  {name:'معرض كربلاء موتورز', city:'كربلاء', verified:false, cars:15, rating:4.2, icon:'🏆'},
+];
+function loadDealers() {
+  const grid = document.getElementById('dealersGrid');
+  grid.innerHTML = SAMPLE_DEALERS.map(d => 
+    '<div class="dealer-card">'+
+    (d.verified ? '<div class="verified-badge">✓ معرض موثّق</div>' : '')+
+    '<div class="dealer-logo">'+d.icon+'</div>'+
+    '<div class="dealer-name">'+d.name+'</div>'+
+    '<div class="dealer-city">📍 '+d.city+'</div>'+
+    '<div class="dealer-stats">'+
+    '<div class="dealer-stat"><span>'+d.cars+'</span> سيارة</div>'+
+    '<div class="dealer-stat">⭐ <span>'+d.rating+'</span></div>'+
+    '</div></div>'
+  ).join('');
+}
+
+// ===== RATINGS / REVIEWS =====
+async function submitRating(carId, sellerId) {
+  if (!auth.currentUser) { openLogin(); return; }
+  const stars = prompt('قيّم تجربتك مع البائع من 1 إلى 5 نجوم:');
+  const rating = parseInt(stars);
+  if (!rating || rating < 1 || rating > 5) { alert('الرجاء إدخال رقم من 1 إلى 5'); return; }
+  const comment = prompt('أضف تعليق (اختياري):') || '';
+  try {
+    await db.collection('reviews').add({
+      carId, sellerId, rating, comment,
+      reviewerName: auth.currentUser.displayName || 'مستخدم',
+      reviewerId: auth.currentUser.uid,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    alert('✅ شكراً لتقييمك!');
+  } catch(e) { alert('خطأ: ' + e.message); }
 }
 
 // ===== AI =====
