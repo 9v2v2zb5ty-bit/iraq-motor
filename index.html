@@ -245,12 +245,21 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 .empty{grid-column:1/-1;text-align:center;padding:70px 20px;}
 .empty-ico{font-size:52px;margin-bottom:14px;}.empty-tit{font-size:22px;font-weight:800;color:var(--gold);margin-bottom:7px;}.empty-sub{color:var(--dim);}
 .loading{grid-column:1/-1;text-align:center;padding:60px;color:var(--dim);}
+/* MOBILE NAV */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:transparent;border:1px solid var(--border);border-radius:8px;}
+.hamburger span{width:22px;height:2px;background:var(--gold);border-radius:2px;transition:all .3s;}
+.mobile-nav{display:none;position:fixed;top:64px;left:0;right:0;background:rgba(8,10,15,0.98);border-bottom:1px solid var(--border);z-index:499;padding:16px;backdrop-filter:blur(20px);}
+.mobile-nav.open{display:block;}
+.mobile-nav a{display:block;color:var(--dim);text-decoration:none;font-size:15px;padding:12px 16px;border-radius:8px;cursor:pointer;transition:all .2s;border-bottom:1px solid rgba(201,168,76,0.1);}
+.mobile-nav a:hover,.mobile-nav a:active{background:rgba(201,168,76,0.1);color:var(--gold);}
+.mobile-nav a:last-child{border-bottom:none;}
 @media(max-width:900px){
-  nav{padding:0 12px;}.nav-links{display:none;}
+  nav{padding:0 12px;}.nav-links{display:none;}.hamburger{display:flex;}
   .detail-main{grid-template-columns:1fr;}
-  .form-grid{grid-template-columns:1fr;}.my-ads-grid{grid-column:1fr;}
+  .form-grid{grid-template-columns:1fr;}.my-ads-grid{grid-template-columns:1fr;}
   .cars-toolbar,.cars-grid,.post-banner,.detail-back{padding-left:14px;padding-right:14px;}
   .section-page{padding:16px;}
+  .cmp-header{grid-template-columns:1fr auto 1fr;}
 }
 </style>
 </head>
@@ -278,8 +287,27 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
     <button class="btn-nav btn-profile-nav" id="btnProfileNav" onclick="goPage('profile')">
       <img id="navAvatar" src=""> <span id="navName"></span>
     </button>
+    <button class="hamburger" onclick="toggleMobileNav()" id="hamburgerBtn">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <a onclick="mobileGoPage('home')">🏠 الرئيسية</a>
+  <a onclick="mobileGoPage('cars')">🚗 السيارات</a>
+  <a onclick="mobileGoPage('compare')">⚔️ المقارنة</a>
+  <a onclick="mobileGoPage('ai')">🤖 مستشار AI</a>
+  <a onclick="mobileGoPage('market')">📈 مؤشر الأسعار</a>
+  <a onclick="mobileGoPage('configurator')">🎮 Configurator</a>
+  <a onclick="mobileGoPage('dealers')">🏢 المعارض</a>
+  <a onclick="mobileGoPage('calc')">🧮 حاسبة القسط</a>
+  <a onclick="mobileGoPage('favorites')" id="mNavFav" style="display:none">❤️ المفضلة</a>
+  <a onclick="mobileGoPage('garage')" id="mNavGarage" style="display:none">🔧 كراجي</a>
+  <a onclick="mobileGoPage('profile')" id="mNavProfile" style="display:none">👤 حسابي</a>
+  <a onclick="mobileGoPage('admin')" id="mNavAdmin" style="display:none;color:var(--red)">⚙️ الإدارة</a>
+</div>
 
 <!-- HOME -->
 <div class="page active" id="page-home">
@@ -715,10 +743,12 @@ auth.onAuthStateChanged(function(user){
     if(np)np.style.display='block'; if(nf)nf.style.display='block'; if(ng)ng.style.display='block';
     if(na)na.style.display=user.email===ADMIN_EMAIL?'block':'none';
     document.getElementById('navName').textContent=user.displayName||'حسابي';
+    updateMobileNav(user);
     document.getElementById('navAvatar').src=user.photoURL||'https://ui-avatars.com/api/?name='+encodeURIComponent(user.displayName||'U')+'&background=C9A84C&color=000&size=40';
   } else {
     bl.style.display='block'; bp.style.display='none'; bpr.style.display='none';
     if(np)np.style.display='none'; if(nf)nf.style.display='none'; if(ng)ng.style.display='none'; if(na)na.style.display='none';
+    updateMobileNav(null);
   }
 });
 
@@ -1420,6 +1450,36 @@ function loadDealers(){
 }
 
 // INIT
+function toggleMobileNav(){
+  var nav=document.getElementById('mobileNav');
+  nav.classList.toggle('open');
+}
+function mobileGoPage(p){
+  document.getElementById('mobileNav').classList.remove('open');
+  goPage(p);
+}
+// Update mobile nav on auth change
+var origAuthHandler=auth.onAuthStateChanged.bind(auth);
+function updateMobileNav(user){
+  var mf=document.getElementById('mNavFav'),mg=document.getElementById('mNavGarage');
+  var mp=document.getElementById('mNavProfile'),ma=document.getElementById('mNavAdmin');
+  if(user){
+    if(mf)mf.style.display='block';if(mg)mg.style.display='block';
+    if(mp)mp.style.display='block';
+    if(ma)ma.style.display=user.email===ADMIN_EMAIL?'block':'none';
+  } else {
+    if(mf)mf.style.display='none';if(mg)mg.style.display='none';
+    if(mp)mp.style.display='none';if(ma)ma.style.display='none';
+  }
+}
+// Close mobile nav when clicking outside
+document.addEventListener('click',function(e){
+  var nav=document.getElementById('mobileNav');
+  var btn=document.getElementById('hamburgerBtn');
+  if(nav&&btn&&!nav.contains(e.target)&&!btn.contains(e.target)){
+    nav.classList.remove('open');
+  }
+});
 initMakeFilter();
 loadCars();
 </script>
