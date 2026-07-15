@@ -68,12 +68,12 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 /* CAR CARD */
 .car-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .3s;}
 .car-card:hover{transform:translateY(-5px);border-color:var(--gold);box-shadow:0 16px 40px rgba(0,0,0,0.4);}
-.card-slider{position:relative;height:175px;overflow:hidden;background:var(--dark3);}
-.card-slider img{width:100%;height:175px;object-fit:cover;position:absolute;top:0;left:0;opacity:0;transition:opacity .3s;}
+.card-slider{position:relative;height:205px;overflow:hidden;background:var(--dark3);}
+.card-slider img{width:100%;height:205px;object-fit:cover;position:absolute;top:0;left:0;opacity:0;transition:opacity .5s;}
 .card-slider img.on{opacity:1;}
 .sl-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.6);color:#fff;border:none;width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:13px;z-index:2;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;}
 .car-card:hover .sl-btn{opacity:1;}.sl-btn.p{right:6px;}.sl-btn.n{left:6px;}
-.card-no-img{height:175px;display:flex;align-items:center;justify-content:center;font-size:48px;background:var(--dark3);}
+.card-no-img{height:205px;display:flex;align-items:center;justify-content:center;font-size:48px;background:var(--dark3);}
 .card-badge{position:absolute;top:8px;right:8px;background:rgba(201,168,76,0.9);color:#000;padding:3px 7px;border-radius:5px;font-size:10px;font-weight:700;}
 .card-sold-badge{position:absolute;top:8px;left:8px;background:rgba(46,204,113,0.9);color:#000;padding:3px 7px;border-radius:5px;font-size:10px;font-weight:700;}
 .card-body{padding:14px;}
@@ -932,6 +932,7 @@ function getPriceBadge(car){
 
 function renderCars(cars){
   var grid=document.getElementById('carsGrid');
+  clearSlTimers();
   if(!cars.length){grid.innerHTML='<div class="empty"><div class="empty-ico">🚗</div><div class="empty-tit">قريباً سوف تتوفر</div><div class="empty-sub">نعمل على إضافة أفضل السيارات</div></div>';return;}
   grid.innerHTML=cars.map(function(car){
     var imgs=car.imgs&&car.imgs.length?car.imgs:(car.img?[car.img]:[]);
@@ -959,7 +960,24 @@ function renderCars(cars){
       '</div>'+
     '</div>';
   }).join('');
-  cars.forEach(function(c){window['si_'+c.id]=0;});
+  cars.forEach(function(c){
+    window['si_'+c.id]=0;
+    var imgs=c.imgs&&c.imgs.length?c.imgs:(c.img?[c.img]:[]);
+    if(imgs.length>1)startSlTimer(c.id);
+  });
+}
+
+var slTimers={};
+function clearSlTimers(){Object.keys(slTimers).forEach(function(k){clearInterval(slTimers[k]);});slTimers={};}
+function startSlTimer(id){
+  clearInterval(slTimers[id]);
+  slTimers[id]=setInterval(function(){slNext(id);},3500);
+  var el=document.getElementById('cs-'+id);
+  if(el&&!el.dataset.hoverBound){
+    el.dataset.hoverBound='1';
+    el.addEventListener('mouseenter',function(){clearInterval(slTimers[id]);});
+    el.addEventListener('mouseleave',function(){startSlTimer(id);});
+  }
 }
 
 function slNext(id){var s=document.getElementById('cs-'+id);if(!s)return;var imgs=s.querySelectorAll('img');var i=window['si_'+id]||0;imgs[i].classList.remove('on');i=(i+1)%imgs.length;imgs[i].classList.add('on');window['si_'+id]=i;}
