@@ -507,6 +507,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
       <div class="admin-stat-card"><div class="admin-stat-icon">💰</div><div class="admin-stat-num" id="statSold">—</div><div class="admin-stat-label">مباعة</div></div>
       <div class="admin-stat-card"><div class="admin-stat-icon">👥</div><div class="admin-stat-num" id="statUsers">—</div><div class="admin-stat-label">المستخدمين</div></div>
       <div class="admin-stat-card"><div class="admin-stat-icon">🚨</div><div class="admin-stat-num" id="statReports">—</div><div class="admin-stat-label">البلاغات</div></div>
+      <div class="admin-stat-card"><div class="admin-stat-icon">🏢</div><div class="admin-stat-num" id="statDealerPending">—</div><div class="admin-stat-label">طلبات معارض</div></div>
     </div>
     <div style="display:flex;gap:7px;margin-bottom:18px;flex-wrap:wrap;" id="adminTabs">
       <button class="admin-tab active" onclick="switchAdminTab('pending',this)">⏳ بانتظار الموافقة</button>
@@ -514,6 +515,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
       <button class="admin-tab" onclick="switchAdminTab('reports',this)">🚨 البلاغات</button>
       <button class="admin-tab" onclick="switchAdminTab('users',this)">👥 المستخدمين</button>
       <button class="admin-tab" onclick="switchAdminTab('companyAds',this)">🏢 إعلانات الشركات</button>
+      <button class="admin-tab" onclick="switchAdminTab('dealers',this)">🏪 طلبات المعارض</button>
     </div>
     <div id="adminTabContent"><div style="text-align:center;padding:40px;color:var(--dim);">⏳ جاري التحميل...</div></div>
   </div>
@@ -707,6 +709,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
     <button class="btn-sub" onclick="doLoginEmail()">دخول</button>
     <div class="msg" id="liMsg"></div>
     <div class="sw">ما عندك حساب؟ <a onclick="switchReg()">سجل الآن</a></div>
+    <div class="sw">عندك معرض سيارات؟ <a onclick="switchDealerReg()">سجل حساب معرض</a></div>
   </div>
 </div>
 
@@ -722,6 +725,36 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
     <button class="btn-sub" onclick="doRegister()">إنشاء حساب</button>
     <div class="msg" id="regMsg"></div>
     <div class="sw">عندك حساب؟ <a onclick="switchLogin()">سجل دخول</a></div>
+    <div class="sw">عندك معرض سيارات؟ <a onclick="switchDealerReg()">سجل حساب معرض</a></div>
+  </div>
+</div>
+
+<!-- DEALER REGISTER -->
+<div class="overlay" id="dealerRegOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeDealerReg()">✕</button>
+    <div class="modal-title">🏢 إنشاء حساب معرض</div>
+    <div class="modal-sub">سجل معرضك وابدأ اعرض سياراتك بعد موافقة الإدارة</div>
+    <input type="text" class="inp" id="drName" placeholder="اسم المعرض">
+    <input type="tel" class="inp" id="drPhone" placeholder="رقم الهاتف">
+    <input type="email" class="inp" id="drEmail" placeholder="البريد الإلكتروني">
+    <input type="password" class="inp" id="drPass" placeholder="كلمة المرور">
+    <select class="inp" id="drProvince">
+      <option value="">اختر المحافظة</option>
+      <option>بغداد</option><option>البصرة</option><option>نينوى</option><option>أربيل</option>
+      <option>النجف</option><option>كربلاء</option><option>السليمانية</option><option>دهوك</option>
+      <option>كركوك</option><option>الأنبار</option><option>بابل</option><option>واسط</option>
+      <option>ذي قار</option><option>ديالى</option><option>ميسان</option><option>القادسية</option>
+      <option>صلاح الدين</option><option>المثنى</option>
+    </select>
+    <input type="text" class="inp" id="drAddress" placeholder="عنوان المعرض">
+    <label style="display:flex;align-items:flex-start;gap:8px;margin:6px 0 4px;font-size:12px;color:var(--dim);cursor:pointer;line-height:1.6;">
+      <input type="checkbox" id="drTerms" style="accent-color:var(--gold);width:16px;height:16px;flex-shrink:0;margin-top:2px;">
+      <span>أوافق على الشروط والأحكام الخاصة بمنصة Iraq Motors وأتحمل مسؤولية صحة بيانات معرضي</span>
+    </label>
+    <button class="btn-sub" onclick="doDealerRegister()">إرسال طلب التسجيل</button>
+    <div class="msg" id="drMsg"></div>
+    <div class="sw">عندك حساب؟ <a onclick="switchLoginFromDealer()">سجل دخول</a></div>
   </div>
 </div>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -1135,6 +1168,10 @@ function openReg(){document.getElementById('regOverlay').classList.add('open');}
 function closeReg(){document.getElementById('regOverlay').classList.remove('open');}
 function switchReg(){closeLogin();openReg();}
 function switchLogin(){closeReg();openLogin();}
+function openDealerReg(){document.getElementById('dealerRegOverlay').classList.add('open');}
+function closeDealerReg(){document.getElementById('dealerRegOverlay').classList.remove('open');}
+function switchDealerReg(){closeLogin();closeReg();openDealerReg();}
+function switchLoginFromDealer(){closeDealerReg();openLogin();}
 function loginGoogle(){auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(function(){closeLogin();}).catch(function(e){showMsg2('liMsg','❌ '+e.message,'#e74c3c');});}
 function doLoginEmail(){
   var e=document.getElementById('liEmail').value.trim(),p=document.getElementById('liPass').value.trim();
@@ -1150,7 +1187,32 @@ function doRegister(){
     closeReg();
   }).catch(function(er){showMsg2('regMsg','❌ '+er.message,'#e74c3c');});
 }
-['loginOverlay','regOverlay','garageOverlay'].forEach(function(id){
+function doDealerRegister(){
+  var name=document.getElementById('drName').value.trim();
+  var phone=document.getElementById('drPhone').value.trim();
+  var email=document.getElementById('drEmail').value.trim();
+  var pass=document.getElementById('drPass').value.trim();
+  var province=document.getElementById('drProvince').value;
+  var address=document.getElementById('drAddress').value.trim();
+  var terms=document.getElementById('drTerms').checked;
+  if(!name||!phone||!email||!pass||!province||!address){showMsg2('drMsg','❌ الرجاء تعبئة جميع الحقول','#e74c3c');return;}
+  if(pass.length<6){showMsg2('drMsg','❌ كلمة المرور لازم تكون 6 أحرف أو أكثر','#e74c3c');return;}
+  if(!terms){showMsg2('drMsg','❌ لازم توافق على الشروط والأحكام','#e74c3c');return;}
+  showMsg2('drMsg','⏳ جاري إرسال الطلب...','#f39c12');
+  auth.createUserWithEmailAndPassword(email,pass).then(function(r){
+    r.user.updateProfile({displayName:name});
+    var uid=r.user.uid;
+    db.collection('users').doc(uid).set({name,email,phone,role:'dealer',dealerStatus:'pending'},{merge:true});
+    return db.collection('dealerRequests').add({
+      dealerName:name,phone,email,province,address,uid,status:'pending',
+      createdAt:firebase.firestore.FieldValue.serverTimestamp()
+    });
+  }).then(function(){
+    showMsg2('drMsg','✅ تم إرسال طلبك بنجاح، بانتظار موافقة الإدارة','#2ecc71');
+    setTimeout(function(){closeDealerReg();document.getElementById('drMsg').style.display='none';},2200);
+  }).catch(function(er){showMsg2('drMsg','❌ '+er.message,'#e74c3c');});
+}
+['loginOverlay','regOverlay','dealerRegOverlay','garageOverlay'].forEach(function(id){
   var el=document.getElementById(id);
   if(el)el.addEventListener('click',function(e){if(e.target===e.currentTarget)e.currentTarget.classList.remove('open');});
 });
@@ -1168,6 +1230,9 @@ async function loadAdminPage(){
     var reports=rsnap.docs.map(function(d){return Object.assign({id:d.id},d.data());});
     var casnap=await db.collection('companyAds').get();
     var companyAds=casnap.docs.map(function(d){return Object.assign({id:d.id},d.data());});
+    var dsnap=await db.collection('dealerRequests').get();
+    var dealerRequests=dsnap.docs.map(function(d){return Object.assign({id:d.id},d.data());});
+    var dealerPending=dealerRequests.filter(function(d){return d.status==='pending';});
     var pending=allAds.filter(function(c){return !c.approved;});
     var approved=allAds.filter(function(c){return c.approved;});
     document.getElementById('statTotalAds').textContent=allAds.length;
@@ -1176,7 +1241,8 @@ async function loadAdminPage(){
     document.getElementById('statSold').textContent=allAds.filter(function(c){return c.sold;}).length;
     document.getElementById('statUsers').textContent=usnap.size;
     document.getElementById('statReports').textContent=reports.length;
-    window._ad={allAds,pending,approved,reports,companyAds,users:usnap.docs.map(function(d){return Object.assign({id:d.id},d.data());})};
+    document.getElementById('statDealerPending').textContent=dealerPending.length;
+    window._ad={allAds,pending,approved,reports,companyAds,dealerRequests,dealerPending,users:usnap.docs.map(function(d){return Object.assign({id:d.id},d.data());})};
     switchAdminTab('pending',document.querySelector('#adminTabs .admin-tab'));
   }catch(e){document.getElementById('adminTabContent').innerHTML='<div style="color:var(--red);padding:20px;">خطأ: '+e.message+'</div>';}
 }
@@ -1239,7 +1305,57 @@ function switchAdminTab(tab,btn){
           '<div class="admin-card-meta">🔗 '+(c.link||'بدون رابط')+'</div>'+
           '<div class="admin-card-actions"><button class="btn-reject" onclick="deleteCompanyAd(\''+c.id+'\')">🗑️ حذف</button></div></div></div>';
       }).join(''):'<div style="text-align:center;padding:24px;color:var(--dim);">ما في إعلانات شركات لحد الآن</div>');
+  } else if(tab==='dealers'){
+    var pend=data.dealerPending||[];
+    var all=data.dealerRequests||[];
+    var statusLabel=function(s){return s==='approved'?'✅ مقبول':(s==='rejected'?'❌ مرفوض':'⏳ بانتظار');};
+    var statusColor=function(s){return s==='approved'?'var(--green)':(s==='rejected'?'var(--red)':'var(--gold)');};
+    var html='<div style="font-size:14px;font-weight:700;margin-bottom:10px;color:var(--gold);">⏳ طلبات بانتظار الموافقة</div>';
+    html+=pend.length?pend.map(function(d){
+      return '<div class="admin-card"><div class="admin-card-img" style="display:flex;align-items:center;justify-content:center;font-size:22px;">🏪</div>'+
+        '<div class="admin-card-info"><div class="admin-card-name">'+(d.dealerName||'')+'</div>'+
+        '<div class="admin-card-meta">📍 '+(d.province||'')+' — '+(d.address||'')+'</div>'+
+        '<div class="admin-card-meta">📞 '+(d.phone||'')+' • ✉️ '+(d.email||'')+'</div>'+
+        '<div class="admin-card-actions"><button class="btn-approve" onclick="approveDealer(\''+d.id+'\')">✅ موافقة</button><button class="btn-reject" onclick="rejectDealer(\''+d.id+'\')">❌ رفض</button></div></div></div>';
+    }).join(''):'<div style="text-align:center;padding:24px;color:var(--dim);">✅ ما في طلبات معارض بانتظار الموافقة</div>';
+    html+='<div style="font-size:14px;font-weight:700;margin:22px 0 10px;color:var(--gold);">📋 تقرير كل طلبات المعارض</div>';
+    html+=all.length?'<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;"><thead><tr style="background:var(--dark3);">'+
+      '<th style="padding:11px;text-align:right;font-size:12px;border-bottom:1px solid var(--border);">اسم المعرض</th>'+
+      '<th style="padding:11px;text-align:right;font-size:12px;border-bottom:1px solid var(--border);">المحافظة</th>'+
+      '<th style="padding:11px;text-align:right;font-size:12px;border-bottom:1px solid var(--border);">الهاتف</th>'+
+      '<th style="padding:11px;text-align:right;font-size:12px;border-bottom:1px solid var(--border);">الحالة</th>'+
+      '</tr></thead><tbody>'+all.map(function(d){
+        return '<tr style="border-bottom:1px solid var(--border);">'+
+          '<td style="padding:11px;font-size:13px;">'+(d.dealerName||'—')+'</td>'+
+          '<td style="padding:11px;font-size:12px;color:var(--dim);">'+(d.province||'—')+'</td>'+
+          '<td style="padding:11px;font-size:12px;color:var(--dim);">'+(d.phone||'—')+'</td>'+
+          '<td style="padding:11px;font-size:12px;font-weight:700;color:'+statusColor(d.status)+';">'+statusLabel(d.status)+'</td></tr>';
+      }).join('')+'</tbody></table></div>':'<div style="text-align:center;padding:24px;color:var(--dim);">ما في طلبات لحد الآن</div>';
+    ct.innerHTML=html;
   }
+}
+async function approveDealer(id){
+  try{
+    await db.collection('dealerRequests').doc(id).update({status:'approved'});
+    var d=(window._ad.dealerRequests||[]).find(function(x){return x.id===id;});
+    if(d){d.status='approved';if(d.uid)db.collection('users').doc(d.uid).set({dealerStatus:'approved'},{merge:true});}
+    window._ad.dealerPending=(window._ad.dealerRequests||[]).filter(function(x){return x.status==='pending';});
+    document.getElementById('statDealerPending').textContent=window._ad.dealerPending.length;
+    switchAdminTab('dealers',Array.from(document.querySelectorAll('#adminTabs .admin-tab')).find(function(b){return b.textContent.indexOf('المعارض')>-1;}));
+    showToast('✅ تم قبول طلب المعرض');
+  }catch(e){alert('خطأ: '+e.message);}
+}
+async function rejectDealer(id){
+  if(!confirm('هل تريد رفض طلب هذا المعرض؟'))return;
+  try{
+    await db.collection('dealerRequests').doc(id).update({status:'rejected'});
+    var d=(window._ad.dealerRequests||[]).find(function(x){return x.id===id;});
+    if(d){d.status='rejected';if(d.uid)db.collection('users').doc(d.uid).set({dealerStatus:'rejected'},{merge:true});}
+    window._ad.dealerPending=(window._ad.dealerRequests||[]).filter(function(x){return x.status==='pending';});
+    document.getElementById('statDealerPending').textContent=window._ad.dealerPending.length;
+    switchAdminTab('dealers',Array.from(document.querySelectorAll('#adminTabs .admin-tab')).find(function(b){return b.textContent.indexOf('المعارض')>-1;}));
+    showToast('❌ تم رفض الطلب');
+  }catch(e){alert('خطأ: '+e.message);}
 }
 async function addCompanyAd(){
   var name=document.getElementById('caName').value.trim();
