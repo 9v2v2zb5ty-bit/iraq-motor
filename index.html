@@ -6,6 +6,55 @@
 <title>Iraq Motors | سوق السيارات</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
+.ico{display:inline-block;width:15px;height:15px;vertical-align:-2.5px;background-color:currentColor;-webkit-mask-size:contain;-webkit-mask-repeat:no-repeat;-webkit-mask-position:center;mask-size:contain;mask-repeat:no-repeat;mask-position:center;flex-shrink:0;margin-left:5px;}
+.ico-lg{width:44px;height:44px;margin-left:0;vertical-align:middle;}
+.ico-md{width:24px;height:24px;margin-left:0;vertical-align:middle;}
+.ico-car{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%2013.5%204.5%209a2%202%200%200%201%201.9-1.4h7.2A2%202%200%200%201%2015.5%209l1.5%204.5%22/%3E%3Crect%20x%3D%222%22%20y%3D%2213.5%22%20width%3D%2216%22%20height%3D%224%22%20rx%3D%221.2%22/%3E%3Ccircle%20cx%3D%226%22%20cy%3D%2217.3%22%20r%3D%221.3%22/%3E%3Ccircle%20cx%3D%2214%22%20cy%3D%2217.3%22%20r%3D%221.3%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%2013.5%204.5%209a2%202%200%200%201%201.9-1.4h7.2A2%202%200%200%201%2015.5%209l1.5%204.5%22/%3E%3Crect%20x%3D%222%22%20y%3D%2213.5%22%20width%3D%2216%22%20height%3D%224%22%20rx%3D%221.2%22/%3E%3Ccircle%20cx%3D%226%22%20cy%3D%2217.3%22%20r%3D%221.3%22/%3E%3Ccircle%20cx%3D%2214%22%20cy%3D%2217.3%22%20r%3D%221.3%22/%3E%3C/svg%3E");}
+.ico-ai{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%224%22%20y%3D%228%22%20width%3D%2212%22%20height%3D%229%22%20rx%3D%222.5%22/%3E%3Cpath%20d%3D%22M10%208V5%22/%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%224%22%20r%3D%221%22%20fill%3D%22black%22/%3E%3Ccircle%20cx%3D%227.6%22%20cy%3D%2212.5%22%20r%3D%221%22%20fill%3D%22black%22/%3E%3Ccircle%20cx%3D%2212.4%22%20cy%3D%2212.5%22%20r%3D%221%22%20fill%3D%22black%22/%3E%3Cpath%20d%3D%22M4%2012H2M18%2012h-2%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%224%22%20y%3D%228%22%20width%3D%2212%22%20height%3D%229%22%20rx%3D%222.5%22/%3E%3Cpath%20d%3D%22M10%208V5%22/%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%224%22%20r%3D%221%22%20fill%3D%22black%22/%3E%3Ccircle%20cx%3D%227.6%22%20cy%3D%2212.5%22%20r%3D%221%22%20fill%3D%22black%22/%3E%3Ccircle%20cx%3D%2212.4%22%20cy%3D%2212.5%22%20r%3D%221%22%20fill%3D%22black%22/%3E%3Cpath%20d%3D%22M4%2012H2M18%2012h-2%22/%3E%3C/svg%3E");}
+.ico-chart-up{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%2015l4-4%203%203%206-7%22/%3E%3Cpath%20d%3D%22M12.5%207H17v4.5%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%2015l4-4%203%203%206-7%22/%3E%3Cpath%20d%3D%22M12.5%207H17v4.5%22/%3E%3C/svg%3E");}
+.ico-chart-down{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%206l4%204%203-3%206%207%22/%3E%3Cpath%20d%3D%22M12.5%2014H17V9.5%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%206l4%204%203-3%206%207%22/%3E%3Cpath%20d%3D%22M12.5%2014H17V9.5%22/%3E%3C/svg%3E");}
+.ico-sliders{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M4%205h12M4%2010h12M4%2015h12%22/%3E%3Ccircle%20cx%3D%228%22%20cy%3D%225%22%20r%3D%221.6%22%20fill%3D%22black%22/%3E%3Ccircle%20cx%3D%2213%22%20cy%3D%2210%22%20r%3D%221.6%22%20fill%3D%22black%22/%3E%3Ccircle%20cx%3D%226%22%20cy%3D%2215%22%20r%3D%221.6%22%20fill%3D%22black%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M4%205h12M4%2010h12M4%2015h12%22/%3E%3Ccircle%20cx%3D%228%22%20cy%3D%225%22%20r%3D%221.6%22%20fill%3D%22black%22/%3E%3Ccircle%20cx%3D%2213%22%20cy%3D%2210%22%20r%3D%221.6%22%20fill%3D%22black%22/%3E%3Ccircle%20cx%3D%226%22%20cy%3D%2215%22%20r%3D%221.6%22%20fill%3D%22black%22/%3E%3C/svg%3E");}
+.ico-heart{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%2017s-6-3.7-8-7.6C.6%206.4%202%203.5%205%203c2-.3%203.7.8%205%202.6C11.3%203.8%2013%202.7%2015%203c3%20.5%204.4%203.4%203%206.4-2%203.9-8%207.6-8%207.6z%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%2017s-6-3.7-8-7.6C.6%206.4%202%203.5%205%203c2-.3%203.7.8%205%202.6C11.3%203.8%2013%202.7%2015%203c3%20.5%204.4%203.4%203%206.4-2%203.9-8%207.6-8%207.6z%22/%3E%3C/svg%3E");}
+.ico-heart-fill{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22black%22%20stroke%3D%22none%22%3E%3Cpath%20d%3D%22M10%2017s-6-3.7-8-7.6C.6%206.4%202%203.5%205%203c2-.3%203.7.8%205%202.6C11.3%203.8%2013%202.7%2015%203c3%20.5%204.4%203.4%203%206.4-2%203.9-8%207.6-8%207.6z%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22black%22%20stroke%3D%22none%22%3E%3Cpath%20d%3D%22M10%2017s-6-3.7-8-7.6C.6%206.4%202%203.5%205%203c2-.3%203.7.8%205%202.6C11.3%203.8%2013%202.7%2015%203c3%20.5%204.4%203.4%203%206.4-2%203.9-8%207.6-8%207.6z%22/%3E%3C/svg%3E");}
+.ico-wrench{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M14.7%206.3a4%204%200%200%201-5.4%205.4L4%2017l-1-1%205.3-5.3a4%204%200%200%201%205.4-5.4l-2.2%202.2%201%201%202.2-2.2z%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M14.7%206.3a4%204%200%200%201-5.4%205.4L4%2017l-1-1%205.3-5.3a4%204%200%200%201%205.4-5.4l-2.2%202.2%201%201%202.2-2.2z%22/%3E%3C/svg%3E");}
+.ico-user{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%226.5%22%20r%3D%223%22/%3E%3Cpath%20d%3D%22M4%2017c0-3.3%202.7-6%206-6s6%202.7%206%206%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%226.5%22%20r%3D%223%22/%3E%3Cpath%20d%3D%22M4%2017c0-3.3%202.7-6%206-6s6%202.7%206%206%22/%3E%3C/svg%3E");}
+.ico-gear{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2210%22%20r%3D%222.6%22/%3E%3Cpath%20d%3D%22M10%203v2M10%2015v2M17%2010h-2M5%2010H3M15%205l-1.4%201.4M6.4%2013.6%205%2015M15%2015l-1.4-1.4M6.4%206.4%205%205%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2210%22%20r%3D%222.6%22/%3E%3Cpath%20d%3D%22M10%203v2M10%2015v2M17%2010h-2M5%2010H3M15%205l-1.4%201.4M6.4%2013.6%205%2015M15%2015l-1.4-1.4M6.4%206.4%205%205%22/%3E%3C/svg%3E");}
+.ico-building{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%224%22%20y%3D%223%22%20width%3D%229%22%20height%3D%2214%22%20rx%3D%221%22/%3E%3Cpath%20d%3D%22M13%208h3v9h-3%22/%3E%3Cpath%20d%3D%22M7%206h1M10%206h1M7%209h1M10%209h1M7%2012h1M10%2012h1%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%224%22%20y%3D%223%22%20width%3D%229%22%20height%3D%2214%22%20rx%3D%221%22/%3E%3Cpath%20d%3D%22M13%208h3v9h-3%22/%3E%3Cpath%20d%3D%22M7%206h1M10%206h1M7%209h1M10%209h1M7%2012h1M10%2012h1%22/%3E%3C/svg%3E");}
+.ico-sparkle{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22black%22%20stroke%3D%22none%22%3E%3Cpath%20d%3D%22M10%202l1.2%204.6L16%208l-4.8%201.4L10%2014l-1.2-4.6L4%208l4.8-1.4z%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22black%22%20stroke%3D%22none%22%3E%3Cpath%20d%3D%22M10%202l1.2%204.6L16%208l-4.8%201.4L10%2014l-1.2-4.6L4%208l4.8-1.4z%22/%3E%3C/svg%3E");}
+.ico-key{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%227%22%20cy%3D%2213%22%20r%3D%223%22/%3E%3Cpath%20d%3D%22M9.2%2010.8%2016%204M13%208l2%202M15.5%205.5l2%202%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%227%22%20cy%3D%2213%22%20r%3D%223%22/%3E%3Cpath%20d%3D%22M9.2%2010.8%2016%204M13%208l2%202M15.5%205.5l2%202%22/%3E%3C/svg%3E");}
+.ico-calendar{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%223%22%20y%3D%224%22%20width%3D%2214%22%20height%3D%2213%22%20rx%3D%221.5%22/%3E%3Cpath%20d%3D%22M3%208h14M7%202v4M13%202v4%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%223%22%20y%3D%224%22%20width%3D%2214%22%20height%3D%2213%22%20rx%3D%221.5%22/%3E%3Cpath%20d%3D%22M3%208h14M7%202v4M13%202v4%22/%3E%3C/svg%3E");}
+.ico-fuel{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5%2017V6a1%201%200%200%201%201-1h5a1%201%200%200%201%201%201v11%22/%3E%3Cpath%20d%3D%22M4%2017h9%22/%3E%3Cpath%20d%3D%22M13%208h1.5a1.5%201.5%200%200%201%201.5%201.5V13a1.5%201.5%200%200%200%201.5%201.5%22/%3E%3Cpath%20d%3D%22M13%205l2%202%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5%2017V6a1%201%200%200%201%201-1h5a1%201%200%200%201%201%201v11%22/%3E%3Cpath%20d%3D%22M4%2017h9%22/%3E%3Cpath%20d%3D%22M13%208h1.5a1.5%201.5%200%200%201%201.5%201.5V13a1.5%201.5%200%200%200%201.5%201.5%22/%3E%3Cpath%20d%3D%22M13%205l2%202%22/%3E%3C/svg%3E");}
+.ico-road{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M8%203%204%2017M14%203l4%2014%22/%3E%3Cpath%20d%3D%22M10%206v1.5M10%2010v1.5M10%2014v1.5%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M8%203%204%2017M14%203l4%2014%22/%3E%3Cpath%20d%3D%22M10%206v1.5M10%2010v1.5M10%2014v1.5%22/%3E%3C/svg%3E");}
+.ico-pin{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%2018s6-5.7%206-10a6%206%200%201%200-12%200c0%204.3%206%2010%206%2010z%22/%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%228%22%20r%3D%222.2%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%2018s6-5.7%206-10a6%206%200%201%200-12%200c0%204.3%206%2010%206%2010z%22/%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%228%22%20r%3D%222.2%22/%3E%3C/svg%3E");}
+.ico-money{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2210%22%20r%3D%227%22/%3E%3Cpath%20d%3D%22M10%206.5v7M12.3%208c-.3-1-1.2-1.5-2.3-1.5-1.4%200-2.3.7-2.3%201.7%200%202.4%204.6%201.1%204.6%203.5%200%201-1%201.8-2.3%201.8-1.1%200-2-.5-2.3-1.5%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2210%22%20r%3D%227%22/%3E%3Cpath%20d%3D%22M10%206.5v7M12.3%208c-.3-1-1.2-1.5-2.3-1.5-1.4%200-2.3.7-2.3%201.7%200%202.4%204.6%201.1%204.6%203.5%200%201-1%201.8-2.3%201.8-1.1%200-2-.5-2.3-1.5%22/%3E%3C/svg%3E");}
+.ico-phone{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5%203h2.3l1%204-1.7%201.3a10%2010%200%200%200%205%205l1.3-1.7%204%201V17a1%201%200%200%201-1.1%201A14%2014%200%200%201%204%205.1%201%201%200%200%201%205%203z%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5%203h2.3l1%204-1.7%201.3a10%2010%200%200%200%205%205l1.3-1.7%204%201V17a1%201%200%200%201-1.1%201A14%2014%200%200%201%204%205.1%201%201%200%200%201%205%203z%22/%3E%3C/svg%3E");}
+.ico-check{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M4%2010.5l4%204%208-9%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M4%2010.5l4%204%208-9%22/%3E%3C/svg%3E");}
+.ico-video{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%222.5%22%20y%3D%226%22%20width%3D%2210%22%20height%3D%228%22%20rx%3D%221.5%22/%3E%3Cpath%20d%3D%22M12.5%209.3%2017%207v6l-4.5-2.3%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%222.5%22%20y%3D%226%22%20width%3D%2210%22%20height%3D%228%22%20rx%3D%221.5%22/%3E%3Cpath%20d%3D%22M12.5%209.3%2017%207v6l-4.5-2.3%22/%3E%3C/svg%3E");}
+.ico-camera{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%222.5%22%20y%3D%225%22%20width%3D%2215%22%20height%3D%2211%22%20rx%3D%221.5%22/%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2210.5%22%20r%3D%223%22/%3E%3Cpath%20d%3D%22M7%205l1-1.5h4L13%205%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%222.5%22%20y%3D%225%22%20width%3D%2215%22%20height%3D%2211%22%20rx%3D%221.5%22/%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2210.5%22%20r%3D%223%22/%3E%3Cpath%20d%3D%22M7%205l1-1.5h4L13%205%22/%3E%3C/svg%3E");}
+.ico-alert{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%203%202%2017h16z%22/%3E%3Cpath%20d%3D%22M10%208.5v3.5%22/%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2214%22%20r%3D%220.9%22%20fill%3D%22black%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%203%202%2017h16z%22/%3E%3Cpath%20d%3D%22M10%208.5v3.5%22/%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2214%22%20r%3D%220.9%22%20fill%3D%22black%22/%3E%3C/svg%3E");}
+.ico-hourglass{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5%203h10M5%2017h10M6%203c0%204%203%205%204%206-1%201-4%202-4%206M14%203c0%204-3%205-4%206%201%201%204%202%204%206%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5%203h10M5%2017h10M6%203c0%204%203%205%204%206-1%201-4%202-4%206M14%203c0%204-3%205-4%206%201%201%204%202%204%206%22/%3E%3C/svg%3E");}
+.ico-cross{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5%205l10%2010M15%205%205%2015%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5%205l10%2010M15%205%205%2015%22/%3E%3C/svg%3E");}
+.ico-store{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%208l1-4h12l1%204%22/%3E%3Cpath%20d%3D%22M3%208h14v8a1%201%200%200%201-1%201H4a1%201%200%200%201-1-1V8z%22/%3E%3Cpath%20d%3D%22M8%2017v-4a2%202%200%200%201%204%200v4%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%208l1-4h12l1%204%22/%3E%3Cpath%20d%3D%22M3%208h14v8a1%201%200%200%201-1%201H4a1%201%200%200%201-1-1V8z%22/%3E%3Cpath%20d%3D%22M8%2017v-4a2%202%200%200%201%204%200v4%22/%3E%3C/svg%3E");}
+.ico-compass{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2210%22%20r%3D%227.5%22/%3E%3Cpath%20d%3D%22M12.8%207.2%2011.2%2011.2%207.2%2012.8%208.8%208.8z%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2210%22%20r%3D%227.5%22/%3E%3Cpath%20d%3D%22M12.8%207.2%2011.2%2011.2%207.2%2012.8%208.8%208.8z%22/%3E%3C/svg%3E");}
+.ico-home{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%209.5%2010%203l7%206.5%22/%3E%3Cpath%20d%3D%22M5%208.5V17h10V8.5%22/%3E%3Cpath%20d%3D%22M8.3%2017v-4.3h3.4V17%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%209.5%2010%203l7%206.5%22/%3E%3Cpath%20d%3D%22M5%208.5V17h10V8.5%22/%3E%3Cpath%20d%3D%22M8.3%2017v-4.3h3.4V17%22/%3E%3C/svg%3E");}
+
+.ico-trash{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M4%206h12%22/%3E%3Cpath%20d%3D%22M8%206V4.5A1.5%201.5%200%200%201%209.5%203h1A1.5%201.5%200%200%201%2012%204.5V6%22/%3E%3Cpath%20d%3D%22M6%206l.8%2010.2A1.5%201.5%200%200%200%208.3%2017.6h3.4a1.5%201.5%200%200%200%201.5-1.4L14%206%22/%3E%3Cpath%20d%3D%22M8.5%209v5M11.5%209v5%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M4%206h12%22/%3E%3Cpath%20d%3D%22M8%206V4.5A1.5%201.5%200%200%201%209.5%203h1A1.5%201.5%200%200%201%2012%204.5V6%22/%3E%3Cpath%20d%3D%22M6%206l.8%2010.2A1.5%201.5%200%200%200%208.3%2017.6h3.4a1.5%201.5%200%200%200%201.5-1.4L14%206%22/%3E%3Cpath%20d%3D%22M8.5%209v5M11.5%209v5%22/%3E%3C/svg%3E");}
+.ico-warning{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%203%202%2017h16z%22/%3E%3Cpath%20d%3D%22M10%208.5v3.5%22/%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2214%22%20r%3D%220.9%22%20fill%3D%22black%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%203%202%2017h16z%22/%3E%3Cpath%20d%3D%22M10%208.5v3.5%22/%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2214%22%20r%3D%220.9%22%20fill%3D%22black%22/%3E%3C/svg%3E");}
+.ico-link{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M8.5%2011.5a3%203%200%200%200%204.2.2l2.3-2.3a3%203%200%200%200-4.2-4.2l-1.3%201.3%22/%3E%3Cpath%20d%3D%22M11.5%208.5a3%203%200%200%200-4.2-.2L5%2010.6a3%203%200%200%200%204.2%204.2l1.3-1.3%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M8.5%2011.5a3%203%200%200%200%204.2.2l2.3-2.3a3%203%200%200%200-4.2-4.2l-1.3%201.3%22/%3E%3Cpath%20d%3D%22M11.5%208.5a3%203%200%200%200-4.2-.2L5%2010.6a3%203%200%200%200%204.2%204.2l1.3-1.3%22/%3E%3C/svg%3E");}
+.ico-save{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M4%204h9l3%203v9a1%201%200%200%201-1%201H4a1%201%200%200%201-1-1V5a1%201%200%200%201%201-1z%22/%3E%3Cpath%20d%3D%22M6%204v5h7V4%22/%3E%3Cpath%20d%3D%22M6%2017v-5h8v5%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M4%204h9l3%203v9a1%201%200%200%201-1%201H4a1%201%200%200%201-1-1V5a1%201%200%200%201%201-1z%22/%3E%3Cpath%20d%3D%22M6%204v5h7V4%22/%3E%3Cpath%20d%3D%22M6%2017v-5h8v5%22/%3E%3C/svg%3E");}
+.ico-compare{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%203v14M14%203v14%22/%3E%3Cpath%20d%3D%22M3%207h6M11%207h6M3%2013h6M11%2013h6%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%203v14M14%203v14%22/%3E%3Cpath%20d%3D%22M3%207h6M11%207h6M3%2013h6M11%2013h6%22/%3E%3C/svg%3E");}
+.ico-calculator{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%224%22%20y%3D%222.5%22%20width%3D%2212%22%20height%3D%2215%22%20rx%3D%221.5%22/%3E%3Cpath%20d%3D%22M6.5%205.5h7%22/%3E%3Ccircle%20cx%3D%227%22%20cy%3D%229.3%22%20r%3D%220.8%22%20fill%3D%22black%22/%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%229.3%22%20r%3D%220.8%22%20fill%3D%22black%22/%3E%3Ccircle%20cx%3D%2213%22%20cy%3D%229.3%22%20r%3D%220.8%22%20fill%3D%22black%22/%3E%3Ccircle%20cx%3D%227%22%20cy%3D%2212.3%22%20r%3D%220.8%22%20fill%3D%22black%22/%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2212.3%22%20r%3D%220.8%22%20fill%3D%22black%22/%3E%3Ccircle%20cx%3D%2213%22%20cy%3D%2212.3%22%20r%3D%220.8%22%20fill%3D%22black%22/%3E%3Ccircle%20cx%3D%227%22%20cy%3D%2215.3%22%20r%3D%220.8%22%20fill%3D%22black%22/%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2215.3%22%20r%3D%220.8%22%20fill%3D%22black%22/%3E%3Ccircle%20cx%3D%2213%22%20cy%3D%2215.3%22%20r%3D%220.8%22%20fill%3D%22black%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%224%22%20y%3D%222.5%22%20width%3D%2212%22%20height%3D%2215%22%20rx%3D%221.5%22/%3E%3Cpath%20d%3D%22M6.5%205.5h7%22/%3E%3Ccircle%20cx%3D%227%22%20cy%3D%229.3%22%20r%3D%220.8%22%20fill%3D%22black%22/%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%229.3%22%20r%3D%220.8%22%20fill%3D%22black%22/%3E%3Ccircle%20cx%3D%2213%22%20cy%3D%229.3%22%20r%3D%220.8%22%20fill%3D%22black%22/%3E%3Ccircle%20cx%3D%227%22%20cy%3D%2212.3%22%20r%3D%220.8%22%20fill%3D%22black%22/%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2212.3%22%20r%3D%220.8%22%20fill%3D%22black%22/%3E%3Ccircle%20cx%3D%2213%22%20cy%3D%2212.3%22%20r%3D%220.8%22%20fill%3D%22black%22/%3E%3Ccircle%20cx%3D%227%22%20cy%3D%2215.3%22%20r%3D%220.8%22%20fill%3D%22black%22/%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2215.3%22%20r%3D%220.8%22%20fill%3D%22black%22/%3E%3Ccircle%20cx%3D%2213%22%20cy%3D%2215.3%22%20r%3D%220.8%22%20fill%3D%22black%22/%3E%3C/svg%3E");}
+.ico-users{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%227.5%22%20cy%3D%226.5%22%20r%3D%222.6%22/%3E%3Cpath%20d%3D%22M3%2017c0-2.8%202-5%204.5-5s4.5%202.2%204.5%205%22/%3E%3Ccircle%20cx%3D%2214.5%22%20cy%3D%227%22%20r%3D%222.1%22/%3E%3Cpath%20d%3D%22M13%2012.2c1.9.3%203.5%202%203.8%204.3%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%227.5%22%20cy%3D%226.5%22%20r%3D%222.6%22/%3E%3Cpath%20d%3D%22M3%2017c0-2.8%202-5%204.5-5s4.5%202.2%204.5%205%22/%3E%3Ccircle%20cx%3D%2214.5%22%20cy%3D%227%22%20r%3D%222.1%22/%3E%3Cpath%20d%3D%22M13%2012.2c1.9.3%203.5%202%203.8%204.3%22/%3E%3C/svg%3E");}
+.ico-bolt{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M11%202%204%2012h5l-1%206%207-10h-5z%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M11%202%204%2012h5l-1%206%207-10h-5z%22/%3E%3C/svg%3E");}
+.ico-barchart{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M4%2017V9M9.3%2017V3M14.6%2017v6M14.6%2017V6%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M4%2017V9M9.3%2017V3M14.6%2017v6M14.6%2017V6%22/%3E%3C/svg%3E");}
+.ico-trophy{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%203h8v5a4%204%200%200%201-8%200z%22/%3E%3Cpath%20d%3D%22M6%204H4v2a3%203%200%200%200%203%203M14%204h2v2a3%203%200%200%201-3%203%22/%3E%3Cpath%20d%3D%22M10%2012v3M7%2018h6M8%2015h4v3H8z%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%203h8v5a4%204%200%200%201-8%200z%22/%3E%3Cpath%20d%3D%22M6%204H4v2a3%203%200%200%200%203%203M14%204h2v2a3%203%200%200%201-3%203%22/%3E%3Cpath%20d%3D%22M10%2012v3M7%2018h6M8%2015h4v3H8z%22/%3E%3C/svg%3E");}
+.ico-refresh{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M4%2010a6%206%200%200%201%2010.2-4.2L16%207.5%22/%3E%3Cpath%20d%3D%22M16%204v3.5h-3.5%22/%3E%3Cpath%20d%3D%22M16%2010a6%206%200%200%201-10.2%204.2L4%2012.5%22/%3E%3Cpath%20d%3D%22M4%2016v-3.5h3.5%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M4%2010a6%206%200%200%201%2010.2-4.2L16%207.5%22/%3E%3Cpath%20d%3D%22M16%204v3.5h-3.5%22/%3E%3Cpath%20d%3D%22M16%2010a6%206%200%200%201-10.2%204.2L4%2012.5%22/%3E%3Cpath%20d%3D%22M4%2016v-3.5h3.5%22/%3E%3C/svg%3E");}
+.ico-star{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22black%22%20stroke%3D%22none%22%3E%3Cpath%20d%3D%22M10%202.5l2.3%204.9%205.3.7-3.9%203.7.9%205.4L10%2014.6l-4.6%202.6.9-5.4-3.9-3.7%205.3-.7z%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22black%22%20stroke%3D%22none%22%3E%3Cpath%20d%3D%22M10%202.5l2.3%204.9%205.3.7-3.9%203.7.9%205.4L10%2014.6l-4.6%202.6.9-5.4-3.9-3.7%205.3-.7z%22/%3E%3C/svg%3E");}
+.ico-plus{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%204v12M4%2010h12%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%204v12M4%2010h12%22/%3E%3C/svg%3E");}
+.ico-search{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%228.5%22%20cy%3D%228.5%22%20r%3D%225.5%22/%3E%3Cpath%20d%3D%22M17%2017l-4.5-4.5%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%228.5%22%20cy%3D%228.5%22%20r%3D%225.5%22/%3E%3Cpath%20d%3D%22M17%2017l-4.5-4.5%22/%3E%3C/svg%3E");}
+.ico-edit{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M12.5%203.5%2016%207l-8.5%208.5H4V12z%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M12.5%203.5%2016%207l-8.5%208.5H4V12z%22/%3E%3C/svg%3E");}
+.ico-logout{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M8%203H4v14h4%22/%3E%3Cpath%20d%3D%22M14%206l4%204-4%204%22/%3E%3Cpath%20d%3D%22M18%2010H7%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M8%203H4v14h4%22/%3E%3Cpath%20d%3D%22M14%206l4%204-4%204%22/%3E%3Cpath%20d%3D%22M18%2010H7%22/%3E%3C/svg%3E");}
+
 :root{--gold:#C9A84C;--gold2:#E8C97A;--dark:#080A0F;--dark2:#0D1017;--dark3:#121820;--card:#111822;--text:#E8EDF5;--dim:#8A9AB5;--border:rgba(201,168,76,0.2);--red:#E84545;--green:#2ECC71;}
 *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
 body{font-family:'Tajawal',sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden;}
@@ -299,15 +348,15 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
     <li><a onclick="goPage('home')">الرئيسية</a></li>
     <li><a onclick="goPage('cars')">السيارات</a></li>
     <li><a onclick="goPage('compare')">المقارنة</a></li>
-    <li><a onclick="goPage('ai')">مستشار AI 🤖</a></li>
-    <li><a onclick="goPage('market')">📈 مؤشر الأسعار</a></li>
-    <li><a onclick="goPage('configurator')">🎮 Configurator</a></li>
+    <li><a onclick="goPage('ai')">مستشار AI <span class="ico ico-ai"></span></a></li>
+    <li><a onclick="goPage('market')"><span class="ico ico-chart-up"></span> مؤشر الأسعار</a></li>
+    <li><a onclick="goPage('configurator')"><span class="ico ico-sliders"></span> Configurator</a></li>
     <li><a onclick="goPage('dealers')">المعارض</a></li>
     <li><a onclick="goPage('calc')">حاسبة القسط</a></li>
-    <li><a onclick="goPage('favorites')" id="navFav" style="display:none">❤️ المفضلة</a></li>
-    <li><a onclick="goPage('garage')" id="navGarage" style="display:none">🔧 كراجي</a></li>
+    <li><a onclick="goPage('favorites')" id="navFav" style="display:none"><span class="ico ico-heart-fill"></span> المفضلة</a></li>
+    <li><a onclick="goPage('garage')" id="navGarage" style="display:none"><span class="ico ico-wrench"></span> كراجي</a></li>
     <li><a onclick="goPage('profile')" id="navProfile" style="display:none">حسابي</a></li>
-    <li><a onclick="goPage('admin')" id="navAdmin" style="display:none;color:var(--red)">⚙️ الإدارة</a></li>
+    <li><a onclick="goPage('admin')" id="navAdmin" style="display:none;color:var(--red)"><span class="ico ico-gear"></span> الإدارة</a></li>
   </ul>
   <div class="nav-actions">
     <button class="btn-nav btn-login-nav" onclick="openLogin()">تسجيل الدخول</button>
@@ -323,18 +372,18 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 
 <!-- MOBILE NAV -->
 <div class="mobile-nav" id="mobileNav">
-  <a onclick="mobileGoPage('home')">🏠 الرئيسية</a>
-  <a onclick="mobileGoPage('cars')">🚗 السيارات</a>
-  <a onclick="mobileGoPage('compare')">⚔️ المقارنة</a>
-  <a onclick="mobileGoPage('ai')">🤖 مستشار AI</a>
-  <a onclick="mobileGoPage('market')">📈 مؤشر الأسعار</a>
-  <a onclick="mobileGoPage('configurator')">🎮 Configurator</a>
-  <a onclick="mobileGoPage('dealers')">🏢 المعارض</a>
-  <a onclick="mobileGoPage('calc')">🧮 حاسبة القسط</a>
-  <a onclick="mobileGoPage('favorites')" id="mNavFav" style="display:none">❤️ المفضلة</a>
-  <a onclick="mobileGoPage('garage')" id="mNavGarage" style="display:none">🔧 كراجي</a>
-  <a onclick="mobileGoPage('profile')" id="mNavProfile" style="display:none">👤 حسابي</a>
-  <a onclick="mobileGoPage('admin')" id="mNavAdmin" style="display:none;color:var(--red)">⚙️ الإدارة</a>
+  <a onclick="mobileGoPage('home')"><span class="ico ico-home"></span> الرئيسية</a>
+  <a onclick="mobileGoPage('cars')"><span class="ico ico-car"></span> السيارات</a>
+  <a onclick="mobileGoPage('compare')"><span class="ico ico-compare"></span> المقارنة</a>
+  <a onclick="mobileGoPage('ai')"><span class="ico ico-ai"></span> مستشار AI</a>
+  <a onclick="mobileGoPage('market')"><span class="ico ico-chart-up"></span> مؤشر الأسعار</a>
+  <a onclick="mobileGoPage('configurator')"><span class="ico ico-sliders"></span> Configurator</a>
+  <a onclick="mobileGoPage('dealers')"><span class="ico ico-building"></span> المعارض</a>
+  <a onclick="mobileGoPage('calc')"><span class="ico ico-calculator"></span> حاسبة القسط</a>
+  <a onclick="mobileGoPage('favorites')" id="mNavFav" style="display:none"><span class="ico ico-heart-fill"></span> المفضلة</a>
+  <a onclick="mobileGoPage('garage')" id="mNavGarage" style="display:none"><span class="ico ico-wrench"></span> كراجي</a>
+  <a onclick="mobileGoPage('profile')" id="mNavProfile" style="display:none"><span class="ico ico-user"></span> حسابي</a>
+  <a onclick="mobileGoPage('admin')" id="mNavAdmin" style="display:none;color:var(--red)"><span class="ico ico-gear"></span> الإدارة</a>
 </div>
 
 <!-- HOME -->
@@ -345,7 +394,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
       <h1 class="hero-title">اشتري وبع<br><span class="g">سيارتك بثقة</span></h1>
       <p class="hero-sub">من البصرة إلى زاخو — نجيب كل سيارة.<br>أفضل منصة لبيع وشراء السيارات في العراق.</p>
       <div class="hero-btns">
-        <button class="btn-hero btn-hero-gold" onclick="goPage('cars')">تصفح السيارات 🚗</button>
+        <button class="btn-hero btn-hero-gold" onclick="goPage('cars')">تصفح السيارات <span class="ico ico-car"></span></button>
         <button class="btn-hero btn-hero-out" onclick="goPage('post')">نشر إعلان</button>
       </div>
       <div class="hero-stats">
@@ -359,13 +408,13 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 
 <!-- CARS -->
 <div class="page" id="page-cars">
-  <div class="page-header"><div class="page-title">🚗 تصفح السيارات</div><div class="page-sub">اعثر على سيارتك المثالية</div></div>
+  <div class="page-header"><div class="page-title"><span class="ico ico-car"></span> تصفح السيارات</div><div class="page-sub">اعثر على سيارتك المثالية</div></div>
   
   <!-- ADS BANNER -->
   <div id="adsBannerWrap" style="padding:16px 32px 0;"></div>
 
   <div class="cars-toolbar">
-    <input class="search-input" placeholder="🔍 ابحث..." oninput="filterCars()" id="searchInput">
+    <input class="search-input" placeholder="ابحث..." oninput="filterCars()" id="searchInput">
     <select class="filter-sel" onchange="onFilterMakeChange()" id="filterMake"><option value="">كل الشركات</option></select>
     <select class="filter-sel" onchange="filterCars()" id="filterModel"><option value="">كل الموديلات</option></select>
     <select class="filter-sel" onchange="filterCars()" id="filterEngine"><option value="">كل المحركات</option></select>
@@ -376,10 +425,10 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
     </select>
   </div>
   <div class="post-banner">
-    <div><h3>🚗 عندك سيارة تبيعها؟</h3><p>انشر إعلانك مجاناً مع حتى 15 صورة</p></div>
+    <div><h3><span class="ico ico-car"></span> عندك سيارة تبيعها؟</h3><p>انشر إعلانك مجاناً مع حتى 15 صورة</p></div>
     <button class="btn-post-banner" onclick="goPage('post')">نشر إعلان الآن</button>
   </div>
-  <div class="cars-grid" id="carsGrid"><div class="loading">⏳ جاري التحميل...</div></div>
+  <div class="cars-grid" id="carsGrid"><div class="loading"><span class="ico ico-hourglass"></span> جاري التحميل...</div></div>
 </div>
 
 <!-- DETAIL -->
@@ -391,7 +440,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 <!-- POST AD -->
 <div class="page" id="page-post">
   <div class="section-page" style="max-width:800px;margin:0 auto;">
-    <h2 style="font-size:24px;font-weight:800;margin-bottom:20px;">🚗 نشر إعلان سيارة</h2>
+    <h2 style="font-size:24px;font-weight:800;margin-bottom:20px;"><span class="ico ico-car"></span> نشر إعلان سيارة</h2>
     <div class="post-section">
       <div class="post-section-title">معلومات السيارة</div>
       <div class="form-grid">
@@ -420,13 +469,13 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
     </div>
     <div class="post-section">
       <div class="post-section-title">صور السيارة (حتى 15 صورة)</div>
-      <div class="photos-upload-area" onclick="document.getElementById('photoInp').click()"><div style="font-size:32px;margin-bottom:7px;">📸</div><div style="font-size:14px;color:var(--dim);">اضغط لإضافة الصور</div></div>
+      <div class="photos-upload-area" onclick="document.getElementById('photoInp').click()"><div style="font-size:32px;margin-bottom:7px;"><span class="ico ico-camera"></span></div><div style="font-size:14px;color:var(--dim);">اضغط لإضافة الصور</div></div>
       <input type="file" id="photoInp" accept="image/*" multiple style="display:none" onchange="addCarPhotos(this)">
       <div class="photos-preview" id="photosPreview"></div>
       <div class="photos-info" id="photosInfo">0 / 15 صورة</div>
     </div>
     <div class="post-section">
-      <div class="post-section-title">🔧 معلومات الحوادث (اختياري)</div>
+      <div class="post-section-title"><span class="ico ico-wrench"></span> معلومات الحوادث (اختياري)</div>
       <select class="form-input" id="adAccident" onchange="toggleAccident()" style="margin-bottom:12px;"><option value="no">لا — سالمة</option><option value="yes">نعم — فيها حادث</option></select>
       <div id="accidentSection" style="display:none;">
         <div style="font-size:12px;color:var(--dim);margin-bottom:7px;">القطع المتضررة</div>
@@ -448,16 +497,16 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 <!-- PROFILE -->
 <div class="page" id="page-profile">
   <div class="profile-page">
-    <h2 style="font-size:22px;font-weight:800;margin-bottom:20px;">👤 حسابي</h2>
+    <h2 style="font-size:22px;font-weight:800;margin-bottom:20px;"><span class="ico ico-user"></span> حسابي</h2>
     <div class="profile-header">
-      <div class="profile-pic-wrap"><img class="profile-pic" id="profPic" src=""><button class="profile-pic-edit" onclick="document.getElementById('profPicInp').click()">✏️</button><input type="file" id="profPicInp" accept="image/*" style="display:none" onchange="changeProfilePic(this)"></div>
+      <div class="profile-pic-wrap"><img class="profile-pic" id="profPic" src=""><button class="profile-pic-edit" onclick="document.getElementById('profPicInp').click()"><span class="ico ico-edit"></span></button><input type="file" id="profPicInp" accept="image/*" style="display:none" onchange="changeProfilePic(this)"></div>
       <div class="profile-name-big" id="profName">—</div><div class="profile-email-sm" id="profEmail">—</div>
     </div>
     <div class="profile-section">
       <div class="profile-section-title">تعديل المعلومات</div>
       <div class="form-group" style="margin-bottom:10px;"><label class="form-label">الاسم</label><input type="text" class="form-input" id="editName" placeholder="اسمك الكامل"></div>
       <div class="form-group" style="margin-bottom:14px;"><label class="form-label">رقم الهاتف</label><input type="text" class="form-input" id="editPhone" placeholder="07XX XXX XXXX"></div>
-      <div style="display:flex;gap:9px;"><button class="btn-save" onclick="saveProfile()">💾 حفظ</button><button class="btn-danger" onclick="doSignOut()">🚪 خروج</button></div>
+      <div style="display:flex;gap:9px;"><button class="btn-save" onclick="saveProfile()"><span class="ico ico-save"></span> حفظ</button><button class="btn-danger" onclick="doSignOut()"><span class="ico ico-logout"></span> خروج</button></div>
       <div class="msg-box" id="profMsg"></div>
     </div>
     <div class="profile-section"><div class="profile-section-title">إعلاناتي</div><div class="my-ads-grid" id="myAdsGrid"><div style="color:var(--dim);font-size:13px;">جاري التحميل...</div></div></div>
@@ -467,7 +516,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 <!-- COMPARE -->
 <div class="page" id="page-compare">
   <div class="section-page" style="max-width:1000px;margin:0 auto;">
-    <h2 style="font-size:24px;font-weight:800;margin-bottom:6px;">⚔️ مقارنة السيارات</h2>
+    <h2 style="font-size:24px;font-weight:800;margin-bottom:6px;"><span class="ico ico-compare"></span> مقارنة السيارات</h2>
     <p style="color:var(--dim);font-size:14px;margin-bottom:24px;">اختر سيارتين وقارن بينهما</p>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px;">
       <div class="post-section"><div class="post-section-title">السيارة الأولى</div><select class="form-input" id="cmp1Make" onchange="updateCmpModels(1)"><option value="">اختر الشركة</option></select><select class="form-input" id="cmp1Model" style="margin-top:9px;" onchange="runCompare()"><option value="">اختر الموديل</option></select></div>
@@ -480,7 +529,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 <!-- AI -->
 <div class="page" id="page-ai">
   <div class="section-page" style="max-width:680px;margin:0 auto;">
-    <h2 style="font-size:24px;font-weight:800;margin-bottom:4px;">🤖 مستشار السيارات</h2>
+    <h2 style="font-size:24px;font-weight:800;margin-bottom:4px;"><span class="ico ico-ai"></span> مستشار السيارات</h2>
     <p style="color:var(--dim);font-size:14px;margin-bottom:20px;">اسألني أي سؤال عن السيارات!</p>
     <div id="aiChat" style="background:var(--card);border:1px solid var(--border);border-radius:13px;padding:18px;min-height:380px;max-height:480px;overflow-y:auto;margin-bottom:14px;display:flex;flex-direction:column;gap:11px;">
       <div class="ai-msg ai-msg-bot"><div class="ai-msg-inner">👋 هلا! أنا أبو سيارة 😄 اسألني عن أي شي يخص السيارات — محركات، صيانة، مقارنات، نصايح!</div></div>
@@ -502,43 +551,43 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 <div class="page" id="page-admin">
   <div class="section-page" style="max-width:1000px;margin:0 auto;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:10px;">
-      <div><h2 style="font-size:24px;font-weight:800;">⚙️ لوحة التحكم</h2><p style="color:var(--dim);font-size:13px;margin-top:3px;">Iraq Motors Admin</p></div>
+      <div><h2 style="font-size:24px;font-weight:800;"><span class="ico ico-gear"></span> لوحة التحكم</h2><p style="color:var(--dim);font-size:13px;margin-top:3px;">Iraq Motors Admin</p></div>
       <div style="font-size:12px;color:var(--dim);" id="adminLastUpdate"></div>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:24px;">
-      <div class="admin-stat-card"><div class="admin-stat-icon">🚗</div><div class="admin-stat-num" id="statTotalAds">—</div><div class="admin-stat-label">إجمالي الإعلانات</div></div>
-      <div class="admin-stat-card"><div class="admin-stat-icon">⏳</div><div class="admin-stat-num" id="statPending">—</div><div class="admin-stat-label">بانتظار الموافقة</div></div>
-      <div class="admin-stat-card"><div class="admin-stat-icon">✅</div><div class="admin-stat-num" id="statApproved">—</div><div class="admin-stat-label">مفعّلة</div></div>
-      <div class="admin-stat-card"><div class="admin-stat-icon">💰</div><div class="admin-stat-num" id="statSold">—</div><div class="admin-stat-label">مباعة</div></div>
-      <div class="admin-stat-card"><div class="admin-stat-icon">👥</div><div class="admin-stat-num" id="statUsers">—</div><div class="admin-stat-label">المستخدمين</div></div>
-      <div class="admin-stat-card"><div class="admin-stat-icon">🚨</div><div class="admin-stat-num" id="statReports">—</div><div class="admin-stat-label">البلاغات</div></div>
-      <div class="admin-stat-card"><div class="admin-stat-icon">🏢</div><div class="admin-stat-num" id="statDealerPending">—</div><div class="admin-stat-label">طلبات معارض</div></div>
+      <div class="admin-stat-card"><div class="admin-stat-icon"><span class="ico ico-md ico-car"></span></div><div class="admin-stat-num" id="statTotalAds">—</div><div class="admin-stat-label">إجمالي الإعلانات</div></div>
+      <div class="admin-stat-card"><div class="admin-stat-icon"><span class="ico ico-md ico-hourglass"></span></div><div class="admin-stat-num" id="statPending">—</div><div class="admin-stat-label">بانتظار الموافقة</div></div>
+      <div class="admin-stat-card"><div class="admin-stat-icon"><span class="ico ico-md ico-check"></span></div><div class="admin-stat-num" id="statApproved">—</div><div class="admin-stat-label">مفعّلة</div></div>
+      <div class="admin-stat-card"><div class="admin-stat-icon"><span class="ico ico-md ico-money"></span></div><div class="admin-stat-num" id="statSold">—</div><div class="admin-stat-label">مباعة</div></div>
+      <div class="admin-stat-card"><div class="admin-stat-icon"><span class="ico ico-md ico-users"></span></div><div class="admin-stat-num" id="statUsers">—</div><div class="admin-stat-label">المستخدمين</div></div>
+      <div class="admin-stat-card"><div class="admin-stat-icon"><span class="ico ico-md ico-alert"></span></div><div class="admin-stat-num" id="statReports">—</div><div class="admin-stat-label">البلاغات</div></div>
+      <div class="admin-stat-card"><div class="admin-stat-icon"><span class="ico ico-md ico-building"></span></div><div class="admin-stat-num" id="statDealerPending">—</div><div class="admin-stat-label">طلبات معارض</div></div>
     </div>
     <div style="display:flex;gap:7px;margin-bottom:18px;flex-wrap:wrap;" id="adminTabs">
-      <button class="admin-tab active" onclick="switchAdminTab('pending',this)">⏳ بانتظار الموافقة</button>
-      <button class="admin-tab" onclick="switchAdminTab('approved',this)">✅ المفعّلة</button>
-      <button class="admin-tab" onclick="switchAdminTab('reports',this)">🚨 البلاغات</button>
-      <button class="admin-tab" onclick="switchAdminTab('users',this)">👥 المستخدمين</button>
-      <button class="admin-tab" onclick="switchAdminTab('companyAds',this)">🏢 إعلانات الشركات</button>
-      <button class="admin-tab" onclick="switchAdminTab('dealers',this)">🏪 طلبات المعارض</button>
+      <button class="admin-tab active" onclick="switchAdminTab('pending',this)"><span class="ico ico-hourglass"></span> بانتظار الموافقة</button>
+      <button class="admin-tab" onclick="switchAdminTab('approved',this)"><span class="ico ico-check"></span> المفعّلة</button>
+      <button class="admin-tab" onclick="switchAdminTab('reports',this)"><span class="ico ico-alert"></span> البلاغات</button>
+      <button class="admin-tab" onclick="switchAdminTab('users',this)"><span class="ico ico-users"></span> المستخدمين</button>
+      <button class="admin-tab" onclick="switchAdminTab('companyAds',this)"><span class="ico ico-building"></span> إعلانات الشركات</button>
+      <button class="admin-tab" onclick="switchAdminTab('dealers',this)"><span class="ico ico-store"></span> طلبات المعارض</button>
     </div>
-    <div id="adminTabContent"><div style="text-align:center;padding:40px;color:var(--dim);">⏳ جاري التحميل...</div></div>
+    <div id="adminTabContent"><div style="text-align:center;padding:40px;color:var(--dim);"><span class="ico ico-hourglass"></span> جاري التحميل...</div></div>
   </div>
 </div>
 
 <!-- GARAGE -->
 <div class="page" id="page-garage">
-  <div class="page-header"><div class="page-title">🔧 كراجي</div><div class="page-sub">سجّل سياراتك وتابع صيانتها</div></div>
+  <div class="page-header"><div class="page-title"><span class="ico ico-wrench"></span> كراجي</div><div class="page-sub">سجّل سياراتك وتابع صيانتها</div></div>
   <div class="section-page">
     <button class="btn-submit-big" style="max-width:220px;margin-bottom:20px;" onclick="openGarageAdd()">+ إضافة سيارة للكراج</button>
-    <div id="garageGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;"><div class="loading">⏳ جاري التحميل...</div></div>
+    <div id="garageGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;"><div class="loading"><span class="ico ico-hourglass"></span> جاري التحميل...</div></div>
   </div>
 </div>
 
 <!-- CONFIGURATOR -->
 <div class="page" id="page-configurator">
   <div class="section-page" style="max-width:960px;margin:0 auto;">
-    <h2 style="font-size:24px;font-weight:800;margin-bottom:4px;">🎮 Car Configurator</h2>
+    <h2 style="font-size:24px;font-weight:800;margin-bottom:4px;"><span class="ico ico-sliders"></span> Car Configurator</h2>
     <p style="color:var(--dim);font-size:14px;margin-bottom:20px;">صمم سيارتك قبل الشراء</p>
     <div style="display:grid;grid-template-columns:1fr 320px;gap:22px;">
       <div class="post-section">
@@ -563,8 +612,8 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
           </svg>
         </div>
         <div style="display:flex;gap:9px;margin-top:14px;justify-content:center;">
-          <button onclick="saveConfig()" style="background:var(--gold);color:#000;border:none;padding:9px 22px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:13px;font-weight:700;cursor:pointer;">💾 حفظ</button>
-          <button onclick="shareConfig()" style="background:transparent;color:var(--text);border:1px solid var(--border);padding:9px 22px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:13px;cursor:pointer;">🔗 مشاركة</button>
+          <button onclick="saveConfig()" style="background:var(--gold);color:#000;border:none;padding:9px 22px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:13px;font-weight:700;cursor:pointer;"><span class="ico ico-save"></span> حفظ</button>
+          <button onclick="shareConfig()" style="background:transparent;color:var(--text);border:1px solid var(--border);padding:9px 22px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:13px;cursor:pointer;"><span class="ico ico-link"></span> مشاركة</button>
         </div>
       </div>
       <div>
@@ -583,7 +632,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
           </div>
         </div>
         <div class="post-section" style="margin-bottom:12px;">
-          <div class="post-section-title">🔩 الجنوط</div>
+          <div class="post-section-title"><span class="ico ico-bolt"></span> الجنوط</div>
           <div style="display:flex;gap:7px;flex-wrap:wrap;">
             <button class="cfg-btn active" onclick="setCfgRims('default',this)">عادي</button>
             <button class="cfg-btn" onclick="setCfgRims('sport',this)">سبورت</button>
@@ -601,7 +650,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
           </div>
         </div>
         <div class="post-section" style="margin-bottom:12px;">
-          <div class="post-section-title">✨ الكروم</div>
+          <div class="post-section-title"><span class="ico ico-sparkle"></span> الكروم</div>
           <div style="display:flex;gap:7px;flex-wrap:wrap;">
             <button class="cfg-btn active" onclick="setCfgChrome('transparent',this)">بدون</button>
             <button class="cfg-btn" onclick="setCfgChrome('#c0c0c0',this)">فضي</button>
@@ -610,7 +659,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
           </div>
         </div>
         <div class="post-section" style="margin-bottom:12px;">
-          <div class="post-section-title">🏎️ السبويلر</div>
+          <div class="post-section-title"><span class="ico ico-car"></span> السبويلر</div>
           <div style="display:flex;gap:7px;flex-wrap:wrap;">
             <button class="cfg-btn active" onclick="setCfgSpoiler('transparent',this)">بدون</button>
             <button class="cfg-btn" onclick="setCfgSpoiler('sport',this)">سبورت</button>
@@ -632,17 +681,17 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 
 <!-- MARKET INDEX -->
 <div class="page" id="page-market">
-  <div class="page-header"><div class="page-title">📈 مؤشر أسعار السيارات - العراق</div><div class="page-sub">تتبع أسعار السوق</div></div>
+  <div class="page-header"><div class="page-title"><span class="ico ico-chart-up"></span> مؤشر أسعار السيارات - العراق</div><div class="page-sub">تتبع أسعار السوق</div></div>
   <div class="section-page">
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin-bottom:24px;" id="marketStats"></div>
     <div class="post-section"><div class="post-section-title">حركة الأسعار اليوم</div><div id="marketTable"></div></div>
-    <div class="post-section" style="margin-top:16px;"><div class="post-section-title">📊 أكثر السيارات بحثاً</div><div id="trendingCars" style="display:flex;flex-wrap:wrap;gap:7px;margin-top:9px;"></div></div>
+    <div class="post-section" style="margin-top:16px;"><div class="post-section-title"><span class="ico ico-barchart"></span> أكثر السيارات بحثاً</div><div id="trendingCars" style="display:flex;flex-wrap:wrap;gap:7px;margin-top:9px;"></div></div>
   </div>
 </div>
 
 <!-- CALC -->
 <div class="page" id="page-calc">
-  <div class="page-header"><div class="page-title">🧮 حاسبة قسط السيارة</div><div class="page-sub">احسب قسطك الشهري</div></div>
+  <div class="page-header"><div class="page-title"><span class="ico ico-calculator"></span> حاسبة قسط السيارة</div><div class="page-sub">احسب قسطك الشهري</div></div>
   <div class="section-page" style="max-width:580px;margin:0 auto;">
     <div class="post-section">
       <div class="post-section-title">تفاصيل التمويل</div>
@@ -666,21 +715,21 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 
 <!-- FAVORITES -->
 <div class="page" id="page-favorites">
-  <div class="page-header"><div class="page-title">❤️ المفضلة</div><div class="page-sub">السيارات المحفوظة</div></div>
-  <div class="cars-grid" id="favGrid"><div class="loading">⏳ جاري التحميل...</div></div>
+  <div class="page-header"><div class="page-title"><span class="ico ico-heart-fill"></span> المفضلة</div><div class="page-sub">السيارات المحفوظة</div></div>
+  <div class="cars-grid" id="favGrid"><div class="loading"><span class="ico ico-hourglass"></span> جاري التحميل...</div></div>
 </div>
 
 <!-- DEALERS -->
 <div class="page" id="page-dealers">
-  <div class="page-header"><div class="page-title">🏢 المعارض والتجار</div><div class="page-sub">معارض موثوقة في العراق</div></div>
-  <div class="section-page"><div id="dealersGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;"><div class="loading">⏳ جاري التحميل...</div></div></div>
+  <div class="page-header"><div class="page-title"><span class="ico ico-building"></span> المعارض والتجار</div><div class="page-sub">معارض موثوقة في العراق</div></div>
+  <div class="section-page"><div id="dealersGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;"><div class="loading"><span class="ico ico-hourglass"></span> جاري التحميل...</div></div></div>
 </div>
 
 <!-- GARAGE ADD OVERLAY -->
 <div class="overlay" id="garageOverlay">
   <div class="modal">
-    <button class="modal-close" onclick="document.getElementById('garageOverlay').classList.remove('open')">✕</button>
-    <div class="modal-title">🚗 إضافة سيارة للكراج</div>
+    <button class="modal-close" onclick="document.getElementById('garageOverlay').classList.remove('open')"><span class="ico ico-cross"></span></button>
+    <div class="modal-title"><span class="ico ico-car"></span> إضافة سيارة للكراج</div>
     <div class="modal-sub">سجّل سيارتك لمتابعة صيانتها</div>
     <select class="inp" id="gMake" onchange="updateGarageModels()"><option value="">اختر الشركة</option></select>
     <select class="inp" id="gModel"><option value="">اختر الموديل</option></select>
@@ -693,7 +742,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
     <input type="date" class="inp" id="gTireDate" placeholder="آخر تغيير إطارات">
     <input type="date" class="inp" id="gInsDate" placeholder="انتهاء التأمين">
     <input type="date" class="inp" id="gSvcDate" placeholder="موعد الصيانة القادم">
-    <button class="btn-sub" onclick="addGarageCar()">💾 حفظ السيارة</button>
+    <button class="btn-sub" onclick="addGarageCar()"><span class="ico ico-save"></span> حفظ السيارة</button>
     <div class="msg" id="garageMsg"></div>
   </div>
 </div>
@@ -701,8 +750,8 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 <!-- LOGIN -->
 <div class="overlay" id="loginOverlay">
   <div class="modal">
-    <button class="modal-close" onclick="closeLogin()">✕</button>
-    <div class="modal-title">🔑 تسجيل الدخول</div>
+    <button class="modal-close" onclick="closeLogin()"><span class="ico ico-cross"></span></button>
+    <div class="modal-title"><span class="ico ico-key"></span> تسجيل الدخول</div>
     <div class="modal-sub">ادخل عالموقع وابدأ تبيع أو تشتري</div>
     <button class="btn-g" onclick="loginGoogle()">
       <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
@@ -721,8 +770,8 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 <!-- REGISTER -->
 <div class="overlay" id="regOverlay">
   <div class="modal">
-    <button class="modal-close" onclick="closeReg()">✕</button>
-    <div class="modal-title">✨ حساب جديد</div>
+    <button class="modal-close" onclick="closeReg()"><span class="ico ico-cross"></span></button>
+    <div class="modal-title"><span class="ico ico-sparkle"></span> حساب جديد</div>
     <div class="modal-sub">انضم لـ Iraq Motors مجاناً</div>
     <input type="text" class="inp" id="regName" placeholder="الاسم الكامل">
     <input type="email" class="inp" id="regEmail" placeholder="الإيميل">
@@ -737,8 +786,8 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 <!-- DEALER REGISTER -->
 <div class="overlay" id="dealerRegOverlay">
   <div class="modal">
-    <button class="modal-close" onclick="closeDealerReg()">✕</button>
-    <div class="modal-title">🏢 إنشاء حساب معرض</div>
+    <button class="modal-close" onclick="closeDealerReg()"><span class="ico ico-cross"></span></button>
+    <div class="modal-title"><span class="ico ico-building"></span> إنشاء حساب معرض</div>
     <div class="modal-sub">سجل معرضك وابدأ اعرض سياراتك بعد موافقة الإدارة</div>
     <input type="text" class="inp" id="drName" placeholder="اسم المعرض">
     <input type="tel" class="inp" id="drPhone" placeholder="رقم الهاتف">
@@ -868,11 +917,11 @@ function goPage(p){
       goPage('home');
       var msg='نشر الإعلانات متاح حالياً فقط عبر إدارة الموقع والمعارض المعتمدة. تگدر تسجل حساب معرض من نافذة تسجيل الدخول.';
       if(window._me&&window._me.role==='dealer'){
-        if(window._me.dealerStatus==='pending')msg='⏳ طلب معرضك لسا بانتظار موافقة الإدارة، راح تگدر تنشر إعلانات بعد الموافقة.';
-        else if(window._me.dealerStatus==='rejected')msg='❌ للأسف تم رفض طلب معرضك من قبل الإدارة.';
+        if(window._me.dealerStatus==='pending')msg='<span class="ico ico-hourglass"></span> طلب معرضك لسا بانتظار موافقة الإدارة، راح تگدر تنشر إعلانات بعد الموافقة.';
+        else if(window._me.dealerStatus==='rejected')msg='<span class="ico ico-cross"></span> للأسف تم رفض طلب معرضك من قبل الإدارة.';
       }
       alert(msg);
-    }).catch(function(){goPage('home');alert('❌ صار خطأ، حاول مرة ثانية.');});
+    }).catch(function(){goPage('home');alert('<span class="ico ico-cross"></span> صار خطأ، حاول مرة ثانية.');});
   }
   else if(p==='profile'){if(!auth.currentUser){goPage('home');openLogin();return;}loadProfile();}
   else if(p==='compare')initCmpSelects();
@@ -934,7 +983,7 @@ function removeCarPhoto(i){carPhotos.splice(i,1);renderPhotos('photosPreview',ca
 function removeAccPhoto(i){accPhotos.splice(i,1);renderPhotos('accPreview',accPhotos,'acc','accInfo',10);}
 function renderPhotos(gid,arr,type,iid,max){
   document.getElementById(gid).innerHTML=arr.map(function(f,i){
-    return '<div class="photo-thumb"><img src="'+URL.createObjectURL(f)+'"><button class="photo-rm" onclick="remove'+(type==='car'?'Car':'Acc')+'Photo('+i+')">✕</button></div>';
+    return '<div class="photo-thumb"><img src="'+URL.createObjectURL(f)+'"><button class="photo-rm" onclick="remove'+(type==='car'?'Car':'Acc')+'Photo('+i+')"><span class="ico ico-cross"></span></button></div>';
   }).join('');
   document.getElementById(iid).textContent=arr.length+' / '+max+' صورة';
 }
@@ -950,9 +999,9 @@ async function submitAd(){
   var make=document.getElementById('adMake').value,model=document.getElementById('adModel').value;
   var price=document.getElementById('adPrice').value,year=document.getElementById('adYear').value;
   var city=document.getElementById('adCity').value,phone=document.getElementById('adPhone').value.trim();
-  if(!make||!model||!price||!year||!city||!phone){showMsg2('adMsg','❌ الرجاء ملء جميع الحقول المطلوبة','#e74c3c');return;}
+  if(!make||!model||!price||!year||!city||!phone){showMsg2('adMsg','<span class="ico ico-cross"></span> الرجاء ملء جميع الحقول المطلوبة','#e74c3c');return;}
   document.getElementById('progressWrap').style.display='block';
-  showMsg2('adMsg','⏳ جاري رفع الصور...','#f39c12');
+  showMsg2('adMsg','<span class="ico ico-hourglass"></span> جاري رفع الصور...','#f39c12');
   try{
     var allFiles=[...carPhotos,...accPhotos],urls=[];
     for(var i=0;i<allFiles.length;i++){
@@ -961,7 +1010,7 @@ async function submitAd(){
       urls.push(await uploadImg(allFiles[i]));
     }
     document.getElementById('progressFill').style.width='95%';
-    showMsg2('adMsg','⏳ جاري النشر...','#f39c12');
+    showMsg2('adMsg','<span class="ico ico-hourglass"></span> جاري النشر...','#f39c12');
     await db.collection('cars').add({
       make,model,price:parseInt(price),currency,year:parseInt(year),city,phone,
       km:parseInt(document.getElementById('adKm').value)||0,
@@ -984,23 +1033,23 @@ async function submitAd(){
       createdAt:firebase.firestore.FieldValue.serverTimestamp()
     });
     document.getElementById('progressFill').style.width='100%';
-    showMsg2('adMsg','✅ تم إرسال إعلانك! سيظهر بعد المراجعة 🕐','#2ecc71');
+    showMsg2('adMsg','<span class="ico ico-check"></span> تم إرسال إعلانك! سيظهر بعد المراجعة 🕐','#2ecc71');
     carPhotos=[];accPhotos=[];
     setTimeout(function(){goPage('cars');},3000);
-  }catch(e){showMsg2('adMsg','❌ خطأ: '+e.message,'#e74c3c');}
+  }catch(e){showMsg2('adMsg','<span class="ico ico-cross"></span> خطأ: '+e.message,'#e74c3c');}
 }
 
 // LOAD CARS
 async function loadCars(){
   var grid=document.getElementById('carsGrid');
-  grid.innerHTML='<div class="loading">⏳ جاري التحميل...</div>';
+  grid.innerHTML='<div class="loading"><span class="ico ico-hourglass"></span> جاري التحميل...</div>';
   try{
     var snap=await db.collection('cars').get();
     allCars=snap.docs.map(function(d){return Object.assign({id:d.id},d.data());});
     if(!isAdmin())allCars=allCars.filter(function(c){return c.approved===true;});
     document.getElementById('cntCars').textContent=allCars.length;
     renderCars(allCars);
-  }catch(e){grid.innerHTML='<div class="empty"><div class="empty-ico">⚠️</div><div class="empty-tit">خطأ في التحميل</div></div>';}
+  }catch(e){grid.innerHTML='<div class="empty"><div class="empty-ico"><span class="ico ico-lg ico-warning"></span></div><div class="empty-tit">خطأ في التحميل</div></div>';}
 }
 
 function priceStr(car){return car.currency==='IQD'?(car.price||0).toLocaleString()+' د.ع':'$'+(car.price||0).toLocaleString();}
@@ -1011,14 +1060,14 @@ function getPriceBadge(car){
   if(!mp||car.currency==='IQD')return '';
   var diff=((car.price-mp)/mp)*100;
   if(diff<-10)return '<span class="price-badge price-good">🔥 مميز -'+Math.abs(Math.round(diff))+'%</span>';
-  if(diff>15)return '<span class="price-badge price-bad">⚠️ أعلى +'+Math.round(diff)+'%</span>';
-  return '<span class="price-badge price-fair">✓ عادل</span>';
+  if(diff>15)return '<span class="price-badge price-bad"><span class="ico ico-warning"></span> أعلى +'+Math.round(diff)+'%</span>';
+  return '<span class="price-badge price-fair"><span class="ico ico-check"></span> عادل</span>';
 }
 
 function renderCars(cars){
   var grid=document.getElementById('carsGrid');
   clearSlTimers();
-  if(!cars.length){grid.innerHTML='<div class="empty"><div class="empty-ico">🚗</div><div class="empty-tit">قريباً سوف تتوفر</div><div class="empty-sub">نعمل على إضافة أفضل السيارات</div></div>';return;}
+  if(!cars.length){grid.innerHTML='<div class="empty"><div class="empty-ico"><span class="ico ico-lg ico-car"></span></div><div class="empty-tit">قريباً سوف تتوفر</div><div class="empty-sub">نعمل على إضافة أفضل السيارات</div></div>';return;}
   grid.innerHTML=cars.map(function(car){
     var imgs=car.imgs&&car.imgs.length?car.imgs:(car.img?[car.img]:[]);
     var ps=priceStr(car);
@@ -1026,21 +1075,21 @@ function renderCars(cars){
       (imgs.length?'<div class="card-slider" id="cs-'+car.id+'">'+
         imgs.map(function(img,i){return '<img src="'+img+'" class="'+(i===0?'on':'')+'" loading="lazy">';}).join('')+
         (imgs.length>1?'<button class="sl-btn p" onclick="event.stopPropagation();slPrev(\''+car.id+'\')">›</button><button class="sl-btn n" onclick="event.stopPropagation();slNext(\''+car.id+'\')">‹</button>':'')+
-        (car.accident?'<div class="card-badge">🔧 حادث</div>':'')+
-        (car.sold?'<div class="card-sold-badge">✅ مباع</div>':'')+
-      '</div>':'<div class="card-no-img">🚗</div>')+
+        (car.accident?'<div class="card-badge"><span class="ico ico-wrench"></span> حادث</div>':'')+
+        (car.sold?'<div class="card-sold-badge"><span class="ico ico-check"></span> مباع</div>':'')+
+      '</div>':'<div class="card-no-img"><span class="ico ico-lg ico-car"></span></div>')+
       '<div class="card-body">'+
         '<div class="card-make">'+brandBadge(car.make)+(car.make||'')+'</div>'+
         '<div class="card-name">'+(car.model||'')+'</div>'+
         '<div class="card-specs">'+
-          '<span class="card-spec">📅 '+(car.year||'')+'</span>'+
-          (car.fuel?'<span class="card-spec">⛽ '+car.fuel+'</span>':'')+
-          (car.km?'<span class="card-spec">🛣️ '+car.km.toLocaleString()+' '+(car.kmUnit||'كم')+'</span>':'')+
+          '<span class="card-spec"><span class="ico ico-calendar"></span> '+(car.year||'')+'</span>'+
+          (car.fuel?'<span class="card-spec"><span class="ico ico-fuel"></span> '+car.fuel+'</span>':'')+
+          (car.km?'<span class="card-spec"><span class="ico ico-road"></span> '+car.km.toLocaleString()+' '+(car.kmUnit||'كم')+'</span>':'')+
         '</div>'+
         '<div class="card-footer">'+
           '<div class="card-price">'+ps+'</div>'+
-          '<div style="display:flex;align-items:center;gap:6px;"><div class="card-city">📍 '+(car.city||'')+'</div>'+
-          '<button onclick="event.stopPropagation();toggleFav(\''+car.id+'\')" style="background:none;border:none;cursor:pointer;font-size:17px;">'+(isFav(car.id)?'❤️':'🤍')+'</button></div>'+
+          '<div style="display:flex;align-items:center;gap:6px;"><div class="card-city"><span class="ico ico-pin"></span> '+(car.city||'')+'</div>'+
+          '<button onclick="event.stopPropagation();toggleFav(\''+car.id+'\')" style="background:none;border:none;cursor:pointer;font-size:17px;">'+(isFav(car.id)?'<span class="ico ico-heart-fill"></span>':'<span class="ico ico-heart"></span>')+'</button></div>'+
         '</div>'+
       '</div>'+
     '</div>';
@@ -1087,9 +1136,9 @@ function openCarDetail(id){
     '<div class="gallery-main" id="galMain">'+imgs.map(function(img,i){return '<img src="'+img+'" class="'+(i===0?'on':'')+'" loading="lazy">';}).join('')+
     (imgs.length>1?'<button class="gal-btn p" onclick="galSlide(1)">›</button><button class="gal-btn n" onclick="galSlide(-1)">‹</button>':'')+
     '</div><div class="gallery-thumbs">'+imgs.map(function(img,i){return '<div class="gallery-thumb '+(i===0?'on':'')+'" onclick="galGo('+i+')"><img src="'+img+'" loading="lazy"></div>';}).join('')+'</div>':
-    '<div class="card-no-img" style="border-radius:13px;height:280px;">🚗</div>';
+    '<div class="card-no-img" style="border-radius:13px;height:280px;"><span class="ico ico-lg ico-car"></span></div>';
   var accSection=car.accident&&(car.damagedParts&&car.damagedParts.length||car.accImgs&&car.accImgs.length)?
-    '<div class="accident-section"><div class="accident-title">🔧 معلومات الحادث</div>'+
+    '<div class="accident-section"><div class="accident-title"><span class="ico ico-wrench"></span> معلومات الحادث</div>'+
     (car.damagedParts&&car.damagedParts.length?'<div class="damaged-parts">'+car.damagedParts.map(function(p){return '<span class="part-badge">'+p+'</span>';}).join('')+'</div>':'')+
     (car.accImgs&&car.accImgs.length?'<div class="acc-imgs">'+car.accImgs.map(function(img){return '<div class="acc-img"><img src="'+img+'" loading="lazy"></div>';}).join('')+'</div>':'')+
     '</div>':'';
@@ -1107,16 +1156,16 @@ function openCarDetail(id){
         '<div class="spec-item"><div class="spec-label">ناقل الحركة</div><div class="spec-val">'+(car.gear||'—')+'</div></div>'+
         '<div class="spec-item"><div class="spec-label">المحرك</div><div class="spec-val">'+(car.engine||'—')+'</div></div>'+
         '<div class="spec-item"><div class="spec-label">اللون</div><div class="spec-val">'+(car.color||'—')+'</div></div>'+
-        '<div class="spec-item"><div class="spec-label">المدينة</div><div class="spec-val">📍 '+(car.city||'—')+'</div></div>'+
-        '<div class="spec-item"><div class="spec-label">حادث</div><div class="spec-val">'+(car.accident?'🔧 نعم':'✅ لا')+'</div></div>'+
+        '<div class="spec-item"><div class="spec-label">المدينة</div><div class="spec-val"><span class="ico ico-pin"></span> '+(car.city||'—')+'</div></div>'+
+        '<div class="spec-item"><div class="spec-label">حادث</div><div class="spec-val">'+(car.accident?'<span class="ico ico-wrench"></span> نعم':'<span class="ico ico-check"></span> لا')+'</div></div>'+
         (car.vin?'<div class="spec-item" style="grid-column:1/-1"><div class="spec-label">رقم الشاصي</div><div class="spec-val" style="font-family:monospace;">'+car.vin+'</div></div>':'')+
       '</div>'+
       (car.desc?'<div class="detail-desc">'+car.desc+'</div>':'')+
       (car.phone?'<button onclick="contactSeller(\''+car.phone+'\')" class="btn-whatsapp">💬 تواصل عبر واتساب</button>':'')+
       (isOwner?
-        '<button onclick="toggleSold(\''+car.id+'\','+!!car.sold+')" class="btn-sold-toggle" style="background:'+(car.sold?'rgba(46,204,113,0.1)':'rgba(201,168,76,0.1)')+';border:1px solid '+(car.sold?'rgba(46,204,113,0.3)':'var(--border)')+';color:'+(car.sold?'var(--green)':'var(--gold)')+';">'+(car.sold?'✅ مباع — اضغط للتراجع':'🏷️ وضع علامة تم البيع')+'</button>'+
-        '<button onclick="deleteAd(\''+car.id+'\')" class="btn-del">🗑️ حذف الإعلان</button>':
-        '<button onclick="reportAd(\''+car.id+'\',\''+car.make+' '+car.model+'\')" class="btn-report">🚨 الإبلاغ عن هذا الإعلان</button>')+
+        '<button onclick="toggleSold(\''+car.id+'\','+!!car.sold+')" class="btn-sold-toggle" style="background:'+(car.sold?'rgba(46,204,113,0.1)':'rgba(201,168,76,0.1)')+';border:1px solid '+(car.sold?'rgba(46,204,113,0.3)':'var(--border)')+';color:'+(car.sold?'var(--green)':'var(--gold)')+';">'+(car.sold?'<span class="ico ico-check"></span> مباع — اضغط للتراجع':'🏷️ وضع علامة تم البيع')+'</button>'+
+        '<button onclick="deleteAd(\''+car.id+'\')" class="btn-del"><span class="ico ico-trash"></span> حذف الإعلان</button>':
+        '<button onclick="reportAd(\''+car.id+'\',\''+car.make+' '+car.model+'\')" class="btn-report"><span class="ico ico-alert"></span> الإبلاغ عن هذا الإعلان</button>')+
     '</div></div>';
   window['galIdx']=0;
   goPage('detail');
@@ -1130,7 +1179,7 @@ async function deleteAd(id){if(!confirm('هل تريد حذف هذا الإعل�
 async function reportAd(carId,carName){
   var reason=prompt('سبب البلاغ:\n1. إعلان وهمي\n2. سعر مضلل\n3. معلومات خاطئة\n4. سبب آخر');
   if(!reason)return;var user=auth.currentUser;
-  try{await db.collection('reports').add({carId,carName,reason,reporterId:user?user.uid:'anon',reporterName:user?user.displayName:'مجهول',createdAt:firebase.firestore.FieldValue.serverTimestamp()});alert('✅ تم إرسال البلاغ.');}catch(e){alert('خطأ: '+e.message);}
+  try{await db.collection('reports').add({carId,carName,reason,reporterId:user?user.uid:'anon',reporterName:user?user.displayName:'مجهول',createdAt:firebase.firestore.FieldValue.serverTimestamp()});alert('<span class="ico ico-check"></span> تم إرسال البلاغ.');}catch(e){alert('خطأ: '+e.message);}
 }
 function contactSeller(phone){
   if(!auth.currentUser){openLogin();return;}
@@ -1154,10 +1203,10 @@ function toggleFav(id){
 function loadFavorites(){
   var grid=document.getElementById('favGrid');
   try{var favIds=JSON.parse(localStorage.getItem('iqFavs')||'[]');}catch(e){var favIds=[];}
-  if(!favIds.length){grid.innerHTML='<div class="empty"><div class="empty-ico">❤️</div><div class="empty-tit">المفضلة فاضية</div><div class="empty-sub">اضغط القلب على أي سيارة</div></div>';return;}
+  if(!favIds.length){grid.innerHTML='<div class="empty"><div class="empty-ico"><span class="ico ico-lg ico-heart-fill"></span></div><div class="empty-tit">المفضلة فاضية</div><div class="empty-sub">اضغط القلب على أي سيارة</div></div>';return;}
   if(!allCars.length){loadCars().then(function(){loadFavorites();});return;}
   var favCars=allCars.filter(function(c){return favIds.includes(c.id);});
-  if(!favCars.length){grid.innerHTML='<div class="empty"><div class="empty-ico">❤️</div><div class="empty-tit">المفضلة فاضية</div></div>';return;}
+  if(!favCars.length){grid.innerHTML='<div class="empty"><div class="empty-ico"><span class="ico ico-lg ico-heart-fill"></span></div><div class="empty-tit">المفضلة فاضية</div></div>';return;}
   renderCars(favCars);
 }
 
@@ -1182,11 +1231,11 @@ async function loadMyAds(){
     grid.innerHTML=myAds.map(function(car){
       var ps=priceStr(car);
       return '<div class="my-ad-card">'+
-        (car.img?'<img class="my-ad-img" src="'+car.img+'">':'<div class="my-ad-img" style="display:flex;align-items:center;justify-content:center;font-size:18px;">🚗</div>')+
+        (car.img?'<img class="my-ad-img" src="'+car.img+'">':'<div class="my-ad-img" style="display:flex;align-items:center;justify-content:center;font-size:18px;"><span class="ico ico-md ico-car"></span></div>')+
         '<div><div class="my-ad-name">'+(car.make||'')+' '+(car.model||'')+'</div>'+
         '<div class="my-ad-price">'+ps+'</div>'+
-        (!car.approved?'<div style="font-size:10px;color:#f39c12;margin-top:2px;">⏳ بانتظار الموافقة</div>':'')+
-        '<button class="my-ad-del" onclick="deleteAd(\''+car.id+'\')">🗑️ حذف</button></div></div>';
+        (!car.approved?'<div style="font-size:10px;color:#f39c12;margin-top:2px;"><span class="ico ico-hourglass"></span> بانتظار الموافقة</div>':'')+
+        '<button class="my-ad-del" onclick="deleteAd(\''+car.id+'\')"><span class="ico ico-trash"></span> حذف</button></div></div>';
     }).join('');
   }catch(e){grid.innerHTML='<div style="color:var(--dim);">خطأ في التحميل</div>';}
 }
@@ -1197,19 +1246,19 @@ function saveProfile(){
     db.collection('users').doc(user.uid).set({name,phone},{merge:true});
     document.getElementById('profName').textContent=name;
     document.getElementById('navName').textContent=name;
-    showMsg2('profMsg','✅ تم الحفظ','#2ecc71');
-  }).catch(function(e){showMsg2('profMsg','❌ '+e.message,'#e74c3c');});
+    showMsg2('profMsg','<span class="ico ico-check"></span> تم الحفظ','#2ecc71');
+  }).catch(function(e){showMsg2('profMsg','<span class="ico ico-cross"></span> '+e.message,'#e74c3c');});
 }
 async function changeProfilePic(inp){
   var file=inp.files[0];if(!file)return;
-  showMsg2('profMsg','⏳ جاري رفع الصورة...','#f39c12');
+  showMsg2('profMsg','<span class="ico ico-hourglass"></span> جاري رفع الصورة...','#f39c12');
   try{
     var url=await uploadImg(file);
     await auth.currentUser.updateProfile({photoURL:url});
     document.getElementById('profPic').src=url;
     document.getElementById('navAvatar').src=url;
-    showMsg2('profMsg','✅ تم تغيير الصورة','#2ecc71');
-  }catch(e){showMsg2('profMsg','❌ '+e.message,'#e74c3c');}
+    showMsg2('profMsg','<span class="ico ico-check"></span> تم تغيير الصورة','#2ecc71');
+  }catch(e){showMsg2('profMsg','<span class="ico ico-cross"></span> '+e.message,'#e74c3c');}
 }
 function doSignOut(){auth.signOut().then(function(){goPage('home');});}
 
@@ -1224,20 +1273,20 @@ function openDealerReg(){document.getElementById('dealerRegOverlay').classList.a
 function closeDealerReg(){document.getElementById('dealerRegOverlay').classList.remove('open');}
 function switchDealerReg(){closeLogin();closeReg();openDealerReg();}
 function switchLoginFromDealer(){closeDealerReg();openLogin();}
-function loginGoogle(){auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(function(){closeLogin();}).catch(function(e){showMsg2('liMsg','❌ '+e.message,'#e74c3c');});}
+function loginGoogle(){auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(function(){closeLogin();}).catch(function(e){showMsg2('liMsg','<span class="ico ico-cross"></span> '+e.message,'#e74c3c');});}
 function doLoginEmail(){
   var e=document.getElementById('liEmail').value.trim(),p=document.getElementById('liPass').value.trim();
-  if(!e||!p){showMsg2('liMsg','❌ أدخل الإيميل وكلمة المرور','#e74c3c');return;}
-  auth.signInWithEmailAndPassword(e,p).then(function(){closeLogin();}).catch(function(){showMsg2('liMsg','❌ إيميل أو كلمة مرور غلط','#e74c3c');});
+  if(!e||!p){showMsg2('liMsg','<span class="ico ico-cross"></span> أدخل الإيميل وكلمة المرور','#e74c3c');return;}
+  auth.signInWithEmailAndPassword(e,p).then(function(){closeLogin();}).catch(function(){showMsg2('liMsg','<span class="ico ico-cross"></span> إيميل أو كلمة مرور غلط','#e74c3c');});
 }
 function doRegister(){
   var n=document.getElementById('regName').value.trim(),e=document.getElementById('regEmail').value.trim(),p=document.getElementById('regPass').value.trim();
-  if(!n||!e||!p){showMsg2('regMsg','❌ الرجاء ملء جميع الحقول','#e74c3c');return;}
+  if(!n||!e||!p){showMsg2('regMsg','<span class="ico ico-cross"></span> الرجاء ملء جميع الحقول','#e74c3c');return;}
   auth.createUserWithEmailAndPassword(e,p).then(function(r){
     r.user.updateProfile({displayName:n});
     db.collection('users').doc(r.user.uid).set({name:n,email:e,phone:''});
     closeReg();
-  }).catch(function(er){showMsg2('regMsg','❌ '+er.message,'#e74c3c');});
+  }).catch(function(er){showMsg2('regMsg','<span class="ico ico-cross"></span> '+er.message,'#e74c3c');});
 }
 function doDealerRegister(){
   var name=document.getElementById('drName').value.trim();
@@ -1247,10 +1296,10 @@ function doDealerRegister(){
   var province=document.getElementById('drProvince').value;
   var address=document.getElementById('drAddress').value.trim();
   var terms=document.getElementById('drTerms').checked;
-  if(!name||!phone||!email||!pass||!province||!address){showMsg2('drMsg','❌ الرجاء تعبئة جميع الحقول','#e74c3c');return;}
-  if(pass.length<6){showMsg2('drMsg','❌ كلمة المرور لازم تكون 6 أحرف أو أكثر','#e74c3c');return;}
-  if(!terms){showMsg2('drMsg','❌ لازم توافق على الشروط والأحكام','#e74c3c');return;}
-  showMsg2('drMsg','⏳ جاري إرسال الطلب...','#f39c12');
+  if(!name||!phone||!email||!pass||!province||!address){showMsg2('drMsg','<span class="ico ico-cross"></span> الرجاء تعبئة جميع الحقول','#e74c3c');return;}
+  if(pass.length<6){showMsg2('drMsg','<span class="ico ico-cross"></span> كلمة المرور لازم تكون 6 أحرف أو أكثر','#e74c3c');return;}
+  if(!terms){showMsg2('drMsg','<span class="ico ico-cross"></span> لازم توافق على الشروط والأحكام','#e74c3c');return;}
+  showMsg2('drMsg','<span class="ico ico-hourglass"></span> جاري إرسال الطلب...','#f39c12');
   auth.createUserWithEmailAndPassword(email,pass).then(function(r){
     r.user.updateProfile({displayName:name});
     var uid=r.user.uid;
@@ -1260,9 +1309,9 @@ function doDealerRegister(){
       createdAt:firebase.firestore.FieldValue.serverTimestamp()
     });
   }).then(function(){
-    showMsg2('drMsg','✅ تم إرسال طلبك بنجاح، بانتظار موافقة الإدارة','#2ecc71');
+    showMsg2('drMsg','<span class="ico ico-check"></span> تم إرسال طلبك بنجاح، بانتظار موافقة الإدارة','#2ecc71');
     setTimeout(function(){closeDealerReg();document.getElementById('drMsg').style.display='none';},2200);
-  }).catch(function(er){showMsg2('drMsg','❌ '+er.message,'#e74c3c');});
+  }).catch(function(er){showMsg2('drMsg','<span class="ico ico-cross"></span> '+er.message,'#e74c3c');});
 }
 ['loginOverlay','regOverlay','dealerRegOverlay','garageOverlay'].forEach(function(id){
   var el=document.getElementById(id);
@@ -1305,31 +1354,31 @@ function switchAdminTab(tab,btn){
   var ct=document.getElementById('adminTabContent');
   function pstr(car){return car.currency==='IQD'?(car.price||0).toLocaleString()+' د.ع':'$'+(car.price||0).toLocaleString();}
   if(tab==='pending'){
-    if(!data.pending.length){ct.innerHTML='<div style="text-align:center;padding:40px;color:var(--dim);">✅ ما في إعلانات بانتظار الموافقة</div>';return;}
+    if(!data.pending.length){ct.innerHTML='<div style="text-align:center;padding:40px;color:var(--dim);"><span class="ico ico-check"></span> ما في إعلانات بانتظار الموافقة</div>';return;}
     ct.innerHTML=data.pending.map(function(car){
-      return '<div class="admin-card">'+(car.img?'<img class="admin-card-img" src="'+car.img+'">':'<div class="admin-card-img" style="display:flex;align-items:center;justify-content:center;font-size:22px;">🚗</div>')+
+      return '<div class="admin-card">'+(car.img?'<img class="admin-card-img" src="'+car.img+'">':'<div class="admin-card-img" style="display:flex;align-items:center;justify-content:center;font-size:22px;"><span class="ico ico-md ico-car"></span></div>')+
         '<div class="admin-card-info"><div class="admin-card-name">'+(car.make||'')+' '+(car.model||'')+' '+(car.year||'')+'</div>'+
-        '<div class="admin-card-meta">📍 '+(car.city||'')+' • 💰 '+pstr(car)+' • 👤 '+(car.userName||'')+'</div>'+
-        '<div class="admin-card-meta">📞 '+(car.phone||'')+' • '+(car.accident?'🔧 حادث':'✅ سالمة')+'</div>'+
-        '<div class="admin-card-actions"><button class="btn-approve" onclick="approveAd(\''+car.id+'\')">✅ موافقة</button><button class="btn-reject" onclick="rejectAd(\''+car.id+'\')">❌ رفض</button></div></div></div>';
+        '<div class="admin-card-meta"><span class="ico ico-pin"></span> '+(car.city||'')+' • <span class="ico ico-money"></span> '+pstr(car)+' • <span class="ico ico-user"></span> '+(car.userName||'')+'</div>'+
+        '<div class="admin-card-meta"><span class="ico ico-phone"></span> '+(car.phone||'')+' • '+(car.accident?'<span class="ico ico-wrench"></span> حادث':'<span class="ico ico-check"></span> سالمة')+'</div>'+
+        '<div class="admin-card-actions"><button class="btn-approve" onclick="approveAd(\''+car.id+'\')"><span class="ico ico-check"></span> موافقة</button><button class="btn-reject" onclick="rejectAd(\''+car.id+'\')"><span class="ico ico-cross"></span> رفض</button></div></div></div>';
     }).join('');
   } else if(tab==='approved'){
     if(!data.approved.length){ct.innerHTML='<div style="text-align:center;padding:40px;color:var(--dim);">ما في إعلانات مفعّلة</div>';return;}
     ct.innerHTML=data.approved.map(function(car){
-      return '<div class="admin-card">'+(car.img?'<img class="admin-card-img" src="'+car.img+'">':'<div class="admin-card-img" style="display:flex;align-items:center;justify-content:center;font-size:22px;">🚗</div>')+
+      return '<div class="admin-card">'+(car.img?'<img class="admin-card-img" src="'+car.img+'">':'<div class="admin-card-img" style="display:flex;align-items:center;justify-content:center;font-size:22px;"><span class="ico ico-md ico-car"></span></div>')+
         '<div class="admin-card-info"><div class="admin-card-name">'+(car.make||'')+' '+(car.model||'')+' '+(car.year||'')+
-        (car.sold?' <span style="color:var(--green);font-size:11px;">✅ مباعة</span>':'')+
-        '</div><div class="admin-card-meta">📍 '+(car.city||'')+' • 💰 '+pstr(car)+' • 👤 '+(car.userName||'')+'</div>'+
-        '<div class="admin-card-actions"><button class="btn-reject" onclick="rejectAd(\''+car.id+'\')">🗑️ حذف</button></div></div></div>';
+        (car.sold?' <span style="color:var(--green);font-size:11px;"><span class="ico ico-check"></span> مباعة</span>':'')+
+        '</div><div class="admin-card-meta"><span class="ico ico-pin"></span> '+(car.city||'')+' • <span class="ico ico-money"></span> '+pstr(car)+' • <span class="ico ico-user"></span> '+(car.userName||'')+'</div>'+
+        '<div class="admin-card-actions"><button class="btn-reject" onclick="rejectAd(\''+car.id+'\')"><span class="ico ico-trash"></span> حذف</button></div></div></div>';
     }).join('');
   } else if(tab==='reports'){
-    if(!data.reports.length){ct.innerHTML='<div style="text-align:center;padding:40px;color:var(--dim);">✅ ما في بلاغات</div>';return;}
+    if(!data.reports.length){ct.innerHTML='<div style="text-align:center;padding:40px;color:var(--dim);"><span class="ico ico-check"></span> ما في بلاغات</div>';return;}
     ct.innerHTML=data.reports.map(function(r){
-      return '<div class="admin-card"><div class="admin-card-info"><div class="admin-card-name">🚨 بلاغ على إعلان</div>'+
+      return '<div class="admin-card"><div class="admin-card-info"><div class="admin-card-name"><span class="ico ico-alert"></span> بلاغ على إعلان</div>'+
         '<div class="admin-card-meta">السبب: '+(r.reason||'')+' • من: '+(r.reporterName||'مجهول')+'</div>'+
         '<div class="admin-card-meta">الإعلان: '+(r.carName||r.carId||'')+'</div>'+
-        '<div class="admin-card-actions"><button class="btn-reject" onclick="rejectAd(\''+r.carId+'\');dismissReport(\''+r.id+'\')">🗑️ حذف الإعلان</button>'+
-        '<button class="btn-approve" onclick="dismissReport(\''+r.id+'\')">✅ تجاهل</button></div></div></div>';
+        '<div class="admin-card-actions"><button class="btn-reject" onclick="rejectAd(\''+r.carId+'\');dismissReport(\''+r.id+'\')"><span class="ico ico-trash"></span> حذف الإعلان</button>'+
+        '<button class="btn-approve" onclick="dismissReport(\''+r.id+'\')"><span class="ico ico-check"></span> تجاهل</button></div></div></div>';
     }).join('');
   } else if(tab==='users'){
     ct.innerHTML='<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;"><thead><tr style="background:var(--dark3);">'+
@@ -1344,14 +1393,14 @@ function switchAdminTab(tab,btn){
       }).join('')+'</tbody></table></div>';
   } else if(tab==='companyAds'){
     ct.innerHTML='<div class="post-section" style="margin-bottom:16px;">'+
-      '<div class="post-section-title">➕ إضافة إعلان شركة جديد (بانل كامل)</div>'+
+      '<div class="post-section-title"><span class="ico ico-plus"></span> إضافة إعلان شركة جديد (بانل كامل)</div>'+
       '<div class="form-grid">'+
       '<div class="form-group"><label class="form-label">اسم الشركة</label><input class="form-input" id="caName" placeholder="مثال: وكيل تويوتا المعتمد"></div>'+
       '<div class="form-group"><label class="form-label">الرابط عند الضغط</label><input class="form-input" id="caLink" placeholder="رابط موقع، واتساب، انستا...الخ"></div>'+
       '<div class="form-group full"><label class="form-label">نوع الإعلان</label>'+
         '<div style="display:flex;gap:8px;">'+
-          '<label class="part-check" style="flex:1;justify-content:center;"><input type="radio" name="caType" value="image" checked onchange="toggleCaType()"><span>📷 صورة</span></label>'+
-          '<label class="part-check" style="flex:1;justify-content:center;"><input type="radio" name="caType" value="video" onchange="toggleCaType()"><span>🎬 فيديو</span></label>'+
+          '<label class="part-check" style="flex:1;justify-content:center;"><input type="radio" name="caType" value="image" checked onchange="toggleCaType()"><span><span class="ico ico-camera"></span> صورة</span></label>'+
+          '<label class="part-check" style="flex:1;justify-content:center;"><input type="radio" name="caType" value="video" onchange="toggleCaType()"><span><span class="ico ico-video"></span> فيديو</span></label>'+
         '</div></div>'+
       '<div class="form-group full" id="caImgWrap"><label class="form-label">صور الإعلان (تگدر تختار أكثر من صورة)</label><input type="file" class="form-input" id="caImg" accept="image/*" multiple></div>'+
       '<div class="form-group full" id="caVidWrap" style="display:none;"><label class="form-label">ارفع فيديو من جهازك</label><input type="file" class="form-input" id="caVidFile" accept="video/*">'+
@@ -1361,25 +1410,25 @@ function switchAdminTab(tab,btn){
       '<div id="caMsg" style="margin-top:8px;padding:8px 12px;border-radius:8px;font-size:13px;display:none;"></div></div>'+
       (data.companyAds.length?data.companyAds.map(function(c){
         var thumb=c.imgs&&c.imgs.length?c.imgs[0]:c.img;
-        var n=c.type==='video'?'🎬 فيديو':(c.imgs&&c.imgs.length?c.imgs.length+' صورة':(c.img?'1 صورة':''));
-        return '<div class="admin-card">'+(thumb?'<img class="admin-card-img" src="'+thumb+'">':'<div class="admin-card-img" style="display:flex;align-items:center;justify-content:center;font-size:22px;">'+(c.type==='video'?'🎬':'🏢')+'</div>')+
+        var n=c.type==='video'?'<span class="ico ico-video"></span> فيديو':(c.imgs&&c.imgs.length?c.imgs.length+' صورة':(c.img?'1 صورة':''));
+        return '<div class="admin-card">'+(thumb?'<img class="admin-card-img" src="'+thumb+'">':'<div class="admin-card-img" style="display:flex;align-items:center;justify-content:center;font-size:22px;">'+(c.type==='video'?'<span class="ico ico-md ico-video"></span>':'<span class="ico ico-md ico-building"></span>')+'</div>')+
           '<div class="admin-card-info"><div class="admin-card-name">'+(c.name||'')+'</div>'+
-          '<div class="admin-card-meta">🔗 '+(c.link||'بدون رابط')+' • '+n+'</div>'+
-          '<div class="admin-card-actions"><button class="btn-reject" onclick="deleteCompanyAd(\''+c.id+'\')">🗑️ حذف</button></div></div></div>';
+          '<div class="admin-card-meta"><span class="ico ico-link"></span> '+(c.link||'بدون رابط')+' • '+n+'</div>'+
+          '<div class="admin-card-actions"><button class="btn-reject" onclick="deleteCompanyAd(\''+c.id+'\')"><span class="ico ico-trash"></span> حذف</button></div></div></div>';
       }).join(''):'<div style="text-align:center;padding:24px;color:var(--dim);">ما في إعلانات شركات لحد الآن</div>');
   } else if(tab==='dealers'){
     var pend=data.dealerPending||[];
     var all=data.dealerRequests||[];
-    var statusLabel=function(s){return s==='approved'?'✅ مقبول':(s==='rejected'?'❌ مرفوض':'⏳ بانتظار');};
+    var statusLabel=function(s){return s==='approved'?'<span class="ico ico-check"></span> مقبول':(s==='rejected'?'<span class="ico ico-cross"></span> مرفوض':'<span class="ico ico-hourglass"></span> بانتظار');};
     var statusColor=function(s){return s==='approved'?'var(--green)':(s==='rejected'?'var(--red)':'var(--gold)');};
-    var html='<div style="font-size:14px;font-weight:700;margin-bottom:10px;color:var(--gold);">⏳ طلبات بانتظار الموافقة</div>';
+    var html='<div style="font-size:14px;font-weight:700;margin-bottom:10px;color:var(--gold);"><span class="ico ico-hourglass"></span> طلبات بانتظار الموافقة</div>';
     html+=pend.length?pend.map(function(d){
-      return '<div class="admin-card"><div class="admin-card-img" style="display:flex;align-items:center;justify-content:center;font-size:22px;">🏪</div>'+
+      return '<div class="admin-card"><div class="admin-card-img" style="display:flex;align-items:center;justify-content:center;font-size:22px;"><span class="ico ico-md ico-store"></span></div>'+
         '<div class="admin-card-info"><div class="admin-card-name">'+(d.dealerName||'')+'</div>'+
-        '<div class="admin-card-meta">📍 '+(d.province||'')+' — '+(d.address||'')+'</div>'+
-        '<div class="admin-card-meta">📞 '+(d.phone||'')+' • ✉️ '+(d.email||'')+'</div>'+
-        '<div class="admin-card-actions"><button class="btn-approve" onclick="approveDealer(\''+d.id+'\')">✅ موافقة</button><button class="btn-reject" onclick="rejectDealer(\''+d.id+'\')">❌ رفض</button></div></div></div>';
-    }).join(''):'<div style="text-align:center;padding:24px;color:var(--dim);">✅ ما في طلبات معارض بانتظار الموافقة</div>';
+        '<div class="admin-card-meta"><span class="ico ico-pin"></span> '+(d.province||'')+' — '+(d.address||'')+'</div>'+
+        '<div class="admin-card-meta"><span class="ico ico-phone"></span> '+(d.phone||'')+' • ✉️ '+(d.email||'')+'</div>'+
+        '<div class="admin-card-actions"><button class="btn-approve" onclick="approveDealer(\''+d.id+'\')"><span class="ico ico-check"></span> موافقة</button><button class="btn-reject" onclick="rejectDealer(\''+d.id+'\')"><span class="ico ico-cross"></span> رفض</button></div></div></div>';
+    }).join(''):'<div style="text-align:center;padding:24px;color:var(--dim);"><span class="ico ico-check"></span> ما في طلبات معارض بانتظار الموافقة</div>';
     html+='<div style="font-size:14px;font-weight:700;margin:22px 0 10px;color:var(--gold);">📋 تقرير كل طلبات المعارض</div>';
     html+=all.length?'<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;"><thead><tr style="background:var(--dark3);">'+
       '<th style="padding:11px;text-align:right;font-size:12px;border-bottom:1px solid var(--border);">اسم المعرض</th>'+
@@ -1404,7 +1453,7 @@ async function approveDealer(id){
     window._ad.dealerPending=(window._ad.dealerRequests||[]).filter(function(x){return x.status==='pending';});
     document.getElementById('statDealerPending').textContent=window._ad.dealerPending.length;
     switchAdminTab('dealers',Array.from(document.querySelectorAll('#adminTabs .admin-tab')).find(function(b){return b.textContent.indexOf('المعارض')>-1;}));
-    showToast('✅ تم قبول طلب المعرض');
+    showToast('<span class="ico ico-check"></span> تم قبول طلب المعرض');
   }catch(e){alert('خطأ: '+e.message);}
 }
 async function rejectDealer(id){
@@ -1416,7 +1465,7 @@ async function rejectDealer(id){
     window._ad.dealerPending=(window._ad.dealerRequests||[]).filter(function(x){return x.status==='pending';});
     document.getElementById('statDealerPending').textContent=window._ad.dealerPending.length;
     switchAdminTab('dealers',Array.from(document.querySelectorAll('#adminTabs .admin-tab')).find(function(b){return b.textContent.indexOf('المعارض')>-1;}));
-    showToast('❌ تم رفض الطلب');
+    showToast('<span class="ico ico-cross"></span> تم رفض الطلب');
   }catch(e){alert('خطأ: '+e.message);}
 }
 function toggleCaType(){
@@ -1431,7 +1480,7 @@ function uploadVideo(file){
   return new Promise(function(resolve,reject){
     task.on('state_changed',function(snap){
       var pct=Math.round((snap.bytesTransferred/snap.totalBytes)*100);
-      showMsg2('caMsg','⏳ جاري رفع الفيديو... '+pct+'%','#f39c12');
+      showMsg2('caMsg','<span class="ico ico-hourglass"></span> جاري رفع الفيديو... '+pct+'%','#f39c12');
     },function(err){reject(err);},function(){
       ref.getDownloadURL().then(resolve).catch(reject);
     });
@@ -1441,35 +1490,35 @@ async function addCompanyAd(){
   var name=document.getElementById('caName').value.trim();
   var link=document.getElementById('caLink').value.trim();
   var type=document.querySelector('input[name="caType"]:checked').value;
-  if(!name){showMsg2('caMsg','❌ الرجاء إدخال اسم الشركة','#e74c3c');return;}
+  if(!name){showMsg2('caMsg','<span class="ico ico-cross"></span> الرجاء إدخال اسم الشركة','#e74c3c');return;}
   try{
     if(type==='video'){
       var vidFile=document.getElementById('caVidFile').files[0];
       var vidUrlManual=document.getElementById('caVidUrl').value.trim();
       var finalUrl='';
       if(vidFile){
-        showMsg2('caMsg','⏳ جاري رفع الفيديو...','#f39c12');
+        showMsg2('caMsg','<span class="ico ico-hourglass"></span> جاري رفع الفيديو...','#f39c12');
         finalUrl=await uploadVideo(vidFile);
       } else if(vidUrlManual){
         finalUrl=vidUrlManual;
       } else {
-        showMsg2('caMsg','❌ الرجاء رفع فيديو من جهازك أو إدخال رابط فيديو جاهز','#e74c3c');return;
+        showMsg2('caMsg','<span class="ico ico-cross"></span> الرجاء رفع فيديو من جهازك أو إدخال رابط فيديو جاهز','#e74c3c');return;
       }
-      showMsg2('caMsg','⏳ جاري نشر الإعلان...','#f39c12');
+      showMsg2('caMsg','<span class="ico ico-hourglass"></span> جاري نشر الإعلان...','#f39c12');
       await db.collection('companyAds').add({name,link,type:'video',videoUrl:finalUrl,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
     } else {
       var files=Array.from(document.getElementById('caImg').files).slice(0,10);
-      if(!files.length){showMsg2('caMsg','❌ الرجاء اختيار صورة وحدة على الأقل','#e74c3c');return;}
+      if(!files.length){showMsg2('caMsg','<span class="ico ico-cross"></span> الرجاء اختيار صورة وحدة على الأقل','#e74c3c');return;}
       var urls=[];
       for(var i=0;i<files.length;i++){
-        showMsg2('caMsg','⏳ جاري رفع الصورة '+(i+1)+' من '+files.length+'...','#f39c12');
+        showMsg2('caMsg','<span class="ico ico-hourglass"></span> جاري رفع الصورة '+(i+1)+' من '+files.length+'...','#f39c12');
         urls.push(await uploadImg(files[i]));
       }
       await db.collection('companyAds').add({name,link,type:'image',imgs:urls,img:urls[0],createdAt:firebase.firestore.FieldValue.serverTimestamp()});
     }
-    showMsg2('caMsg','✅ تم نشر إعلان الشركة','#2ecc71');
+    showMsg2('caMsg','<span class="ico ico-check"></span> تم نشر إعلان الشركة','#2ecc71');
     loadAdminPage();
-  }catch(e){showMsg2('caMsg','❌ خطأ: '+e.message,'#e74c3c');}
+  }catch(e){showMsg2('caMsg','<span class="ico ico-cross"></span> خطأ: '+e.message,'#e74c3c');}
 }
 async function deleteCompanyAd(id){
   if(!confirm('حذف إعلان الشركة هذا؟'))return;
@@ -1477,7 +1526,7 @@ async function deleteCompanyAd(id){
     await db.collection('companyAds').doc(id).delete();
     window._ad.companyAds=window._ad.companyAds.filter(function(c){return c.id!==id;});
     switchAdminTab('companyAds',Array.from(document.querySelectorAll('#adminTabs .admin-tab')).find(function(b){return b.textContent.indexOf('الشركات')>-1;}));
-    showToast('🗑️ تم الحذف');
+    showToast('<span class="ico ico-trash"></span> تم الحذف');
   }catch(e){alert('خطأ: '+e.message);}
 }
 // PUBLIC MEGA AD BANNER (full-width, image or video, managed by admin only)
@@ -1526,14 +1575,14 @@ function startMegaTimer(){
   if(megaSlides.length>1)megaTimer=setInterval(megaNext,5000);
 }
 async function approveAd(id){
-  try{await db.collection('cars').doc(id).update({approved:true});var car=window._ad.allAds.find(function(c){return c.id===id;});if(car){car.approved=true;window._ad.pending=window._ad.pending.filter(function(c){return c.id!==id;});window._ad.approved.push(car);}document.getElementById('statPending').textContent=window._ad.pending.length;document.getElementById('statApproved').textContent=window._ad.approved.length;switchAdminTab('pending',document.querySelector('#adminTabs .admin-tab'));showToast('✅ تم الموافقة');}catch(e){alert('خطأ: '+e.message);}
+  try{await db.collection('cars').doc(id).update({approved:true});var car=window._ad.allAds.find(function(c){return c.id===id;});if(car){car.approved=true;window._ad.pending=window._ad.pending.filter(function(c){return c.id!==id;});window._ad.approved.push(car);}document.getElementById('statPending').textContent=window._ad.pending.length;document.getElementById('statApproved').textContent=window._ad.approved.length;switchAdminTab('pending',document.querySelector('#adminTabs .admin-tab'));showToast('<span class="ico ico-check"></span> تم الموافقة');}catch(e){alert('خطأ: '+e.message);}
 }
 async function rejectAd(id){
   if(!confirm('هل تريد حذف هذا الإعلان؟'))return;
-  try{await db.collection('cars').doc(id).delete();window._ad.allAds=window._ad.allAds.filter(function(c){return c.id!==id;});window._ad.pending=window._ad.pending.filter(function(c){return c.id!==id;});window._ad.approved=window._ad.approved.filter(function(c){return c.id!==id;});loadAdminPage();showToast('🗑️ تم الحذف');}catch(e){alert('خطأ: '+e.message);}
+  try{await db.collection('cars').doc(id).delete();window._ad.allAds=window._ad.allAds.filter(function(c){return c.id!==id;});window._ad.pending=window._ad.pending.filter(function(c){return c.id!==id;});window._ad.approved=window._ad.approved.filter(function(c){return c.id!==id;});loadAdminPage();showToast('<span class="ico ico-trash"></span> تم الحذف');}catch(e){alert('خطأ: '+e.message);}
 }
 async function dismissReport(id){
-  try{await db.collection('reports').doc(id).delete();window._ad.reports=window._ad.reports.filter(function(r){return r.id!==id;});document.getElementById('statReports').textContent=window._ad.reports.length;showToast('✅ تم تجاهل البلاغ');}catch(e){alert('خطأ: '+e.message);}
+  try{await db.collection('reports').doc(id).delete();window._ad.reports=window._ad.reports.filter(function(r){return r.id!==id;});document.getElementById('statReports').textContent=window._ad.reports.length;showToast('<span class="ico ico-check"></span> تم تجاهل البلاغ');}catch(e){alert('خطأ: '+e.message);}
 }
 
 // COMPARE
@@ -1612,7 +1661,7 @@ function runCompare(){
   var m2=document.getElementById('cmp2Make').value,mo2=document.getElementById('cmp2Model').value;
   if(!m1||!mo1||!m2||!mo2){document.getElementById('compareResult').innerHTML='';return;}
   var d1=COMPARE_DB[m1+' '+mo1],d2=COMPARE_DB[m2+' '+mo2];
-  if(!d1||!d2){document.getElementById('compareResult').innerHTML='<div style="text-align:center;padding:40px;color:var(--dim);">⚠️ بيانات المقارنة غير متوفرة لهذا الموديل</div>';return;}
+  if(!d1||!d2){document.getElementById('compareResult').innerHTML='<div style="text-align:center;padding:40px;color:var(--dim);"><span class="ico ico-warning"></span> بيانات المقارنة غير متوفرة لهذا الموديل</div>';return;}
   var rows=[
     {label:'القوة (HP)',k:'hp',unit:'HP',h:true},{label:'عزم الدوران (Nm)',k:'torque',unit:'Nm',h:true},
     {label:'المحرك',k:'engine',unit:'',h:null},{label:'نوع الوقود',k:'fuel',unit:'',h:null},
@@ -1631,7 +1680,7 @@ function runCompare(){
   var winner=s1>s2?m1+' '+mo1:s2>s1?m2+' '+mo2:'تعادل';
   document.getElementById('compareResult').innerHTML=
     '<div class="cmp-header"><div><div class="cmp-car-name">'+mo1+'</div><div class="cmp-car-sub">'+m1+'</div><div class="cmp-score">'+s1+'</div></div><div class="cmp-vs">VS</div><div><div class="cmp-car-name">'+mo2+'</div><div class="cmp-car-sub">'+m2+'</div><div class="cmp-score">'+s2+'</div></div></div>'+
-    (winner!=='تعادل'?'<div style="text-align:center;margin-bottom:14px;background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);border-radius:9px;padding:9px;color:var(--green);font-weight:700;">🏆 الفائز: '+winner+'</div>':
+    (winner!=='تعادل'?'<div style="text-align:center;margin-bottom:14px;background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);border-radius:9px;padding:9px;color:var(--green);font-weight:700;"><span class="ico ico-trophy"></span> الفائز: '+winner+'</div>':
      '<div style="text-align:center;margin-bottom:14px;background:rgba(201,168,76,0.1);border:1px solid var(--border);border-radius:9px;padding:9px;color:var(--gold);font-weight:700;">🤝 تعادل!</div>')+
     '<div class="post-section" style="overflow-x:auto;"><table class="cmp-table"><thead><tr><th>المواصفة</th><th>'+mo1+'</th><th>'+mo2+'</th></tr></thead><tbody>'+trows+'</tbody></table></div>';
 }
@@ -1660,7 +1709,7 @@ async function sendAiMsg(){
     aiHistory.push({role:'assistant',content:reply});
     var el=document.getElementById(tid);if(el)el.remove();
     addAiMsg(reply,'bot');
-  }catch(e){var el=document.getElementById(tid);if(el)el.remove();addAiMsg('⚠️ خطأ في الاتصال. تحقق من الإنترنت.','bot');}
+  }catch(e){var el=document.getElementById(tid);if(el)el.remove();addAiMsg('<span class="ico ico-warning"></span> خطأ في الاتصال. تحقق من الإنترنت.','bot');}
 }
 function addAiMsg(text,type){
   var chat=document.getElementById('aiChat');
@@ -1683,21 +1732,21 @@ function updateGarageModels(){
 async function addGarageCar(){
   var user=auth.currentUser;if(!user)return;
   var make=document.getElementById('gMake').value,model=document.getElementById('gModel').value,year=document.getElementById('gYear').value;
-  if(!make||!model||!year){showMsg2('garageMsg','❌ الرجاء ملء الحقول المطلوبة','#e74c3c');return;}
+  if(!make||!model||!year){showMsg2('garageMsg','<span class="ico ico-cross"></span> الرجاء ملء الحقول المطلوبة','#e74c3c');return;}
   try{
     await db.collection('garage').add({make,model,year:parseInt(year),km:parseInt(document.getElementById('gKm').value)||0,color:document.getElementById('gColor').value,fuelConsumption:parseFloat(document.getElementById('gFuel').value)||0,oilDate:document.getElementById('gOilDate').value,tireDate:document.getElementById('gTireDate').value,insuranceDate:document.getElementById('gInsDate').value,serviceDate:document.getElementById('gSvcDate').value,userId:user.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
     document.getElementById('garageOverlay').classList.remove('open');
-    loadGarage();showToast('✅ تم إضافة السيارة للكراج');
-  }catch(e){showMsg2('garageMsg','❌ '+e.message,'#e74c3c');}
+    loadGarage();showToast('<span class="ico ico-check"></span> تم إضافة السيارة للكراج');
+  }catch(e){showMsg2('garageMsg','<span class="ico ico-cross"></span> '+e.message,'#e74c3c');}
 }
 async function loadGarage(){
   var user=auth.currentUser;if(!user)return;
   var grid=document.getElementById('garageGrid');
-  grid.innerHTML='<div class="loading">⏳ جاري التحميل...</div>';
+  grid.innerHTML='<div class="loading"><span class="ico ico-hourglass"></span> جاري التحميل...</div>';
   try{
     var snap=await db.collection('garage').where('userId','==',user.uid).get();
     var cars=snap.docs.map(function(d){return Object.assign({id:d.id},d.data());});
-    if(!cars.length){grid.innerHTML='<div class="empty"><div class="empty-ico">🔧</div><div class="empty-tit">كراجك فاضي</div><div class="empty-sub">أضف سيارتك لمتابعة صيانتها</div></div>';return;}
+    if(!cars.length){grid.innerHTML='<div class="empty"><div class="empty-ico"><span class="ico ico-lg ico-wrench"></span></div><div class="empty-tit">كراجك فاضي</div><div class="empty-sub">أضف سيارتك لمتابعة صيانتها</div></div>';return;}
     var today=new Date();
     grid.innerHTML=cars.map(function(car){
       function days(d){return d?Math.round((new Date(d)-today)/86400000):null;}
@@ -1708,15 +1757,15 @@ async function loadGarage(){
         '<div class="garage-car-name">'+(car.make||'')+' '+(car.model||'')+'</div>'+
         '<div class="garage-car-sub">'+(car.year||'')+' • '+(car.color||'')+' • '+(car.km||0).toLocaleString()+' كم</div>'+
         '<div class="garage-item"><span class="garage-item-label">🛢️ تغيير الزيت</span><span class="garage-item-val '+(statusCls(car.oilDate))+'">'+statusLabel(car.oilDate)+'</span></div>'+
-        '<div class="garage-item"><span class="garage-item-label">🔄 الإطارات</span><span class="garage-item-val '+(statusCls(car.tireDate))+'">'+statusLabel(car.tireDate)+'</span></div>'+
+        '<div class="garage-item"><span class="garage-item-label"><span class="ico ico-refresh"></span> الإطارات</span><span class="garage-item-val '+(statusCls(car.tireDate))+'">'+statusLabel(car.tireDate)+'</span></div>'+
         '<div class="garage-item"><span class="garage-item-label">🛡️ التأمين</span><span class="garage-item-val '+(statusCls(car.insuranceDate))+'">'+statusLabel(car.insuranceDate)+'</span></div>'+
-        '<div class="garage-item"><span class="garage-item-label">🔩 الصيانة القادمة</span><span class="garage-item-val '+(statusCls(car.serviceDate))+'">'+statusLabel(car.serviceDate)+'</span></div>'+
-        (car.fuelConsumption?'<div class="garage-item"><span class="garage-item-label">⛽ استهلاك الوقود</span><span class="garage-item-val ok">'+(car.fuelConsumption)+' كم/لتر</span></div>':'')+
-        (mp?'<div class="garage-item"><span class="garage-item-label">💰 قيمتها بالسوق</span><span class="garage-item-val ok">$'+mp.toLocaleString()+'</span></div>':'')+
-        '<button onclick="deleteGarageCar(\''+car.id+'\')" style="margin-top:10px;width:100%;background:transparent;border:1px solid var(--red);color:var(--red);padding:7px;border-radius:8px;font-family:Tajawal,sans-serif;font-size:12px;cursor:pointer;">🗑️ حذف من الكراج</button>'+
+        '<div class="garage-item"><span class="garage-item-label"><span class="ico ico-bolt"></span> الصيانة القادمة</span><span class="garage-item-val '+(statusCls(car.serviceDate))+'">'+statusLabel(car.serviceDate)+'</span></div>'+
+        (car.fuelConsumption?'<div class="garage-item"><span class="garage-item-label"><span class="ico ico-fuel"></span> استهلاك الوقود</span><span class="garage-item-val ok">'+(car.fuelConsumption)+' كم/لتر</span></div>':'')+
+        (mp?'<div class="garage-item"><span class="garage-item-label"><span class="ico ico-money"></span> قيمتها بالسوق</span><span class="garage-item-val ok">$'+mp.toLocaleString()+'</span></div>':'')+
+        '<button onclick="deleteGarageCar(\''+car.id+'\')" style="margin-top:10px;width:100%;background:transparent;border:1px solid var(--red);color:var(--red);padding:7px;border-radius:8px;font-family:Tajawal,sans-serif;font-size:12px;cursor:pointer;"><span class="ico ico-trash"></span> حذف من الكراج</button>'+
       '</div>';
     }).join('');
-  }catch(e){grid.innerHTML='<div class="empty"><div class="empty-ico">⚠️</div><div class="empty-tit">خطأ في التحميل</div></div>';}
+  }catch(e){grid.innerHTML='<div class="empty"><div class="empty-ico"><span class="ico ico-lg ico-warning"></span></div><div class="empty-tit">خطأ في التحميل</div></div>';}
 }
 async function deleteGarageCar(id){if(!confirm('حذف هذه السيارة من الكراج؟'))return;try{await db.collection('garage').doc(id).delete();loadGarage();}catch(e){alert('خطأ: '+e.message);}}
 
@@ -1727,8 +1776,8 @@ function setCfgTint(v,btn){document.querySelectorAll('[onclick^="setCfgTint"]').
 function setCfgChrome(c,btn){document.querySelectorAll('[onclick^="setCfgChrome"]').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');var el=document.getElementById('chromeEl');if(el)el.setAttribute('stroke',c);}
 function setCfgSpoiler(t,btn){document.querySelectorAll('[onclick^="setCfgSpoiler"]').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');var el=document.getElementById('spoilerEl');if(!el)return;if(t==='transparent'){el.setAttribute('fill','transparent');}else if(t==='sport'){el.setAttribute('fill','#C9A84C');el.setAttribute('height','6');}else if(t==='gt'){el.setAttribute('fill','#C9A84C');el.setAttribute('height','14');el.setAttribute('y','82');}}
 function setCfgLights(c,btn){document.querySelectorAll('[onclick^="setCfgLights"]').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');['hl1','hl2'].forEach(function(id){var el=document.getElementById(id);if(el)el.setAttribute('fill',c);});}
-function saveConfig(){localStorage.setItem('iqCfg',JSON.stringify({color:document.getElementById('carBody')?.getAttribute('fill')}));showToast('✅ تم حفظ التصميم!');}
-function shareConfig(){try{navigator.clipboard.writeText(window.location.href).then(function(){showToast('🔗 تم نسخ الرابط!');});}catch(e){showToast('🔗 الرابط: '+window.location.href);}}
+function saveConfig(){localStorage.setItem('iqCfg',JSON.stringify({color:document.getElementById('carBody')?.getAttribute('fill')}));showToast('<span class="ico ico-check"></span> تم حفظ التصميم!');}
+function shareConfig(){try{navigator.clipboard.writeText(window.location.href).then(function(){showToast('<span class="ico ico-link"></span> تم نسخ الرابط!');});}catch(e){showToast('<span class="ico ico-link"></span> الرابط: '+window.location.href);}}
 
 // MARKET
 function loadMarketIndex(){
@@ -1744,9 +1793,9 @@ function loadMarketIndex(){
   var falling=data.filter(function(c){return c.change<0;}).length;
   var avg=(data.reduce(function(s,c){return s+c.change;},0)/data.length).toFixed(2);
   document.getElementById('marketStats').innerHTML=[
-    {label:'📈 ارتفعت',val:rising,cls:'market-up'},{label:'📉 انخفضت',val:falling,cls:'market-down'},
-    {label:'📊 متوسط التغير',val:(avg>0?'+':'')+avg+'%',cls:avg>0?'market-up':'market-down'},
-    {label:'🔄 حجم التداول',val:data.reduce(function(s,c){return s+c.vol;},0)+' إعلان',cls:''},
+    {label:'<span class="ico ico-chart-up"></span> ارتفعت',val:rising,cls:'market-up'},{label:'<span class="ico ico-chart-down"></span> انخفضت',val:falling,cls:'market-down'},
+    {label:'<span class="ico ico-barchart"></span> متوسط التغير',val:(avg>0?'+':'')+avg+'%',cls:avg>0?'market-up':'market-down'},
+    {label:'<span class="ico ico-refresh"></span> حجم التداول',val:data.reduce(function(s,c){return s+c.vol;},0)+' إعلان',cls:''},
   ].map(function(s){return '<div class="market-stat-card"><div class="market-stat-num '+s.cls+'">'+s.val+'</div><div class="market-stat-label">'+s.label+'</div></div>';}).join('');
   document.getElementById('marketTable').innerHTML=data.sort(function(a,b){return Math.abs(b.change)-Math.abs(a.change);}).map(function(car){
     var up=car.change>0;
@@ -1778,21 +1827,21 @@ function calcLoan(){
 // DEALERS
 function loadDealers(){
   var dealers=[
-    {name:'معرض النخبة للسيارات',city:'بغداد',verified:true,cars:45,rating:4.8,icon:'🏢'},
-    {name:'معرض الفرات الذهبي',city:'البصرة',verified:true,cars:32,rating:4.6,icon:'🚗'},
-    {name:'معرض أربيل الفاخر',city:'أربيل',verified:true,cars:28,rating:4.7,icon:'⭐'},
-    {name:'معرض كربلاء موتورز',city:'كربلاء',verified:false,cars:15,rating:4.2,icon:'🏆'},
-    {name:'معرض الموصل للسيارات',city:'الموصل',verified:true,cars:22,rating:4.5,icon:'🚘'},
-    {name:'معرض السليمانية الدولي',city:'السليمانية',verified:false,cars:18,rating:4.3,icon:'🌟'},
+    {name:'معرض النخبة للسيارات',city:'بغداد',verified:true,cars:45,rating:4.8,icon:'<span class="ico ico-building"></span>'},
+    {name:'معرض الفرات الذهبي',city:'البصرة',verified:true,cars:32,rating:4.6,icon:'<span class="ico ico-car"></span>'},
+    {name:'معرض أربيل الفاخر',city:'أربيل',verified:true,cars:28,rating:4.7,icon:'<span class="ico ico-star"></span>'},
+    {name:'معرض كربلاء موتورز',city:'كربلاء',verified:false,cars:15,rating:4.2,icon:'<span class="ico ico-trophy"></span>'},
+    {name:'معرض الموصل للسيارات',city:'الموصل',verified:true,cars:22,rating:4.5,icon:'<span class="ico ico-car"></span>'},
+    {name:'معرض السليمانية الدولي',city:'السليمانية',verified:false,cars:18,rating:4.3,icon:'<span class="ico ico-star"></span>'},
   ];
   document.getElementById('dealersGrid').innerHTML=dealers.map(function(d){
     return '<div class="dealer-card">'+
-      (d.verified?'<div class="verified-badge">✓ معرض موثّق</div>':'')+
+      (d.verified?'<div class="verified-badge"><span class="ico ico-check"></span> معرض موثّق</div>':'')+
       '<div style="font-size:36px;margin-bottom:10px;">'+d.icon+'</div>'+
       '<div class="dealer-name">'+d.name+'</div>'+
-      '<div class="dealer-city">📍 '+d.city+'</div>'+
-      '<div style="display:flex;gap:14px;margin-top:8px;"><span style="font-size:12px;color:var(--dim);">🚗 <span style="color:var(--gold);font-weight:700;">'+d.cars+'</span> سيارة</span>'+
-      '<span style="font-size:12px;color:var(--dim);">⭐ <span style="color:var(--gold);font-weight:700;">'+d.rating+'</span></span></div></div>';
+      '<div class="dealer-city"><span class="ico ico-pin"></span> '+d.city+'</div>'+
+      '<div style="display:flex;gap:14px;margin-top:8px;"><span style="font-size:12px;color:var(--dim);"><span class="ico ico-car"></span> <span style="color:var(--gold);font-weight:700;">'+d.cars+'</span> سيارة</span>'+
+      '<span style="font-size:12px;color:var(--dim);"><span class="ico ico-star"></span> <span style="color:var(--gold);font-weight:700;">'+d.rating+'</span></span></div></div>';
   }).join('');
 }
 
