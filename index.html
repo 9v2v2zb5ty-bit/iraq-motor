@@ -49,14 +49,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 .cur-btn{padding:0 14px;background:transparent;color:var(--dim);border:none;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:13px;transition:all .2s;}
 .cur-btn.active{background:var(--gold);color:#000;font-weight:700;}
 /* COMPANY ADS BANNER */
-.company-ads-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;}
-.company-ad-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;text-decoration:none;color:var(--text);cursor:pointer;transition:all .2s;}
-.company-ad-card:hover{border-color:var(--gold);transform:translateY(-3px);}
-.ca-slider{position:relative;width:100%;height:130px;overflow:hidden;background:var(--dark3);}
-.ca-slider img{width:100%;height:130px;object-fit:cover;position:absolute;top:0;left:0;opacity:0;transition:opacity .5s;}
-.ca-slider img.on{opacity:1;}
-.company-ad-card .ca-name{font-size:12px;font-weight:700;padding:8px 10px;text-align:center;}
-.company-ad-card .ca-tag{font-size:9px;color:var(--gold);letter-spacing:1px;text-align:center;padding-bottom:6px;}
+.mega-ad-banner{position:relative;width:100%;height:300px;border-radius:16px;overflow:hidden;background:var(--dark3);border:1px solid var(--border);}
+.mega-slide-inner{position:absolute;inset:0;display:block;text-decoration:none;color:#fff;}
+.mega-slide-inner img,.mega-slide-inner video{width:100%;height:100%;object-fit:cover;display:block;}
+.mega-overlay{position:absolute;bottom:0;right:0;left:0;background:linear-gradient(transparent,rgba(0,0,0,.78));padding:36px 20px 16px;}
+.mega-tag{font-size:10px;color:var(--gold);letter-spacing:2px;display:block;margin-bottom:4px;}
+.mega-name{font-size:18px;font-weight:700;color:#fff;display:block;}
+.mega-dots{position:absolute;top:14px;left:14px;display:flex;gap:6px;z-index:2;}
+.mega-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.45);cursor:pointer;transition:all .2s;border:none;padding:0;}
+.mega-dot.on{background:var(--gold);width:22px;border-radius:5px;}
 /* CARS GRID */
 .cars-toolbar{display:flex;gap:10px;align-items:center;padding:16px 32px;flex-wrap:wrap;}
 .search-input{flex:1;min-width:160px;background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--text);font-family:'Tajawal',sans-serif;font-size:14px;outline:none;}
@@ -286,6 +287,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
   .cars-toolbar,.cars-grid,.post-banner,.detail-back{padding-left:14px;padding-right:14px;}
   .section-page{padding:16px;}
   .cmp-header{grid-template-columns:1fr auto 1fr;}
+  .mega-ad-banner{height:190px;}.mega-name{font-size:14px;}.mega-overlay{padding:22px 14px 10px;}
 }
 </style>
 </head>
@@ -763,6 +765,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
 <script>
 // CONFIG
 const _k=['sk-ant-','api03-QvbRC','imHuvr2qH0N','fs7fhMQDwj5','fWNkEhKHlNH','hLrN5UQ-ccr','pDt2dH_NkVC','0nwC3E4TAAl','igUTPe7_Xjr','AARg-MtD2-gAA'];
@@ -770,7 +773,7 @@ window.AI_KEY=_k.join('');
 const IMGBB='3897918b48e89d2b67351676170056ed';
 const ADMIN_EMAIL='iraq.motors0@gmail.com';
 firebase.initializeApp({apiKey:"AIzaSyAb4MheuHSlF4yOxuDfhnxZtIMyXy7g-l8",authDomain:"iraq-motors-38983.firebaseapp.com",projectId:"iraq-motors-38983",storageBucket:"iraq-motors-38983.firebasestorage.app",messagingSenderId:"80307836321",appId:"1:80307836321:web:d61f734a86f5be5a4c67e0"});
-const auth=firebase.auth(), db=firebase.firestore();
+const auth=firebase.auth(), db=firebase.firestore(), storage=firebase.storage();
 function isAdmin(){return auth.currentUser&&auth.currentUser.email===ADMIN_EMAIL;}
 
 // CAR DATA
@@ -1341,19 +1344,27 @@ function switchAdminTab(tab,btn){
       }).join('')+'</tbody></table></div>';
   } else if(tab==='companyAds'){
     ct.innerHTML='<div class="post-section" style="margin-bottom:16px;">'+
-      '<div class="post-section-title">➕ إضافة إعلان شركة جديد</div>'+
+      '<div class="post-section-title">➕ إضافة إعلان شركة جديد (بانل كامل)</div>'+
       '<div class="form-grid">'+
-      '<div class="form-group"><label class="form-label">اسم الشركة</label><input class="form-input" id="caName" placeholder="مثال: معرض النخبة للسيارات"></div>'+
-      '<div class="form-group"><label class="form-label">رابط عند الضغط (اختياري)</label><input class="form-input" id="caLink" placeholder="رابط موقع، واتساب...الخ"></div>'+
-      '<div class="form-group full"><label class="form-label">صور الإعلان (تگدر تختار أكثر من صورة)</label><input type="file" class="form-input" id="caImg" accept="image/*" multiple></div>'+
+      '<div class="form-group"><label class="form-label">اسم الشركة</label><input class="form-input" id="caName" placeholder="مثال: وكيل تويوتا المعتمد"></div>'+
+      '<div class="form-group"><label class="form-label">الرابط عند الضغط</label><input class="form-input" id="caLink" placeholder="رابط موقع، واتساب، انستا...الخ"></div>'+
+      '<div class="form-group full"><label class="form-label">نوع الإعلان</label>'+
+        '<div style="display:flex;gap:8px;">'+
+          '<label class="part-check" style="flex:1;justify-content:center;"><input type="radio" name="caType" value="image" checked onchange="toggleCaType()"><span>📷 صورة</span></label>'+
+          '<label class="part-check" style="flex:1;justify-content:center;"><input type="radio" name="caType" value="video" onchange="toggleCaType()"><span>🎬 فيديو</span></label>'+
+        '</div></div>'+
+      '<div class="form-group full" id="caImgWrap"><label class="form-label">صور الإعلان (تگدر تختار أكثر من صورة)</label><input type="file" class="form-input" id="caImg" accept="image/*" multiple></div>'+
+      '<div class="form-group full" id="caVidWrap" style="display:none;"><label class="form-label">ارفع فيديو من جهازك</label><input type="file" class="form-input" id="caVidFile" accept="video/*">'+
+        '<div style="font-size:11px;color:var(--dim);margin-top:6px;">أو الصق رابط فيديو جاهز (اختياري إذا رفعت ملف)</div>'+
+        '<input class="form-input" id="caVidUrl" placeholder="https://example.com/ad.mp4" style="margin-top:6px;"></div>'+
       '</div><button class="btn-post-banner" style="margin-top:12px;" onclick="addCompanyAd()">نشر إعلان الشركة</button>'+
       '<div id="caMsg" style="margin-top:8px;padding:8px 12px;border-radius:8px;font-size:13px;display:none;"></div></div>'+
       (data.companyAds.length?data.companyAds.map(function(c){
         var thumb=c.imgs&&c.imgs.length?c.imgs[0]:c.img;
-        var n=c.imgs&&c.imgs.length?c.imgs.length:(c.img?1:0);
-        return '<div class="admin-card">'+(thumb?'<img class="admin-card-img" src="'+thumb+'">':'<div class="admin-card-img" style="display:flex;align-items:center;justify-content:center;font-size:22px;">🏢</div>')+
+        var n=c.type==='video'?'🎬 فيديو':(c.imgs&&c.imgs.length?c.imgs.length+' صورة':(c.img?'1 صورة':''));
+        return '<div class="admin-card">'+(thumb?'<img class="admin-card-img" src="'+thumb+'">':'<div class="admin-card-img" style="display:flex;align-items:center;justify-content:center;font-size:22px;">'+(c.type==='video'?'🎬':'🏢')+'</div>')+
           '<div class="admin-card-info"><div class="admin-card-name">'+(c.name||'')+'</div>'+
-          '<div class="admin-card-meta">🔗 '+(c.link||'بدون رابط')+' • 🖼️ '+n+' صورة</div>'+
+          '<div class="admin-card-meta">🔗 '+(c.link||'بدون رابط')+' • '+n+'</div>'+
           '<div class="admin-card-actions"><button class="btn-reject" onclick="deleteCompanyAd(\''+c.id+'\')">🗑️ حذف</button></div></div></div>';
       }).join(''):'<div style="text-align:center;padding:24px;color:var(--dim);">ما في إعلانات شركات لحد الآن</div>');
   } else if(tab==='dealers'){
@@ -1408,19 +1419,54 @@ async function rejectDealer(id){
     showToast('❌ تم رفض الطلب');
   }catch(e){alert('خطأ: '+e.message);}
 }
+function toggleCaType(){
+  var v=document.querySelector('input[name="caType"]:checked').value;
+  document.getElementById('caImgWrap').style.display=(v==='image')?'block':'none';
+  document.getElementById('caVidWrap').style.display=(v==='video')?'block':'none';
+}
+function uploadVideo(file){
+  var path='companyAdsVideos/'+Date.now()+'_'+file.name.replace(/[^a-zA-Z0-9.]/g,'_');
+  var ref=storage.ref().child(path);
+  var task=ref.put(file);
+  return new Promise(function(resolve,reject){
+    task.on('state_changed',function(snap){
+      var pct=Math.round((snap.bytesTransferred/snap.totalBytes)*100);
+      showMsg2('caMsg','⏳ جاري رفع الفيديو... '+pct+'%','#f39c12');
+    },function(err){reject(err);},function(){
+      ref.getDownloadURL().then(resolve).catch(reject);
+    });
+  });
+}
 async function addCompanyAd(){
   var name=document.getElementById('caName').value.trim();
   var link=document.getElementById('caLink').value.trim();
-  var files=Array.from(document.getElementById('caImg').files).slice(0,10);
-  if(!name||!files.length){showMsg2('caMsg','❌ الرجاء إدخال اسم الشركة واختيار صورة وحدة على الأقل','#e74c3c');return;}
-  showMsg2('caMsg','⏳ جاري رفع الصور ('+files.length+')...','#f39c12');
+  var type=document.querySelector('input[name="caType"]:checked').value;
+  if(!name){showMsg2('caMsg','❌ الرجاء إدخال اسم الشركة','#e74c3c');return;}
   try{
-    var urls=[];
-    for(var i=0;i<files.length;i++){
-      showMsg2('caMsg','⏳ جاري رفع الصورة '+(i+1)+' من '+files.length+'...','#f39c12');
-      urls.push(await uploadImg(files[i]));
+    if(type==='video'){
+      var vidFile=document.getElementById('caVidFile').files[0];
+      var vidUrlManual=document.getElementById('caVidUrl').value.trim();
+      var finalUrl='';
+      if(vidFile){
+        showMsg2('caMsg','⏳ جاري رفع الفيديو...','#f39c12');
+        finalUrl=await uploadVideo(vidFile);
+      } else if(vidUrlManual){
+        finalUrl=vidUrlManual;
+      } else {
+        showMsg2('caMsg','❌ الرجاء رفع فيديو من جهازك أو إدخال رابط فيديو جاهز','#e74c3c');return;
+      }
+      showMsg2('caMsg','⏳ جاري نشر الإعلان...','#f39c12');
+      await db.collection('companyAds').add({name,link,type:'video',videoUrl:finalUrl,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+    } else {
+      var files=Array.from(document.getElementById('caImg').files).slice(0,10);
+      if(!files.length){showMsg2('caMsg','❌ الرجاء اختيار صورة وحدة على الأقل','#e74c3c');return;}
+      var urls=[];
+      for(var i=0;i<files.length;i++){
+        showMsg2('caMsg','⏳ جاري رفع الصورة '+(i+1)+' من '+files.length+'...','#f39c12');
+        urls.push(await uploadImg(files[i]));
+      }
+      await db.collection('companyAds').add({name,link,type:'image',imgs:urls,img:urls[0],createdAt:firebase.firestore.FieldValue.serverTimestamp()});
     }
-    await db.collection('companyAds').add({name,link,imgs:urls,img:urls[0],createdAt:firebase.firestore.FieldValue.serverTimestamp()});
     showMsg2('caMsg','✅ تم نشر إعلان الشركة','#2ecc71');
     loadAdminPage();
   }catch(e){showMsg2('caMsg','❌ خطأ: '+e.message,'#e74c3c');}
@@ -1434,43 +1480,50 @@ async function deleteCompanyAd(id){
     showToast('🗑️ تم الحذف');
   }catch(e){alert('خطأ: '+e.message);}
 }
-// PUBLIC COMPANY ADS BANNER (visible to everyone, managed by admin only)
+// PUBLIC MEGA AD BANNER (full-width, image or video, managed by admin only)
+var megaSlides=[],megaIdx=0,megaTimer=null;
 async function loadCompanyBanners(){
   var wrap=document.getElementById('adsBannerWrap');
   if(!wrap)return;
   try{
     var snap=await db.collection('companyAds').get();
     var ads=snap.docs.map(function(d){return Object.assign({id:d.id},d.data());});
-    clearCaTimers();
-    if(!ads.length){wrap.innerHTML='';return;}
-    wrap.innerHTML='<div class="company-ads-strip">'+ads.map(function(c){
-      var tag=c.link?'a':'div';
-      var imgs=c.imgs&&c.imgs.length?c.imgs:(c.img?[c.img]:[]);
-      var sliderHtml=imgs.length?
-        '<div class="ca-slider" id="cas-'+c.id+'">'+imgs.map(function(img,i){return '<img src="'+img+'" class="'+(i===0?'on':'')+'" loading="lazy">';}).join('')+'</div>':
-        '<div class="ca-slider" style="display:flex;align-items:center;justify-content:center;font-size:26px;">🏢</div>';
-      return '<'+tag+' class="company-ad-card"'+(c.link?' href="'+c.link+'" target="_blank" rel="noopener"':'')+'>'+
-        sliderHtml+'<div class="ca-tag">إعلان</div><div class="ca-name">'+(c.name||'')+'</div></'+tag+'>';
-    }).join('')+'</div>';
+    clearInterval(megaTimer);
+    megaSlides=[];
     ads.forEach(function(c){
-      var imgs=c.imgs&&c.imgs.length?c.imgs:(c.img?[c.img]:[]);
-      window['casi_'+c.id]=0;
-      if(imgs.length>1)startCaTimer(c.id);
+      if(c.type==='video'&&c.videoUrl){
+        megaSlides.push({link:c.link,name:c.name,video:c.videoUrl});
+      } else {
+        var imgs=c.imgs&&c.imgs.length?c.imgs:(c.img?[c.img]:[]);
+        imgs.forEach(function(img){megaSlides.push({link:c.link,name:c.name,img:img});});
+      }
     });
+    if(!megaSlides.length){wrap.innerHTML='';return;}
+    wrap.innerHTML='<div class="mega-ad-banner" id="megaAdBanner"></div>';
+    var mb=document.getElementById('megaAdBanner');
+    mb.addEventListener('mouseenter',function(){clearInterval(megaTimer);});
+    mb.addEventListener('mouseleave',startMegaTimer);
+    megaIdx=0;
+    renderMegaSlide(0);
+    startMegaTimer();
   }catch(e){wrap.innerHTML='';}
 }
-var caTimers={};
-function clearCaTimers(){Object.keys(caTimers).forEach(function(k){clearInterval(caTimers[k]);});caTimers={};}
-function caNext(id){var s=document.getElementById('cas-'+id);if(!s)return;var imgs=s.querySelectorAll('img');if(!imgs.length)return;var i=window['casi_'+id]||0;imgs[i].classList.remove('on');i=(i+1)%imgs.length;imgs[i].classList.add('on');window['casi_'+id]=i;}
-function startCaTimer(id){
-  clearInterval(caTimers[id]);
-  caTimers[id]=setInterval(function(){caNext(id);},3500);
-  var el=document.getElementById('cas-'+id);
-  if(el&&!el.dataset.hoverBound){
-    el.dataset.hoverBound='1';
-    el.addEventListener('mouseenter',function(){clearInterval(caTimers[id]);});
-    el.addEventListener('mouseleave',function(){startCaTimer(id);});
-  }
+function renderMegaSlide(i){
+  var wrap=document.getElementById('megaAdBanner');
+  if(!wrap||!megaSlides.length)return;
+  var s=megaSlides[i];
+  var mediaHtml=s.video?
+    '<video src="'+s.video+'" autoplay muted loop playsinline></video>':
+    '<img src="'+s.img+'" loading="lazy">';
+  wrap.innerHTML='<a class="mega-slide-inner"'+(s.link?' href="'+s.link+'" target="_blank" rel="noopener"':' href="javascript:void(0)"')+'>'+mediaHtml+
+    '<div class="mega-overlay"><span class="mega-tag">إعلان</span><span class="mega-name">'+(s.name||'')+'</span></div></a>'+
+    (megaSlides.length>1?'<div class="mega-dots">'+megaSlides.map(function(_,j){return '<button class="mega-dot'+(j===i?' on':'')+'" onclick="event.stopPropagation();event.preventDefault();goMegaSlide('+j+')"></button>';}).join('')+'</div>':'');
+}
+function goMegaSlide(i){megaIdx=i;renderMegaSlide(megaIdx);startMegaTimer();}
+function megaNext(){megaIdx=(megaIdx+1)%megaSlides.length;renderMegaSlide(megaIdx);}
+function startMegaTimer(){
+  clearInterval(megaTimer);
+  if(megaSlides.length>1)megaTimer=setInterval(megaNext,5000);
 }
 async function approveAd(id){
   try{await db.collection('cars').doc(id).update({approved:true});var car=window._ad.allAds.find(function(c){return c.id===id;});if(car){car.approved=true;window._ad.pending=window._ad.pending.filter(function(c){return c.id!==id;});window._ad.approved.push(car);}document.getElementById('statPending').textContent=window._ad.pending.length;document.getElementById('statApproved').textContent=window._ad.approved.length;switchAdminTab('pending',document.querySelector('#adminTabs .admin-tab'));showToast('✅ تم الموافقة');}catch(e){alert('خطأ: '+e.message);}
