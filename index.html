@@ -50,9 +50,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 .cur-btn.active{background:var(--gold);color:#000;font-weight:700;}
 /* COMPANY ADS BANNER */
 .company-ads-strip{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;}
-.company-ad-card{flex-shrink:0;width:190px;background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;text-decoration:none;color:var(--text);cursor:pointer;transition:all .2s;}
+.company-ad-card{flex-shrink:0;width:230px;background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;text-decoration:none;color:var(--text);cursor:pointer;transition:all .2s;}
 .company-ad-card:hover{border-color:var(--gold);transform:translateY(-3px);}
-.company-ad-card img{width:100%;height:90px;object-fit:cover;display:block;background:var(--dark3);}
+.ca-slider{position:relative;width:100%;height:130px;overflow:hidden;background:var(--dark3);}
+.ca-slider img{width:100%;height:130px;object-fit:cover;position:absolute;top:0;left:0;opacity:0;transition:opacity .5s;}
+.ca-slider img.on{opacity:1;}
 .company-ad-card .ca-name{font-size:12px;font-weight:700;padding:8px 10px;text-align:center;}
 .company-ad-card .ca-tag{font-size:9px;color:var(--gold);letter-spacing:1px;text-align:center;padding-bottom:6px;}
 /* CARS GRID */
@@ -794,19 +796,27 @@ const CAR_DATA={
 const ACC_PARTS=['المقدمة','المؤخرة','الجانب الأيمن','الجانب الأيسر','السقف','الكبوت','باب أمامي أيمن','باب أمامي أيسر','باب خلفي أيمن','باب خلفي أيسر','الزجاج الأمامي','زجاج خلفي','رادياتير','محرك','ناقل حركة'];
 
 let allCars=[],carPhotos=[],accPhotos=[],currency='USD';
+window._me=null;
+function canPost(){return isAdmin()||(window._me&&window._me.dealerStatus==='approved');}
 
 // AUTH
 auth.onAuthStateChanged(function(user){
   var bl=document.querySelector('.btn-login-nav'),bp=document.getElementById('btnPostNav'),bpr=document.getElementById('btnProfileNav');
   var np=document.getElementById('navProfile'),na=document.getElementById('navAdmin'),nf=document.getElementById('navFav'),ng=document.getElementById('navGarage');
   if(user){
-    bl.style.display='none'; bp.style.display='block'; bpr.style.display='flex';
+    bl.style.display='none'; bpr.style.display='flex';
+    bp.style.display=isAdmin()?'block':'none';
     if(np)np.style.display='block'; if(nf)nf.style.display='block'; if(ng)ng.style.display='block';
     if(na)na.style.display=user.email===ADMIN_EMAIL?'block':'none';
     document.getElementById('navName').textContent=user.displayName||'حسابي';
     updateMobileNav(user);
     document.getElementById('navAvatar').src=user.photoURL||'https://ui-avatars.com/api/?name='+encodeURIComponent(user.displayName||'U')+'&background=C9A84C&color=000&size=40';
+    db.collection('users').doc(user.uid).get().then(function(doc){
+      window._me=doc.exists?doc.data():null;
+      bp.style.display=canPost()?'block':'none';
+    }).catch(function(){window._me=null;});
   } else {
+    window._me=null;
     bl.style.display='block'; bp.style.display='none'; bpr.style.display='none';
     if(np)np.style.display='none'; if(nf)nf.style.display='none'; if(ng)ng.style.display='none'; if(na)na.style.display='none';
     updateMobileNav(null);
@@ -821,7 +831,21 @@ function goPage(p){
   el.classList.add('active');
   window.scrollTo(0,0);
   if(p==='cars'){initMakeFilter();loadCars();loadCompanyBanners();}
-  else if(p==='post'){if(!auth.currentUser){goPage('home');openLogin();return;}initPostForm();}
+  else if(p==='post'){
+    if(!auth.currentUser){goPage('home');openLogin();return;}
+    if(isAdmin()){initPostForm();return;}
+    db.collection('users').doc(auth.currentUser.uid).get().then(function(doc){
+      window._me=doc.exists?doc.data():null;
+      if(canPost()){initPostForm();return;}
+      goPage('home');
+      var msg='نشر الإعلانات متاح حالياً فقط عبر إدارة الموقع والمعارض المعتمدة. تگدر تسجل حساب معرض من نافذة تسجيل الدخول.';
+      if(window._me&&window._me.role==='dealer'){
+        if(window._me.dealerStatus==='pending')msg='⏳ طلب معرضك لسا بانتظار موافقة الإدارة، راح تگدر تنشر إعلانات بعد الموافقة.';
+        else if(window._me.dealerStatus==='rejected')msg='❌ للأسف تم رفض طلب معرضك من قبل الإدارة.';
+      }
+      alert(msg);
+    }).catch(function(){goPage('home');alert('❌ صار خطأ، حاول مرة ثانية.');});
+  }
   else if(p==='profile'){if(!auth.currentUser){goPage('home');openLogin();return;}loadProfile();}
   else if(p==='compare')initCmpSelects();
   else if(p==='admin'){if(!isAdmin()){goPage('home');return;}loadAdminPage();}
@@ -1296,13 +1320,15 @@ function switchAdminTab(tab,btn){
       '<div class="form-grid">'+
       '<div class="form-group"><label class="form-label">اسم الشركة</label><input class="form-input" id="caName" placeholder="مثال: معرض النخبة للسيارات"></div>'+
       '<div class="form-group"><label class="form-label">رابط عند الضغط (اختياري)</label><input class="form-input" id="caLink" placeholder="رابط موقع، واتساب...الخ"></div>'+
-      '<div class="form-group full"><label class="form-label">صورة/شعار الإعلان</label><input type="file" class="form-input" id="caImg" accept="image/*"></div>'+
+      '<div class="form-group full"><label class="form-label">صور الإعلان (تگدر تختار أكثر من صورة)</label><input type="file" class="form-input" id="caImg" accept="image/*" multiple></div>'+
       '</div><button class="btn-post-banner" style="margin-top:12px;" onclick="addCompanyAd()">نشر إعلان الشركة</button>'+
       '<div id="caMsg" style="margin-top:8px;padding:8px 12px;border-radius:8px;font-size:13px;display:none;"></div></div>'+
       (data.companyAds.length?data.companyAds.map(function(c){
-        return '<div class="admin-card">'+(c.img?'<img class="admin-card-img" src="'+c.img+'">':'<div class="admin-card-img" style="display:flex;align-items:center;justify-content:center;font-size:22px;">🏢</div>')+
+        var thumb=c.imgs&&c.imgs.length?c.imgs[0]:c.img;
+        var n=c.imgs&&c.imgs.length?c.imgs.length:(c.img?1:0);
+        return '<div class="admin-card">'+(thumb?'<img class="admin-card-img" src="'+thumb+'">':'<div class="admin-card-img" style="display:flex;align-items:center;justify-content:center;font-size:22px;">🏢</div>')+
           '<div class="admin-card-info"><div class="admin-card-name">'+(c.name||'')+'</div>'+
-          '<div class="admin-card-meta">🔗 '+(c.link||'بدون رابط')+'</div>'+
+          '<div class="admin-card-meta">🔗 '+(c.link||'بدون رابط')+' • 🖼️ '+n+' صورة</div>'+
           '<div class="admin-card-actions"><button class="btn-reject" onclick="deleteCompanyAd(\''+c.id+'\')">🗑️ حذف</button></div></div></div>';
       }).join(''):'<div style="text-align:center;padding:24px;color:var(--dim);">ما في إعلانات شركات لحد الآن</div>');
   } else if(tab==='dealers'){
@@ -1360,12 +1386,16 @@ async function rejectDealer(id){
 async function addCompanyAd(){
   var name=document.getElementById('caName').value.trim();
   var link=document.getElementById('caLink').value.trim();
-  var file=document.getElementById('caImg').files[0];
-  if(!name||!file){showMsg2('caMsg','❌ الرجاء إدخال اسم الشركة واختيار صورة','#e74c3c');return;}
-  showMsg2('caMsg','⏳ جاري رفع الصورة ونشر الإعلان...','#f39c12');
+  var files=Array.from(document.getElementById('caImg').files).slice(0,10);
+  if(!name||!files.length){showMsg2('caMsg','❌ الرجاء إدخال اسم الشركة واختيار صورة وحدة على الأقل','#e74c3c');return;}
+  showMsg2('caMsg','⏳ جاري رفع الصور ('+files.length+')...','#f39c12');
   try{
-    var url=await uploadImg(file);
-    await db.collection('companyAds').add({name,link,img:url,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+    var urls=[];
+    for(var i=0;i<files.length;i++){
+      showMsg2('caMsg','⏳ جاري رفع الصورة '+(i+1)+' من '+files.length+'...','#f39c12');
+      urls.push(await uploadImg(files[i]));
+    }
+    await db.collection('companyAds').add({name,link,imgs:urls,img:urls[0],createdAt:firebase.firestore.FieldValue.serverTimestamp()});
     showMsg2('caMsg','✅ تم نشر إعلان الشركة','#2ecc71');
     loadAdminPage();
   }catch(e){showMsg2('caMsg','❌ خطأ: '+e.message,'#e74c3c');}
@@ -1386,13 +1416,36 @@ async function loadCompanyBanners(){
   try{
     var snap=await db.collection('companyAds').get();
     var ads=snap.docs.map(function(d){return Object.assign({id:d.id},d.data());});
+    clearCaTimers();
     if(!ads.length){wrap.innerHTML='';return;}
     wrap.innerHTML='<div class="company-ads-strip">'+ads.map(function(c){
       var tag=c.link?'a':'div';
+      var imgs=c.imgs&&c.imgs.length?c.imgs:(c.img?[c.img]:[]);
+      var sliderHtml=imgs.length?
+        '<div class="ca-slider" id="cas-'+c.id+'">'+imgs.map(function(img,i){return '<img src="'+img+'" class="'+(i===0?'on':'')+'" loading="lazy">';}).join('')+'</div>':
+        '<div class="ca-slider" style="display:flex;align-items:center;justify-content:center;font-size:26px;">🏢</div>';
       return '<'+tag+' class="company-ad-card"'+(c.link?' href="'+c.link+'" target="_blank" rel="noopener"':'')+'>'+
-        '<img src="'+(c.img||'')+'"><div class="ca-tag">إعلان</div><div class="ca-name">'+(c.name||'')+'</div></'+tag+'>';
+        sliderHtml+'<div class="ca-tag">إعلان</div><div class="ca-name">'+(c.name||'')+'</div></'+tag+'>';
     }).join('')+'</div>';
+    ads.forEach(function(c){
+      var imgs=c.imgs&&c.imgs.length?c.imgs:(c.img?[c.img]:[]);
+      window['casi_'+c.id]=0;
+      if(imgs.length>1)startCaTimer(c.id);
+    });
   }catch(e){wrap.innerHTML='';}
+}
+var caTimers={};
+function clearCaTimers(){Object.keys(caTimers).forEach(function(k){clearInterval(caTimers[k]);});caTimers={};}
+function caNext(id){var s=document.getElementById('cas-'+id);if(!s)return;var imgs=s.querySelectorAll('img');if(!imgs.length)return;var i=window['casi_'+id]||0;imgs[i].classList.remove('on');i=(i+1)%imgs.length;imgs[i].classList.add('on');window['casi_'+id]=i;}
+function startCaTimer(id){
+  clearInterval(caTimers[id]);
+  caTimers[id]=setInterval(function(){caNext(id);},3500);
+  var el=document.getElementById('cas-'+id);
+  if(el&&!el.dataset.hoverBound){
+    el.dataset.hoverBound='1';
+    el.addEventListener('mouseenter',function(){clearInterval(caTimers[id]);});
+    el.addEventListener('mouseleave',function(){startCaTimer(id);});
+  }
 }
 async function approveAd(id){
   try{await db.collection('cars').doc(id).update({approved:true});var car=window._ad.allAds.find(function(c){return c.id===id;});if(car){car.approved=true;window._ad.pending=window._ad.pending.filter(function(c){return c.id!==id;});window._ad.approved.push(car);}document.getElementById('statPending').textContent=window._ad.pending.length;document.getElementById('statApproved').textContent=window._ad.approved.length;switchAdminTab('pending',document.querySelector('#adminTabs .admin-tab'));showToast('✅ تم الموافقة');}catch(e){alert('خطأ: '+e.message);}
