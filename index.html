@@ -280,12 +280,6 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 .garage-item-label{font-size:12px;color:var(--dim);}
 .garage-item-val{font-size:12px;font-weight:600;}
 .ok{color:var(--green)!important;}.warning{color:#f39c12!important;}.urgent{color:var(--red)!important;}
-/* CONFIGURATOR */
-.cfg-color{width:34px;height:34px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .2s;}
-.cfg-color.active{border-color:var(--gold);transform:scale(1.2);}
-.cfg-btn{background:var(--dark3);border:1px solid var(--border);color:var(--dim);padding:6px 13px;border-radius:7px;font-family:Tajawal,sans-serif;font-size:12px;cursor:pointer;transition:all .2s;}
-.cfg-btn.active{background:var(--gold);color:#000;border-color:var(--gold);font-weight:700;}
-.cfg-btn:hover{border-color:var(--gold);color:var(--gold);}
 /* MARKET */
 .market-stat-card{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:14px;text-align:center;}
 .market-stat-num{font-size:20px;font-weight:800;font-family:Rajdhani,sans-serif;}
@@ -355,7 +349,6 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
     <li><a onclick="goPage('compare')">المقارنة</a></li>
     <li><a onclick="goPage('ai')">مستشار AI <span class="ico ico-ai"></span></a></li>
     <li><a onclick="goPage('market')"><span class="ico ico-chart-up"></span> مؤشر الأسعار</a></li>
-    <li><a onclick="goPage('configurator')"><span class="ico ico-sliders"></span> Configurator</a></li>
     <li><a onclick="goPage('dealers')">المعارض</a></li>
     <li><a onclick="goPage('calc')">حاسبة القسط</a></li>
     <li><a onclick="goPage('favorites')" id="navFav" style="display:none"><span class="ico ico-heart-fill"></span> المفضلة</a></li>
@@ -382,7 +375,6 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
   <a onclick="mobileGoPage('compare')"><span class="ico ico-compare"></span> المقارنة</a>
   <a onclick="mobileGoPage('ai')"><span class="ico ico-ai"></span> مستشار AI</a>
   <a onclick="mobileGoPage('market')"><span class="ico ico-chart-up"></span> مؤشر الأسعار</a>
-  <a onclick="mobileGoPage('configurator')"><span class="ico ico-sliders"></span> Configurator</a>
   <a onclick="mobileGoPage('dealers')"><span class="ico ico-building"></span> المعارض</a>
   <a onclick="mobileGoPage('calc')"><span class="ico ico-calculator"></span> حاسبة القسط</a>
   <a onclick="mobileGoPage('favorites')" id="mNavFav" style="display:none"><span class="ico ico-heart-fill"></span> المفضلة</a>
@@ -586,106 +578,6 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
   <div class="section-page">
     <button class="btn-submit-big" style="max-width:220px;margin-bottom:20px;" onclick="openGarageAdd()">+ إضافة سيارة للكراج</button>
     <div id="garageGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;"><div class="loading"><span class="ico ico-hourglass"></span> جاري التحميل...</div></div>
-  </div>
-</div>
-
-<!-- CONFIGURATOR -->
-<div class="page" id="page-configurator">
-  <div class="section-page" style="max-width:960px;margin:0 auto;">
-    <h2 style="font-size:24px;font-weight:800;margin-bottom:4px;"><span class="ico ico-sliders"></span> Car Configurator</h2>
-    <p style="color:var(--dim);font-size:14px;margin-bottom:20px;">صمم سيارتك قبل الشراء</p>
-    <div class="post-section" style="margin-bottom:22px;">
-      <div class="post-section-title"><span class="ico ico-car"></span> معرض السيارات ثلاثية الأبعاد</div>
-      <select class="inp" id="sk3dSelect" onchange="loadSk3dModel()" style="margin-bottom:12px;"></select>
-      <div id="sk3dWrap" style="width:100%;height:420px;border-radius:11px;overflow:hidden;background:var(--dark3);"></div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 320px;gap:22px;">
-      <div class="post-section">
-        <div class="post-section-title">معاينة السيارة</div>
-        <div style="width:100%;height:300px;border-radius:11px;background:var(--dark3);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">
-          <svg id="carSvg" viewBox="0 0 600 300" style="width:92%;max-width:480px;filter:drop-shadow(0 18px 36px rgba(0,0,0,0.5))">
-            <ellipse cx="300" cy="242" rx="238" ry="22" fill="rgba(0,0,0,0.3)"/>
-            <path id="carBody" d="M62,202 L62,162 Q82,142 122,132 L182,102 Q222,82 300,80 Q378,80 418,102 L478,132 Q518,142 538,162 L538,202 Z" fill="#C9A84C"/>
-            <path id="carRoof" d="M172,132 Q202,92 262,77 L338,77 Q398,92 428,132 Z" fill="#C9A84C" opacity="0.9"/>
-            <path id="carWindshield" d="M177,130 Q202,97 262,82 L300,82 L300,130 Z" fill="rgba(150,220,255,0.6)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
-            <path id="carRearWin" d="M300,82 L338,82 Q398,97 423,130 L300,130 Z" fill="rgba(150,220,255,0.5)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
-            <rect id="carSideWin1" x="187" y="112" width="103" height="53" rx="7" fill="rgba(150,220,255,0.4)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
-            <rect id="carSideWin2" x="310" y="112" width="103" height="53" rx="7" fill="rgba(150,220,255,0.4)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
-            <circle cx="157" cy="207" r="40" fill="#1a1a1a"/><circle id="rim1" cx="157" cy="207" r="26" fill="#2a2a2a"/><circle cx="157" cy="207" r="9" fill="#888"/>
-            <circle cx="443" cy="207" r="40" fill="#1a1a1a"/><circle id="rim2" cx="443" cy="207" r="26" fill="#2a2a2a"/><circle cx="443" cy="207" r="9" fill="#888"/>
-            <ellipse id="hl1" cx="79" cy="174" rx="17" ry="11" fill="#ffffaa" opacity="0.9"/>
-            <ellipse id="hl2" cx="521" cy="174" rx="17" ry="11" fill="#ffffaa" opacity="0.9"/>
-            <rect x="64" y="180" width="38" height="18" rx="3" fill="#333"/>
-            <rect id="spoilerEl" x="432" y="92" width="108" height="7" rx="3" fill="transparent"/>
-            <path id="tintEl" d="M172,130 Q202,92 262,77 L338,77 Q398,92 428,130 Z M187,112 L290,112 L290,165 L187,165 Z M310,112 L413,112 L413,165 L310,165 Z" fill="rgba(0,0,0,0)" style="pointer-events:none;"/>
-            <path id="chromeEl" d="M102,177 L498,177" stroke="transparent" stroke-width="3" fill="none"/>
-          </svg>
-        </div>
-        <div style="display:flex;gap:9px;margin-top:14px;justify-content:center;">
-          <button onclick="saveConfig()" style="background:var(--gold);color:#000;border:none;padding:9px 22px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:13px;font-weight:700;cursor:pointer;"><span class="ico ico-save"></span> حفظ</button>
-          <button onclick="shareConfig()" style="background:transparent;color:var(--text);border:1px solid var(--border);padding:9px 22px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:13px;cursor:pointer;"><span class="ico ico-link"></span> مشاركة</button>
-        </div>
-      </div>
-      <div>
-        <div class="post-section" style="margin-bottom:12px;">
-          <div class="post-section-title">🎨 اللون</div>
-          <div style="display:flex;flex-wrap:wrap;gap:7px;">
-            <button class="cfg-color active" style="background:#C9A84C;" onclick="setCfgColor('#C9A84C',this)"></button>
-            <button class="cfg-color" style="background:#fff;border-color:#ddd;" onclick="setCfgColor('#ffffff',this)"></button>
-            <button class="cfg-color" style="background:#111;" onclick="setCfgColor('#1a1a1a',this)"></button>
-            <button class="cfg-color" style="background:#c0392b;" onclick="setCfgColor('#c0392b',this)"></button>
-            <button class="cfg-color" style="background:#2980b9;" onclick="setCfgColor('#2980b9',this)"></button>
-            <button class="cfg-color" style="background:#27ae60;" onclick="setCfgColor('#27ae60',this)"></button>
-            <button class="cfg-color" style="background:#7f8c8d;" onclick="setCfgColor('#7f8c8d',this)"></button>
-            <button class="cfg-color" style="background:#8e44ad;" onclick="setCfgColor('#8e44ad',this)"></button>
-            <button class="cfg-color" style="background:#e67e22;" onclick="setCfgColor('#e67e22',this)"></button>
-          </div>
-        </div>
-        <div class="post-section" style="margin-bottom:12px;">
-          <div class="post-section-title"><span class="ico ico-bolt"></span> الجنوط</div>
-          <div style="display:flex;gap:7px;flex-wrap:wrap;">
-            <button class="cfg-btn active" onclick="setCfgRims('default',this)">عادي</button>
-            <button class="cfg-btn" onclick="setCfgRims('sport',this)">سبورت</button>
-            <button class="cfg-btn" onclick="setCfgRims('luxury',this)">فاخر</button>
-            <button class="cfg-btn" onclick="setCfgRims('offroad',this)">أوف رود</button>
-          </div>
-        </div>
-        <div class="post-section" style="margin-bottom:12px;">
-          <div class="post-section-title">🌑 التظليل</div>
-          <div style="display:flex;gap:7px;flex-wrap:wrap;">
-            <button class="cfg-btn active" onclick="setCfgTint(0,this)">بدون</button>
-            <button class="cfg-btn" onclick="setCfgTint(0.2,this)">خفيف</button>
-            <button class="cfg-btn" onclick="setCfgTint(0.45,this)">متوسط</button>
-            <button class="cfg-btn" onclick="setCfgTint(0.72,this)">داكن</button>
-          </div>
-        </div>
-        <div class="post-section" style="margin-bottom:12px;">
-          <div class="post-section-title"><span class="ico ico-sparkle"></span> الكروم</div>
-          <div style="display:flex;gap:7px;flex-wrap:wrap;">
-            <button class="cfg-btn active" onclick="setCfgChrome('transparent',this)">بدون</button>
-            <button class="cfg-btn" onclick="setCfgChrome('#c0c0c0',this)">فضي</button>
-            <button class="cfg-btn" onclick="setCfgChrome('#333',this)">أسود</button>
-            <button class="cfg-btn" onclick="setCfgChrome('#C9A84C',this)">ذهبي</button>
-          </div>
-        </div>
-        <div class="post-section" style="margin-bottom:12px;">
-          <div class="post-section-title"><span class="ico ico-car"></span> السبويلر</div>
-          <div style="display:flex;gap:7px;flex-wrap:wrap;">
-            <button class="cfg-btn active" onclick="setCfgSpoiler('transparent',this)">بدون</button>
-            <button class="cfg-btn" onclick="setCfgSpoiler('sport',this)">سبورت</button>
-            <button class="cfg-btn" onclick="setCfgSpoiler('gt',this)">GT</button>
-          </div>
-        </div>
-        <div class="post-section">
-          <div class="post-section-title">💡 الإضاءة</div>
-          <div style="display:flex;gap:7px;flex-wrap:wrap;">
-            <button class="cfg-btn active" onclick="setCfgLights('#ffffaa',this)">عادي</button>
-            <button class="cfg-btn" onclick="setCfgLights('#aaddff',this)">LED أزرق</button>
-            <button class="cfg-btn" onclick="setCfgLights('#ffee44',this)">سبورت</button>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -940,7 +832,6 @@ function goPage(p){
   else if(p==='dealers')loadDealers();
   else if(p==='garage'){if(!auth.currentUser){goPage('home');openLogin();return;}loadGarage();}
   else if(p==='market')loadMarketIndex();
-  else if(p==='configurator')initSk3dGallery();
 }
 
 // FORMS
@@ -1654,24 +1545,6 @@ const COMPARE_DB={
   'MG HS':{hp:162,torque:230,engine:'1.5L Turbo',fuel:'بنزين',gear:'DCT',weight:1520,price:24000,accel:9.5,top:185,consumption:13},
 };
 
-const SKETCHFAB_MODELS=[
-  {name:'Mercedes-Benz E63s 2018',id:'532768210f094ed78d0a2734d7b00a94'}
-];
-function initSk3dGallery(){
-  var sel=document.getElementById('sk3dSelect');
-  if(!sel)return;
-  if(!sel.dataset.filled){
-    sel.innerHTML=SKETCHFAB_MODELS.map(function(m,i){return '<option value="'+i+'">'+m.name+'</option>';}).join('');
-    sel.dataset.filled='1';
-  }
-  loadSk3dModel();
-}
-function loadSk3dModel(){
-  var sel=document.getElementById('sk3dSelect'),wrap=document.getElementById('sk3dWrap');
-  if(!sel||!wrap||!SKETCHFAB_MODELS.length)return;
-  var m=SKETCHFAB_MODELS[Number(sel.value)||0];
-  wrap.innerHTML='<iframe title="'+m.name+'" src="https://sketchfab.com/models/'+m.id+'/embed?autostart=1&ui_theme=dark" style="width:100%;height:100%;border:none;" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen></iframe>';
-}
 function initCmpSelects(){
   ['cmp1Make','cmp2Make'].forEach(function(id){
     var el=document.getElementById(id);
@@ -1797,16 +1670,6 @@ async function loadGarage(){
   }catch(e){grid.innerHTML='<div class="empty"><div class="empty-ico"><span class="ico ico-lg ico-warning"></span></div><div class="empty-tit">خطأ في التحميل</div></div>';}
 }
 async function deleteGarageCar(id){if(!confirm('حذف هذه السيارة من الكراج؟'))return;try{await db.collection('garage').doc(id).delete();loadGarage();}catch(e){alert('خطأ: '+e.message);}}
-
-// CONFIGURATOR
-function setCfgColor(c,btn){document.querySelectorAll('.cfg-color').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');['carBody','carRoof'].forEach(function(id){var el=document.getElementById(id);if(el)el.setAttribute('fill',c);});}
-function setCfgRims(t,btn){document.querySelectorAll('[onclick^="setCfgRims"]').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');var cols={default:['#2a2a2a','#888'],sport:['#C9A84C','#fff'],luxury:['#c0c0c0','#e0e0e0'],offroad:['#1a1a1a','#555']};var c=cols[t]||cols.default;['rim1','rim2'].forEach(function(id){var el=document.getElementById(id);if(el)el.setAttribute('fill',c[0]);});}
-function setCfgTint(v,btn){document.querySelectorAll('[onclick^="setCfgTint"]').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');var el=document.getElementById('tintEl');if(el)el.setAttribute('fill','rgba(0,0,0,'+v+')');}
-function setCfgChrome(c,btn){document.querySelectorAll('[onclick^="setCfgChrome"]').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');var el=document.getElementById('chromeEl');if(el)el.setAttribute('stroke',c);}
-function setCfgSpoiler(t,btn){document.querySelectorAll('[onclick^="setCfgSpoiler"]').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');var el=document.getElementById('spoilerEl');if(!el)return;if(t==='transparent'){el.setAttribute('fill','transparent');}else if(t==='sport'){el.setAttribute('fill','#C9A84C');el.setAttribute('height','6');}else if(t==='gt'){el.setAttribute('fill','#C9A84C');el.setAttribute('height','14');el.setAttribute('y','82');}}
-function setCfgLights(c,btn){document.querySelectorAll('[onclick^="setCfgLights"]').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');['hl1','hl2'].forEach(function(id){var el=document.getElementById(id);if(el)el.setAttribute('fill',c);});}
-function saveConfig(){localStorage.setItem('iqCfg',JSON.stringify({color:document.getElementById('carBody')?.getAttribute('fill')}));showToast('<span class="ico ico-check"></span> تم حفظ التصميم!');}
-function shareConfig(){try{navigator.clipboard.writeText(window.location.href).then(function(){showToast('<span class="ico ico-link"></span> تم نسخ الرابط!');});}catch(e){showToast('<span class="ico ico-link"></span> الرابط: '+window.location.href);}}
 
 // MARKET
 function loadMarketIndex(){
