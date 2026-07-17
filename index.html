@@ -105,7 +105,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 /* COMPANY ADS BANNER */
 .mega-ad-banner{position:relative;width:100%;height:300px;border-radius:16px;overflow:hidden;background:var(--dark3);border:1px solid var(--border);}
 .mega-slide-inner{position:absolute;inset:0;display:block;text-decoration:none;color:#fff;}
-.mega-slide-inner img,.mega-slide-inner video{width:100%;height:100%;object-fit:cover;display:block;}
+.mega-slide-inner img,.mega-slide-inner video{width:100%;height:100%;object-fit:cover;background:var(--dark3);display:block;}
 .mega-overlay{position:absolute;bottom:0;right:0;left:0;background:linear-gradient(transparent,rgba(0,0,0,.78));padding:36px 20px 16px;}
 .mega-tag{font-size:10px;color:var(--gold);letter-spacing:2px;display:block;margin-bottom:4px;}
 .mega-name{font-size:18px;font-weight:700;color:#fff;display:block;}
@@ -1469,6 +1469,27 @@ function renderMegaSlide(i){
   wrap.innerHTML='<a class="mega-slide-inner"'+(s.link?' href="'+s.link+'" target="_blank" rel="noopener"':' href="javascript:void(0)"')+'>'+mediaHtml+
     '<div class="mega-overlay"><span class="mega-tag">إعلان</span><span class="mega-name">'+(s.name||'')+'</span></div></a>'+
     (megaSlides.length>1?'<div class="mega-dots">'+megaSlides.map(function(_,j){return '<button class="mega-dot'+(j===i?' on':'')+'" onclick="event.stopPropagation();event.preventDefault();goMegaSlide('+j+')"></button>';}).join('')+'</div>':'');
+  fitMegaBanner(wrap);
+}
+function fitMegaBanner(wrap){
+  var media=wrap.querySelector('img,video');
+  if(!media)return;
+  var isMobile=window.innerWidth<=768;
+  var minH=isMobile?140:220, maxH=isMobile?280:460;
+  function applyRatio(nw,nh){
+    if(!nw||!nh)return;
+    var w=wrap.offsetWidth||wrap.parentElement.offsetWidth;
+    var h=Math.round(w*(nh/nw));
+    h=Math.max(minH,Math.min(maxH,h));
+    wrap.style.height=h+'px';
+  }
+  if(media.tagName==='IMG'){
+    if(media.complete&&media.naturalWidth)applyRatio(media.naturalWidth,media.naturalHeight);
+    else media.onload=function(){applyRatio(media.naturalWidth,media.naturalHeight);};
+  } else {
+    if(media.readyState>=1&&media.videoWidth)applyRatio(media.videoWidth,media.videoHeight);
+    else media.onloadedmetadata=function(){applyRatio(media.videoWidth,media.videoHeight);};
+  }
 }
 function goMegaSlide(i){megaIdx=i;renderMegaSlide(megaIdx);startMegaTimer();}
 function megaNext(){megaIdx=(megaIdx+1)%megaSlides.length;renderMegaSlide(megaIdx);}
