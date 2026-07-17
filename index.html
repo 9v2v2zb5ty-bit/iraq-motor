@@ -739,6 +739,36 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 </div>
 
 <!-- GARAGE ADD OVERLAY -->
+<!-- CUSTOM CONFIRM -->
+<div class="overlay" id="confirmOverlay">
+  <div class="modal" style="text-align:center;max-width:340px;">
+    <div class="modal-title" style="margin-bottom:8px;"><span class="ico ico-warning"></span> تأكيد</div>
+    <div class="modal-sub" id="confirmMsg" style="margin-bottom:20px;"></div>
+    <div style="display:flex;gap:10px;">
+      <button id="confirmYesBtn" onclick="runConfirmCb()" style="flex:1;background:var(--red);color:#fff;border:none;padding:11px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:13px;font-weight:700;cursor:pointer;">تأكيد</button>
+      <button onclick="closeConfirmModal()" style="flex:1;background:transparent;border:1px solid var(--border);color:var(--text);padding:11px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:13px;cursor:pointer;">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- REPORT AD -->
+<div class="overlay" id="reportOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeReportModal()"><span class="ico ico-cross"></span></button>
+    <div class="modal-title"><span class="ico ico-warning"></span> الإبلاغ عن إعلان</div>
+    <div class="modal-sub" id="reportCarName"></div>
+    <div style="display:flex;flex-direction:column;gap:9px;margin:16px 0;">
+      <label class="part-check" style="justify-content:flex-start;width:100%;"><input type="radio" name="reportReason" value="إعلان وهمي" onclick="toggleReportOther()"><span>إعلان وهمي</span></label>
+      <label class="part-check" style="justify-content:flex-start;width:100%;"><input type="radio" name="reportReason" value="سعر مضلل" onclick="toggleReportOther()"><span>سعر مضلل</span></label>
+      <label class="part-check" style="justify-content:flex-start;width:100%;"><input type="radio" name="reportReason" value="معلومات خاطئة" onclick="toggleReportOther()"><span>معلومات خاطئة</span></label>
+      <label class="part-check" style="justify-content:flex-start;width:100%;"><input type="radio" name="reportReason" value="other" onclick="toggleReportOther()"><span>سبب آخر</span></label>
+    </div>
+    <input type="text" class="inp" id="reportOtherInp" placeholder="اذكر السبب..." style="display:none;">
+    <button class="btn-sub" onclick="submitReport()">إرسال البلاغ</button>
+    <div class="msg" id="reportMsg"></div>
+  </div>
+</div>
+
 <div class="overlay" id="garageOverlay">
   <div class="modal">
     <button class="modal-close" onclick="document.getElementById('garageOverlay').classList.remove('open')"><span class="ico ico-cross"></span></button>
@@ -1188,11 +1218,15 @@ function galSlide(d){var m=document.getElementById('galMain');if(!m)return;var i
 function galGo(idx){var m=document.getElementById('galMain');if(!m)return;var imgs=m.querySelectorAll('img'),th=document.querySelectorAll('.gallery-thumb');var i=window['galIdx']||0;imgs[i].classList.remove('on');if(th[i])th[i].classList.remove('on');imgs[idx].classList.add('on');if(th[idx])th[idx].classList.add('on');window['galIdx']=idx;}
 
 async function toggleSold(id,cur){try{await db.collection('cars').doc(id).update({sold:!cur});var c=allCars.find(function(x){return x.id===id;});if(c)c.sold=!cur;openCarDetail(id);}catch(e){alert('خطأ: '+e.message);}}
-async function deleteAd(id){if(!confirm('هل تريد حذف هذا الإعلان؟'))return;try{await db.collection('cars').doc(id).delete();allCars=allCars.filter(function(c){return c.id!==id;});goPage('cars');}catch(e){alert('خطأ: '+e.message);}}
-async function reportAd(carId,carName){
-  var reason=prompt('سبب البلاغ:\n1. إعلان وهمي\n2. سعر مضلل\n3. معلومات خاطئة\n4. سبب آخر');
-  if(!reason)return;var user=auth.currentUser;
-  try{await db.collection('reports').add({carId,carName,reason,reporterId:user?user.uid:'anon',reporterName:user?user.displayName:'مجهول',createdAt:firebase.firestore.FieldValue.serverTimestamp()});alert('تم إرسال البلاغ.');}catch(e){alert('خطأ: '+e.message);}
+function deleteAd(id){customConfirm('هل تريد حذف هذا الإعلان؟',async function(){try{await db.collection('cars').doc(id).delete();allCars=allCars.filter(function(c){return c.id!==id;});goPage('cars');}catch(e){alert('خطأ: '+e.message);}});}
+function reportAd(carId,carName){
+  _reportCarId=carId;_reportCarName=carName;
+  document.getElementById('reportCarName').textContent=carName||'';
+  document.querySelectorAll('input[name="reportReason"]').forEach(function(r){r.checked=false;});
+  document.getElementById('reportOtherInp').style.display='none';
+  document.getElementById('reportOtherInp').value='';
+  document.getElementById('reportMsg').style.display='none';
+  document.getElementById('reportOverlay').classList.add('open');
 }
 function contactSeller(phone){
   if(!auth.currentUser){openLogin();return;}
@@ -1326,12 +1360,37 @@ function doDealerRegister(){
     setTimeout(function(){closeDealerReg();document.getElementById('drMsg').style.display='none';},2200);
   }).catch(function(er){showMsg2('drMsg','<span class="ico ico-cross"></span> '+er.message,'#e74c3c');});
 }
-['loginOverlay','regOverlay','dealerRegOverlay','garageOverlay'].forEach(function(id){
+['loginOverlay','regOverlay','dealerRegOverlay','garageOverlay','confirmOverlay','reportOverlay'].forEach(function(id){
   var el=document.getElementById(id);
   if(el)el.addEventListener('click',function(e){if(e.target===e.currentTarget)e.currentTarget.classList.remove('open');});
 });
 
 function showMsg2(id,text,color){var el=document.getElementById(id);if(!el)return;el.innerHTML=text;el.style.color=color;el.style.background=color+'22';el.style.display='block';}
+var _confirmCb=null;
+function customConfirm(msg,cb){
+  document.getElementById('confirmMsg').textContent=msg;
+  _confirmCb=cb;
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+function closeConfirmModal(){document.getElementById('confirmOverlay').classList.remove('open');_confirmCb=null;}
+function runConfirmCb(){var cb=_confirmCb;closeConfirmModal();if(cb)cb();}
+var _reportCarId=null,_reportCarName=null;
+function closeReportModal(){document.getElementById('reportOverlay').classList.remove('open');}
+function toggleReportOther(){
+  var other=document.querySelector('input[name="reportReason"][value="other"]');
+  document.getElementById('reportOtherInp').style.display=(other&&other.checked)?'block':'none';
+}
+async function submitReport(){
+  var sel=document.querySelector('input[name="reportReason"]:checked');
+  if(!sel){showMsg2('reportMsg','الرجاء اختيار سبب البلاغ','#e74c3c');return;}
+  var reason=sel.value==='other'?(document.getElementById('reportOtherInp').value.trim()||'سبب آخر'):sel.value;
+  var user=auth.currentUser;
+  try{
+    await db.collection('reports').add({carId:_reportCarId,carName:_reportCarName,reason,reporterId:user?user.uid:'anon',reporterName:user?user.displayName:'مجهول',createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+    closeReportModal();
+    showToast('<span class="ico ico-check"></span> تم إرسال البلاغ');
+  }catch(e){showMsg2('reportMsg','خطأ: '+e.message,'#e74c3c');}
+}
 function showToast(msg){var el=document.createElement('div');el.innerHTML=msg;el.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--gold);color:#000;padding:9px 22px;border-radius:9px;font-family:Tajawal,sans-serif;font-weight:700;z-index:9999;';document.body.appendChild(el);setTimeout(function(){el.remove();},3000);}
 // ADMIN
 async function loadAdminPage(){
@@ -1469,8 +1528,8 @@ async function approveDealer(id){
     showToast('<span class="ico ico-check"></span> تم قبول طلب المعرض');
   }catch(e){alert('خطأ: '+e.message);}
 }
-async function rejectDealer(id){
-  if(!confirm('هل تريد رفض طلب هذا المعرض؟'))return;
+function rejectDealer(id){
+  customConfirm('هل تريد رفض طلب هذا المعرض؟',async function(){
   try{
     await db.collection('dealerRequests').doc(id).update({status:'rejected'});
     var d=(window._ad.dealerRequests||[]).find(function(x){return x.id===id;});
@@ -1480,6 +1539,7 @@ async function rejectDealer(id){
     switchAdminTab('dealers',Array.from(document.querySelectorAll('#adminTabs .admin-tab')).find(function(b){return b.textContent.indexOf('المعارض')>-1;}));
     showToast('<span class="ico ico-cross"></span> تم رفض الطلب');
   }catch(e){alert('خطأ: '+e.message);}
+  });
 }
 function toggleCaType(){
   var v=document.querySelector('input[name="caType"]:checked').value;
@@ -1533,14 +1593,15 @@ async function addCompanyAd(){
     loadAdminPage();
   }catch(e){showMsg2('caMsg','<span class="ico ico-cross"></span> خطأ: '+e.message,'#e74c3c');}
 }
-async function deleteCompanyAd(id){
-  if(!confirm('حذف إعلان الشركة هذا؟'))return;
+function deleteCompanyAd(id){
+  customConfirm('حذف إعلان الشركة هذا؟',async function(){
   try{
     await db.collection('companyAds').doc(id).delete();
     window._ad.companyAds=window._ad.companyAds.filter(function(c){return c.id!==id;});
     switchAdminTab('companyAds',Array.from(document.querySelectorAll('#adminTabs .admin-tab')).find(function(b){return b.textContent.indexOf('الشركات')>-1;}));
     showToast('<span class="ico ico-trash"></span> تم الحذف');
   }catch(e){alert('خطأ: '+e.message);}
+  });
 }
 // PUBLIC MEGA AD BANNER (full-width, image or video, managed by admin only)
 var megaSlides=[],megaIdx=0,megaTimer=null;
@@ -1611,9 +1672,10 @@ function startMegaTimer(){
 async function approveAd(id){
   try{await db.collection('cars').doc(id).update({approved:true});var car=window._ad.allAds.find(function(c){return c.id===id;});if(car){car.approved=true;window._ad.pending=window._ad.pending.filter(function(c){return c.id!==id;});window._ad.approved.push(car);}document.getElementById('statPending').textContent=window._ad.pending.length;document.getElementById('statApproved').textContent=window._ad.approved.length;switchAdminTab('pending',document.querySelector('#adminTabs .admin-tab'));showToast('<span class="ico ico-check"></span> تم الموافقة');}catch(e){alert('خطأ: '+e.message);}
 }
-async function rejectAd(id){
-  if(!confirm('هل تريد حذف هذا الإعلان؟'))return;
+function rejectAd(id){
+  customConfirm('هل تريد حذف هذا الإعلان؟',async function(){
   try{await db.collection('cars').doc(id).delete();window._ad.allAds=window._ad.allAds.filter(function(c){return c.id!==id;});window._ad.pending=window._ad.pending.filter(function(c){return c.id!==id;});window._ad.approved=window._ad.approved.filter(function(c){return c.id!==id;});loadAdminPage();showToast('<span class="ico ico-trash"></span> تم الحذف');}catch(e){alert('خطأ: '+e.message);}
+  });
 }
 async function dismissReport(id){
   try{await db.collection('reports').doc(id).delete();window._ad.reports=window._ad.reports.filter(function(r){return r.id!==id;});document.getElementById('statReports').textContent=window._ad.reports.length;showToast('<span class="ico ico-check"></span> تم تجاهل البلاغ');}catch(e){alert('خطأ: '+e.message);}
@@ -1807,7 +1869,7 @@ async function loadGarage(){
     }).join('');
   }catch(e){grid.innerHTML='<div class="empty"><div class="empty-ico"><span class="ico ico-lg ico-warning"></span></div><div class="empty-tit">خطأ في التحميل</div></div>';}
 }
-async function deleteGarageCar(id){if(!confirm('حذف هذه السيارة من الكراج؟'))return;try{await db.collection('garage').doc(id).delete();loadGarage();}catch(e){alert('خطأ: '+e.message);}}
+function deleteGarageCar(id){customConfirm('حذف هذه السيارة من الكراج؟',async function(){try{await db.collection('garage').doc(id).delete();loadGarage();}catch(e){alert('خطأ: '+e.message);}});}
 
 // MARKET
 function loadMarketIndex(){
