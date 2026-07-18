@@ -128,6 +128,37 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 .mega-dot.on{background:var(--gold);width:22px;border-radius:5px;}
 /* CARS GRID */
 .cars-toolbar{display:flex;gap:10px;align-items:center;padding:16px 32px;flex-wrap:wrap;}
+.filter-open-btn{position:relative;display:flex;align-items:center;background:var(--dark3);border:1px solid var(--border);color:var(--text);padding:11px 18px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .2s;}
+.filter-open-btn:hover{border-color:var(--gold);color:var(--gold);}
+.filter-count-dot{position:absolute;top:-4px;left:-4px;width:9px;height:9px;border-radius:50%;background:var(--gold);}
+.filter-panel{width:100%;max-width:520px;height:92vh;background:var(--dark2);border-radius:16px;display:flex;flex-direction:column;box-shadow:0 10px 50px rgba(0,0,0,.6);overflow:hidden;}
+#filterOverlay{align-items:center;justify-content:center;}
+.filter-panel-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--border);font-weight:800;font-size:16px;flex-shrink:0;}
+.filter-panel-head button{background:none;border:none;color:var(--dim);cursor:pointer;font-size:18px;}
+.filter-panel-body{flex:1;overflow-y:auto;padding:16px 20px;}
+.filter-panel-footer{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-top:1px solid var(--border);flex-shrink:0;gap:14px;}
+.filter-panel-footer a{color:var(--dim);font-size:13px;cursor:pointer;white-space:nowrap;}
+.filter-panel-footer .btn-sub{margin:0;}
+.filter-section-title{font-size:12px;font-weight:700;color:var(--gold);margin:18px 0 9px;}
+.filter-section-title:first-child{margin-top:0;}
+.brand-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;}
+.brand-grid-item{background:#fff;border:2px solid var(--border);border-radius:10px;height:60px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:8px;transition:all .15s;}
+.brand-grid-item.active{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold);}
+.brand-grid-item img{max-width:100%;max-height:100%;object-fit:contain;}
+.brand-grid-item .brand-badge{width:26px;height:26px;font-size:11px;}
+.filter-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.filter-row label{font-size:11px;color:var(--dim);display:block;margin-bottom:4px;}
+.toggle-group{display:flex;gap:8px;flex-wrap:wrap;}
+.toggle-btn{background:var(--dark3);border:1px solid var(--border);color:var(--dim);padding:9px 16px;border-radius:8px;font-family:Tajawal,sans-serif;font-size:12px;cursor:pointer;transition:all .15s;}
+.toggle-btn.active{background:var(--gold);color:#000;border-color:var(--gold);font-weight:700;}
+.swatch-row{display:flex;gap:10px;flex-wrap:wrap;}
+.color-swatch{width:34px;height:34px;border-radius:50%;border:2px solid var(--border);cursor:pointer;transition:all .15s;}
+.color-swatch.active{border-color:var(--gold);transform:scale(1.15);}
+.icon-btn-row{display:flex;gap:8px;flex-wrap:wrap;}
+.icon-btn{display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--dark3);border:1px solid var(--border);color:var(--dim);padding:10px 14px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:11px;cursor:pointer;transition:all .15s;}
+.icon-btn .ico{margin:0;width:18px;height:18px;background-color:var(--dim);}
+.icon-btn.active{background:var(--gold);color:#000;border-color:var(--gold);font-weight:700;}
+.icon-btn.active .ico{background-color:#000;}
 .search-input{flex:1;min-width:160px;background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--text);font-family:'Tajawal',sans-serif;font-size:14px;outline:none;}
 .search-input:focus{border-color:var(--gold);}
 select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:9px 10px;color:var(--text);font-family:'Tajawal',sans-serif;font-size:13px;outline:none;cursor:pointer;}
@@ -437,15 +468,16 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 
   <div class="cars-toolbar">
     <input class="search-input" placeholder="ابحث..." oninput="filterCars()" id="searchInput">
-    <select class="filter-sel" onchange="onFilterMakeChange()" id="filterMake"><option value="">كل الشركات</option></select>
-    <select class="filter-sel" onchange="filterCars()" id="filterModel"><option value="">كل الموديلات</option></select>
-    <select class="filter-sel" onchange="filterCars()" id="filterEngine"><option value="">كل المحركات</option></select>
-    <select class="filter-sel" onchange="filterCars()" id="filterCity">
-      <option value="">كل المدن</option>
-      <option>بغداد</option><option>البصرة</option><option>أربيل</option><option>الموصل</option>
-      <option>النجف</option><option>كربلاء</option><option>السليمانية</option><option>دهوك</option><option>كركوك</option>
-    </select>
+    <button class="filter-open-btn" onclick="openFilterPanel()"><span class="ico ico-sliders"></span> الفلتر<span class="filter-count-dot" id="filterCountDot" style="display:none;"></span></button>
   </div>
+  <select class="filter-sel" onchange="onFilterMakeChange()" id="filterMake" style="display:none;"><option value="">كل الشركات</option></select>
+  <select class="filter-sel" onchange="filterCars()" id="filterModel" style="display:none;"><option value="">كل الموديلات</option></select>
+  <select class="filter-sel" onchange="filterCars()" id="filterEngine" style="display:none;"><option value="">كل المحركات</option></select>
+  <select class="filter-sel" onchange="filterCars()" id="filterCity" style="display:none;">
+    <option value="">كل المدن</option>
+    <option>بغداد</option><option>البصرة</option><option>أربيل</option><option>الموصل</option>
+    <option>النجف</option><option>كربلاء</option><option>السليمانية</option><option>دهوك</option><option>كركوك</option>
+  </select>
   <div class="post-banner">
     <div><h3><span class="ico ico-car"></span> عندك سيارة تبيعها؟</h3><p>انشر إعلانك مجاناً مع حتى 15 صورة</p></div>
     <button class="btn-post-banner" onclick="goPage('post')">نشر إعلان الآن</button>
@@ -474,6 +506,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
         <div class="form-group"><label class="form-label">ناقل الحركة</label><select class="form-input" id="adGear"><option value="">اختر</option><option>أوتوماتيك</option><option>مانيوال</option></select></div>
         <div class="form-group"><label class="form-label">الكيلومترات</label><div class="price-wrap"><input type="number" class="form-input" id="adKm" placeholder="50000"><select class="form-input" id="adKmUnit" style="width:90px"><option>كم</option><option>ميل</option></select></div></div>
         <div class="form-group"><label class="form-label">اللون</label><input type="text" class="form-input" id="adColor" placeholder="أبيض"></div>
+        <div class="form-group"><label class="form-label">الحالة</label><select class="form-input" id="adCondition"><option value="مستخدم">مستخدم</option><option value="جديد">جديد</option></select></div>
       </div>
     </div>
     <div class="post-section">
@@ -755,6 +788,88 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 </div>
 
 <!-- GARAGE ADD OVERLAY -->
+<!-- FILTER PANEL -->
+<div class="overlay" id="filterOverlay">
+  <div class="filter-panel">
+    <div class="filter-panel-head">
+      <span><span class="ico ico-sliders"></span> الفلتر</span>
+      <button onclick="closeFilterPanel()"><span class="ico ico-cross"></span></button>
+    </div>
+    <div class="filter-panel-body">
+      <div class="filter-section-title">العلامات التجارية</div>
+      <div class="brand-grid" id="fBrandGrid"></div>
+
+      <div class="filter-section-title">الموديل</div>
+      <select class="inp" id="fModel"><option value="">الكل</option></select>
+
+      <div class="filter-section-title">المدينة</div>
+      <select class="inp" id="fCity">
+        <option value="">الكل</option>
+        <option>بغداد</option><option>البصرة</option><option>أربيل</option><option>الموصل</option>
+        <option>النجف</option><option>كربلاء</option><option>السليمانية</option><option>دهوك</option><option>كركوك</option>
+      </select>
+
+      <div class="filter-section-title">السنة</div>
+      <div class="filter-row">
+        <div><label>من</label><select class="inp" id="fYearFrom"><option value="">الكل</option></select></div>
+        <div><label>الى</label><select class="inp" id="fYearTo"><option value="">الكل</option></select></div>
+      </div>
+
+      <div class="filter-section-title">السعر ($)</div>
+      <div class="filter-row">
+        <div><label>اقل سعر</label><select class="inp" id="fPriceFrom"><option value="">الكل</option></select></div>
+        <div><label>اعلى سعر</label><select class="inp" id="fPriceTo"><option value="">الكل</option></select></div>
+      </div>
+
+      <div class="filter-section-title">عداد المسافة (كم)</div>
+      <div class="filter-row">
+        <div><label>اقل عداد</label><select class="inp" id="fKmFrom"><option value="">الكل</option></select></div>
+        <div><label>اقصى عداد</label><select class="inp" id="fKmTo"><option value="">الكل</option></select></div>
+      </div>
+
+      <div class="filter-section-title">الحالة</div>
+      <div class="toggle-group" id="fCondition">
+        <button class="toggle-btn active" data-val="" onclick="selectToggle('fCondition',this)">الكل</button>
+        <button class="toggle-btn" data-val="مستخدم" onclick="selectToggle('fCondition',this)">مستخدم</button>
+        <button class="toggle-btn" data-val="جديد" onclick="selectToggle('fCondition',this)">الجديد</button>
+      </div>
+
+      <div class="filter-section-title">اللون</div>
+      <div class="swatch-row" id="fColor">
+        <button class="color-swatch active" data-val="" onclick="selectToggle('fColor',this)" style="background:repeating-linear-gradient(45deg,#333,#333 4px,#222 4px,#222 8px);"></button>
+        <button class="color-swatch" data-val="أبيض" onclick="selectToggle('fColor',this)" style="background:#fff;"></button>
+        <button class="color-swatch" data-val="أسود" onclick="selectToggle('fColor',this)" style="background:#111;"></button>
+        <button class="color-swatch" data-val="فضي" onclick="selectToggle('fColor',this)" style="background:#c0c0c0;"></button>
+        <button class="color-swatch" data-val="رمادي" onclick="selectToggle('fColor',this)" style="background:#777;"></button>
+        <button class="color-swatch" data-val="أحمر" onclick="selectToggle('fColor',this)" style="background:#e02020;"></button>
+        <button class="color-swatch" data-val="أزرق" onclick="selectToggle('fColor',this)" style="background:#2050d0;"></button>
+        <button class="color-swatch" data-val="بني" onclick="selectToggle('fColor',this)" style="background:#6b4326;"></button>
+        <button class="color-swatch" data-val="أخضر" onclick="selectToggle('fColor',this)" style="background:#1f7a3f;"></button>
+      </div>
+
+      <div class="filter-section-title">الوقود</div>
+      <div class="icon-btn-row" id="fFuel">
+        <button class="icon-btn active" data-val="" onclick="selectToggle('fFuel',this)">الكل</button>
+        <button class="icon-btn" data-val="كهربائي" onclick="selectToggle('fFuel',this)"><span class="ico ico-bolt"></span>كهربائي</button>
+        <button class="icon-btn" data-val="هايبرد" onclick="selectToggle('fFuel',this)"><span class="ico ico-refresh"></span>هايبرد</button>
+        <button class="icon-btn" data-val="بنزين" onclick="selectToggle('fFuel',this)"><span class="ico ico-fuel"></span>بنزين</button>
+        <button class="icon-btn" data-val="ديزل" onclick="selectToggle('fFuel',this)"><span class="ico ico-fuel"></span>ديزل</button>
+      </div>
+
+      <div class="filter-section-title">ناقل الحركة</div>
+      <div class="toggle-group" id="fGear">
+        <button class="toggle-btn active" data-val="" onclick="selectToggle('fGear',this)">الكل</button>
+        <button class="toggle-btn" data-val="أوتوماتيك" onclick="selectToggle('fGear',this)">أوتوماتيك</button>
+        <button class="toggle-btn" data-val="مانيوال" onclick="selectToggle('fGear',this)">يدوي</button>
+      </div>
+    </div>
+    <div class="filter-panel-footer">
+      <a onclick="clearFilterPanel()">مسح</a>
+      <button class="btn-sub" id="filterApplyBtn" onclick="applyFilterPanel()">اظهار السيارات</button>
+    </div>
+  </div>
+</div>
+
 <!-- CUSTOM CONFIRM -->
 <div class="overlay" id="confirmOverlay">
   <div class="modal" style="text-align:center;max-width:340px;">
@@ -1107,6 +1222,7 @@ async function submitAd(){
       vin:document.getElementById('adVin').value.trim(),
       gear:document.getElementById('adGear').value,
       color:document.getElementById('adColor').value,
+      condition:document.getElementById('adCondition').value,
       desc:document.getElementById('adDesc').value,
       accident:document.getElementById('adAccident').value==='yes',
       damagedParts:Array.from(document.querySelectorAll('#accPartsGrid input:checked')).map(function(c){return c.value;}),
@@ -1207,14 +1323,132 @@ function startSlTimer(id){
 function slNext(id){var s=document.getElementById('cs-'+id);if(!s)return;var imgs=s.querySelectorAll('img');var i=window['si_'+id]||0;imgs[i].classList.remove('on');i=(i+1)%imgs.length;imgs[i].classList.add('on');window['si_'+id]=i;}
 function slPrev(id){var s=document.getElementById('cs-'+id);if(!s)return;var imgs=s.querySelectorAll('img');var i=window['si_'+id]||0;imgs[i].classList.remove('on');i=(i-1+imgs.length)%imgs.length;imgs[i].classList.add('on');window['si_'+id]=i;}
 
+var filterState={brand:'',model:'',city:'',yearFrom:'',yearTo:'',priceFrom:'',priceTo:'',kmFrom:'',kmTo:'',condition:'',color:'',fuel:'',gear:''};
+
 function filterCars(){
   var q=document.getElementById('searchInput').value.toLowerCase();
   var make=document.getElementById('filterMake').value,model=document.getElementById('filterModel').value;
   var engine=document.getElementById('filterEngine').value,city=document.getElementById('filterCity').value;
+  var fs=filterState;
   renderCars(allCars.filter(function(c){
     return(!q||(c.model||'').toLowerCase().includes(q)||(c.make||'').toLowerCase().includes(q))&&
-      (!make||c.make===make)&&(!model||c.model===model)&&(!engine||c.engine===engine)&&(!city||c.city===city);
+      (!make||c.make===make)&&(!model||c.model===model)&&(!engine||c.engine===engine)&&(!city||c.city===city)&&
+      (!fs.yearFrom||(c.year||0)>=Number(fs.yearFrom))&&(!fs.yearTo||(c.year||0)<=Number(fs.yearTo))&&
+      (!fs.priceFrom||(c.price||0)>=Number(fs.priceFrom))&&(!fs.priceTo||(c.price||0)<=Number(fs.priceTo))&&
+      (!fs.kmFrom||(c.km||0)>=Number(fs.kmFrom))&&(!fs.kmTo||(c.km||0)<=Number(fs.kmTo))&&
+      (!fs.condition||(c.condition||'مستخدم')===fs.condition)&&
+      (!fs.color||(c.color||'').includes(fs.color))&&
+      (!fs.fuel||c.fuel===fs.fuel)&&
+      (!fs.gear||c.gear===fs.gear);
   }));
+}
+
+function countMatchingCars(){
+  var q=document.getElementById('searchInput').value.toLowerCase();
+  var fs=filterState;
+  return allCars.filter(function(c){
+    return(!q||(c.model||'').toLowerCase().includes(q)||(c.make||'').toLowerCase().includes(q))&&
+      (!fs.brand||c.make===fs.brand)&&(!fs.model||c.model===fs.model)&&(!fs.city||c.city===fs.city)&&
+      (!fs.yearFrom||(c.year||0)>=Number(fs.yearFrom))&&(!fs.yearTo||(c.year||0)<=Number(fs.yearTo))&&
+      (!fs.priceFrom||(c.price||0)>=Number(fs.priceFrom))&&(!fs.priceTo||(c.price||0)<=Number(fs.priceTo))&&
+      (!fs.kmFrom||(c.km||0)>=Number(fs.kmFrom))&&(!fs.kmTo||(c.km||0)<=Number(fs.kmTo))&&
+      (!fs.condition||(c.condition||'مستخدم')===fs.condition)&&
+      (!fs.color||(c.color||'').includes(fs.color))&&
+      (!fs.fuel||c.fuel===fs.fuel)&&
+      (!fs.gear||c.gear===fs.gear);
+  }).length;
+}
+function updateFilterLiveCount(){
+  var btn=document.getElementById('filterApplyBtn');
+  if(btn)btn.textContent='اظهار '+countMatchingCars().toLocaleString()+' سيارة';
+}
+function openFilterPanel(){
+  initFilterPanelOptions();
+  document.getElementById('filterOverlay').classList.add('open');
+  updateFilterLiveCount();
+}
+function closeFilterPanel(){document.getElementById('filterOverlay').classList.remove('open');}
+function initFilterPanelOptions(){
+  var grid=document.getElementById('fBrandGrid');
+  if(!grid.dataset.filled){
+    grid.innerHTML=Object.keys(CAR_DATA).map(function(make){
+      return '<div class="brand-grid-item" data-val="'+make+'" onclick="selectBrand(\''+make+'\',this)">'+brandBadge(make)+'</div>';
+    }).join('');
+    grid.dataset.filled='1';
+  }
+  var yf=document.getElementById('fYearFrom'),yt=document.getElementById('fYearTo');
+  if(!yf.dataset.filled){
+    var curYear=new Date().getFullYear()+1;
+    for(var y=curYear;y>=1990;y--){yf.innerHTML+='<option value="'+y+'">'+y+'</option>';yt.innerHTML+='<option value="'+y+'">'+y+'</option>';}
+    yf.dataset.filled='1';
+  }
+  var pf=document.getElementById('fPriceFrom'),pt=document.getElementById('fPriceTo');
+  if(!pf.dataset.filled){
+    [0,1000,2000,3000,5000,7000,10000,15000,20000,30000,50000,75000,100000,150000,200000].forEach(function(v){
+      pf.innerHTML+='<option value="'+v+'">'+v.toLocaleString()+'</option>';
+      pt.innerHTML+='<option value="'+v+'">'+v.toLocaleString()+'</option>';
+    });
+    pf.dataset.filled='1';
+  }
+  var kf=document.getElementById('fKmFrom'),kt=document.getElementById('fKmTo');
+  if(!kf.dataset.filled){
+    [0,5000,10000,20000,30000,50000,75000,100000,150000,200000,300000].forEach(function(v){
+      kf.innerHTML+='<option value="'+v+'">'+v.toLocaleString()+'</option>';
+      kt.innerHTML+='<option value="'+v+'">'+v.toLocaleString()+'</option>';
+    });
+    kf.dataset.filled='1';
+  }
+  ['fModel','fCity','fYearFrom','fYearTo','fPriceFrom','fPriceTo','fKmFrom','fKmTo'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(!el.dataset.bound){el.dataset.bound='1';el.addEventListener('change',onRangeFieldChange);}
+  });
+}
+function onRangeFieldChange(){
+  var map={fModel:'model',fCity:'city',fYearFrom:'yearFrom',fYearTo:'yearTo',fPriceFrom:'priceFrom',fPriceTo:'priceTo',fKmFrom:'kmFrom',fKmTo:'kmTo'};
+  var key=map[this.id];
+  if(key)filterState[key]=this.value;
+  updateFilterLiveCount();
+}
+function selectBrand(make,el){
+  var already=el.classList.contains('active');
+  document.querySelectorAll('#fBrandGrid .brand-grid-item').forEach(function(b){b.classList.remove('active');});
+  filterState.brand=already?'':make;
+  if(!already)el.classList.add('active');
+  var mSel=document.getElementById('fModel');
+  mSel.innerHTML='<option value="">الكل</option>';
+  filterState.model='';
+  if(filterState.brand&&CAR_DATA[filterState.brand]){
+    CAR_DATA[filterState.brand].models.forEach(function(m){mSel.innerHTML+='<option>'+m+'</option>';});
+  }
+  updateFilterLiveCount();
+}
+function selectToggle(groupId,btn){
+  var group=document.getElementById(groupId);
+  group.querySelectorAll('button').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  var map={fCondition:'condition',fColor:'color',fFuel:'fuel',fGear:'gear'};
+  filterState[map[groupId]]=btn.dataset.val;
+  updateFilterLiveCount();
+}
+function clearFilterPanel(){
+  filterState={brand:'',model:'',city:'',yearFrom:'',yearTo:'',priceFrom:'',priceTo:'',kmFrom:'',kmTo:'',condition:'',color:'',fuel:'',gear:''};
+  document.querySelectorAll('#fBrandGrid .brand-grid-item').forEach(function(b){b.classList.remove('active');});
+  ['fModel','fCity','fYearFrom','fYearTo','fPriceFrom','fPriceTo','fKmFrom','fKmTo'].forEach(function(id){document.getElementById(id).value='';});
+  ['fCondition','fColor','fFuel','fGear'].forEach(function(gid){
+    document.querySelectorAll('#'+gid+' button').forEach(function(b,i){b.classList.toggle('active',i===0);});
+  });
+  updateFilterLiveCount();
+}
+function applyFilterPanel(){
+  document.getElementById('filterMake').value=filterState.brand;
+  document.getElementById('filterModel').innerHTML=document.getElementById('fModel').innerHTML;
+  document.getElementById('filterModel').value=filterState.model;
+  document.getElementById('filterCity').value=filterState.city;
+  var dot=document.getElementById('filterCountDot');
+  var activeCount=Object.keys(filterState).filter(function(k){return filterState[k];}).length;
+  if(dot)dot.style.display=activeCount>0?'block':'none';
+  filterCars();
+  closeFilterPanel();
 }
 
 // CAR DETAIL
@@ -1429,7 +1663,7 @@ function doDealerRegister(){
     setTimeout(function(){closeDealerReg();document.getElementById('drMsg').style.display='none';},2200);
   }).catch(function(er){showMsg2('drMsg','<span class="ico ico-cross"></span> '+er.message,'#e74c3c');});
 }
-['loginOverlay','regOverlay','dealerRegOverlay','garageOverlay','confirmOverlay','reportOverlay'].forEach(function(id){
+['loginOverlay','regOverlay','dealerRegOverlay','garageOverlay','confirmOverlay','reportOverlay','filterOverlay'].forEach(function(id){
   var el=document.getElementById(id);
   if(el)el.addEventListener('click',function(e){if(e.target===e.currentTarget)e.currentTarget.classList.remove('open');});
 });
