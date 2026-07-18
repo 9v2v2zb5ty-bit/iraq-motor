@@ -155,7 +155,15 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 /* DETAIL */
 .detail-back{display:flex;align-items:center;gap:8px;color:var(--dim);cursor:pointer;font-size:14px;padding:18px 32px;transition:color .2s;}.detail-back:hover{color:var(--gold);}
 .detail-main{display:grid;grid-template-columns:1fr 360px;gap:28px;padding:0 32px 60px;}
-.gallery-main{width:100%;height:380px;border-radius:14px;overflow:hidden;background:var(--dark3);position:relative;}
+.gallery-main{width:100%;height:380px;border-radius:14px;overflow:hidden;background:var(--dark3);position:relative;cursor:zoom-in;}
+.lightbox-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.94);z-index:9999;align-items:center;justify-content:center;}
+.lightbox-overlay.open{display:flex;}
+.lightbox-overlay img{max-width:92%;max-height:88vh;object-fit:contain;border-radius:8px;}
+.lightbox-close{position:absolute;top:18px;left:18px;background:rgba(255,255,255,0.12);border:none;width:40px;height:40px;border-radius:50%;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.12);border:none;width:46px;height:46px;border-radius:50%;color:#fff;font-size:24px;cursor:pointer;}
+.lightbox-nav.p{right:16px;}.lightbox-nav.n{left:16px;}
+.lightbox-counter{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);color:#fff;font-size:12px;background:rgba(255,255,255,0.12);padding:6px 16px;border-radius:20px;}
+@media(max-width:768px){.lightbox-nav{width:38px;height:38px;font-size:20px;}.lightbox-nav.p{right:8px;}.lightbox-nav.n{left:8px;}}
 .gallery-main img{width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;opacity:0;transition:opacity .3s;}
 .gallery-main img.on{opacity:1;}
 .gal-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.6);color:#fff;border:none;width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:18px;z-index:2;display:flex;align-items:center;justify-content:center;}
@@ -486,6 +494,11 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
       <div class="photos-info" id="photosInfo">0 / 15 صورة</div>
     </div>
     <div class="post-section">
+      <div class="post-section-title"><span class="ico ico-video"></span> فيديو السيارة (اختياري)</div>
+      <div class="photos-upload-area" onclick="document.getElementById('carVideoInp').click()"><div style="font-size:32px;margin-bottom:7px;"><span class="ico ico-video"></span></div><div style="font-size:14px;color:var(--dim);" id="carVideoLabel">اضغط لإضافة فيديو (اختياري)</div></div>
+      <input type="file" id="carVideoInp" accept="video/*" style="display:none" onchange="setCarVideo(this)">
+    </div>
+    <div class="post-section">
       <div class="post-section-title"><span class="ico ico-wrench"></span> معلومات الحوادث (اختياري)</div>
       <select class="form-input" id="adAccident" onchange="toggleAccident()" style="margin-bottom:12px;"><option value="no">لا — سالمة</option><option value="yes">نعم — فيها حادث</option></select>
       <div id="accidentSection" style="display:none;">
@@ -769,6 +782,15 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
   </div>
 </div>
 
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightboxOverlay" onclick="if(event.target===this)closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()"><span class="ico ico-cross"></span></button>
+  <button class="lightbox-nav p" onclick="lightboxSlide(1)">›</button>
+  <button class="lightbox-nav n" onclick="lightboxSlide(-1)">‹</button>
+  <img id="lightboxImg" src="">
+  <div class="lightbox-counter" id="lightboxCounter"></div>
+</div>
+
 <div class="overlay" id="garageOverlay">
   <div class="modal">
     <button class="modal-close" onclick="document.getElementById('garageOverlay').classList.remove('open')"><span class="ico ico-cross"></span></button>
@@ -860,8 +882,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
 <script>
 // CONFIG
-const _k=['sk-ant-','api03-QvbRC','imHuvr2qH0N','fs7fhMQDwj5','fWNkEhKHlNH','hLrN5UQ-ccr','pDt2dH_NkVC','0nwC3E4TAAl','igUTPe7_Xjr','AARg-MtD2-gAA'];
-window.AI_KEY=_k.join('');
+const AI_WORKER_URL='https://iraq-motorsai.iraqmotors.workers.dev';
 const IMGBB='3897918b48e89d2b67351676170056ed';
 const ADMIN_EMAIL='iraq.motors0@gmail.com';
 firebase.initializeApp({apiKey:"AIzaSyAb4MheuHSlF4yOxuDfhnxZtIMyXy7g-l8",authDomain:"iraq-motors-38983.firebaseapp.com",projectId:"iraq-motors-38983",storageBucket:"iraq-motors-38983.firebasestorage.app",messagingSenderId:"80307836321",appId:"1:80307836321:web:d61f734a86f5be5a4c67e0"});
@@ -915,9 +936,14 @@ function brandBadge(make){
 
 const ACC_PARTS=['المقدمة','المؤخرة','الجانب الأيمن','الجانب الأيسر','السقف','الكبوت','باب أمامي أيمن','باب أمامي أيسر','باب خلفي أيمن','باب خلفي أيسر','الزجاج الأمامي','زجاج خلفي','رادياتير','محرك','ناقل حركة'];
 
-let allCars=[],carPhotos=[],accPhotos=[],currency='USD';
+let allCars=[],carPhotos=[],accPhotos=[],carVideoFile=null,currency='USD';
 window._me=null;
 function canPost(){return isAdmin()||(window._me&&window._me.dealerStatus==='approved');}
+function setCarVideo(inp){
+  carVideoFile=inp.files[0]||null;
+  var lbl=document.getElementById('carVideoLabel');
+  if(lbl)lbl.textContent=carVideoFile?('تم اختيار: '+carVideoFile.name):'اضغط لإضافة فيديو (اختياري)';
+}
 
 // AUTH
 auth.onAuthStateChanged(function(user){
@@ -1053,6 +1079,11 @@ async function submitAd(){
       urls.push(await uploadImg(allFiles[i]));
     }
     document.getElementById('progressFill').style.width='95%';
+    var videoUrl='';
+    if(carVideoFile){
+      showMsg2('adMsg','<span class="ico ico-hourglass"></span> جاري رفع الفيديو...','#f39c12');
+      videoUrl=await uploadVideo(carVideoFile);
+    }
     showMsg2('adMsg','<span class="ico ico-hourglass"></span> جاري النشر...','#f39c12');
     await db.collection('cars').add({
       make,model,price:parseInt(price),currency,year:parseInt(year),city,phone,
@@ -1069,6 +1100,7 @@ async function submitAd(){
       imgs:urls.slice(0,carPhotos.length),
       accImgs:urls.slice(carPhotos.length),
       img:urls[0]||'',
+      videoUrl:videoUrl,
       approved:false,
       userId:auth.currentUser.uid,
       userName:auth.currentUser.displayName||'مستخدم',
@@ -1077,7 +1109,8 @@ async function submitAd(){
     });
     document.getElementById('progressFill').style.width='100%';
     showMsg2('adMsg','<span class="ico ico-check"></span> تم إرسال إعلانك! سيظهر بعد المراجعة 🕐','#2ecc71');
-    carPhotos=[];accPhotos=[];
+    carPhotos=[];accPhotos=[];carVideoFile=null;
+    var vlbl=document.getElementById('carVideoLabel');if(vlbl)vlbl.textContent='اضغط لإضافة فيديو (اختياري)';
     setTimeout(function(){goPage('cars');},3000);
   }catch(e){showMsg2('adMsg','<span class="ico ico-cross"></span> خطأ: '+e.message,'#e74c3c');}
 }
@@ -1107,8 +1140,9 @@ function getPriceBadge(car){
   return '<span class="price-badge price-fair"><span class="ico ico-check"></span> عادل</span>';
 }
 
-function renderCars(cars){
-  var grid=document.getElementById('carsGrid');
+function renderCars(cars,gridId){
+  var grid=document.getElementById(gridId||'carsGrid');
+  if(!grid)return;
   clearSlTimers();
   if(!cars.length){grid.innerHTML='<div class="empty"><div class="empty-ico"><span class="ico ico-lg ico-car"></span></div><div class="empty-tit">قريباً سوف تتوفر</div><div class="empty-sub">نعمل على إضافة أفضل السيارات</div></div>';return;}
   grid.innerHTML=cars.map(function(car){
@@ -1176,17 +1210,18 @@ function openCarDetail(id){
   var imgs=car.imgs&&car.imgs.length?car.imgs:(car.img?[car.img]:[]);
   var ps=priceStr(car),isOwner=auth.currentUser&&auth.currentUser.uid===car.userId;
   var galHtml=imgs.length?
-    '<div class="gallery-main" id="galMain">'+imgs.map(function(img,i){return '<img src="'+img+'" class="'+(i===0?'on':'')+'" loading="lazy">';}).join('')+
-    (imgs.length>1?'<button class="gal-btn p" onclick="galSlide(1)">›</button><button class="gal-btn n" onclick="galSlide(-1)">‹</button>':'')+
+    '<div class="gallery-main" id="galMain" onclick="openLightbox()">'+imgs.map(function(img,i){return '<img src="'+img+'" class="'+(i===0?'on':'')+'" loading="lazy">';}).join('')+
+    (imgs.length>1?'<button class="gal-btn p" onclick="event.stopPropagation();galSlide(1)">›</button><button class="gal-btn n" onclick="event.stopPropagation();galSlide(-1)">‹</button>':'')+
     '</div><div class="gallery-thumbs">'+imgs.map(function(img,i){return '<div class="gallery-thumb '+(i===0?'on':'')+'" onclick="galGo('+i+')"><img src="'+img+'" loading="lazy"></div>';}).join('')+'</div>':
     '<div class="card-no-img" style="border-radius:13px;height:280px;"><span class="ico ico-lg ico-car"></span></div>';
+  var videoSection=car.videoUrl?'<div class="post-section" style="margin-top:14px;"><div class="post-section-title"><span class="ico ico-video"></span> فيديو السيارة</div><video src="'+car.videoUrl+'" controls playsinline style="width:100%;border-radius:11px;background:#000;display:block;"></video></div>':'';
   var accSection=car.accident&&(car.damagedParts&&car.damagedParts.length||car.accImgs&&car.accImgs.length)?
     '<div class="accident-section"><div class="accident-title"><span class="ico ico-wrench"></span> معلومات الحادث</div>'+
     (car.damagedParts&&car.damagedParts.length?'<div class="damaged-parts">'+car.damagedParts.map(function(p){return '<span class="part-badge">'+p+'</span>';}).join('')+'</div>':'')+
     (car.accImgs&&car.accImgs.length?'<div class="acc-imgs">'+car.accImgs.map(function(img){return '<div class="acc-img"><img src="'+img+'" loading="lazy"></div>';}).join('')+'</div>':'')+
     '</div>':'';
   document.getElementById('detailMain').innerHTML=
-    '<div>'+galHtml+accSection+'</div>'+
+    '<div>'+galHtml+videoSection+accSection+'</div>'+
     '<div><div class="detail-info">'+
       '<div class="detail-make">'+brandBadge(car.make)+(car.make||'')+'</div>'+
       '<div class="detail-name">'+(car.model||'')+' '+(car.year||'')+'</div>'+
@@ -1216,6 +1251,27 @@ function openCarDetail(id){
 
 function galSlide(d){var m=document.getElementById('galMain');if(!m)return;var imgs=m.querySelectorAll('img'),th=document.querySelectorAll('.gallery-thumb');var i=window['galIdx']||0;imgs[i].classList.remove('on');if(th[i])th[i].classList.remove('on');i=(i+d+imgs.length)%imgs.length;imgs[i].classList.add('on');if(th[i])th[i].classList.add('on');window['galIdx']=i;}
 function galGo(idx){var m=document.getElementById('galMain');if(!m)return;var imgs=m.querySelectorAll('img'),th=document.querySelectorAll('.gallery-thumb');var i=window['galIdx']||0;imgs[i].classList.remove('on');if(th[i])th[i].classList.remove('on');imgs[idx].classList.add('on');if(th[idx])th[idx].classList.add('on');window['galIdx']=idx;}
+function openLightbox(){
+  var imgs=document.querySelectorAll('#galMain img');
+  if(!imgs.length)return;
+  showLightboxImg(window['galIdx']||0,imgs);
+  document.getElementById('lightboxOverlay').classList.add('open');
+}
+function showLightboxImg(i,imgs){
+  imgs=imgs||document.querySelectorAll('#galMain img');
+  if(!imgs.length)return;
+  document.getElementById('lightboxImg').src=imgs[i].src;
+  document.getElementById('lightboxCounter').textContent=(i+1)+' / '+imgs.length;
+  window['lbIdx']=i;
+}
+function lightboxSlide(d){
+  var imgs=document.querySelectorAll('#galMain img');
+  if(!imgs.length)return;
+  var i=((window['lbIdx']||0)+d+imgs.length)%imgs.length;
+  showLightboxImg(i,imgs);
+  galGo(i);
+}
+function closeLightbox(){document.getElementById('lightboxOverlay').classList.remove('open');}
 
 async function toggleSold(id,cur){try{await db.collection('cars').doc(id).update({sold:!cur});var c=allCars.find(function(x){return x.id===id;});if(c)c.sold=!cur;openCarDetail(id);}catch(e){alert('خطأ: '+e.message);}}
 function deleteAd(id){customConfirm('هل تريد حذف هذا الإعلان؟',async function(){try{await db.collection('cars').doc(id).delete();allCars=allCars.filter(function(c){return c.id!==id;});goPage('cars');}catch(e){alert('خطأ: '+e.message);}});}
@@ -1254,7 +1310,7 @@ function loadFavorites(){
   if(!allCars.length){loadCars().then(function(){loadFavorites();});return;}
   var favCars=allCars.filter(function(c){return favIds.includes(c.id);});
   if(!favCars.length){grid.innerHTML='<div class="empty"><div class="empty-ico"><span class="ico ico-lg ico-heart-fill"></span></div><div class="empty-tit">المفضلة فاضية</div></div>';return;}
-  renderCars(favCars);
+  renderCars(favCars,'favGrid');
 }
 
 // PROFILE
@@ -1797,17 +1853,16 @@ async function sendAiMsg(){
   chat.scrollTop=chat.scrollHeight;
   aiHistory.push({role:'user',content:msg});
   try{
-    var res=await fetch('https://api.anthropic.com/v1/messages',{
+    var res=await fetch(AI_WORKER_URL,{
       method:'POST',
-      headers:{'content-type':'application/json','x-api-key':window.AI_KEY||'','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      headers:{'content-type':'application/json'},
       body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',max_tokens:1000,
         system:'انت مستشار سيارات عراقي خبير اسمك ابو سيارة. تحكي بالعامية العراقية. تفهم: چنجر=تغيير قطعة، يشتل=يشتغل، طاح=خربان، دهن=زيت محرك، بنشر=إطار مثقوب، گير=ناقل حركة، فرامل=فرامل، ردياتير=مبرد محرك، عفشة=تعليق، مكينة=محرك. تجيب فقط على اسئلة السيارات. اذا سالك غيرها گل: والله اخوي انا بس افهم بالسيارات 😄',
         messages:aiHistory.slice(-10)
       })
     });
     var data=await res.json();
-    var reply=data.content&&data.content[0]?data.content[0].text:'عذرا حدث خطأ.';
+    var reply=data.reply||'عذرا حدث خطأ.';
     aiHistory.push({role:'assistant',content:reply});
     var el=document.getElementById(tid);if(el)el.remove();
     addAiMsg(reply,'bot');
