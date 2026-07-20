@@ -531,8 +531,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
     </div>
     <div class="post-section">
       <div class="post-section-title"><span class="ico ico-video"></span> فيديو السيارة (اختياري)</div>
-      <div class="photos-upload-area" onclick="document.getElementById('carVideoInp').click()"><div style="font-size:32px;margin-bottom:7px;"><span class="ico ico-video"></span></div><div style="font-size:14px;color:var(--dim);" id="carVideoLabel">اضغط لإضافة فيديو (اختياري)</div></div>
-      <input type="file" id="carVideoInp" accept="video/*" style="display:none" onchange="setCarVideo(this)">
+      <div class="form-group full"><label class="form-label">رابط فيديو جاهز (مثلاً رابط من GitHub أو أي استضافة)</label><input type="text" class="form-input" id="carVideoUrlInp" placeholder="https://example.com/video.mp4" oninput="setCarVideoUrl(this)"></div>
     </div>
     <div class="post-section">
       <div class="post-section-title"><span class="ico ico-wrench"></span> معلومات الحوادث (اختياري)</div>
@@ -1081,13 +1080,11 @@ function brandBadge(make){
 
 const ACC_PARTS=['المقدمة','المؤخرة','الجانب الأيمن','الجانب الأيسر','السقف','الكبوت','باب أمامي أيمن','باب أمامي أيسر','باب خلفي أيمن','باب خلفي أيسر','الزجاج الأمامي','زجاج خلفي','رادياتير','محرك','ناقل حركة'];
 
-let allCars=[],carPhotos=[],accPhotos=[],carVideoFile=null,currency='USD';
+let allCars=[],carPhotos=[],accPhotos=[],carVideoUrl='',currency='USD';
 window._me=null;
 function canPost(){return !!auth.currentUser;}
-function setCarVideo(inp){
-  carVideoFile=inp.files[0]||null;
-  var lbl=document.getElementById('carVideoLabel');
-  if(lbl)lbl.textContent=carVideoFile?('تم اختيار: '+carVideoFile.name):'اضغط لإضافة فيديو (اختياري)';
+function setCarVideoUrl(inp){
+  carVideoUrl=inp.value.trim();
 }
 
 // AUTH
@@ -1213,11 +1210,6 @@ async function submitAd(){
       urls.push(await uploadImg(allFiles[i]));
     }
     document.getElementById('progressFill').style.width='95%';
-    var videoUrl='';
-    if(carVideoFile){
-      showMsg2('adMsg','<span class="ico ico-hourglass"></span> جاري رفع الفيديو...','#f39c12');
-      videoUrl=await uploadVideo(carVideoFile);
-    }
     showMsg2('adMsg','<span class="ico ico-hourglass"></span> جاري النشر...','#f39c12');
     await db.collection('cars').add({
       make,model,price:parseInt(price),currency,year:parseInt(year),city,phone,
@@ -1235,7 +1227,7 @@ async function submitAd(){
       imgs:urls.slice(0,carPhotos.length),
       accImgs:urls.slice(carPhotos.length),
       img:urls[0]||'',
-      videoUrl:videoUrl,
+      videoUrl:carVideoUrl,
       approved:false,
       userId:auth.currentUser.uid,
       userName:auth.currentUser.displayName||'مستخدم',
@@ -1244,8 +1236,8 @@ async function submitAd(){
     });
     document.getElementById('progressFill').style.width='100%';
     showMsg2('adMsg','<span class="ico ico-check"></span> تم إرسال إعلانك! سيظهر بعد المراجعة 🕐','#2ecc71');
-    carPhotos=[];accPhotos=[];carVideoFile=null;
-    var vlbl=document.getElementById('carVideoLabel');if(vlbl)vlbl.textContent='اضغط لإضافة فيديو (اختياري)';
+    carPhotos=[];accPhotos=[];carVideoUrl='';
+    var vurlInp=document.getElementById('carVideoUrlInp');if(vurlInp)vurlInp.value='';
     setTimeout(function(){goPage('cars');},3000);
   }catch(e){showMsg2('adMsg','<span class="ico ico-cross"></span> خطأ: '+e.message,'#e74c3c');}
 }
