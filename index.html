@@ -1083,7 +1083,7 @@ const ACC_PARTS=['المقدمة','المؤخرة','الجانب الأيمن','
 
 let allCars=[],carPhotos=[],accPhotos=[],carVideoFile=null,currency='USD';
 window._me=null;
-function canPost(){return isAdmin()||(window._me&&window._me.dealerStatus==='approved');}
+function canPost(){return !!auth.currentUser;}
 function setCarVideo(inp){
   carVideoFile=inp.files[0]||null;
   var lbl=document.getElementById('carVideoLabel');
@@ -1096,7 +1096,7 @@ auth.onAuthStateChanged(function(user){
   var np=document.getElementById('navProfile'),na=document.getElementById('navAdmin'),nf=document.getElementById('navFav'),ng=document.getElementById('navGarage');
   if(user){
     bl.style.display='none'; bpr.style.display='flex';
-    bp.style.display=isAdmin()?'block':'none';
+    bp.style.display='block';
     if(np)np.style.display='block'; if(nf)nf.style.display='block'; if(ng)ng.style.display='block';
     if(na)na.style.display=user.email===ADMIN_EMAIL?'block':'none';
     document.getElementById('navName').textContent=user.displayName||'حسابي';
@@ -1124,18 +1124,7 @@ function goPage(p){
   if(p==='cars'){initMakeFilter();loadCars();loadCompanyBanners();}
   else if(p==='post'){
     if(!auth.currentUser){goPage('home');openLogin();return;}
-    if(isAdmin()){initPostForm();return;}
-    db.collection('users').doc(auth.currentUser.uid).get().then(function(doc){
-      window._me=doc.exists?doc.data():null;
-      if(canPost()){initPostForm();return;}
-      goPage('home');
-      var msg='نشر الإعلانات متاح حالياً فقط عبر إدارة الموقع والمعارض المعتمدة. تگدر تسجل حساب معرض من نافذة تسجيل الدخول.';
-      if(window._me&&window._me.role==='dealer'){
-        if(window._me.dealerStatus==='pending')msg='طلب معرضك لسا بانتظار موافقة الإدارة، راح تگدر تنشر إعلانات بعد الموافقة.';
-        else if(window._me.dealerStatus==='rejected')msg='للأسف تم رفض طلب معرضك من قبل الإدارة.';
-      }
-      alert(msg);
-    }).catch(function(){goPage('home');alert('صار خطأ، حاول مرة ثانية.');});
+    initPostForm();
   }
   else if(p==='profile'){if(!auth.currentUser){goPage('home');openLogin();return;}loadProfile();}
   else if(p==='compare')initCmpSelects();
