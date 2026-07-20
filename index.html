@@ -1201,10 +1201,60 @@ function renderPhotos(gid,arr,type,iid,max){
   }).join('');
   document.getElementById(iid).textContent=arr.length+' / '+max+' صورة';
 }
+function compressImgFile(file){
+  return new Promise(function(resolve){
+    if(!file.type||file.type.indexOf('image/')!==0){resolve(file);return;}
+    var img=new Image();
+    var url=URL.createObjectURL(file);
+    var done=false;
+    var fallback=setTimeout(function(){if(!done){done=true;URL.revokeObjectURL(url);resolve(file);}},4000);
+    img.onload=function(){
+      if(done)return;done=true;clearTimeout(fallback);
+      try{
+        var maxDim=1600;
+        var w=img.width,h=img.height;
+        if(w>maxDim||h>maxDim){
+          if(w>h){h=Math.round(h*(maxDim/w));w=maxDim;}else{w=Math.round(w*(maxDim/h));h=maxDim;}
+        }
+        var canvas=document.createElement('canvas');
+        canvas.width=w;canvas.height=h;
+        canvas.getContext('2d').drawImage(img,0,0,w,h);
+        canvas.toBlob(function(blob){
+          URL.revokeObjectURL(url);
+          if(!blob){resolve(file);return;}
+          resolve(new File([blob],file.name.replace(/\.(heic|heif)$/i,'.jpg'),{type:'image/jpeg'}));
+        },'image/jpeg',0.82);
+      }catch(e){URL.revokeObjectURL(url);resolve(file);}
+    };
+    img.onerror=function(){if(done)return;done=true;clearTimeout(fallback);URL.revokeObjectURL(url);resolve(file);};
+    img.src=url;
+  });
+}
+async function fetchWithTimeout(url,opts,ms){
+  var ctrl=new AbortController();
+  var timer=setTimeout(function(){ctrl.abort();},ms);
+  try{
+    var r=await fetch(url,Object.assign({},opts,{signal:ctrl.signal}));
+    return r;
+  }finally{clearTimeout(timer);}
+}
 async function uploadImg(file){
-  var fd=new FormData();fd.append('image',file);
-  var r=await fetch('https://api.imgbb.com/1/upload?key='+IMGBB,{method:'POST',body:fd});
-  var d=await r.json();if(d.success)return d.data.url;throw new Error('فشل رفع الصورة');
+  var small=await compressImgFile(file);
+  var attempts=0,lastErr=null;
+  while(attempts<3){
+    attempts++;
+    try{
+      var fd=new FormData();fd.append('image',small);
+      var r=await fetchWithTimeout('https://api.imgbb.com/1/upload?key='+IMGBB,{method:'POST',body:fd},25000);
+      var d=await r.json();
+      if(d.success)return d.data.url;
+      lastErr=new Error(d.error&&d.error.message?d.error.message:'فشل رفع الصورة');
+    }catch(e){
+      lastErr=(e&&e.name==='AbortError')?new Error('انتهت مهلة رفع الصورة — تحقق من الإنترنت'):e;
+    }
+    if(attempts<3)await new Promise(function(res){setTimeout(res,900);});
+  }
+  throw lastErr||new Error('فشل رفع الصورة');
 }
 
 // SUBMIT AD
@@ -1221,7 +1271,11 @@ async function submitAd(){
     for(var i=0;i<allFiles.length;i++){
       document.getElementById('progressFill').style.width=Math.round(i/Math.max(allFiles.length,1)*85)+'%';
       document.getElementById('progressText').textContent='رفع '+(i+1)+' من '+allFiles.length;
-      urls.push(await uploadImg(allFiles[i]));
+      try{
+        urls.push(await uploadImg(allFiles[i]));
+      }catch(imgErr){
+        throw new Error('تعذر رفع الصورة رقم '+(i+1)+' — '+imgErr.message+'. تأكد من الإنترنت وحاول مرة ثانية');
+      }
     }
     document.getElementById('progressFill').style.width='95%';
     var videoUrl='';
@@ -1258,7 +1312,11 @@ async function submitAd(){
     carPhotos=[];accPhotos=[];carVideoFile=null;
     var vlbl=document.getElementById('carVideoLabel');if(vlbl)vlbl.textContent='اضغط لإضافة فيديو (اختياري)';
     setTimeout(function(){goPage('cars');},3000);
-  }catch(e){showMsg2('adMsg','<span class="ico ico-cross"></span> خطأ: '+e.message,'#e74c3c');}
+  }catch(e){
+    document.getElementById('progressWrap').style.display='none';
+    document.getElementById('progressFill').style.width='0%';
+    showMsg2('adMsg','<span class="ico ico-cross"></span> '+e.message,'#e74c3c');
+  }
 }
 
 // LOAD CARS
