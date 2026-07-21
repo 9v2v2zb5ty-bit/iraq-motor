@@ -1105,7 +1105,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
         <label class="part-check"><input type="checkbox" id="agSvcInspect"><span>الفحص</span></label>
       </div>
       <label class="part-check" style="width:100%;justify-content:flex-start;margin-top:10px;">
-        <input type="checkbox" id="agAcceptsBookings"><span>الوكالة موافقة على التعاون — إظهار زر "احجز موعد صيانة" و"اطلب عرض سعر" في صفحتها</span>
+        <input type="checkbox" id="agAcceptsBookings"><span>الوكالة موافقة على التعاون — إظهار زر "اطلب عرض سعر" في صفحتها</span>
       </label>
     </div>
 
@@ -2688,7 +2688,6 @@ function buildAgencyDetailHtml(a){
   var actions=
     (waNum?'<a class="btn-wa" href="https://wa.me/'+waNum+'" target="_blank">💬 '+t('ag.whatsapp')+'</a>':'')+
     (callNum?'<a class="btn-call" href="tel:'+callNum+'"><span class="ico ico-phone"></span> '+t('ag.call')+'</a>':'')+
-    (a.acceptsBookings?'<button class="btn-book" onclick="openAgencyReqForm(\''+a.id+'\',\'maintenance\')"><span class="ico ico-calendar"></span> '+t('ag.bookMaintenance')+'</button>':'')+
     (a.acceptsBookings?'<button class="btn-book" onclick="openAgencyReqForm(\''+a.id+'\',\'quote\')"><span class="ico ico-money"></span> '+t('ag.requestQuote')+'</button>':'')+
     (isAdmin()?'<button class="btn-book" onclick="openAgencyForm(\''+a.id+'\')"><span class="ico ico-edit"></span> '+t('ag.edit')+'</button>':'');
   var hero='<div class="agency-hero">'+logo+
