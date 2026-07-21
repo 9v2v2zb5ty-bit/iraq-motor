@@ -415,12 +415,16 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 .btn-add-agency{background:var(--gold);color:#000;border:none;padding:11px 20px;border-radius:10px;font-family:Tajawal,sans-serif;font-size:13.5px;font-weight:800;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;}
 .btn-add-agency:hover{background:var(--gold2);}
 /* AGENCY DETAIL */
-.agency-hero{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-bottom:20px;}
-.agency-hero-logo{width:88px;height:88px;border-radius:16px;object-fit:cover;background:var(--dark3);flex-shrink:0;}
+.agency-hero{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:20px;}
+.agency-hero-cover{width:100%;height:220px;object-fit:cover;background:linear-gradient(135deg,rgba(201,168,76,0.18),rgba(201,168,76,0.04));display:block;}
+.agency-hero-cover-empty{width:100%;height:220px;background:linear-gradient(135deg,rgba(201,168,76,0.18),rgba(201,168,76,0.04));display:flex;align-items:center;justify-content:center;font-size:44px;color:var(--gold);opacity:.5;}
+.agency-hero-content{display:flex;gap:18px;align-items:center;flex-wrap:wrap;padding:24px;position:relative;}
+.agency-hero-logo{width:88px;height:88px;border-radius:16px;object-fit:cover;background:var(--dark3);flex-shrink:0;border:3px solid var(--card);margin-top:-64px;box-shadow:0 6px 16px rgba(0,0,0,0.4);}
 .agency-hero-info{flex:1;min-width:200px;}
-.agency-hero-name{font-size:22px;font-weight:800;margin-bottom:4px;}
+.agency-hero-name{font-size:22px;font-weight:800;margin-bottom:4px;display:flex;align-items:center;gap:6px;}
 .agency-hero-meta{font-size:13px;color:var(--dim);display:flex;align-items:center;gap:5px;margin-bottom:6px;}
 .agency-hero-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.agency-verified-badge{color:#1da1f2;font-size:16px;}
 .btn-wa{background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.3);color:#25d366;padding:9px 16px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none;transition:all .2s;}
 .btn-wa:hover{background:rgba(37,211,102,0.2);}
 .btn-call{background:rgba(201,168,76,0.1);border:1px solid var(--border);color:var(--gold);padding:9px 16px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none;transition:all .2s;}
@@ -468,6 +472,8 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
   .cmp-header{grid-template-columns:1fr auto 1fr;}
   .mega-ad-banner{height:190px;}.mega-name{font-size:14px;}.mega-overlay{padding:22px 14px 10px;}
   .agency-toolbar{padding:0 14px 14px;}
+  .agency-hero-cover,.agency-hero-cover-empty{height:150px;}
+  .agency-hero-logo{width:70px;height:70px;margin-top:-48px;}
   .lang-switch{display:none;}
 }
 </style>
@@ -1062,6 +1068,11 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
           <label class="form-label">شعار الوكالة (Logo)</label>
           <input type="file" class="form-input" id="agLogoFile" accept="image/*" onchange="previewAgencyLogo(this)">
           <div id="agLogoPreview" style="margin-top:8px;"></div>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">📷 صورة الغلاف (تظهر أعلى صفحة الوكالة)</label>
+          <input type="file" class="form-input" id="agCoverFile" accept="image/*" onchange="previewAgencyCover(this)">
+          <div id="agCoverPreview" style="margin-top:8px;"></div>
         </div>
         <div class="form-group full">
           <label class="form-label">نبذة عن الوكالة</label>
@@ -2683,6 +2694,7 @@ function openAgencyDetail(id,skipNav){
 }
 function buildAgencyDetailHtml(a){
   var logo=a.logo?'<img class="agency-hero-logo" src="'+a.logo+'">':'<div class="agency-hero-logo" style="display:flex;align-items:center;justify-content:center;font-size:30px;color:var(--gold);"><span class="ico ico-lg ico-store"></span></div>';
+  var cover=a.cover?('<img class="agency-hero-cover" src="'+a.cover+'">'):('<div class="agency-hero-cover-empty"><span class="ico ico-lg ico-store"></span></div>');
   var waNum=(a.whatsapp||(a.phones&&a.phones[0])||'').replace(/\D/g,'');
   var callNum=(a.phones&&a.phones[0])||'';
   var actions=
@@ -2690,13 +2702,14 @@ function buildAgencyDetailHtml(a){
     (callNum?'<a class="btn-call" href="tel:'+callNum+'"><span class="ico ico-phone"></span> '+t('ag.call')+'</a>':'')+
     (a.acceptsBookings?'<button class="btn-book" onclick="openAgencyReqForm(\''+a.id+'\',\'quote\')"><span class="ico ico-money"></span> '+t('ag.requestQuote')+'</button>':'')+
     (isAdmin()?'<button class="btn-book" onclick="openAgencyForm(\''+a.id+'\')"><span class="ico ico-edit"></span> '+t('ag.edit')+'</button>':'');
-  var hero='<div class="agency-hero">'+logo+
+  var hero='<div class="agency-hero">'+cover+
+    '<div class="agency-hero-content">'+logo+
     '<div class="agency-hero-info">'+
-      '<div class="agency-hero-name">'+escAg(a.name)+'</div>'+
+      '<div class="agency-hero-name">'+escAg(a.name)+' <span class="agency-verified-badge">✔</span></div>'+
       (a.address?'<div class="agency-hero-meta"><span class="ico ico-pin"></span> '+escAg(a.address)+'</div>':'')+
       '<div class="agency-hero-meta"><span style="color:var(--gold);">'+starsStr(a.avgRating||0)+'</span> '+(a.avgRating?a.avgRating.toFixed(1):'—')+' ('+(a.ratingCount||0)+')</div>'+
       '<div class="agency-hero-actions">'+actions+'</div>'+
-    '</div></div>';
+    '</div></div></div>';
   var tabs='<div class="agency-tabs">'+
     '<button class="agency-tab active" data-tab="about" onclick="switchAgencyTab(\'about\')">'+t('ag.tabAbout')+'</button>'+
     '<button class="agency-tab" data-tab="cars" onclick="switchAgencyTab(\'cars\')">'+t('ag.tabCars')+'</button>'+
@@ -2885,6 +2898,7 @@ async function submitAgencyRequest(){
 
 // Add / edit agency (admin only)
 var _agencyLogoFile=null,_agencyLogoUrlExisting='';
+var _agencyCoverFile=null,_agencyCoverUrlExisting='';
 var _agencyGalleryFiles=[],_agencyGalleryExisting=[];
 function openAgencyForm(agencyId){
   if(!isAdmin())return;
@@ -2892,8 +2906,10 @@ function openAgencyForm(agencyId){
   document.getElementById('agEditId').value=editing?agencyId:'';
   document.getElementById('agencyFormTitle').textContent=editing?t('ag.formTitleEdit'):t('ag.formTitleAdd');
   _agencyLogoFile=null;_agencyLogoUrlExisting='';
+  _agencyCoverFile=null;_agencyCoverUrlExisting='';
   _agencyGalleryFiles=[];_agencyGalleryExisting=[];
   document.getElementById('agLogoPreview').innerHTML='';
+  document.getElementById('agCoverPreview').innerHTML='';
   document.getElementById('agGalleryPreview').innerHTML='';
   document.getElementById('agGalleryInfo').textContent='0 / 12 صورة';
   document.getElementById('agNewCarsRows').innerHTML='';
@@ -2917,6 +2933,7 @@ function openAgencyForm(agencyId){
       (agency.services||[]).forEach(function(s){if(svcMap[s])document.getElementById(svcMap[s]).checked=true;});
       document.getElementById('agAcceptsBookings').checked=!!agency.acceptsBookings;
       if(agency.logo){_agencyLogoUrlExisting=agency.logo;document.getElementById('agLogoPreview').innerHTML='<img src="'+agency.logo+'" style="width:70px;height:70px;border-radius:12px;object-fit:cover;">';}
+      if(agency.cover){_agencyCoverUrlExisting=agency.cover;document.getElementById('agCoverPreview').innerHTML='<img src="'+agency.cover+'" style="width:100%;max-width:260px;height:100px;border-radius:10px;object-fit:cover;">';}
       _agencyGalleryExisting=(agency.gallery||[]).slice();
       renderAgencyGalleryPreview();
       (agency.newCars||[]).forEach(function(c){addAgencyCarRow(c);});
@@ -2931,6 +2948,11 @@ function previewAgencyLogo(inp){
   var f=inp.files[0];if(!f)return;
   _agencyLogoFile=f;
   document.getElementById('agLogoPreview').innerHTML='<img src="'+URL.createObjectURL(f)+'" style="width:70px;height:70px;border-radius:12px;object-fit:cover;">';
+}
+function previewAgencyCover(inp){
+  var f=inp.files[0];if(!f)return;
+  _agencyCoverFile=f;
+  document.getElementById('agCoverPreview').innerHTML='<img src="'+URL.createObjectURL(f)+'" style="width:100%;max-width:260px;height:100px;border-radius:10px;object-fit:cover;">';
 }
 function addAgencyGalleryPhotos(inp){
   var free=12-(_agencyGalleryFiles.length+_agencyGalleryExisting.length);
@@ -2986,6 +3008,11 @@ async function submitAgency(){
       showMsg2('agFormMsg','<span class="ico ico-hourglass"></span> جاري رفع الشعار...','#f39c12');
       logoUrl=await uploadImg(_agencyLogoFile);
     }
+    var coverUrl=_agencyCoverUrlExisting;
+    if(_agencyCoverFile){
+      showMsg2('agFormMsg','<span class="ico ico-hourglass"></span> جاري رفع صورة الغلاف...','#f39c12');
+      coverUrl=await uploadImg(_agencyCoverFile);
+    }
     var galleryUrls=_agencyGalleryExisting.slice();
     for(var i=0;i<_agencyGalleryFiles.length;i++){
       showMsg2('agFormMsg','<span class="ico ico-hourglass"></span> جاري رفع الصورة '+(i+1)+' من '+_agencyGalleryFiles.length+'...','#f39c12');
@@ -3012,6 +3039,7 @@ async function submitAgency(){
       services:services,
       acceptsBookings:document.getElementById('agAcceptsBookings').checked,
       logo:logoUrl,
+      cover:coverUrl,
       gallery:galleryUrls,
       newCars:readAgencyCarRows()
     };
