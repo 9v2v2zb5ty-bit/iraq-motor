@@ -382,6 +382,83 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 .mobile-nav a{display:block;color:var(--dim);text-decoration:none;font-size:15px;padding:12px 16px;border-radius:8px;cursor:pointer;transition:all .2s;border-bottom:1px solid rgba(201,168,76,0.1);}
 .mobile-nav a:hover,.mobile-nav a:active{background:rgba(201,168,76,0.1);color:var(--gold);}
 .mobile-nav a:last-child{border-bottom:none;}
+/* LANG SWITCHER */
+.lang-switch{position:relative;}
+.lang-btn{background:transparent;border:1px solid var(--border);color:var(--dim);padding:7px 12px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .2s;}
+.lang-btn:hover{border-color:var(--gold);color:var(--gold);}
+.lang-menu{position:absolute;top:calc(100% + 8px);left:0;background:var(--dark2);border:1px solid var(--border);border-radius:11px;padding:6px;min-width:140px;box-shadow:0 12px 30px rgba(0,0,0,0.5);display:none;z-index:600;}
+.lang-menu.open{display:block;}
+.lang-opt{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:8px;font-size:13px;color:var(--text);cursor:pointer;transition:all .2s;}
+.lang-opt:hover{background:rgba(201,168,76,0.1);}
+.lang-opt.active{color:var(--gold);font-weight:700;}
+.lang-switch-mobile{display:flex;gap:6px;padding:10px 16px;border-bottom:1px solid rgba(201,168,76,0.1);margin-bottom:6px;}
+.lang-chip{flex:1;text-align:center;background:var(--dark3);border:1px solid var(--border);color:var(--dim);padding:8px;border-radius:8px;font-size:12px;cursor:pointer;}
+.lang-chip.active{background:var(--gold);color:#000;border-color:var(--gold);font-weight:700;}
+/* AGENCIES */
+.agency-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:0 32px 18px;}
+.agency-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .3s;}
+.agency-card:hover{transform:translateY(-4px);border-color:var(--gold);box-shadow:0 16px 40px rgba(0,0,0,0.4);}
+.agency-cover{height:110px;background:linear-gradient(135deg,rgba(201,168,76,0.18),rgba(201,168,76,0.04));display:flex;align-items:center;justify-content:center;position:relative;}
+.agency-logo{width:74px;height:74px;border-radius:14px;object-fit:cover;background:var(--dark3);border:3px solid var(--dark2);position:absolute;bottom:-24px;box-shadow:0 6px 16px rgba(0,0,0,0.4);}
+.agency-logo-fallback{width:74px;height:74px;border-radius:14px;background:var(--dark3);border:3px solid var(--dark2);position:absolute;bottom:-24px;display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--gold);box-shadow:0 6px 16px rgba(0,0,0,0.4);}
+.agency-body{padding:32px 18px 18px;}
+.agency-name{font-size:16px;font-weight:800;margin-bottom:3px;}
+.agency-city{font-size:12px;color:var(--dim);margin-bottom:8px;display:flex;align-items:center;gap:4px;}
+.agency-brands{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;}
+.agency-brand-tag{background:rgba(201,168,76,0.1);border:1px solid var(--border);color:var(--gold);padding:2px 8px;border-radius:12px;font-size:10.5px;}
+.agency-rating{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--dim);}
+.agency-rating .stars{color:var(--gold);letter-spacing:1px;font-size:13px;}
+.agency-admin-actions{position:absolute;top:8px;left:8px;display:flex;gap:6px;z-index:2;}
+.agency-mini-btn{background:rgba(8,10,15,0.75);border:1px solid var(--border);color:var(--text);width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;}
+.agency-mini-btn:hover{border-color:var(--gold);color:var(--gold);}
+.agency-mini-btn.del:hover{border-color:var(--red);color:var(--red);}
+.btn-add-agency{background:var(--gold);color:#000;border:none;padding:11px 20px;border-radius:10px;font-family:Tajawal,sans-serif;font-size:13.5px;font-weight:800;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;}
+.btn-add-agency:hover{background:var(--gold2);}
+/* AGENCY DETAIL */
+.agency-hero{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-bottom:20px;}
+.agency-hero-logo{width:88px;height:88px;border-radius:16px;object-fit:cover;background:var(--dark3);flex-shrink:0;}
+.agency-hero-info{flex:1;min-width:200px;}
+.agency-hero-name{font-size:22px;font-weight:800;margin-bottom:4px;}
+.agency-hero-meta{font-size:13px;color:var(--dim);display:flex;align-items:center;gap:5px;margin-bottom:6px;}
+.agency-hero-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.btn-wa{background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.3);color:#25d366;padding:9px 16px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none;transition:all .2s;}
+.btn-wa:hover{background:rgba(37,211,102,0.2);}
+.btn-call{background:rgba(201,168,76,0.1);border:1px solid var(--border);color:var(--gold);padding:9px 16px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none;transition:all .2s;}
+.btn-call:hover{border-color:var(--gold);background:rgba(201,168,76,0.18);}
+.btn-book{background:transparent;border:1px solid var(--border);color:var(--text);padding:9px 16px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .2s;}
+.btn-book:hover{border-color:var(--gold);color:var(--gold);}
+.agency-tabs{display:flex;gap:7px;margin-bottom:18px;flex-wrap:wrap;overflow-x:auto;padding-bottom:2px;}
+.agency-tab{background:var(--dark3);border:1px solid var(--border);color:var(--dim);padding:8px 15px;border-radius:8px;font-family:Tajawal,sans-serif;font-size:13px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.agency-tab.active{background:var(--gold);color:#000;border-color:var(--gold);font-weight:700;}
+.agency-gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:9px;}
+.agency-gallery-grid img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;cursor:pointer;border:1px solid var(--border);}
+.newcar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;}
+.newcar-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.newcar-img{width:100%;height:130px;object-fit:cover;background:var(--dark3);}
+.newcar-body{padding:12px;}
+.newcar-name{font-size:13.5px;font-weight:700;margin-bottom:3px;}
+.newcar-price{font-size:13px;color:var(--gold);font-weight:700;}
+.offer-card,.news-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;display:flex;gap:14px;}
+.offer-card img,.news-card img{width:96px;height:76px;border-radius:9px;object-fit:cover;flex-shrink:0;background:var(--dark3);}
+.offer-title,.news-title{font-size:14px;font-weight:700;margin-bottom:4px;}
+.offer-date,.news-date{font-size:11px;color:var(--dim);margin-bottom:6px;}
+.offer-body,.news-body{font-size:12.5px;color:var(--dim);line-height:1.7;}
+.rating-summary{display:flex;align-items:center;gap:10px;background:var(--dark3);border-radius:10px;padding:10px 14px;margin-bottom:14px;}
+.rating-num{font-size:22px;font-weight:900;color:var(--gold);font-family:Rajdhani,sans-serif;}
+.star-picker{display:flex;gap:4px;font-size:26px;cursor:pointer;color:var(--border);}
+.star-picker span.on{color:var(--gold);}
+.review-item{background:var(--dark3);border-radius:10px;padding:12px 14px;margin-bottom:8px;}
+.review-head{display:flex;justify-content:space-between;font-size:12px;color:var(--dim);margin-bottom:4px;}
+.review-stars{color:var(--gold);font-size:12px;}
+.map-embed-wrap{border-radius:13px;overflow:hidden;border:1px solid var(--border);height:280px;}
+.map-embed-wrap iframe{width:100%;height:100%;border:0;}
+.chip-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
+.chip{background:rgba(201,168,76,0.1);border:1px solid var(--border);color:var(--gold);padding:4px 10px;border-radius:14px;font-size:11.5px;}
+.dyn-row{display:flex;gap:8px;margin-bottom:8px;align-items:center;}
+.dyn-row .form-input{flex:1;}
+.btn-row-rm{background:rgba(232,69,69,0.1);border:1px solid rgba(232,69,69,0.3);color:var(--red);width:34px;height:34px;border-radius:8px;cursor:pointer;flex-shrink:0;}
+.btn-row-add{background:transparent;border:1px dashed var(--border);color:var(--gold);padding:8px 14px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:12.5px;cursor:pointer;width:100%;transition:all .2s;}
+.btn-row-add:hover{border-color:var(--gold);background:rgba(201,168,76,0.06);}
 @media(max-width:900px){
   nav{padding:0 12px;}.nav-links{display:none;}.hamburger{display:flex;}
   .detail-main{grid-template-columns:1fr;}
@@ -390,6 +467,8 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
   .section-page{padding:16px;}
   .cmp-header{grid-template-columns:1fr auto 1fr;}
   .mega-ad-banner{height:190px;}.mega-name{font-size:14px;}.mega-overlay{padding:22px 14px 10px;}
+  .agency-toolbar{padding:0 14px 14px;}
+  .lang-switch{display:none;}
 }
 </style>
 </head>
@@ -398,22 +477,31 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 <nav>
   <div class="logo" onclick="goPage('home')">Iraq <span>Motors</span></div>
   <ul class="nav-links">
-    <li><a onclick="goPage('home')">الرئيسية</a></li>
-    <li><a onclick="goPage('cars')">السيارات</a></li>
-    <li><a onclick="goPage('compare')">المقارنة</a></li>
-    <li><a onclick="goPage('ai')">مستشار AI <span class="ico ico-ai"></span></a></li>
-    <li><a onclick="goPage('market')"><span class="ico ico-chart-up"></span> مؤشر الأسعار</a></li>
-    <li><a onclick="goPage('dealers')">المعارض</a></li>
-    <li><a onclick="goPage('calc')">حاسبة القسط</a></li>
-    <li><a onclick="goPage('favorites')" id="navFav" style="display:none"><span class="ico ico-heart-fill"></span> المفضلة</a></li>
-    <li><a onclick="goPage('garage')" id="navGarage" style="display:none"><span class="ico ico-wrench"></span> كراجي</a></li>
-    <li><a onclick="goPage('profile')" id="navProfile" style="display:none">حسابي</a></li>
-    <li><a onclick="goPage('admin')" id="navAdmin" style="display:none;color:var(--red)"><span class="ico ico-gear"></span> الإدارة</a></li>
-    <li><a onclick="goPage('about')"><span class="ico ico-info"></span> حول الموقع</a></li>
+    <li><a onclick="goPage('home')"><span data-i18n="nav.home">الرئيسية</span></a></li>
+    <li><a onclick="goPage('cars')"><span data-i18n="nav.cars">السيارات</span></a></li>
+    <li><a onclick="goPage('compare')"><span data-i18n="nav.compare">المقارنة</span></a></li>
+    <li><a onclick="goPage('ai')"><span data-i18n="nav.ai">مستشار AI</span> <span class="ico ico-ai"></span></a></li>
+    <li><a onclick="goPage('market')"><span class="ico ico-chart-up"></span> <span data-i18n="nav.market">مؤشر الأسعار</span></a></li>
+    <li><a onclick="goPage('dealers')"><span data-i18n="nav.dealers">المعارض</span></a></li>
+    <li><a onclick="goPage('agencies')"><span class="ico ico-store"></span> <span data-i18n="nav.agencies">الوكالات</span></a></li>
+    <li><a onclick="goPage('calc')"><span data-i18n="nav.calc">حاسبة القسط</span></a></li>
+    <li><a onclick="goPage('favorites')" id="navFav" style="display:none"><span class="ico ico-heart-fill"></span> <span data-i18n="nav.favorites">المفضلة</span></a></li>
+    <li><a onclick="goPage('garage')" id="navGarage" style="display:none"><span class="ico ico-wrench"></span> <span data-i18n="nav.garage">كراجي</span></a></li>
+    <li><a onclick="goPage('profile')" id="navProfile" style="display:none"><span data-i18n="nav.profile">حسابي</span></a></li>
+    <li><a onclick="goPage('admin')" id="navAdmin" style="display:none;color:var(--red)"><span class="ico ico-gear"></span> <span data-i18n="nav.admin">الإدارة</span></a></li>
+    <li><a onclick="goPage('about')"><span class="ico ico-info"></span> <span data-i18n="nav.about">حول الموقع</span></a></li>
   </ul>
   <div class="nav-actions">
-    <button class="btn-nav btn-login-nav" onclick="openLogin()">تسجيل الدخول</button>
-    <button class="btn-nav btn-post-nav" id="btnPostNav" onclick="goPage('post')">+ نشر إعلان</button>
+    <div class="lang-switch" id="langSwitch">
+      <button class="lang-btn" onclick="toggleLangMenu()">🌐 <span id="langBtnLabel">العربية</span></button>
+      <div class="lang-menu" id="langMenu">
+        <div class="lang-opt" id="langOptAr" onclick="setLang('ar')">العربية</div>
+        <div class="lang-opt" id="langOptKu" onclick="setLang('ku')">کوردی</div>
+        <div class="lang-opt" id="langOptEn" onclick="setLang('en')">English</div>
+      </div>
+    </div>
+    <button class="btn-nav btn-login-nav" onclick="openLogin()"><span data-i18n="nav.login">تسجيل الدخول</span></button>
+    <button class="btn-nav btn-post-nav" id="btnPostNav" onclick="goPage('post')">+ <span data-i18n="nav.post">نشر إعلان</span></button>
     <button class="btn-nav btn-profile-nav" id="btnProfileNav" onclick="goPage('profile')">
       <img id="navAvatar" src=""> <span id="navName"></span>
     </button>
@@ -425,35 +513,41 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 
 <!-- MOBILE NAV -->
 <div class="mobile-nav" id="mobileNav">
-  <a onclick="mobileGoPage('home')"><span class="ico ico-home"></span> الرئيسية</a>
-  <a onclick="mobileGoPage('cars')"><span class="ico ico-car"></span> السيارات</a>
-  <a onclick="mobileGoPage('compare')"><span class="ico ico-compare"></span> المقارنة</a>
-  <a onclick="mobileGoPage('ai')"><span class="ico ico-ai"></span> مستشار AI</a>
-  <a onclick="mobileGoPage('market')"><span class="ico ico-chart-up"></span> مؤشر الأسعار</a>
-  <a onclick="mobileGoPage('dealers')"><span class="ico ico-building"></span> المعارض</a>
-  <a onclick="mobileGoPage('calc')"><span class="ico ico-calculator"></span> حاسبة القسط</a>
-  <a onclick="mobileGoPage('favorites')" id="mNavFav" style="display:none"><span class="ico ico-heart-fill"></span> المفضلة</a>
-  <a onclick="mobileGoPage('garage')" id="mNavGarage" style="display:none"><span class="ico ico-wrench"></span> كراجي</a>
-  <a onclick="mobileGoPage('profile')" id="mNavProfile" style="display:none"><span class="ico ico-user"></span> حسابي</a>
-  <a onclick="mobileGoPage('admin')" id="mNavAdmin" style="display:none;color:var(--red)"><span class="ico ico-gear"></span> الإدارة</a>
-  <a onclick="mobileGoPage('about')"><span class="ico ico-info"></span> حول الموقع</a>
+  <div class="lang-switch-mobile">
+    <div class="lang-chip" id="langChipAr" onclick="setLang('ar')">العربية</div>
+    <div class="lang-chip" id="langChipKu" onclick="setLang('ku')">کوردی</div>
+    <div class="lang-chip" id="langChipEn" onclick="setLang('en')">English</div>
+  </div>
+  <a onclick="mobileGoPage('home')"><span class="ico ico-home"></span> <span data-i18n="nav.home">الرئيسية</span></a>
+  <a onclick="mobileGoPage('cars')"><span class="ico ico-car"></span> <span data-i18n="nav.cars">السيارات</span></a>
+  <a onclick="mobileGoPage('compare')"><span class="ico ico-compare"></span> <span data-i18n="nav.compare">المقارنة</span></a>
+  <a onclick="mobileGoPage('ai')"><span class="ico ico-ai"></span> <span data-i18n="nav.ai">مستشار AI</span></a>
+  <a onclick="mobileGoPage('market')"><span class="ico ico-chart-up"></span> <span data-i18n="nav.market">مؤشر الأسعار</span></a>
+  <a onclick="mobileGoPage('dealers')"><span class="ico ico-building"></span> <span data-i18n="nav.dealers">المعارض</span></a>
+  <a onclick="mobileGoPage('agencies')"><span class="ico ico-store"></span> <span data-i18n="nav.agencies">الوكالات</span></a>
+  <a onclick="mobileGoPage('calc')"><span class="ico ico-calculator"></span> <span data-i18n="nav.calc">حاسبة القسط</span></a>
+  <a onclick="mobileGoPage('favorites')" id="mNavFav" style="display:none"><span class="ico ico-heart-fill"></span> <span data-i18n="nav.favorites">المفضلة</span></a>
+  <a onclick="mobileGoPage('garage')" id="mNavGarage" style="display:none"><span class="ico ico-wrench"></span> <span data-i18n="nav.garage">كراجي</span></a>
+  <a onclick="mobileGoPage('profile')" id="mNavProfile" style="display:none"><span class="ico ico-user"></span> <span data-i18n="nav.profile">حسابي</span></a>
+  <a onclick="mobileGoPage('admin')" id="mNavAdmin" style="display:none;color:var(--red)"><span class="ico ico-gear"></span> <span data-i18n="nav.admin">الإدارة</span></a>
+  <a onclick="mobileGoPage('about')"><span class="ico ico-info"></span> <span data-i18n="nav.about">حول الموقع</span></a>
 </div>
 
 <!-- HOME -->
 <div class="page active" id="page-home">
   <div class="hero">
     <div class="hero-inner">
-      <div class="hero-badge">🔥 سوق السيارات الأفخم في العراق</div>
-      <h1 class="hero-title">اشتري وبع<br><span class="g">سيارتك بثقة</span></h1>
-      <p class="hero-sub">من البصرة إلى زاخو — نجيب كل سيارة.<br>أفضل منصة لبيع وشراء السيارات في العراق.</p>
+      <div class="hero-badge" data-i18n="home.badge">🔥 سوق السيارات الأفخم في العراق</div>
+      <h1 class="hero-title" data-i18n-html="home.title">اشتري وبع<br><span class="g">سيارتك بثقة</span></h1>
+      <p class="hero-sub" data-i18n-html="home.sub">من البصرة إلى زاخو — نجيب كل سيارة.<br>أفضل منصة لبيع وشراء السيارات في العراق.</p>
       <div class="hero-btns">
-        <button class="btn-hero btn-hero-gold" onclick="goPage('cars')">تصفح السيارات <span class="ico ico-car"></span></button>
-        <button class="btn-hero btn-hero-out" onclick="goPage('post')">نشر إعلان</button>
+        <button class="btn-hero btn-hero-gold" onclick="goPage('cars')"><span data-i18n="home.browse">تصفح السيارات</span> <span class="ico ico-car"></span></button>
+        <button class="btn-hero btn-hero-out" onclick="goPage('post')" data-i18n="home.postad">نشر إعلان</button>
       </div>
       <div class="hero-stats">
-        <div><div class="stat-num" id="cntCars">0</div><div class="stat-label">سيارة معروضة</div></div>
-        <div><div class="stat-num">18</div><div class="stat-label">مدينة</div></div>
-        <div><div class="stat-num">100%</div><div class="stat-label">مجاني</div></div>
+        <div><div class="stat-num" id="cntCars">0</div><div class="stat-label" data-i18n="home.statCars">سيارة معروضة</div></div>
+        <div><div class="stat-num">18</div><div class="stat-label" data-i18n="home.statCities">مدينة</div></div>
+        <div><div class="stat-num">100%</div><div class="stat-label" data-i18n="home.statFree">مجاني</div></div>
       </div>
     </div>
   </div>
@@ -461,7 +555,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 
 <!-- CARS -->
 <div class="page" id="page-cars">
-  <div class="page-header"><div class="page-title"><span class="ico ico-car"></span> تصفح السيارات</div><div class="page-sub">اعثر على سيارتك المثالية</div></div>
+  <div class="page-header"><div class="page-title"><span class="ico ico-car"></span> <span data-i18n="cars.title">تصفح السيارات</span></div><div class="page-sub" data-i18n="cars.sub">اعثر على سيارتك المثالية</div></div>
   
   <!-- ADS BANNER -->
   <div id="adsBannerWrap" style="padding:16px 32px 0;"></div>
@@ -620,6 +714,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
       <div class="admin-stat-card"><div class="admin-stat-icon"><span class="ico ico-md ico-users"></span></div><div class="admin-stat-num" id="statUsers">—</div><div class="admin-stat-label">المستخدمين</div></div>
       <div class="admin-stat-card"><div class="admin-stat-icon"><span class="ico ico-md ico-alert"></span></div><div class="admin-stat-num" id="statReports">—</div><div class="admin-stat-label">البلاغات</div></div>
       <div class="admin-stat-card"><div class="admin-stat-icon"><span class="ico ico-md ico-building"></span></div><div class="admin-stat-num" id="statDealerPending">—</div><div class="admin-stat-label">طلبات معارض</div></div>
+      <div class="admin-stat-card"><div class="admin-stat-icon"><span class="ico ico-md ico-store"></span></div><div class="admin-stat-num" id="statAgencyReq">—</div><div class="admin-stat-label">طلبات الوكالات</div></div>
     </div>
     <div style="display:flex;gap:7px;margin-bottom:18px;flex-wrap:wrap;" id="adminTabs">
       <button class="admin-tab active" onclick="switchAdminTab('pending',this)"><span class="ico ico-hourglass"></span> بانتظار الموافقة</button>
@@ -628,6 +723,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
       <button class="admin-tab" onclick="switchAdminTab('users',this)"><span class="ico ico-users"></span> المستخدمين</button>
       <button class="admin-tab" onclick="switchAdminTab('companyAds',this)"><span class="ico ico-building"></span> إعلانات الشركات</button>
       <button class="admin-tab" onclick="switchAdminTab('dealers',this)"><span class="ico ico-store"></span> طلبات المعارض</button>
+      <button class="admin-tab" onclick="switchAdminTab('agencyReq',this)"><span class="ico ico-calendar"></span> طلبات الوكالات</button>
     </div>
     <div id="adminTabContent"><div style="text-align:center;padding:40px;color:var(--dim);"><span class="ico ico-hourglass"></span> جاري التحميل...</div></div>
   </div>
@@ -635,7 +731,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 
 <!-- GARAGE -->
 <div class="page" id="page-garage">
-  <div class="page-header"><div class="page-title"><span class="ico ico-wrench"></span> كراجي</div><div class="page-sub">سجّل سياراتك وتابع صيانتها</div></div>
+  <div class="page-header"><div class="page-title"><span class="ico ico-wrench"></span> <span data-i18n="garage.title">كراجي</span></div><div class="page-sub" data-i18n="garage.sub">سجّل سياراتك وتابع صيانتها</div></div>
   <div class="section-page">
     <button class="btn-submit-big" style="max-width:220px;margin-bottom:20px;" onclick="openGarageAdd()">+ إضافة سيارة للكراج</button>
     <div id="garageGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;"><div class="loading"><span class="ico ico-hourglass"></span> جاري التحميل...</div></div>
@@ -644,7 +740,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 
 <!-- MARKET INDEX -->
 <div class="page" id="page-market">
-  <div class="page-header"><div class="page-title"><span class="ico ico-chart-up"></span> مؤشر أسعار السيارات - العراق</div><div class="page-sub">تتبع أسعار السوق</div></div>
+  <div class="page-header"><div class="page-title"><span class="ico ico-chart-up"></span> <span data-i18n="market.title">مؤشر أسعار السيارات - العراق</span></div><div class="page-sub" data-i18n="market.sub">تتبع أسعار السوق</div></div>
   <div class="section-page">
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin-bottom:24px;" id="marketStats"></div>
     <div class="post-section"><div class="post-section-title">حركة الأسعار اليوم</div><div id="marketTable"></div></div>
@@ -654,7 +750,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 
 <!-- CALC -->
 <div class="page" id="page-calc">
-  <div class="page-header"><div class="page-title"><span class="ico ico-calculator"></span> حاسبة قسط السيارة</div><div class="page-sub">احسب قسطك الشهري</div></div>
+  <div class="page-header"><div class="page-title"><span class="ico ico-calculator"></span> <span data-i18n="calc.title">حاسبة قسط السيارة</span></div><div class="page-sub" data-i18n="calc.sub">احسب قسطك الشهري</div></div>
   <div class="section-page" style="max-width:580px;margin:0 auto;">
     <div class="post-section">
       <div class="post-section-title">تفاصيل التمويل</div>
@@ -678,19 +774,39 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 
 <!-- FAVORITES -->
 <div class="page" id="page-favorites">
-  <div class="page-header"><div class="page-title"><span class="ico ico-heart-fill"></span> المفضلة</div><div class="page-sub">السيارات المحفوظة</div></div>
+  <div class="page-header"><div class="page-title"><span class="ico ico-heart-fill"></span> <span data-i18n="favorites.title">المفضلة</span></div><div class="page-sub" data-i18n="favorites.sub">السيارات المحفوظة</div></div>
   <div class="cars-grid" id="favGrid"><div class="loading"><span class="ico ico-hourglass"></span> جاري التحميل...</div></div>
 </div>
 
 <!-- DEALERS -->
 <div class="page" id="page-dealers">
-  <div class="page-header"><div class="page-title"><span class="ico ico-building"></span> المعارض والتجار</div><div class="page-sub">معارض موثوقة في العراق</div></div>
+  <div class="page-header"><div class="page-title"><span class="ico ico-building"></span> <span data-i18n="dealers.title">المعارض والتجار</span></div><div class="page-sub" data-i18n="dealers.sub">معارض موثوقة في العراق</div></div>
   <div class="section-page"><div id="dealersGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;"><div class="loading"><span class="ico ico-hourglass"></span> جاري التحميل...</div></div></div>
+</div>
+
+<!-- AGENCIES -->
+<div class="page" id="page-agencies">
+  <div class="page-header"><div class="page-title"><span class="ico ico-store"></span> <span data-i18n="agencies.title">الوكالات</span></div><div class="page-sub" data-i18n="agencies.sub">الوكالات الرسمية المعتمدة للشركات المصنعة في العراق</div></div>
+  <div class="agency-toolbar">
+    <input class="search-input" style="max-width:340px;" placeholder="ابحث عن وكالة أو ماركة..." id="agencySearchInput" oninput="filterAgencies()" data-i18n-ph="agencies.search">
+    <button class="btn-add-agency" id="btnAddAgency" style="display:none;" onclick="openAgencyForm()"><span class="ico ico-plus"></span> <span data-i18n="agencies.add">إضافة وكالة</span></button>
+  </div>
+  <div class="section-page" style="padding-top:0;">
+    <div id="agenciesGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px;"><div class="loading"><span class="ico ico-hourglass"></span> جاري التحميل...</div></div>
+  </div>
+</div>
+
+<!-- AGENCY DETAIL -->
+<div class="page" id="page-agency-detail">
+  <div class="section-page" style="max-width:980px;margin:0 auto;">
+    <button class="detail-back" onclick="goPage('agencies')" style="background:transparent;border:1px solid var(--border);color:var(--dim);padding:8px 16px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:12.5px;cursor:pointer;margin-bottom:16px;">→ <span data-i18n="agencies.back">رجوع للوكالات</span></button>
+    <div id="agencyDetailMain"><div class="loading"><span class="ico ico-hourglass"></span> جاري التحميل...</div></div>
+  </div>
 </div>
 
 <!-- ABOUT -->
 <div class="page" id="page-about">
-  <div class="page-header"><div class="page-title"><span class="ico ico-info"></span> حول الموقع</div><div class="page-sub">كل شي تحتاج تعرفه عن Iraq Motors</div></div>
+  <div class="page-header"><div class="page-title"><span class="ico ico-info"></span> <span data-i18n="about.title">حول الموقع</span></div><div class="page-sub" data-i18n="about.sub">كل شي تحتاج تعرفه عن Iraq Motors</div></div>
   <div class="section-page" style="max-width:760px;margin:0 auto;" id="aboutAccordion">
     <div class="about-item">
       <button class="about-head" onclick="toggleAbout(this)"><span><span class="ico ico-building"></span> من نحن</span><span class="ico ico-chart-down about-arrow"></span></button>
@@ -927,6 +1043,124 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
   </div>
 </div>
 
+<!-- AGENCY ADD/EDIT FORM -->
+<div class="overlay" id="agencyFormOverlay">
+  <div class="modal" style="max-width:680px;">
+    <button class="modal-close" onclick="closeAgencyForm()"><span class="ico ico-cross"></span></button>
+    <div class="modal-title"><span class="ico ico-store"></span> <span id="agencyFormTitle">إضافة وكالة جديدة</span></div>
+    <div class="modal-sub">تُعرض هذه المعلومات في صفحة الوكالة العامة</div>
+    <input type="hidden" id="agEditId" value="">
+
+    <div class="post-section">
+      <div class="post-section-title"><span class="ico ico-building"></span> معلومات أساسية</div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label class="form-label">🏢 اسم الوكالة *</label>
+          <input class="form-input" id="agName" placeholder="مثال: الوكيل المعتمد لتويوتا">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">شعار الوكالة (Logo)</label>
+          <input type="file" class="form-input" id="agLogoFile" accept="image/*" onchange="previewAgencyLogo(this)">
+          <div id="agLogoPreview" style="margin-top:8px;"></div>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">نبذة عن الوكالة</label>
+          <textarea class="form-input" id="agAbout" rows="3" placeholder="نبذة مختصرة عن الوكالة وتاريخها وخدماتها..."></textarea>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">🚗 الماركات التي تمثلها (افصل بفاصلة)</label>
+          <input class="form-input" id="agBrands" placeholder="تويوتا، لكزس">
+        </div>
+      </div>
+    </div>
+
+    <div class="post-section">
+      <div class="post-section-title"><span class="ico ico-pin"></span> العنوان والموقع</div>
+      <div class="form-grid">
+        <div class="form-group full"><label class="form-label">📍 العنوان</label><input class="form-input" id="agAddress" placeholder="مثال: بغداد - المنصور - شارع الأميرات"></div>
+        <div class="form-group"><label class="form-label">خط العرض Latitude (اختياري)</label><input type="number" step="any" class="form-input" id="agLat" placeholder="33.3152"></div>
+        <div class="form-group"><label class="form-label">خط الطول Longitude (اختياري)</label><input type="number" step="any" class="form-input" id="agLng" placeholder="44.3661"></div>
+      </div>
+      <div style="font-size:11px;color:var(--dim);margin-top:6px;">إذا ما أضفت الإحداثيات، رح تنعرض الخريطة اعتماداً على نص العنوان.</div>
+    </div>
+
+    <div class="post-section">
+      <div class="post-section-title"><span class="ico ico-phone"></span> التواصل وأوقات الدوام</div>
+      <div class="form-grid">
+        <div class="form-group full"><label class="form-label">📞 أرقام الهاتف (افصل بفاصلة إذا أكثر من رقم)</label><input class="form-input" id="agPhones" placeholder="07701234567, 07809876543"></div>
+        <div class="form-group"><label class="form-label">💬 رقم واتساب للتواصل المباشر</label><input class="form-input" id="agWhatsapp" placeholder="9647701234567"></div>
+        <div class="form-group"><label class="form-label">📧 البريد الإلكتروني</label><input class="form-input" id="agEmail" placeholder="info@agency.com"></div>
+        <div class="form-group full"><label class="form-label">🌐 الموقع الإلكتروني</label><input class="form-input" id="agWebsite" placeholder="https://"></div>
+        <div class="form-group full"><label class="form-label">🕒 أوقات الدوام</label><input class="form-input" id="agHours" placeholder="السبت - الخميس: 9 صباحاً - 6 مساءً"></div>
+      </div>
+    </div>
+
+    <div class="post-section">
+      <div class="post-section-title"><span class="ico ico-wrench"></span> الخدمات المقدّمة</div>
+      <div class="acc-parts-grid" style="grid-template-columns:repeat(2,1fr);">
+        <label class="part-check"><input type="checkbox" id="agSvcNew"><span>بيع سيارات جديدة</span></label>
+        <label class="part-check"><input type="checkbox" id="agSvcMaint"><span>الصيانة</span></label>
+        <label class="part-check"><input type="checkbox" id="agSvcParts"><span>قطع الغيار الأصلية</span></label>
+        <label class="part-check"><input type="checkbox" id="agSvcWarranty"><span>الضمان</span></label>
+        <label class="part-check"><input type="checkbox" id="agSvcInspect"><span>الفحص</span></label>
+      </div>
+      <label class="part-check" style="width:100%;justify-content:flex-start;margin-top:10px;">
+        <input type="checkbox" id="agAcceptsBookings"><span>الوكالة موافقة على التعاون — إظهار زر "احجز موعد صيانة" و"اطلب عرض سعر" في صفحتها</span>
+      </label>
+    </div>
+
+    <div class="post-section">
+      <div class="post-section-title"><span class="ico ico-camera"></span> معرض صور الوكالة وصالة العرض</div>
+      <div class="photos-upload-area" onclick="document.getElementById('agGalleryFile').click()">
+        <span class="ico ico-lg ico-camera"></span>
+        <div style="margin-top:6px;font-size:13px;">اضغط لإضافة صور</div>
+        <input type="file" id="agGalleryFile" accept="image/*" multiple style="display:none;" onchange="addAgencyGalleryPhotos(this)">
+      </div>
+      <div class="photos-preview" id="agGalleryPreview"></div>
+      <div class="photos-info" id="agGalleryInfo">0 / 12 صورة</div>
+    </div>
+
+    <div class="post-section">
+      <div class="post-section-title"><span class="ico ico-car"></span> السيارات الجديدة المتوفرة</div>
+      <div id="agNewCarsRows"></div>
+      <button type="button" class="btn-row-add" onclick="addAgencyCarRow()">+ إضافة سيارة</button>
+    </div>
+
+    <button class="btn-submit-big" onclick="submitAgency()"><span class="ico ico-save"></span> حفظ الوكالة</button>
+    <div class="msg-box" id="agFormMsg"></div>
+  </div>
+</div>
+
+<!-- AGENCY BOOKING / QUOTE REQUEST -->
+<div class="overlay" id="agencyReqOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAgencyReqForm()"><span class="ico ico-cross"></span></button>
+    <div class="modal-title" id="agencyReqTitle"><span class="ico ico-calendar"></span> حجز موعد صيانة</div>
+    <div class="modal-sub" id="agencyReqSub"></div>
+    <input type="hidden" id="agReqAgencyId"><input type="hidden" id="agReqType">
+    <input class="inp" id="agReqName" placeholder="اسمك الكامل">
+    <input class="inp" id="agReqPhone" placeholder="رقم هاتفك">
+    <textarea class="inp" id="agReqMsg" rows="3" placeholder="تفاصيل الطلب (نوع السيارة، الخدمة المطلوبة...)"></textarea>
+    <button class="btn-sub" onclick="submitAgencyRequest()">إرسال الطلب</button>
+    <div class="msg" id="agReqMsgBox"></div>
+  </div>
+</div>
+
+<!-- AGENCY RATING -->
+<div class="overlay" id="agencyRatingOverlay">
+  <div class="modal" style="max-width:380px;text-align:center;">
+    <button class="modal-close" onclick="closeAgencyRating()"><span class="ico ico-cross"></span></button>
+    <div class="modal-title"><span class="ico ico-star"></span> قيّم هذه الوكالة</div>
+    <input type="hidden" id="ratingAgencyId">
+    <div class="star-picker" id="ratingStars" style="justify-content:center;margin:14px 0;">
+      <span onclick="setRatingStars(1)">★</span><span onclick="setRatingStars(2)">★</span><span onclick="setRatingStars(3)">★</span><span onclick="setRatingStars(4)">★</span><span onclick="setRatingStars(5)">★</span>
+    </div>
+    <textarea class="inp" id="ratingComment" rows="2" placeholder="تعليقك (اختياري)"></textarea>
+    <button class="btn-sub" onclick="submitAgencyRating()">إرسال التقييم</button>
+    <div class="msg" id="ratingMsgBox"></div>
+  </div>
+</div>
+
 <!-- LOGIN -->
 <div class="overlay" id="loginOverlay">
   <div class="modal">
@@ -1004,6 +1238,120 @@ const ADMIN_EMAIL='iraq.motors0@gmail.com';
 firebase.initializeApp({apiKey:"AIzaSyAb4MheuHSlF4yOxuDfhnxZtIMyXy7g-l8",authDomain:"iraq-motors-38983.firebaseapp.com",projectId:"iraq-motors-38983",storageBucket:"iraq-motors-38983.firebasestorage.app",messagingSenderId:"80307836321",appId:"1:80307836321:web:d61f734a86f5be5a4c67e0"});
 const auth=firebase.auth(), db=firebase.firestore(), storage=firebase.storage();
 function isAdmin(){return auth.currentUser&&auth.currentUser.email===ADMIN_EMAIL;}
+
+// ============ I18N (Arabic / Kurdish Sorani / English) ============
+const I18N={
+  ar:{
+    'nav.home':'الرئيسية','nav.cars':'السيارات','nav.compare':'المقارنة','nav.ai':'مستشار AI','nav.market':'مؤشر الأسعار',
+    'nav.dealers':'المعارض','nav.agencies':'الوكالات','nav.calc':'حاسبة القسط','nav.favorites':'المفضلة','nav.garage':'كراجي',
+    'nav.profile':'حسابي','nav.admin':'الإدارة','nav.about':'حول الموقع','nav.login':'تسجيل الدخول','nav.post':'نشر إعلان',
+    'home.badge':'🔥 سوق السيارات الأفخم في العراق','home.title':'اشتري وبع<br><span class="g">سيارتك بثقة</span>',
+    'home.sub':'من البصرة إلى زاخو — نجيب كل سيارة.<br>أفضل منصة لبيع وشراء السيارات في العراق.',
+    'home.browse':'تصفح السيارات','home.postad':'نشر إعلان','home.statCars':'سيارة معروضة','home.statCities':'مدينة','home.statFree':'مجاني',
+    'cars.title':'تصفح السيارات','cars.sub':'اعثر على سيارتك المثالية',
+    'garage.title':'كراجي','garage.sub':'سجّل سياراتك وتابع صيانتها',
+    'market.title':'مؤشر أسعار السيارات - العراق','market.sub':'تتبع أسعار السوق',
+    'calc.title':'حاسبة قسط السيارة','calc.sub':'احسب قسطك الشهري',
+    'favorites.title':'المفضلة','favorites.sub':'السيارات المحفوظة',
+    'dealers.title':'المعارض والتجار','dealers.sub':'معارض موثوقة في العراق',
+    'about.title':'حول الموقع','about.sub':'كل شي تحتاج تعرفه عن Iraq Motors',
+    'agencies.title':'الوكالات','agencies.sub':'الوكالات الرسمية المعتمدة للشركات المصنعة في العراق',
+    'agencies.search':'ابحث عن وكالة أو ماركة...','agencies.add':'إضافة وكالة','agencies.back':'رجوع للوكالات',
+    'ag.tabAbout':'نبذة عن الوكالة','ag.tabCars':'السيارات الجديدة','ag.tabOffers':'العروض الحالية','ag.tabNews':'الأخبار',
+    'ag.tabContact':'معلومات التواصل','ag.tabMap':'الموقع على الخريطة',
+    'ag.noAgencies':'ما في وكالات مضافة لحد الآن','ag.noResults':'ما في نتائج مطابقة لبحثك',
+    'ag.brands':'الماركات المعتمدة','ag.services':'الخدمات المقدّمة','ag.hours':'أوقات الدوام','ag.address':'العنوان',
+    'ag.phone':'الهاتف','ag.email':'البريد الإلكتروني','ag.website':'الموقع الإلكتروني',
+    'ag.svcNew':'بيع سيارات جديدة','ag.svcMaint':'الصيانة','ag.svcParts':'قطع الغيار الأصلية','ag.svcWarranty':'الضمان','ag.svcInspect':'الفحص',
+    'ag.whatsapp':'تواصل عبر واتساب','ag.call':'اتصال مباشر','ag.bookMaintenance':'احجز موعد صيانة','ag.requestQuote':'اطلب عرض سعر',
+    'ag.noCars':'ما في سيارات مضافة حالياً','ag.noOffers':'ما في عروض حالياً','ag.noNews':'ما في أخبار حالياً',
+    'ag.reviews':'تقييمات العملاء','ag.addReview':'أضف تقييمك','ag.noReviews':'كن أول من يقيّم هذه الوكالة',
+    'ag.edit':'تعديل','ag.delete':'حذف','ag.confirmDelete':'هل تريد حذف هذه الوكالة نهائياً؟',
+    'ag.formTitleAdd':'إضافة وكالة جديدة','ag.formTitleEdit':'تعديل بيانات الوكالة','ag.mapNoLoc':'لا يوجد موقع محدد لهذه الوكالة'
+  },
+  ku:{
+    'nav.home':'سەرەکی','nav.cars':'ئۆتۆمبێلەکان','nav.compare':'بەراورد','nav.ai':'ڕاوێژکاری AI','nav.market':'نرخنامەی بازاڕ',
+    'nav.dealers':'نمایشگاکان','nav.agencies':'ئاژانسەکان','nav.calc':'ژمێرەری قیست','nav.favorites':'دڵخوازەکان','nav.garage':'گاراژەکەم',
+    'nav.profile':'هەژمارەکەم','nav.admin':'بەڕێوەبردن','nav.about':'دەربارەی ماڵپەڕ','nav.login':'چوونەژوورەوە','nav.post':'ڕیکلامێک بلاوبکەرەوە',
+    'home.badge':'🔥 گەورەترین بازاڕی ئۆتۆمبێل لە عێراق','home.title':'بکڕە و بفرۆشە<br><span class="g">ئۆتۆمبێلەکەت بە دڵنیایی</span>',
+    'home.sub':'لە بەسرە بۆ زاخۆ — هەموو ئۆتۆمبێلێک دەدۆزینەوە.<br>باشترین پلاتفۆرم بۆ فرۆشتن و کڕینی ئۆتۆمبێل لە عێراق.',
+    'home.browse':'ئۆتۆمبێلەکان ببینە','home.postad':'ڕیکلامێک بلاوبکەرەوە','home.statCars':'ئۆتۆمبێلی نمایشکراو','home.statCities':'شار','home.statFree':'بەخۆڕایی',
+    'cars.title':'ئۆتۆمبێلەکان ببینە','cars.sub':'ئۆتۆمبێلە گونجاوەکەت بدۆزەرەوە',
+    'garage.title':'گاراژەکەم','garage.sub':'ئۆتۆمبێلەکانت تۆمار بکە و چاودێری چاککردنەوەیان بکە',
+    'market.title':'نرخنامەی ئۆتۆمبێل - عێراق','market.sub':'چاودێری نرخەکانی بازاڕ بکە',
+    'calc.title':'ژمێرەری قیستی ئۆتۆمبێل','calc.sub':'قیستی مانگانەت ژمارە بکە',
+    'favorites.title':'دڵخوازەکان','favorites.sub':'ئۆتۆمبێلە هەڵگیراوەکان',
+    'dealers.title':'نمایشگا و بازرگانەکان','dealers.sub':'نمایشگای متمانەپێکراو لە عێراق',
+    'about.title':'دەربارەی ماڵپەڕ','about.sub':'هەموو شتێک کە پێویستە دەربارەی Iraq Motors بزانیت',
+    'agencies.title':'ئاژانسەکان','agencies.sub':'ئاژانسە فەرمییەکانی کۆمپانیا بەرهەمهێنەرەکان لە عێراق',
+    'agencies.search':'گەڕان بۆ ئاژانس یان مارکە...','agencies.add':'زیادکردنی ئاژانس','agencies.back':'گەڕانەوە بۆ ئاژانسەکان',
+    'ag.tabAbout':'دەربارەی ئاژانس','ag.tabCars':'ئۆتۆمبێلە نوێیەکان','ag.tabOffers':'داشکاندنە ئێستاکان','ag.tabNews':'هەواڵەکان',
+    'ag.tabContact':'زانیاری پەیوەندی','ag.tabMap':'شوێن لەسەر نەخشە',
+    'ag.noAgencies':'هیچ ئاژانسێک زیاد نەکراوە','ag.noResults':'هیچ ئەنجامێک لەگەڵ گەڕانەکەت نەگونجا',
+    'ag.brands':'مارکە پشتگیریکراوەکان','ag.services':'خزمەتگوزارییەکان','ag.hours':'کاتەکانی کارکردن','ag.address':'ناونیشان',
+    'ag.phone':'ژمارەی مۆبایل','ag.email':'ئیمەیل','ag.website':'ماڵپەڕ',
+    'ag.svcNew':'فرۆشتنی ئۆتۆمبێلی نوێ','ag.svcMaint':'چاککردنەوە','ag.svcParts':'پارچە یەدەگی ڕەسەن','ag.svcWarranty':'گەرەنتی','ag.svcInspect':'پشکنین',
+    'ag.whatsapp':'پەیوەندی لە ڕێگەی واتساپ','ag.call':'پەیوەندی ڕاستەوخۆ','ag.bookMaintenance':'کاتی چاککردنەوە حیجزبکە','ag.requestQuote':'داوای نرخ بکە',
+    'ag.noCars':'هیچ ئۆتۆمبێلێک زیاد نەکراوە','ag.noOffers':'هیچ داشکاندنێک نییە','ag.noNews':'هیچ هەواڵێک نییە',
+    'ag.reviews':'هەڵسەنگاندنی کڕیارەکان','ag.addReview':'هەڵسەنگاندنت زیاد بکە','ag.noReviews':'یەکەم کەس بە کە ئەم ئاژانسە هەڵدەسەنگێنیت',
+    'ag.edit':'دەستکاریکردن','ag.delete':'سڕینەوە','ag.confirmDelete':'دڵنیایت لە سڕینەوەی ئەم ئاژانسە بۆ هەمیشە؟',
+    'ag.formTitleAdd':'زیادکردنی ئاژانسی نوێ','ag.formTitleEdit':'دەستکاریکردنی زانیاری ئاژانس','ag.mapNoLoc':'هیچ شوێنێک بۆ ئەم ئاژانسە دیارینەکراوە'
+  },
+  en:{
+    'nav.home':'Home','nav.cars':'Cars','nav.compare':'Compare','nav.ai':'AI Advisor','nav.market':'Price Index',
+    'nav.dealers':'Dealers','nav.agencies':'Agencies','nav.calc':'Loan Calculator','nav.favorites':'Favorites','nav.garage':'My Garage',
+    'nav.profile':'My Account','nav.admin':'Admin','nav.about':'About','nav.login':'Log In','nav.post':'Post an Ad',
+    'home.badge':'🔥 Iraq\'s premier car marketplace','home.title':'Buy and sell<br><span class="g">your car with confidence</span>',
+    'home.sub':'From Basra to Zakho — we find every car.<br>The best platform to buy and sell cars in Iraq.',
+    'home.browse':'Browse Cars','home.postad':'Post an Ad','home.statCars':'Cars listed','home.statCities':'Cities','home.statFree':'Free',
+    'cars.title':'Browse Cars','cars.sub':'Find your perfect car',
+    'garage.title':'My Garage','garage.sub':'Register your cars and track their maintenance',
+    'market.title':'Car Price Index - Iraq','market.sub':'Track market prices',
+    'calc.title':'Car Loan Calculator','calc.sub':'Calculate your monthly installment',
+    'favorites.title':'Favorites','favorites.sub':'Your saved cars',
+    'dealers.title':'Dealers & Traders','dealers.sub':'Trusted dealers across Iraq',
+    'about.title':'About the Site','about.sub':'Everything you need to know about Iraq Motors',
+    'agencies.title':'Agencies','agencies.sub':'Official authorized agencies of car manufacturers in Iraq',
+    'agencies.search':'Search agency or brand...','agencies.add':'Add Agency','agencies.back':'Back to Agencies',
+    'ag.tabAbout':'About the Agency','ag.tabCars':'New Cars','ag.tabOffers':'Current Offers','ag.tabNews':'News',
+    'ag.tabContact':'Contact Info','ag.tabMap':'Location on Map',
+    'ag.noAgencies':'No agencies added yet','ag.noResults':'No results match your search',
+    'ag.brands':'Represented Brands','ag.services':'Services Offered','ag.hours':'Working Hours','ag.address':'Address',
+    'ag.phone':'Phone','ag.email':'Email','ag.website':'Website',
+    'ag.svcNew':'New Car Sales','ag.svcMaint':'Maintenance','ag.svcParts':'Genuine Parts','ag.svcWarranty':'Warranty','ag.svcInspect':'Inspection',
+    'ag.whatsapp':'Contact via WhatsApp','ag.call':'Call Directly','ag.bookMaintenance':'Book Maintenance','ag.requestQuote':'Request a Quote',
+    'ag.noCars':'No cars added currently','ag.noOffers':'No current offers','ag.noNews':'No news currently',
+    'ag.reviews':'Customer Reviews','ag.addReview':'Add Your Review','ag.noReviews':'Be the first to review this agency',
+    'ag.edit':'Edit','ag.delete':'Delete','ag.confirmDelete':'Permanently delete this agency?',
+    'ag.formTitleAdd':'Add New Agency','ag.formTitleEdit':'Edit Agency Details','ag.mapNoLoc':'No location set for this agency'
+  }
+};
+var currentLang=(function(){try{return localStorage.getItem('iraqMotorsLang')||'ar';}catch(e){return 'ar';}})();
+function t(key){var d=I18N[currentLang]||I18N.ar;return d[key]!==undefined?d[key]:(I18N.ar[key]!==undefined?I18N.ar[key]:key);}
+function applyI18n(){
+  document.documentElement.setAttribute('lang',currentLang);
+  document.querySelectorAll('[data-i18n]').forEach(function(el){el.textContent=t(el.getAttribute('data-i18n'));});
+  document.querySelectorAll('[data-i18n-html]').forEach(function(el){el.innerHTML=t(el.getAttribute('data-i18n-html'));});
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(el){el.setAttribute('placeholder',t(el.getAttribute('data-i18n-ph')));});
+  var labels={ar:'العربية',ku:'کوردی',en:'English'};
+  var lbl=document.getElementById('langBtnLabel');if(lbl)lbl.textContent=labels[currentLang];
+  [['Ar','ar'],['Ku','ku'],['En','en']].forEach(function(p){
+    var o=document.getElementById('langOpt'+p[0]);if(o)o.classList.toggle('active',p[1]===currentLang);
+    var c=document.getElementById('langChip'+p[0]);if(c)c.classList.toggle('active',p[1]===currentLang);
+  });
+  var pa=document.getElementById('page-agencies'),pd=document.getElementById('page-agency-detail');
+  if(pa&&pa.classList.contains('active'))filterAgencies();
+  if(pd&&pd.classList.contains('active')&&window._curAgencyId)openAgencyDetail(window._curAgencyId,true);
+}
+function setLang(l){currentLang=l;try{localStorage.setItem('iraqMotorsLang',l);}catch(e){}applyI18n();closeLangMenu();}
+function toggleLangMenu(){var m=document.getElementById('langMenu');if(m)m.classList.toggle('open');}
+function closeLangMenu(){var m=document.getElementById('langMenu');if(m)m.classList.remove('open');}
+document.addEventListener('click',function(e){
+  var sw=document.getElementById('langSwitch');
+  if(sw&&!sw.contains(e.target))closeLangMenu();
+});
+// ============ END I18N ============
+
 
 // CAR DATA
 const CAR_DATA={
@@ -1103,6 +1451,8 @@ auth.onAuthStateChanged(function(user){
     if(np)np.style.display='none'; if(nf)nf.style.display='none'; if(ng)ng.style.display='none'; if(na)na.style.display='none';
     updateMobileNav(null);
   }
+  var baa=document.getElementById('btnAddAgency');if(baa)baa.style.display=isAdmin()?'flex':'none';
+  if(document.getElementById('page-agencies')&&document.getElementById('page-agencies').classList.contains('active'))filterAgencies();
 });
 
 // PAGES
@@ -1124,6 +1474,7 @@ function goPage(p){
   else if(p==='dealers')loadDealers();
   else if(p==='garage'){if(!auth.currentUser){goPage('home');openLogin();return;}loadGarage();}
   else if(p==='market')loadMarketIndex();
+  else if(p==='agencies')loadAgencies();
 }
 
 // FORMS
@@ -1701,6 +2052,9 @@ async function loadAdminPage(){
     var dsnap=await db.collection('dealerRequests').get();
     var dealerRequests=dsnap.docs.map(function(d){return Object.assign({id:d.id},d.data());});
     var dealerPending=dealerRequests.filter(function(d){return d.status==='pending';});
+    var arsnap=await db.collection('agencyRequests').orderBy('createdAt','desc').get().catch(function(){return {docs:[]};});
+    var agencyRequests=arsnap.docs.map(function(d){return Object.assign({id:d.id},d.data());});
+    var agencyReqOpen=agencyRequests.filter(function(r){return r.status!=='closed';});
     var pending=allAds.filter(function(c){return !c.approved;});
     var approved=allAds.filter(function(c){return c.approved;});
     document.getElementById('statTotalAds').textContent=allAds.length;
@@ -1710,7 +2064,8 @@ async function loadAdminPage(){
     document.getElementById('statUsers').textContent=usnap.size;
     document.getElementById('statReports').textContent=reports.length;
     document.getElementById('statDealerPending').textContent=dealerPending.length;
-    window._ad={allAds,pending,approved,reports,companyAds,dealerRequests,dealerPending,users:usnap.docs.map(function(d){return Object.assign({id:d.id},d.data());})};
+    document.getElementById('statAgencyReq').textContent=agencyReqOpen.length;
+    window._ad={allAds,pending,approved,reports,companyAds,dealerRequests,dealerPending,agencyRequests,agencyReqOpen,users:usnap.docs.map(function(d){return Object.assign({id:d.id},d.data());})};
     switchAdminTab('pending',document.querySelector('#adminTabs .admin-tab'));
   }catch(e){document.getElementById('adminTabContent').innerHTML='<div style="color:var(--red);padding:20px;">خطأ: '+e.message+'</div>';}
 }
@@ -1810,6 +2165,18 @@ function switchAdminTab(tab,btn){
           '<td style="padding:11px;font-size:12px;font-weight:700;color:'+statusColor(d.status)+';">'+statusLabel(d.status)+'</td></tr>';
       }).join('')+'</tbody></table></div>':'<div style="text-align:center;padding:24px;color:var(--dim);">ما في طلبات لحد الآن</div>';
     ct.innerHTML=html;
+  } else if(tab==='agencyReq'){
+    var reqs=data.agencyRequests||[];
+    if(!reqs.length){ct.innerHTML='<div style="text-align:center;padding:40px;color:var(--dim);"><span class="ico ico-check"></span> ما في طلبات حجز صيانة أو عروض أسعار</div>';return;}
+    ct.innerHTML=reqs.map(function(r){
+      var typeLabel=r.type==='quote'?'📋 طلب عرض سعر':'📅 حجز موعد صيانة';
+      var closed=r.status==='closed';
+      return '<div class="admin-card"><div class="admin-card-img" style="display:flex;align-items:center;justify-content:center;font-size:22px;"><span class="ico ico-md ico-calendar"></span></div>'+
+        '<div class="admin-card-info"><div class="admin-card-name">'+typeLabel+' — '+(r.agencyName||'')+(closed?' <span style="color:var(--green);font-size:11px;">(تم التعامل معه)</span>':'')+'</div>'+
+        '<div class="admin-card-meta"><span class="ico ico-user"></span> '+(r.name||'')+' • <span class="ico ico-phone"></span> '+(r.phone||'')+'</div>'+
+        (r.message?'<div class="admin-card-meta">'+r.message+'</div>':'')+
+        '<div class="admin-card-actions">'+(closed?'':'<button class="btn-approve" onclick="closeAgencyRequest(\''+r.id+'\')"><span class="ico ico-check"></span> تم التواصل</button>')+'</div></div></div>';
+    }).join('');
   }
 }
 async function approveDealer(id){
@@ -1835,6 +2202,17 @@ function rejectDealer(id){
     showToast('<span class="ico ico-cross"></span> تم رفض الطلب');
   }catch(e){alert('خطأ: '+e.message);}
   });
+}
+async function closeAgencyRequest(id){
+  try{
+    await db.collection('agencyRequests').doc(id).update({status:'closed'});
+    var r=(window._ad.agencyRequests||[]).find(function(x){return x.id===id;});
+    if(r)r.status='closed';
+    window._ad.agencyReqOpen=(window._ad.agencyRequests||[]).filter(function(x){return x.status!=='closed';});
+    document.getElementById('statAgencyReq').textContent=window._ad.agencyReqOpen.length;
+    switchAdminTab('agencyReq',Array.from(document.querySelectorAll('#adminTabs .admin-tab')).find(function(b){return b.textContent.indexOf('الوكالات')>-1;}));
+    showToast('<span class="ico ico-check"></span> تم التحديث');
+  }catch(e){alert('خطأ: '+e.message);}
 }
 function toggleCaType(){
   var v=document.querySelector('input[name="caType"]:checked').value;
@@ -2231,6 +2609,438 @@ function loadDealers(){
   }).join('');
 }
 
+// ============ AGENCIES MODULE ============
+window._agencies=[];
+window._curAgencyId=null;
+function escAg(s){return (s==null?'':String(s)).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function starsStr(n){n=Math.round(n||0);var s='';for(var i=0;i<5;i++)s+=(i<n?'★':'☆');return s;}
+
+function loadAgencies(){
+  var grid=document.getElementById('agenciesGrid');
+  if(!grid)return;
+  grid.innerHTML='<div class="loading"><span class="ico ico-hourglass"></span> جاري التحميل...</div>';
+  db.collection('agencies').orderBy('createdAt','desc').get().then(function(snap){
+    window._agencies=snap.docs.map(function(d){return Object.assign({id:d.id},d.data());});
+    filterAgencies();
+  }).catch(function(e){
+    grid.innerHTML='<div style="text-align:center;padding:40px;color:var(--red);">خطأ: '+e.message+'</div>';
+  });
+  var baa=document.getElementById('btnAddAgency');if(baa)baa.style.display=isAdmin()?'flex':'none';
+}
+function filterAgencies(){
+  var grid=document.getElementById('agenciesGrid');
+  if(!grid)return;
+  var qi=document.getElementById('agencySearchInput');
+  var q=(qi?qi.value:'').trim().toLowerCase();
+  var list=window._agencies||[];
+  if(q){
+    list=list.filter(function(a){
+      var hay=((a.name||'')+' '+(a.brands||[]).join(' ')).toLowerCase();
+      return hay.indexOf(q)>-1;
+    });
+  }
+  if(!list.length){
+    grid.innerHTML='<div class="empty"><div class="empty-ico"><span class="ico ico-lg ico-store"></span></div><div class="empty-tit">'+(q?t('ag.noResults'):t('ag.noAgencies'))+'</div></div>';
+    return;
+  }
+  grid.innerHTML=list.map(renderAgencyCard).join('');
+}
+function renderAgencyCard(a){
+  var logo=a.logo?'<img class="agency-logo" src="'+a.logo+'">':'<div class="agency-logo-fallback"><span class="ico ico-lg ico-store"></span></div>';
+  var brandsHtml=(a.brands||[]).slice(0,4).map(function(b){return '<span class="agency-brand-tag">'+escAg(b)+'</span>';}).join('');
+  var adminBtns=isAdmin()?('<div class="agency-admin-actions"><button class="agency-mini-btn" onclick="event.stopPropagation();openAgencyForm(\''+a.id+'\')"><span class="ico ico-edit"></span></button><button class="agency-mini-btn del" onclick="event.stopPropagation();deleteAgency(\''+a.id+'\')"><span class="ico ico-trash"></span></button></div>'):'';
+  return '<div class="agency-card" onclick="openAgencyDetail(\''+a.id+'\')" style="position:relative;">'+adminBtns+
+    '<div class="agency-cover">'+logo+'</div>'+
+    '<div class="agency-body">'+
+      '<div class="agency-name">'+escAg(a.name)+'</div>'+
+      (a.address?'<div class="agency-city"><span class="ico ico-pin"></span> '+escAg(a.address)+'</div>':'')+
+      (brandsHtml?'<div class="agency-brands">'+brandsHtml+'</div>':'')+
+      '<div class="agency-rating"><span class="stars">'+starsStr(a.avgRating||0)+'</span> '+(a.ratingCount?('('+a.ratingCount+')'):'')+'</div>'+
+    '</div></div>';
+}
+function agencyMapEmbedUrl(a){
+  if(a.lat&&a.lng)return 'https://maps.google.com/maps?q='+a.lat+','+a.lng+'&z=15&output=embed';
+  if(a.address)return 'https://maps.google.com/maps?q='+encodeURIComponent(a.address)+'&z=14&output=embed';
+  return '';
+}
+function openAgencyDetail(id,skipNav){
+  window._curAgencyId=id;
+  var render=function(agency){
+    document.getElementById('agencyDetailMain').innerHTML=buildAgencyDetailHtml(agency);
+    switchAgencyTab('about');
+    loadAgencyReviews(id);
+  };
+  var a=(window._agencies||[]).find(function(x){return x.id===id;});
+  if(a){render(a);}
+  else{
+    document.getElementById('agencyDetailMain').innerHTML='<div class="loading"><span class="ico ico-hourglass"></span> جاري التحميل...</div>';
+    db.collection('agencies').doc(id).get().then(function(doc){
+      if(!doc.exists){document.getElementById('agencyDetailMain').innerHTML='<div class="empty"><div class="empty-tit">404</div></div>';return;}
+      render(Object.assign({id:doc.id},doc.data()));
+    });
+  }
+  if(!skipNav)goPage('agency-detail');
+}
+function buildAgencyDetailHtml(a){
+  var logo=a.logo?'<img class="agency-hero-logo" src="'+a.logo+'">':'<div class="agency-hero-logo" style="display:flex;align-items:center;justify-content:center;font-size:30px;color:var(--gold);"><span class="ico ico-lg ico-store"></span></div>';
+  var waNum=(a.whatsapp||(a.phones&&a.phones[0])||'').replace(/\D/g,'');
+  var callNum=(a.phones&&a.phones[0])||'';
+  var actions=
+    (waNum?'<a class="btn-wa" href="https://wa.me/'+waNum+'" target="_blank">💬 '+t('ag.whatsapp')+'</a>':'')+
+    (callNum?'<a class="btn-call" href="tel:'+callNum+'"><span class="ico ico-phone"></span> '+t('ag.call')+'</a>':'')+
+    (a.acceptsBookings?'<button class="btn-book" onclick="openAgencyReqForm(\''+a.id+'\',\'maintenance\')"><span class="ico ico-calendar"></span> '+t('ag.bookMaintenance')+'</button>':'')+
+    (a.acceptsBookings?'<button class="btn-book" onclick="openAgencyReqForm(\''+a.id+'\',\'quote\')"><span class="ico ico-money"></span> '+t('ag.requestQuote')+'</button>':'')+
+    (isAdmin()?'<button class="btn-book" onclick="openAgencyForm(\''+a.id+'\')"><span class="ico ico-edit"></span> '+t('ag.edit')+'</button>':'');
+  var hero='<div class="agency-hero">'+logo+
+    '<div class="agency-hero-info">'+
+      '<div class="agency-hero-name">'+escAg(a.name)+'</div>'+
+      (a.address?'<div class="agency-hero-meta"><span class="ico ico-pin"></span> '+escAg(a.address)+'</div>':'')+
+      '<div class="agency-hero-meta"><span style="color:var(--gold);">'+starsStr(a.avgRating||0)+'</span> '+(a.avgRating?a.avgRating.toFixed(1):'—')+' ('+(a.ratingCount||0)+')</div>'+
+      '<div class="agency-hero-actions">'+actions+'</div>'+
+    '</div></div>';
+  var tabs='<div class="agency-tabs">'+
+    '<button class="agency-tab active" data-tab="about" onclick="switchAgencyTab(\'about\')">'+t('ag.tabAbout')+'</button>'+
+    '<button class="agency-tab" data-tab="cars" onclick="switchAgencyTab(\'cars\')">'+t('ag.tabCars')+'</button>'+
+    '<button class="agency-tab" data-tab="offers" onclick="switchAgencyTab(\'offers\')">'+t('ag.tabOffers')+'</button>'+
+    '<button class="agency-tab" data-tab="news" onclick="switchAgencyTab(\'news\')">'+t('ag.tabNews')+'</button>'+
+    '<button class="agency-tab" data-tab="contact" onclick="switchAgencyTab(\'contact\')">'+t('ag.tabContact')+'</button>'+
+    '<button class="agency-tab" data-tab="map" onclick="switchAgencyTab(\'map\')">'+t('ag.tabMap')+'</button>'+
+  '</div>';
+  var servicesMap={new:'ag.svcNew',maint:'ag.svcMaint',parts:'ag.svcParts',warranty:'ag.svcWarranty',inspect:'ag.svcInspect'};
+  var svcHtml=(a.services||[]).map(function(s){return '<span class="agency-brand-tag">'+t(servicesMap[s]||s)+'</span>';}).join('');
+  var brandsHtml2=(a.brands||[]).map(function(b){return '<span class="agency-brand-tag">'+escAg(b)+'</span>';}).join('');
+  var galLabel=currentLang==='en'?'Photo Gallery':(currentLang==='ku'?'گالەری وێنە':'معرض الصور');
+  var galleryHtml=(a.gallery&&a.gallery.length)?('<div class="agency-gallery-grid">'+a.gallery.map(function(g){return '<img src="'+g+'" onclick="window.open(\''+g+'\',\'_blank\')">';}).join('')+'</div>'):'';
+  var aboutTab='<div class="agency-tab-content" data-tabc="about">'+
+    (a.about?'<div class="post-section"><div class="post-section-title">'+t('ag.tabAbout')+'</div><p style="color:var(--dim);font-size:13.5px;line-height:1.9;">'+escAg(a.about).replace(/\n/g,'<br>')+'</p></div>':'')+
+    (brandsHtml2?'<div class="post-section"><div class="post-section-title">'+t('ag.brands')+'</div><div class="chip-row">'+brandsHtml2+'</div></div>':'')+
+    (svcHtml?'<div class="post-section"><div class="post-section-title">'+t('ag.services')+'</div><div class="chip-row">'+svcHtml+'</div></div>':'')+
+    (galleryHtml?'<div class="post-section"><div class="post-section-title"><span class="ico ico-camera"></span> '+galLabel+'</div>'+galleryHtml+'</div>':'')+
+    '<div class="post-section" id="agencyReviewsWrap"><div class="post-section-title"><span class="ico ico-star"></span> '+t('ag.reviews')+'</div><div id="agencyReviewsList"><div class="loading" style="padding:20px;"><span class="ico ico-hourglass"></span></div></div>'+
+    '<button class="btn-row-add" style="margin-top:10px;" onclick="openAgencyRatingForm(\''+a.id+'\')">⭐ '+t('ag.addReview')+'</button></div>'+
+  '</div>';
+  var carsTab='<div class="agency-tab-content" data-tabc="cars" style="display:none;">'+
+    ((a.newCars&&a.newCars.length)?('<div class="newcar-grid">'+a.newCars.map(function(c){
+      return '<div class="newcar-card"><div class="newcar-img" style="display:flex;align-items:center;justify-content:center;"><span class="ico ico-lg ico-car"></span></div>'+
+        '<div class="newcar-body"><div class="newcar-name">'+escAg(c.name)+'</div><div class="newcar-price">'+(c.currency==='IQD'?(Number(c.price||0).toLocaleString()+' د.ع'):('$'+Number(c.price||0).toLocaleString()))+'</div></div></div>';
+    }).join('')+'</div>'):('<div class="empty" style="padding:40px 0;"><div class="empty-sub">'+t('ag.noCars')+'</div></div>'))+
+  '</div>';
+  var offersTab='<div class="agency-tab-content" data-tabc="offers" style="display:none;">'+
+    (isAdmin()?agencyAdminAddForm(a.id,'offer'):'')+
+    ((a.offers&&a.offers.length)?a.offers.slice().reverse().map(function(o,idx){
+      return '<div class="offer-card">'+(o.img?'<img src="'+o.img+'">':'')+
+        '<div><div class="offer-title">'+escAg(o.title)+'</div><div class="offer-date">'+(o.date||'')+'</div><div class="offer-body">'+escAg(o.body||'')+'</div>'+
+        (isAdmin()?'<button class="btn-row-rm" style="margin-top:6px;width:auto;padding:4px 10px;" onclick="removeAgencyItem(\''+a.id+'\',\'offers\','+(a.offers.length-1-idx)+')"><span class="ico ico-trash"></span></button>':'')+
+        '</div></div>';
+    }).join(''):('<div class="empty" style="padding:40px 0;"><div class="empty-sub">'+t('ag.noOffers')+'</div></div>'))+
+  '</div>';
+  var newsTab='<div class="agency-tab-content" data-tabc="news" style="display:none;">'+
+    (isAdmin()?agencyAdminAddForm(a.id,'news'):'')+
+    ((a.news&&a.news.length)?a.news.slice().reverse().map(function(n,idx){
+      return '<div class="news-card">'+(n.img?'<img src="'+n.img+'">':'')+
+        '<div><div class="news-title">'+escAg(n.title)+'</div><div class="news-date">'+(n.date||'')+'</div><div class="news-body">'+escAg(n.body||'')+'</div>'+
+        (isAdmin()?'<button class="btn-row-rm" style="margin-top:6px;width:auto;padding:4px 10px;" onclick="removeAgencyItem(\''+a.id+'\',\'news\','+(a.news.length-1-idx)+')"><span class="ico ico-trash"></span></button>':'')+
+        '</div></div>';
+    }).join(''):('<div class="empty" style="padding:40px 0;"><div class="empty-sub">'+t('ag.noNews')+'</div></div>'))+
+  '</div>';
+  var phonesHtml=(a.phones||[]).map(function(p){return '<div class="spec-item"><div class="spec-label"><span class="ico ico-phone"></span> '+t('ag.phone')+'</div><div class="spec-val"><a href="tel:'+p+'" style="color:var(--text);text-decoration:none;">'+p+'</a></div></div>';}).join('');
+  var contactTab='<div class="agency-tab-content" data-tabc="contact" style="display:none;">'+
+    '<div class="detail-specs" style="grid-template-columns:1fr 1fr;">'+
+      phonesHtml+
+      (a.email?'<div class="spec-item"><div class="spec-label">✉️ '+t('ag.email')+'</div><div class="spec-val">'+escAg(a.email)+'</div></div>':'')+
+      (a.website?'<div class="spec-item"><div class="spec-label"><span class="ico ico-link"></span> '+t('ag.website')+'</div><div class="spec-val"><a href="'+a.website+'" target="_blank" style="color:var(--gold);">'+escAg(a.website)+'</a></div></div>':'')+
+      (a.hours?'<div class="spec-item" style="grid-column:1/-1;"><div class="spec-label">🕒 '+t('ag.hours')+'</div><div class="spec-val">'+escAg(a.hours)+'</div></div>':'')+
+      (a.address?'<div class="spec-item" style="grid-column:1/-1;"><div class="spec-label"><span class="ico ico-pin"></span> '+t('ag.address')+'</div><div class="spec-val">'+escAg(a.address)+'</div></div>':'')+
+    '</div></div>';
+  var mapUrl=agencyMapEmbedUrl(a);
+  var mapTab='<div class="agency-tab-content" data-tabc="map" style="display:none;">'+
+    (mapUrl?'<div class="map-embed-wrap"><iframe src="'+mapUrl+'" loading="lazy"></iframe></div>':'<div class="empty" style="padding:40px 0;"><div class="empty-sub">'+t('ag.mapNoLoc')+'</div></div>')+
+  '</div>';
+  return hero+tabs+aboutTab+carsTab+offersTab+newsTab+contactTab+mapTab;
+}
+function switchAgencyTab(tab){
+  document.querySelectorAll('.agency-tab').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-tab')===tab);});
+  document.querySelectorAll('.agency-tab-content').forEach(function(c){c.style.display=(c.getAttribute('data-tabc')===tab)?'block':'none';});
+}
+function agencyAdminAddForm(agencyId,kind){
+  var idPrefix=kind+'_'+agencyId.replace(/[^a-zA-Z0-9]/g,'');
+  var label=kind==='offer'?'إضافة عرض جديد':'إضافة خبر جديد';
+  return '<div class="post-section">'+
+    '<div class="post-section-title"><span class="ico ico-plus"></span> '+label+'</div>'+
+    '<input class="form-input" id="'+idPrefix+'_title" placeholder="العنوان" style="margin-bottom:8px;">'+
+    '<textarea class="form-input" id="'+idPrefix+'_body" rows="2" placeholder="التفاصيل" style="margin-bottom:8px;"></textarea>'+
+    '<button class="btn-row-add" onclick="addAgencyItem(\''+agencyId+'\',\''+kind+'\',\''+idPrefix+'\')">حفظ</button>'+
+  '</div>';
+}
+async function addAgencyItem(agencyId,kind,idPrefix){
+  var title=document.getElementById(idPrefix+'_title').value.trim();
+  var body=document.getElementById(idPrefix+'_body').value.trim();
+  if(!title)return;
+  var field=kind==='offer'?'offers':'news';
+  var item={title:title,body:body,date:new Date().toLocaleDateString('ar-IQ')};
+  try{
+    var upd={};upd[field]=firebase.firestore.FieldValue.arrayUnion(item);
+    await db.collection('agencies').doc(agencyId).update(upd);
+    var a=(window._agencies||[]).find(function(x){return x.id===agencyId;});
+    if(a){a[field]=a[field]||[];a[field].push(item);}
+    openAgencyDetail(agencyId,true);
+    showToast('<span class="ico ico-check"></span> تمت الإضافة');
+  }catch(e){alert('خطأ: '+e.message);}
+}
+function removeAgencyItem(agencyId,field,index){
+  customConfirm('حذف هذا العنصر؟',async function(){
+    try{
+      var a=(window._agencies||[]).find(function(x){return x.id===agencyId;});
+      var arr=(a&&a[field])?a[field].slice():[];
+      if(!a){var doc=await db.collection('agencies').doc(agencyId).get();arr=(doc.data()||{})[field]||[];}
+      arr.splice(index,1);
+      var upd={};upd[field]=arr;
+      await db.collection('agencies').doc(agencyId).update(upd);
+      if(a)a[field]=arr;
+      openAgencyDetail(agencyId,true);
+      showToast('<span class="ico ico-trash"></span> تم الحذف');
+    }catch(e){alert('خطأ: '+e.message);}
+  });
+}
+
+// Reviews / ratings
+function loadAgencyReviews(agencyId){
+  var wrap=document.getElementById('agencyReviewsList');
+  if(!wrap)return;
+  db.collection('agencies').doc(agencyId).collection('ratings').orderBy('createdAt','desc').limit(20).get().then(function(snap){
+    if(snap.empty){wrap.innerHTML='<div style="text-align:center;color:var(--dim);font-size:12.5px;padding:14px;">'+t('ag.noReviews')+'</div>';return;}
+    wrap.innerHTML=snap.docs.map(function(d){
+      var r=d.data();
+      return '<div class="review-item"><div class="review-head"><span>'+escAg(r.userName||'مستخدم')+'</span><span class="review-stars">'+starsStr(r.stars)+'</span></div>'+(r.comment?'<div style="font-size:12.5px;color:var(--text);">'+escAg(r.comment)+'</div>':'')+'</div>';
+    }).join('');
+  }).catch(function(){wrap.innerHTML='';});
+}
+var _ratingStarsVal=0;
+function openAgencyRatingForm(agencyId){
+  if(!auth.currentUser){openLogin();return;}
+  document.getElementById('ratingAgencyId').value=agencyId;
+  _ratingStarsVal=0;
+  setRatingStars(0);
+  document.getElementById('ratingComment').value='';
+  document.getElementById('ratingMsgBox').style.display='none';
+  document.getElementById('agencyRatingOverlay').classList.add('open');
+}
+function closeAgencyRating(){document.getElementById('agencyRatingOverlay').classList.remove('open');}
+function setRatingStars(n){
+  _ratingStarsVal=n;
+  document.querySelectorAll('#ratingStars span').forEach(function(s,i){s.classList.toggle('on',i<n);});
+}
+async function submitAgencyRating(){
+  var agencyId=document.getElementById('ratingAgencyId').value;
+  if(!_ratingStarsVal){showMsg2('ratingMsgBox','<span class="ico ico-cross"></span> الرجاء اختيار عدد النجوم','#e74c3c');return;}
+  if(!auth.currentUser){openLogin();return;}
+  try{
+    var comment=document.getElementById('ratingComment').value.trim();
+    var uid=auth.currentUser.uid;
+    await db.collection('agencies').doc(agencyId).collection('ratings').doc(uid).set({
+      stars:_ratingStarsVal,comment:comment,userName:auth.currentUser.displayName||'مستخدم',createdAt:firebase.firestore.FieldValue.serverTimestamp()
+    });
+    var snap=await db.collection('agencies').doc(agencyId).collection('ratings').get();
+    var total=0;snap.forEach(function(d){total+=(d.data().stars||0);});
+    var avg=snap.size?(total/snap.size):0;
+    await db.collection('agencies').doc(agencyId).update({avgRating:avg,ratingCount:snap.size});
+    var a=(window._agencies||[]).find(function(x){return x.id===agencyId;});
+    if(a){a.avgRating=avg;a.ratingCount=snap.size;}
+    closeAgencyRating();
+    showToast('<span class="ico ico-check"></span> شكراً على تقييمك');
+    openAgencyDetail(agencyId,true);
+  }catch(e){showMsg2('ratingMsgBox','<span class="ico ico-cross"></span> خطأ: '+e.message,'#e74c3c');}
+}
+
+// Booking / quote requests
+function openAgencyReqForm(agencyId,type){
+  var a=(window._agencies||[]).find(function(x){return x.id===agencyId;});
+  document.getElementById('agReqAgencyId').value=agencyId;
+  document.getElementById('agReqType').value=type;
+  document.getElementById('agencyReqTitle').innerHTML='<span class="ico ico-calendar"></span> '+(type==='quote'?t('ag.requestQuote'):t('ag.bookMaintenance'));
+  document.getElementById('agencyReqSub').textContent=a?a.name:'';
+  document.getElementById('agReqName').value=auth.currentUser?(auth.currentUser.displayName||''):'';
+  document.getElementById('agReqPhone').value='';
+  document.getElementById('agReqMsg').value='';
+  document.getElementById('agReqMsgBox').style.display='none';
+  document.getElementById('agencyReqOverlay').classList.add('open');
+}
+function closeAgencyReqForm(){document.getElementById('agencyReqOverlay').classList.remove('open');}
+async function submitAgencyRequest(){
+  var agencyId=document.getElementById('agReqAgencyId').value;
+  var type=document.getElementById('agReqType').value;
+  var name=document.getElementById('agReqName').value.trim();
+  var phone=document.getElementById('agReqPhone').value.trim();
+  var msg=document.getElementById('agReqMsg').value.trim();
+  if(!name||!phone){showMsg2('agReqMsgBox','<span class="ico ico-cross"></span> الرجاء إدخال الاسم ورقم الهاتف','#e74c3c');return;}
+  var a=(window._agencies||[]).find(function(x){return x.id===agencyId;});
+  try{
+    await db.collection('agencyRequests').add({
+      agencyId:agencyId,agencyName:a?a.name:'',type:type,name:name,phone:phone,message:msg,status:'open',
+      userId:auth.currentUser?auth.currentUser.uid:null,createdAt:firebase.firestore.FieldValue.serverTimestamp()
+    });
+    showMsg2('agReqMsgBox','<span class="ico ico-check"></span> تم إرسال طلبك، رح تتواصل معك الوكالة قريباً','#2ecc71');
+    setTimeout(closeAgencyReqForm,1800);
+  }catch(e){showMsg2('agReqMsgBox','<span class="ico ico-cross"></span> خطأ: '+e.message,'#e74c3c');}
+}
+
+// Add / edit agency (admin only)
+var _agencyLogoFile=null,_agencyLogoUrlExisting='';
+var _agencyGalleryFiles=[],_agencyGalleryExisting=[];
+function openAgencyForm(agencyId){
+  if(!isAdmin())return;
+  var editing=typeof agencyId==='string'&&!!agencyId;
+  document.getElementById('agEditId').value=editing?agencyId:'';
+  document.getElementById('agencyFormTitle').textContent=editing?t('ag.formTitleEdit'):t('ag.formTitleAdd');
+  _agencyLogoFile=null;_agencyLogoUrlExisting='';
+  _agencyGalleryFiles=[];_agencyGalleryExisting=[];
+  document.getElementById('agLogoPreview').innerHTML='';
+  document.getElementById('agGalleryPreview').innerHTML='';
+  document.getElementById('agGalleryInfo').textContent='0 / 12 صورة';
+  document.getElementById('agNewCarsRows').innerHTML='';
+  document.getElementById('agFormMsg').style.display='none';
+  ['agName','agAbout','agBrands','agAddress','agLat','agLng','agPhones','agWhatsapp','agEmail','agWebsite','agHours'].forEach(function(id){document.getElementById(id).value='';});
+  ['agSvcNew','agSvcMaint','agSvcParts','agSvcWarranty','agSvcInspect','agAcceptsBookings'].forEach(function(id){document.getElementById(id).checked=false;});
+  if(editing){
+    var fill=function(agency){
+      document.getElementById('agName').value=agency.name||'';
+      document.getElementById('agAbout').value=agency.about||'';
+      document.getElementById('agBrands').value=(agency.brands||[]).join(', ');
+      document.getElementById('agAddress').value=agency.address||'';
+      document.getElementById('agLat').value=agency.lat||'';
+      document.getElementById('agLng').value=agency.lng||'';
+      document.getElementById('agPhones').value=(agency.phones||[]).join(', ');
+      document.getElementById('agWhatsapp').value=agency.whatsapp||'';
+      document.getElementById('agEmail').value=agency.email||'';
+      document.getElementById('agWebsite').value=agency.website||'';
+      document.getElementById('agHours').value=agency.hours||'';
+      var svcMap={new:'agSvcNew',maint:'agSvcMaint',parts:'agSvcParts',warranty:'agSvcWarranty',inspect:'agSvcInspect'};
+      (agency.services||[]).forEach(function(s){if(svcMap[s])document.getElementById(svcMap[s]).checked=true;});
+      document.getElementById('agAcceptsBookings').checked=!!agency.acceptsBookings;
+      if(agency.logo){_agencyLogoUrlExisting=agency.logo;document.getElementById('agLogoPreview').innerHTML='<img src="'+agency.logo+'" style="width:70px;height:70px;border-radius:12px;object-fit:cover;">';}
+      _agencyGalleryExisting=(agency.gallery||[]).slice();
+      renderAgencyGalleryPreview();
+      (agency.newCars||[]).forEach(function(c){addAgencyCarRow(c);});
+    };
+    var a=(window._agencies||[]).find(function(x){return x.id===agencyId;});
+    if(a)fill(a);else db.collection('agencies').doc(agencyId).get().then(function(doc){if(doc.exists)fill(doc.data());});
+  }
+  document.getElementById('agencyFormOverlay').classList.add('open');
+}
+function closeAgencyForm(){document.getElementById('agencyFormOverlay').classList.remove('open');}
+function previewAgencyLogo(inp){
+  var f=inp.files[0];if(!f)return;
+  _agencyLogoFile=f;
+  document.getElementById('agLogoPreview').innerHTML='<img src="'+URL.createObjectURL(f)+'" style="width:70px;height:70px;border-radius:12px;object-fit:cover;">';
+}
+function addAgencyGalleryPhotos(inp){
+  var free=12-(_agencyGalleryFiles.length+_agencyGalleryExisting.length);
+  var files=Array.from(inp.files).slice(0,Math.max(free,0));
+  _agencyGalleryFiles=_agencyGalleryFiles.concat(files);
+  renderAgencyGalleryPreview();
+  inp.value='';
+}
+function renderAgencyGalleryPreview(){
+  var existingHtml=_agencyGalleryExisting.map(function(url,i){
+    return '<div class="photo-thumb"><img src="'+url+'"><button class="photo-rm" onclick="removeAgencyExistingGalleryPhoto('+i+')"><span class="ico ico-cross"></span></button></div>';
+  }).join('');
+  var newHtml=_agencyGalleryFiles.map(function(f,i){
+    return '<div class="photo-thumb"><img src="'+URL.createObjectURL(f)+'"><button class="photo-rm" onclick="removeAgencyNewGalleryPhoto('+i+')"><span class="ico ico-cross"></span></button></div>';
+  }).join('');
+  document.getElementById('agGalleryPreview').innerHTML=existingHtml+newHtml;
+  document.getElementById('agGalleryInfo').textContent=(_agencyGalleryExisting.length+_agencyGalleryFiles.length)+' / 12 صورة';
+}
+function removeAgencyExistingGalleryPhoto(i){_agencyGalleryExisting.splice(i,1);renderAgencyGalleryPreview();}
+function removeAgencyNewGalleryPhoto(i){_agencyGalleryFiles.splice(i,1);renderAgencyGalleryPreview();}
+var _carRowSeq=0;
+function addAgencyCarRow(prefill){
+  prefill=prefill||{};
+  var rid='carRow'+(_carRowSeq++);
+  var html='<div class="dyn-row" id="'+rid+'">'+
+    '<input class="form-input" placeholder="اسم السيارة" value="'+escAg(prefill.name||'')+'" data-f="name">'+
+    '<input class="form-input" type="number" placeholder="السعر" style="max-width:110px;" value="'+(prefill.price!=null?prefill.price:'')+'" data-f="price">'+
+    '<select class="form-input" style="max-width:85px;" data-f="currency">'+
+      '<option value="USD"'+(prefill.currency!=='IQD'?' selected':'')+'>USD</option>'+
+      '<option value="IQD"'+(prefill.currency==='IQD'?' selected':'')+'>IQD</option>'+
+    '</select>'+
+    '<button type="button" class="btn-row-rm" onclick="document.getElementById(\''+rid+'\').remove()"><span class="ico ico-cross"></span></button>'+
+  '</div>';
+  document.getElementById('agNewCarsRows').insertAdjacentHTML('beforeend',html);
+}
+function readAgencyCarRows(){
+  return Array.from(document.querySelectorAll('#agNewCarsRows .dyn-row')).map(function(row){
+    return {
+      name:row.querySelector('[data-f="name"]').value.trim(),
+      price:Number(row.querySelector('[data-f="price"]').value)||0,
+      currency:row.querySelector('[data-f="currency"]').value
+    };
+  }).filter(function(c){return c.name;});
+}
+async function submitAgency(){
+  var name=document.getElementById('agName').value.trim();
+  if(!name){showMsg2('agFormMsg','<span class="ico ico-cross"></span> الرجاء إدخال اسم الوكالة','#e74c3c');return;}
+  var editId=document.getElementById('agEditId').value;
+  try{
+    showMsg2('agFormMsg','<span class="ico ico-hourglass"></span> جاري الحفظ...','#f39c12');
+    var logoUrl=_agencyLogoUrlExisting;
+    if(_agencyLogoFile){
+      showMsg2('agFormMsg','<span class="ico ico-hourglass"></span> جاري رفع الشعار...','#f39c12');
+      logoUrl=await uploadImg(_agencyLogoFile);
+    }
+    var galleryUrls=_agencyGalleryExisting.slice();
+    for(var i=0;i<_agencyGalleryFiles.length;i++){
+      showMsg2('agFormMsg','<span class="ico ico-hourglass"></span> جاري رفع الصورة '+(i+1)+' من '+_agencyGalleryFiles.length+'...','#f39c12');
+      galleryUrls.push(await uploadImg(_agencyGalleryFiles[i]));
+    }
+    var services=[];
+    if(document.getElementById('agSvcNew').checked)services.push('new');
+    if(document.getElementById('agSvcMaint').checked)services.push('maint');
+    if(document.getElementById('agSvcParts').checked)services.push('parts');
+    if(document.getElementById('agSvcWarranty').checked)services.push('warranty');
+    if(document.getElementById('agSvcInspect').checked)services.push('inspect');
+    var data={
+      name:name,
+      about:document.getElementById('agAbout').value.trim(),
+      brands:document.getElementById('agBrands').value.split(',').map(function(s){return s.trim();}).filter(Boolean),
+      address:document.getElementById('agAddress').value.trim(),
+      lat:document.getElementById('agLat').value?Number(document.getElementById('agLat').value):null,
+      lng:document.getElementById('agLng').value?Number(document.getElementById('agLng').value):null,
+      phones:document.getElementById('agPhones').value.split(',').map(function(s){return s.trim();}).filter(Boolean),
+      whatsapp:document.getElementById('agWhatsapp').value.trim(),
+      email:document.getElementById('agEmail').value.trim(),
+      website:document.getElementById('agWebsite').value.trim(),
+      hours:document.getElementById('agHours').value.trim(),
+      services:services,
+      acceptsBookings:document.getElementById('agAcceptsBookings').checked,
+      logo:logoUrl,
+      gallery:galleryUrls,
+      newCars:readAgencyCarRows()
+    };
+    if(editId){
+      await db.collection('agencies').doc(editId).update(data);
+      showToast('<span class="ico ico-check"></span> تم تحديث بيانات الوكالة');
+    }else{
+      data.offers=[];data.news=[];data.avgRating=0;data.ratingCount=0;
+      data.createdAt=firebase.firestore.FieldValue.serverTimestamp();
+      await db.collection('agencies').add(data);
+      showToast('<span class="ico ico-check"></span> تمت إضافة الوكالة');
+    }
+    closeAgencyForm();
+    loadAgencies();
+  }catch(e){showMsg2('agFormMsg','<span class="ico ico-cross"></span> خطأ: '+e.message,'#e74c3c');}
+}
+function deleteAgency(id){
+  customConfirm(t('ag.confirmDelete'),async function(){
+    try{
+      await db.collection('agencies').doc(id).delete();
+      window._agencies=(window._agencies||[]).filter(function(a){return a.id!==id;});
+      filterAgencies();
+      showToast('<span class="ico ico-trash"></span> تم الحذف');
+    }catch(e){alert('خطأ: '+e.message);}
+  });
+}
+// ============ END AGENCIES MODULE ============
+
 // INIT
 function toggleMobileNav(){
   var nav=document.getElementById('mobileNav');
@@ -2264,6 +3074,7 @@ document.addEventListener('click',function(e){
 });
 initMakeFilter();
 loadCars();
+applyI18n();
 </script>
 </body>
 </html>
