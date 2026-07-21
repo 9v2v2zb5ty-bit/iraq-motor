@@ -475,8 +475,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
   <select class="filter-sel" onchange="filterCars()" id="filterEngine" style="display:none;"><option value="">كل المحركات</option></select>
   <select class="filter-sel" onchange="filterCars()" id="filterCity" style="display:none;">
     <option value="">كل المدن</option>
-    <option>بغداد</option><option>البصرة</option><option>أربيل</option><option>الموصل</option>
-    <option>النجف</option><option>كربلاء</option><option>السليمانية</option><option>دهوك</option><option>كركوك</option>
+    <option>أربيل</option><option>الأنبار</option><option>بابل</option><option>البصرة</option><option>بغداد</option><option>دهوك</option><option>ديالى</option><option>ذي قار</option><option>السليمانية</option><option>صلاح الدين</option><option>القادسية</option><option>كربلاء</option><option>كركوك</option><option>المثنى</option><option>ميسان</option><option>النجف</option><option>نينوى</option><option>واسط</option>
   </select>
   <div class="post-banner">
     <div><h3><span class="ico ico-car"></span> عندك سيارة تبيعها؟</h3><p>انشر إعلانك مجاناً مع حتى 15 صورة</p></div>
@@ -513,7 +512,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
       <div class="post-section-title">السعر والموقع</div>
       <div class="form-grid">
         <div class="form-group"><label class="form-label">السعر *</label><div class="price-wrap"><input type="number" class="form-input" id="adPrice" placeholder="15000"><div class="currency-toggle"><button class="cur-btn active" id="curUSD" onclick="setCurrency('USD')">USD</button><button class="cur-btn" id="curIQD" onclick="setCurrency('IQD')">IQD</button></div></div></div>
-        <div class="form-group"><label class="form-label">المدينة *</label><select class="form-input" id="adCity"><option value="">اختر المدينة</option><option>بغداد</option><option>البصرة</option><option>أربيل</option><option>الموصل</option><option>النجف</option><option>كربلاء</option><option>السليمانية</option><option>دهوك</option><option>كركوك</option></select></div>
+        <div class="form-group"><label class="form-label">المدينة *</label><select class="form-input" id="adCity"><option value="">اختر المدينة</option><option>أربيل</option><option>الأنبار</option><option>بابل</option><option>البصرة</option><option>بغداد</option><option>دهوك</option><option>ديالى</option><option>ذي قار</option><option>السليمانية</option><option>صلاح الدين</option><option>القادسية</option><option>كربلاء</option><option>كركوك</option><option>المثنى</option><option>ميسان</option><option>النجف</option><option>نينوى</option><option>واسط</option></select></div>
         <div class="form-group"><label class="form-label">رقم الواتساب *</label><input type="text" class="form-input" id="adPhone" placeholder="9647701234567"></div>
       </div>
     </div>
@@ -804,8 +803,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
       <div class="filter-section-title">المدينة</div>
       <select class="inp" id="fCity">
         <option value="">الكل</option>
-        <option>بغداد</option><option>البصرة</option><option>أربيل</option><option>الموصل</option>
-        <option>النجف</option><option>كربلاء</option><option>السليمانية</option><option>دهوك</option><option>كركوك</option>
+        <option>أربيل</option><option>الأنبار</option><option>بابل</option><option>البصرة</option><option>بغداد</option><option>دهوك</option><option>ديالى</option><option>ذي قار</option><option>السليمانية</option><option>صلاح الدين</option><option>القادسية</option><option>كربلاء</option><option>كركوك</option><option>المثنى</option><option>ميسان</option><option>النجف</option><option>نينوى</option><option>واسط</option>
       </select>
 
       <div class="filter-section-title">السنة</div>
@@ -977,11 +975,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
     <input type="password" class="inp" id="drPass" placeholder="كلمة المرور">
     <select class="inp" id="drProvince">
       <option value="">اختر المحافظة</option>
-      <option>بغداد</option><option>البصرة</option><option>نينوى</option><option>أربيل</option>
-      <option>النجف</option><option>كربلاء</option><option>السليمانية</option><option>دهوك</option>
-      <option>كركوك</option><option>الأنبار</option><option>بابل</option><option>واسط</option>
-      <option>ذي قار</option><option>ديالى</option><option>ميسان</option><option>القادسية</option>
-      <option>صلاح الدين</option><option>المثنى</option>
+      <option>أربيل</option><option>الأنبار</option><option>بابل</option><option>البصرة</option><option>بغداد</option><option>دهوك</option><option>ديالى</option><option>ذي قار</option><option>السليمانية</option><option>صلاح الدين</option><option>القادسية</option><option>كربلاء</option><option>كركوك</option><option>المثنى</option><option>ميسان</option><option>النجف</option><option>نينوى</option><option>واسط</option>
     </select>
     <input type="text" class="inp" id="drAddress" placeholder="عنوان المعرض">
     <label style="display:flex;align-items:flex-start;gap:8px;margin:6px 0 4px;font-size:12px;color:var(--dim);cursor:pointer;line-height:1.6;">
@@ -1013,27 +1007,27 @@ function isAdmin(){return auth.currentUser&&auth.currentUser.email===ADMIN_EMAIL
 
 // CAR DATA
 const CAR_DATA={
-  'Toyota':{models:['كورولا','كامري','يارس','أفالون','راڤ 4','هايلاندر','برادو','لاندكروزر','هايلوكس','فورتشنر','إنوفا'],engines:['1.3L 4-سيلندر','1.5L 4-سيلندر','1.8L 4-سيلندر','2.0L 4-سيلندر','2.5L 4-سيلندر','2.7L 4-سيلندر','3.5L V6','4.0L V6','4.5L V8','4.6L V8','5.7L V8']},
-  'Kia':{models:['بيكانتو','ريو','سيراتو / K3','K5','K8','سبورتاج','سورينتو','تيلورايد','سيلتوس','سونيت'],engines:['1.0L Turbo','1.4L 4-سيلندر','1.6L 4-سيلندر','1.6L Turbo','2.0L 4-سيلندر','2.5L 4-سيلندر','2.2L ديزل','3.5L V6']},
-  'Hyundai':{models:['أكسنت','إلنترا','سوناتا','أزيرا','توسان','سانتافي','كريتا','باليسيد','ستاريا'],engines:['1.4L','1.6L','1.6L Turbo','2.0L','2.5L','2.2L ديزل','3.5L V6','3.8L V6']},
-  'Nissan':{models:['صني','سنترا','ألتيما','ماكسيما','كيكس','إكس تريل','باثفايندر','باترول','نافارا'],engines:['1.6L','1.8L','2.0L','2.5L','3.5L V6','4.0L V6','5.6L V8']},
-  'Chevrolet':{models:['ماليبو','كابتيفا','ترافرس','تاهو','سوبربان','سلفرادو','كورفيت','كامارو'],engines:['1.5L Turbo','2.0L Turbo','2.5L','3.6L V6','5.3L V8','6.2L V8','6.2L V8 Supercharged']},
-  'MG':{models:['MG5','MG6','MG7','ZS','HS','RX5','RX8'],engines:['1.0L Turbo','1.5L Turbo','2.0L Turbo']},
+  'Audi':{models:['A4','A6','A8','Q5','Q7','Q8','RS3','RS6','RS7'],engines:['2.0L TFSI','2.5L TFSI 5-سيلندر','3.0L TFSI V6','4.0L V8 Biturbo','5.2L V10']},
+  'Bentley':{models:['Bentayga','Continental GT','Flying Spur'],engines:['4.0L V8 Twin-Turbo','6.0L W12 Twin-Turbo']},
+  'BMW':{models:['M3','M5','X5','X6','X7','XM','الفئة 3','الفئة 5','الفئة 7'],engines:['2.0L TwinPower','3.0L TwinPower 6-سيلندر','4.4L V8 TwinTurbo','4.4L V8 M','6.0L V12']},
+  'BYD':{models:['F3','أتو 3','تانغ','دولفين','سونغ بلس','سيل','هان'],engines:['كهربائي 100%','هايبرد DM-i 1.5L']},
+  'Changan':{models:['CS35','CS55','CS75','CS95','UNI-K','UNI-V','ألسفن'],engines:['1.4L Turbo','1.5L Turbo','2.0L Turbo']},
   'Chery':{models:['أريزو 5','أريزو 8','تيغو 2','تيغو 4','تيغو 7','تيغو 8'],engines:['1.5L Turbo','1.6L','2.0L Turbo']},
-  'Changan':{models:['ألسفن','UNI-V','UNI-K','CS35','CS55','CS75','CS95'],engines:['1.4L Turbo','1.5L Turbo','2.0L Turbo']},
-  'Ford':{models:['فوكس','تورس','موستانغ','إكسبلورر','إكسبيديشن','F-150','رابتور'],engines:['1.5L EcoBoost','2.0L EcoBoost','2.3L EcoBoost','2.7L EcoBoost V6','3.5L EcoBoost V6','5.0L V8','7.3L V8']},
-  'BMW':{models:['الفئة 3','الفئة 5','الفئة 7','M3','M5','X5','X6','X7','XM'],engines:['2.0L TwinPower','3.0L TwinPower 6-سيلندر','4.4L V8 TwinTurbo','4.4L V8 M','6.0L V12']},
-  'Mercedes-Benz':{models:['C-Class','E-Class','S-Class','CLA','GLA','GLE','GLS','G-Class'],engines:['1.5L Turbo','2.0L Turbo','2.0L AMG','3.0L 6-سيلندر','4.0L V8 AMG','6.0L V12 AMG']},
-  'Audi':{models:['A4','A6','A8','RS3','RS6','RS7','Q5','Q7','Q8'],engines:['2.0L TFSI','2.5L TFSI 5-سيلندر','3.0L TFSI V6','4.0L V8 Biturbo','5.2L V10']},
-  'Porsche':{models:['718 Cayman','718 Boxster','911','Panamera','Macan','Cayenne','Taycan'],engines:['2.0L Turbo','2.5L Turbo','3.0L Twin-Turbo','3.8L Twin-Turbo','4.0L GT Flat-6']},
+  'Chevrolet':{models:['تاهو','ترافرس','سلفرادو','سوبربان','كابتيفا','كامارو','كورفيت','ماليبو'],engines:['1.5L Turbo','2.0L Turbo','2.5L','3.6L V6','5.3L V8','6.2L V8','6.2L V8 Supercharged']},
+  'Dodge':{models:['Challenger','Charger','Durango','Hornet'],engines:['2.0L Turbo','3.6L Pentastar V6','5.7L HEMI V8','6.4L HEMI SRT V8','6.2L Hellcat 717HP','6.2L Redeye 797HP','6.2L Demon 1025HP']},
+  'Ford':{models:['F-150','إكسبلورر','إكسبيديشن','تورس','رابتور','فوكس','موستانغ'],engines:['1.5L EcoBoost','2.0L EcoBoost','2.3L EcoBoost','2.7L EcoBoost V6','3.5L EcoBoost V6','5.0L V8','7.3L V8']},
+  'Honda':{models:['CR-V','HR-V','أكورد','أوديسي','بايلوت','سيتي','سيفيك'],engines:['1.5L Turbo VTEC','1.8L','2.0L','2.4L','3.5L V6']},
+  'Hyundai':{models:['أزيرا','أكسنت','إلنترا','باليسيد','توسان','سانتافي','ستاريا','سوناتا','كريتا'],engines:['1.4L','1.6L','1.6L Turbo','2.0L','2.5L','2.2L ديزل','3.5L V6','3.8L V6']},
+  'Jeep':{models:['Cherokee','Compass','Gladiator','Grand Cherokee','Wrangler'],engines:['2.0L Turbo','2.4L','3.6L Pentastar V6','3.0L EcoDiesel V6','5.7L HEMI V8','6.4L SRT HEMI V8']},
+  'Jetour':{models:['Dashing','T1','T2','X70','X70 Plus','X90','X90 Plus'],engines:['1.5L Turbo','1.6L Turbo','2.0L Turbo']},
+  'Kia':{models:['K5','K8','بيكانتو','تيلورايد','ريو','سبورتاج','سورينتو','سونيت','سيراتو / K3','سيلتوس'],engines:['1.0L Turbo','1.4L 4-سيلندر','1.6L 4-سيلندر','1.6L Turbo','2.0L 4-سيلندر','2.5L 4-سيلندر','2.2L ديزل','3.5L V6']},
   'Land Rover':{models:['Defender','Discovery','Discovery Sport','Range Rover','Range Rover Sport','Range Rover Velar'],engines:['2.0L Ingenium','3.0L Ingenium 6-سيلندر','4.4L V8 TwinTurbo','5.0L V8 Supercharged']},
-  'Dodge':{models:['Charger','Challenger','Durango','Hornet'],engines:['2.0L Turbo','3.6L Pentastar V6','5.7L HEMI V8','6.4L HEMI SRT V8','6.2L Hellcat 717HP','6.2L Redeye 797HP','6.2L Demon 1025HP']},
-  'Jeep':{models:['Wrangler','Grand Cherokee','Cherokee','Compass','Gladiator'],engines:['2.0L Turbo','2.4L','3.6L Pentastar V6','3.0L EcoDiesel V6','5.7L HEMI V8','6.4L SRT HEMI V8']},
-  'Bentley':{models:['Flying Spur','Continental GT','Bentayga'],engines:['4.0L V8 Twin-Turbo','6.0L W12 Twin-Turbo']},
-  'Jetour':{models:['X70','X70 Plus','X90','X90 Plus','Dashing','T2','T1'],engines:['1.5L Turbo','1.6L Turbo','2.0L Turbo']},
-  'Honda':{models:['سيفيك','أكورد','سيتي','CR-V','HR-V','بايلوت','أوديسي'],engines:['1.5L Turbo VTEC','1.8L','2.0L','2.4L','3.5L V6']},
-  'BYD':{models:['F3','سيل','سونغ بلس','هان','تانغ','أتو 3','دولفين'],engines:['كهربائي 100%','هايبرد DM-i 1.5L']},
-  'Mitsubishi':{models:['لانسر','أوتلاندر','إكليبس كروس','باجيرو','إل 200','ميراج'],engines:['1.5L','2.0L','2.4L','3.0L V6','3.5L V6']}
+  'Mercedes-Benz':{models:['C-Class','CLA','E-Class','G-Class','GLA','GLE','GLS','S-Class'],engines:['1.5L Turbo','2.0L Turbo','2.0L AMG','3.0L 6-سيلندر','4.0L V8 AMG','6.0L V12 AMG']},
+  'MG':{models:['HS','MG5','MG6','MG7','RX5','RX8','ZS'],engines:['1.0L Turbo','1.5L Turbo','2.0L Turbo']},
+  'Mitsubishi':{models:['أوتلاندر','إكليبس كروس','إل 200','باجيرو','لانسر','ميراج'],engines:['1.5L','2.0L','2.4L','3.0L V6','3.5L V6']},
+  'Nissan':{models:['ألتيما','إكس تريل','باترول','باثفايندر','سنترا','صني','كيكس','ماكسيما','نافارا'],engines:['1.6L','1.8L','2.0L','2.5L','3.5L V6','4.0L V6','5.6L V8']},
+  'Porsche':{models:['718 Boxster','718 Cayman','911','Cayenne','Macan','Panamera','Taycan'],engines:['2.0L Turbo','2.5L Turbo','3.0L Twin-Turbo','3.8L Twin-Turbo','4.0L GT Flat-6']},
+  'Toyota':{models:['أفالون','إنوفا','برادو','راڤ 4','فورتشنر','كامري','كورولا','لاندكروزر','هايلاندر','هايلوكس','يارس'],engines:['1.3L 4-سيلندر','1.5L 4-سيلندر','1.8L 4-سيلندر','2.0L 4-سيلندر','2.5L 4-سيلندر','2.7L 4-سيلندر','3.5L V6','4.0L V6','4.5L V8','4.6L V8','5.7L V8']}
 };
 const BRAND_STYLE={
   'Toyota':{bg:'#EB0A1E',fg:'#fff',short:'T'},
