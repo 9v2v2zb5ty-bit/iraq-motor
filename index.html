@@ -2,8 +2,26 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Iraq Motors | سوق السيارات</title>
+
+<!-- PWA: Manifest -->
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#080A0F">
+
+<!-- PWA: Favicons -->
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+
+<!-- PWA: iOS support (Add to Home Screen) -->
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Iraq Motors">
+
+<!-- PWA: Android/Chrome -->
+<meta name="mobile-web-app-capable" content="yes">
+
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 .ico{display:inline-block;width:16px;height:16px;vertical-align:-3px;background-color:currentColor;-webkit-mask-size:contain;-webkit-mask-repeat:no-repeat;-webkit-mask-position:center;mask-size:contain;mask-repeat:no-repeat;mask-position:center;flex-shrink:0;margin-left:5px;}
@@ -424,7 +442,8 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 .agency-hero-name{font-size:22px;font-weight:800;margin-bottom:4px;display:flex;align-items:center;gap:6px;}
 .agency-hero-meta{font-size:13px;color:var(--dim);display:flex;align-items:center;gap:5px;margin-bottom:6px;}
 .agency-hero-actions{display:flex;gap:8px;flex-wrap:wrap;}
-.agency-verified-badge{color:#1da1f2;font-size:16px;}
+.agency-verified-badge{display:inline-flex;vertical-align:middle;width:20px;height:20px;flex-shrink:0;}
+.agency-verified-badge svg{width:100%;height:100%;display:block;}
 .btn-wa{background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.3);color:#25d366;padding:9px 16px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none;transition:all .2s;}
 .btn-wa:hover{background:rgba(37,211,102,0.2);}
 .btn-call{background:rgba(201,168,76,0.1);border:1px solid var(--border);color:var(--gold);padding:9px 16px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none;transition:all .2s;}
@@ -479,6 +498,10 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 </style>
 </head>
 <body>
+<button id="pwaInstallBtn" onclick="installPWA()" style="display:none;position:fixed;left:16px;bottom:16px;z-index:900;background:var(--gold);color:#000;border:none;border-radius:30px;padding:11px 18px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:13px;box-shadow:0 6px 18px rgba(0,0,0,0.4);cursor:pointer;align-items:center;gap:7px;">
+  <span class="ico ico-md" style="background-color:#000;-webkit-mask-image:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%203v11M6%2010l4%204%204-4%22/%3E%3Cpath%20d%3D%22M4%2016v1a1%201%200%200%200%201%201h10a1%201%200%200%200%201-1v-1%22/%3E%3C/svg%3E');mask-image:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%203v11M6%2010l4%204%204-4%22/%3E%3Cpath%20d%3D%22M4%2016v1a1%201%200%200%200%201%201h10a1%201%200%200%200%201-1v-1%22/%3E%3C/svg%3E');"></span>
+  تثبيت التطبيق
+</button>
 <!-- NAV -->
 <nav>
   <div class="logo" onclick="goPage('home')">Iraq <span>Motors</span></div>
@@ -1117,6 +1140,9 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
       </div>
       <label class="part-check" style="width:100%;justify-content:flex-start;margin-top:10px;">
         <input type="checkbox" id="agAcceptsBookings"><span>الوكالة موافقة على التعاون — إظهار زر "اطلب عرض سعر" في صفحتها</span>
+      </label>
+      <label class="part-check" style="width:100%;justify-content:flex-start;margin-top:10px;">
+        <input type="checkbox" id="agVerified"><span>وكالة موثّقة ✓ — إظهار شارة التوثيق الزرقاء جنب اسم الوكالة</span>
       </label>
     </div>
 
@@ -2625,6 +2651,7 @@ window._agencies=[];
 window._curAgencyId=null;
 function escAg(s){return (s==null?'':String(s)).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function starsStr(n){n=Math.round(n||0);var s='';for(var i=0;i<5;i++)s+=(i<n?'★':'☆');return s;}
+var VERIFIED_BADGE_SVG='<span class="agency-verified-badge"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#29B6F6" d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.9-.81-3.91s-2.52-1.27-3.91-.81C14.68 2.63 13.43 1.75 12 1.75s-2.67.88-3.33 2.19c-1.4-.46-2.91-.2-3.92.81s-1.26 2.52-.8 3.91c-1.31.67-2.2 1.91-2.2 3.34s.89 2.67 2.2 3.34c-.46 1.39-.21 2.9.8 3.91s2.52 1.26 3.91.81c.67 1.31 1.91 2.19 3.34 2.19s2.68-.88 3.34-2.19c1.39.45 2.9.2 3.91-.81s1.27-2.52.81-3.91c1.31-.67 2.19-1.91 2.19-3.34z"/><path fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" d="M7.2 12.6l3.2 3.1L17 8.6"/></svg></span>';
 
 function loadAgencies(){
   var grid=document.getElementById('agenciesGrid');
@@ -2705,7 +2732,7 @@ function buildAgencyDetailHtml(a){
   var hero='<div class="agency-hero">'+cover+
     '<div class="agency-hero-content">'+logo+
     '<div class="agency-hero-info">'+
-      '<div class="agency-hero-name">'+escAg(a.name)+' <span class="agency-verified-badge">✔</span></div>'+
+      '<div class="agency-hero-name">'+escAg(a.name)+(a.verified?' '+VERIFIED_BADGE_SVG:'')+'</div>'+
       (a.address?'<div class="agency-hero-meta"><span class="ico ico-pin"></span> '+escAg(a.address)+'</div>':'')+
       '<div class="agency-hero-meta"><span style="color:var(--gold);">'+starsStr(a.avgRating||0)+'</span> '+(a.avgRating?a.avgRating.toFixed(1):'—')+' ('+(a.ratingCount||0)+')</div>'+
       '<div class="agency-hero-actions">'+actions+'</div>'+
@@ -2915,7 +2942,7 @@ function openAgencyForm(agencyId){
   document.getElementById('agNewCarsRows').innerHTML='';
   document.getElementById('agFormMsg').style.display='none';
   ['agName','agAbout','agBrands','agAddress','agLat','agLng','agPhones','agWhatsapp','agEmail','agWebsite','agHours'].forEach(function(id){document.getElementById(id).value='';});
-  ['agSvcNew','agSvcMaint','agSvcParts','agSvcWarranty','agSvcInspect','agAcceptsBookings'].forEach(function(id){document.getElementById(id).checked=false;});
+  ['agSvcNew','agSvcMaint','agSvcParts','agSvcWarranty','agSvcInspect','agAcceptsBookings','agVerified'].forEach(function(id){document.getElementById(id).checked=false;});
   if(editing){
     var fill=function(agency){
       document.getElementById('agName').value=agency.name||'';
@@ -2932,6 +2959,7 @@ function openAgencyForm(agencyId){
       var svcMap={new:'agSvcNew',maint:'agSvcMaint',parts:'agSvcParts',warranty:'agSvcWarranty',inspect:'agSvcInspect'};
       (agency.services||[]).forEach(function(s){if(svcMap[s])document.getElementById(svcMap[s]).checked=true;});
       document.getElementById('agAcceptsBookings').checked=!!agency.acceptsBookings;
+      document.getElementById('agVerified').checked=!!agency.verified;
       if(agency.logo){_agencyLogoUrlExisting=agency.logo;document.getElementById('agLogoPreview').innerHTML='<img src="'+agency.logo+'" style="width:70px;height:70px;border-radius:12px;object-fit:cover;">';}
       if(agency.cover){_agencyCoverUrlExisting=agency.cover;document.getElementById('agCoverPreview').innerHTML='<img src="'+agency.cover+'" style="width:100%;max-width:260px;height:100px;border-radius:10px;object-fit:cover;">';}
       _agencyGalleryExisting=(agency.gallery||[]).slice();
@@ -3038,6 +3066,7 @@ async function submitAgency(){
       hours:document.getElementById('agHours').value.trim(),
       services:services,
       acceptsBookings:document.getElementById('agAcceptsBookings').checked,
+      verified:document.getElementById('agVerified').checked,
       logo:logoUrl,
       cover:coverUrl,
       gallery:galleryUrls,
@@ -3102,6 +3131,33 @@ document.addEventListener('click',function(e){
 initMakeFilter();
 loadCars();
 applyI18n();
+
+// PWA: تسجيل الـ Service Worker
+if('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('sw.js').catch(function(e){
+      console.log('SW registration failed:', e);
+    });
+  });
+}
+
+// PWA: زر/دعوة لإضافة التطبيق للشاشة الرئيسية (Android/Chrome)
+let deferredInstallPrompt=null;
+window.addEventListener('beforeinstallprompt', function(e){
+  e.preventDefault();
+  deferredInstallPrompt=e;
+  var btn=document.getElementById('pwaInstallBtn');
+  if(btn) btn.style.display='inline-flex';
+});
+function installPWA(){
+  if(!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  deferredInstallPrompt.userChoice.then(function(){
+    deferredInstallPrompt=null;
+    var btn=document.getElementById('pwaInstallBtn');
+    if(btn) btn.style.display='none';
+  });
+}
 </script>
 </body>
 </html>
