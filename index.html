@@ -387,6 +387,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 .suggest-btn{background:var(--dark3);border:1px solid var(--border);color:var(--text);padding:6px 11px;border-radius:18px;font-family:Tajawal,sans-serif;font-size:12px;cursor:pointer;transition:all .2s;}
 .suggest-btn:hover{border-color:var(--gold);color:var(--gold);}
 /* ADMIN */
+.admin-stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:24px;}
 .admin-stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;text-align:center;}
 .admin-stat-icon{font-size:26px;margin-bottom:7px;}
 .admin-stat-num{font-size:30px;font-weight:900;color:var(--gold);font-family:Rajdhani,sans-serif;}
@@ -570,6 +571,11 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 @media(max-width:520px){
   .features-strip{grid-template-columns:1fr;}
   .hero-title{font-size:clamp(26px,8vw,34px);}
+  .admin-stats-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
+  .admin-stat-card{padding:14px 8px;}
+  .admin-stat-icon{font-size:22px;margin-bottom:5px;}
+  .admin-stat-num{font-size:24px;}
+  .admin-stat-label{font-size:10.5px;}
 }
 </style>
 </head>
@@ -883,7 +889,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
       <div><h2 style="font-size:24px;font-weight:800;"><span class="ico ico-gear"></span> لوحة التحكم</h2><p style="color:var(--dim);font-size:13px;margin-top:3px;">Iraq Motors Admin</p></div>
       <div style="font-size:12px;color:var(--dim);" id="adminLastUpdate"></div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:24px;">
+    <div class="admin-stats-grid">
       <div class="admin-stat-card"><div class="admin-stat-icon"><span class="ico ico-md ico-car"></span></div><div class="admin-stat-num" id="statTotalAds">—</div><div class="admin-stat-label">إجمالي الإعلانات</div></div>
       <div class="admin-stat-card"><div class="admin-stat-icon"><span class="ico ico-md ico-hourglass"></span></div><div class="admin-stat-num" id="statPending">—</div><div class="admin-stat-label">بانتظار الموافقة</div></div>
       <div class="admin-stat-card"><div class="admin-stat-icon"><span class="ico ico-md ico-check"></span></div><div class="admin-stat-num" id="statApproved">—</div><div class="admin-stat-label">مفعّلة</div></div>
@@ -1566,7 +1572,7 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 // CONFIG
 const AI_WORKER_URL='https://iraq-motorsai.iraqmotors.workers.dev';
 const IMGBB='3897918b48e89d2b67351676170056ed';
-const ADMIN_EMAILS=['iraq.motors0@gmail.com','abdullahanasm200@gmail.com'];
+const ADMIN_EMAILS=['iraq.motors0@gmail.com','abdullahanasm200@gmail.com','alshindahharthzyad@gmail.com'];
 firebase.initializeApp({apiKey:"AIzaSyAb4MheuHSlF4yOxuDfhnxZtIMyXy7g-l8",authDomain:"iraq-motors-38983.firebaseapp.com",projectId:"iraq-motors-38983",storageBucket:"iraq-motors-38983.firebasestorage.app",messagingSenderId:"80307836321",appId:"1:80307836321:web:d61f734a86f5be5a4c67e0"});
 const auth=firebase.auth(), db=firebase.firestore(), storage=firebase.storage();
 function isAdmin(){return auth.currentUser&&ADMIN_EMAILS.includes(auth.currentUser.email);}
