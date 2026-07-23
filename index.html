@@ -958,7 +958,18 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 <!-- DEALERS -->
 <div class="page" id="page-dealers">
   <div class="page-header"><div class="page-title"><span class="ico ico-building"></span> <span data-i18n="dealers.title">المعارض والتجار</span></div><div class="page-sub" data-i18n="dealers.sub">معارض موثوقة في العراق</div></div>
-  <div class="section-page"><div id="dealersGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;"><div class="loading"><span class="ico ico-hourglass"></span> جاري التحميل...</div></div></div>
+  <div class="agency-toolbar" style="justify-content:flex-end;">
+    <button class="btn-add-agency" id="btnAddDealer" onclick="handleAddShowroomClick()"><span class="ico ico-plus"></span> أضف معرضك</button>
+  </div>
+  <div class="section-page" style="padding-top:0;"><div id="dealersGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;"><div class="loading"><span class="ico ico-hourglass"></span> جاري التحميل...</div></div></div>
+</div>
+
+<!-- DEALER DETAIL -->
+<div class="page" id="page-dealer-detail">
+  <div class="section-page" style="max-width:980px;margin:0 auto;">
+    <button class="detail-back" onclick="goPage('dealers')" style="background:transparent;border:1px solid var(--border);color:var(--dim);padding:8px 16px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:12.5px;cursor:pointer;margin-bottom:16px;">→ رجوع للمعارض</button>
+    <div id="dealerDetailMain"><div class="loading"><span class="ico ico-hourglass"></span> جاري التحميل...</div></div>
+  </div>
 </div>
 
 <!-- AGENCIES -->
@@ -1416,6 +1427,130 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
     <button class="btn-sub" onclick="doDealerRegister()">إرسال طلب التسجيل</button>
     <div class="msg" id="drMsg"></div>
     <div class="sw">عندك حساب؟ <a onclick="switchLoginFromDealer()">سجل دخول</a></div>
+  </div>
+</div>
+
+<!-- SHOWROOM (DEALER PROFILE) FORM -->
+<div class="overlay" id="showroomFormOverlay">
+  <div class="modal" style="max-width:680px;">
+    <button class="modal-close" onclick="closeShowroomForm()"><span class="ico ico-cross"></span></button>
+    <div class="modal-title"><span class="ico ico-building"></span> بيانات معرضك</div>
+    <div class="modal-sub">هاي المعلومات رح تنعرض بصفحة معرضك العامة بعد موافقة الإدارة</div>
+    <input type="hidden" id="shEditId" value="">
+    <div id="shStatusBanner" style="display:none;margin-bottom:14px;padding:11px 14px;border-radius:10px;font-size:13px;line-height:1.8;"></div>
+
+    <div class="post-section">
+      <div class="post-section-title"><span class="ico ico-building"></span> معلومات المعرض</div>
+      <div class="form-grid">
+        <div class="form-group full"><label class="form-label">اسم المعرض *</label><input class="form-input" id="shName" placeholder="مثال: معرض النخبة للسيارات"></div>
+        <div class="form-group"><label class="form-label">اسم المالك أو المسؤول *</label><input class="form-input" id="shOwnerName" placeholder="الاسم الكامل"></div>
+        <div class="form-group"><label class="form-label">رقم الهاتف *</label><input type="tel" class="form-input" id="shPhone" placeholder="07XX XXX XXXX"></div>
+        <div class="form-group"><label class="form-label">رقم واتساب (اختياري)</label><input class="form-input" id="shWhatsapp" placeholder="9647XXXXXXXXX"></div>
+        <div class="form-group"><label class="form-label">البريد الإلكتروني *</label><input type="email" class="form-input" id="shEmail" placeholder="info@example.com"></div>
+        <div class="form-group"><label class="form-label">المدينة *</label>
+          <select class="form-input" id="shCity">
+            <option value="">اختر المدينة</option>
+            <option>أربيل</option><option>الأنبار</option><option>بابل</option><option>البصرة</option><option>بغداد</option><option>دهوك</option><option>ديالى</option><option>ذي قار</option><option>السليمانية</option><option>صلاح الدين</option><option>القادسية</option><option>كربلاء</option><option>كركوك</option><option>المثنى</option><option>ميسان</option><option>النجف</option><option>نينوى</option><option>واسط</option>
+          </select>
+        </div>
+        <div class="form-group full"><label class="form-label">العنوان بالتفصيل *</label><textarea class="form-input" id="shAddress" rows="2" placeholder="المنطقة، الشارع، أقرب نقطة دالة..."></textarea></div>
+        <div class="form-group full"><label class="form-label">رابط الموقع على Google Maps (اختياري)</label><input class="form-input" id="shMapLink" placeholder="https://maps.google.com/..."></div>
+      </div>
+    </div>
+
+    <div class="post-section">
+      <div class="post-section-title"><span class="ico ico-wrench"></span> معلومات النشاط</div>
+      <div class="form-grid">
+        <div class="form-group full"><label class="form-label">نبذة عن المعرض</label><textarea class="form-input" id="shAbout" rows="3" placeholder="نبذة مختصرة عن المعرض وخبرته وخدماته..."></textarea></div>
+        <div class="form-group"><label class="form-label">سنة التأسيس</label><input type="number" class="form-input" id="shYear" placeholder="مثال: 2015"></div>
+        <div class="form-group"><label class="form-label">الماركات التي يبيعها (افصل بفاصلة)</label><input class="form-input" id="shBrands" placeholder="تويوتا، هيونداي، كيا"></div>
+        <div class="form-group full">
+          <label class="form-label">أنواع السيارات</label>
+          <div class="acc-parts-grid" style="grid-template-columns:repeat(3,1fr);">
+            <label class="part-check"><input type="checkbox" class="shCarType" value="سيدان"><span>سيدان</span></label>
+            <label class="part-check"><input type="checkbox" class="shCarType" value="SUV"><span>SUV</span></label>
+            <label class="part-check"><input type="checkbox" class="shCarType" value="بيك أب"><span>بيك أب</span></label>
+            <label class="part-check"><input type="checkbox" class="shCarType" value="رياضية"><span>رياضية</span></label>
+            <label class="part-check"><input type="checkbox" class="shCarType" value="هاتشباك"><span>هاتشباك</span></label>
+            <label class="part-check"><input type="checkbox" class="shCarType" value="فان / باص"><span>فان / باص</span></label>
+          </div>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">جديد / مستعمل / كلاهما</label>
+          <div style="display:flex;gap:8px;">
+            <label class="part-check" style="flex:1;justify-content:center;"><input type="radio" name="shDealType" value="new"><span>جديد</span></label>
+            <label class="part-check" style="flex:1;justify-content:center;"><input type="radio" name="shDealType" value="used"><span>مستعمل</span></label>
+            <label class="part-check" style="flex:1;justify-content:center;"><input type="radio" name="shDealType" value="both" checked><span>كلاهما</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-section">
+      <div class="post-section-title"><span class="ico ico-camera"></span> الصور</div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label class="form-label">شعار المعرض</label>
+          <input type="file" class="form-input" id="shLogoFile" accept="image/*" onchange="previewShowroomLogo(this)">
+          <div id="shLogoPreview" style="margin-top:8px;"></div>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">صورة الواجهة</label>
+          <input type="file" class="form-input" id="shCoverFile" accept="image/*" onchange="previewShowroomCover(this)">
+          <div id="shCoverPreview" style="margin-top:8px;"></div>
+        </div>
+      </div>
+      <div style="margin-top:14px;">
+        <label class="form-label" style="display:block;margin-bottom:8px;">صور إضافية (حتى 10 صور)</label>
+        <div class="photos-upload-area" onclick="document.getElementById('shGalleryFile').click()">
+          <span class="ico ico-lg ico-camera"></span>
+          <div style="margin-top:6px;font-size:13px;">اضغط لإضافة صور</div>
+          <input type="file" id="shGalleryFile" accept="image/*" multiple style="display:none;" onchange="addShowroomGalleryPhotos(this)">
+        </div>
+        <div class="photos-preview" id="shGalleryPreview"></div>
+        <div class="photos-info" id="shGalleryInfo">0 / 10 صورة</div>
+      </div>
+    </div>
+
+    <div class="post-section">
+      <div class="post-section-title"><span class="ico ico-link"></span> التواصل</div>
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">رابط فيسبوك</label><input class="form-input" id="shFacebook" placeholder="https://facebook.com/..."></div>
+        <div class="form-group"><label class="form-label">رابط إنستغرام</label><input class="form-input" id="shInstagram" placeholder="https://instagram.com/..."></div>
+        <div class="form-group"><label class="form-label">رابط تيك توك</label><input class="form-input" id="shTiktok" placeholder="https://tiktok.com/@..."></div>
+        <div class="form-group"><label class="form-label">الموقع الإلكتروني (إذا موجود)</label><input class="form-input" id="shWebsite" placeholder="https://"></div>
+      </div>
+    </div>
+
+    <div class="post-section">
+      <div class="post-section-title"><span class="ico ico-shield"></span> المستندات (للتوثيق)</div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label class="form-label">هوية المالك أو المسؤول</label>
+          <input type="file" class="form-input" id="shOwnerIdFile" accept="image/*" onchange="previewShowroomDoc(this,'ownerId')">
+          <div id="shOwnerIdPreview" style="margin-top:8px;"></div>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">رخصة أو إجازة المعرض (اختياري)</label>
+          <input type="file" class="form-input" id="shLicenseFile" accept="image/*" onchange="previewShowroomDoc(this,'license')">
+          <div id="shLicensePreview" style="margin-top:8px;"></div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--dim);margin-top:2px;">رفع الهوية والرخصة يخليكم مؤهلين للحصول على شارة "معرض موثّق" بعد مراجعة الإدارة. المستندات لأغراض التوثيق فقط ولا تُعرض للعموم.</div>
+    </div>
+
+    <div class="post-section">
+      <div class="post-section-title"><span class="ico ico-check"></span> خيارات</div>
+      <label class="part-check" style="width:100%;justify-content:flex-start;">
+        <input type="checkbox" id="shTerms"><span>أوافق على الشروط والأحكام</span>
+      </label>
+      <label class="part-check" style="width:100%;justify-content:flex-start;margin-top:8px;">
+        <input type="checkbox" id="shConfirm"><span>أؤكد أن جميع المعلومات صحيحة</span>
+      </label>
+    </div>
+
+    <button class="btn-submit-big" id="shSubmitBtn" onclick="submitShowroom()"><span class="ico ico-save"></span> إرسال الطلب</button>
+    <div class="msg-box" id="shFormMsg"></div>
   </div>
 </div>
 
@@ -2427,26 +2562,31 @@ function switchAdminTab(tab,btn){
   } else if(tab==='dealers'){
     var pend=data.dealerPending||[];
     var all=data.dealerRequests||[];
-    var statusLabel=function(s){return s==='approved'?'<span class="ico ico-check"></span> مقبول':(s==='rejected'?'<span class="ico ico-cross"></span> مرفوض':'<span class="ico ico-hourglass"></span> بانتظار');};
-    var statusColor=function(s){return s==='approved'?'var(--green)':(s==='rejected'?'var(--red)':'var(--gold)');};
+    var statusLabel=function(s){return s==='approved'?'<span class="ico ico-check"></span> مقبول':(s==='rejected'?'<span class="ico ico-cross"></span> مرفوض':(s==='needs_edit'?'✏️ بانتظار تعديل من المعرض':'<span class="ico ico-hourglass"></span> بانتظار'));};
+    var statusColor=function(s){return s==='approved'?'var(--green)':(s==='rejected'?'var(--red)':(s==='needs_edit'?'#f39c12':'var(--gold)'));};
     var html='<div style="font-size:14px;font-weight:700;margin-bottom:10px;color:var(--gold);"><span class="ico ico-hourglass"></span> طلبات بانتظار الموافقة</div>';
     html+=pend.length?pend.map(function(d){
-      return '<div class="admin-card"><div class="admin-card-img" style="display:flex;align-items:center;justify-content:center;font-size:22px;"><span class="ico ico-md ico-store"></span></div>'+
-        '<div class="admin-card-info"><div class="admin-card-name">'+(d.dealerName||'')+'</div>'+
-        '<div class="admin-card-meta"><span class="ico ico-pin"></span> '+(d.province||'')+' — '+(d.address||'')+'</div>'+
-        '<div class="admin-card-meta"><span class="ico ico-phone"></span> '+(d.phone||'')+' • ✉️ '+(d.email||'')+'</div>'+
-        '<div class="admin-card-actions"><button class="btn-approve" onclick="approveDealer(\''+d.id+'\')"><span class="ico ico-check"></span> موافقة</button><button class="btn-reject" onclick="rejectDealer(\''+d.id+'\')"><span class="ico ico-cross"></span> رفض</button></div></div></div>';
+      var thumb=d.logo?'<img class="admin-card-img" src="'+d.logo+'">':'<div class="admin-card-img" style="display:flex;align-items:center;justify-content:center;font-size:22px;"><span class="ico ico-md ico-store"></span></div>';
+      var docsNote=(d.ownerIdDoc||d.licenseDoc)?'<span style="color:var(--green);"><span class="ico ico-shield"></span> أرسل مستندات توثيق</span>':'<span style="color:var(--dim);">بدون مستندات توثيق</span>';
+      return '<div class="admin-card">'+thumb+
+        '<div class="admin-card-info"><div class="admin-card-name">'+(d.dealerName||'')+(d.ownerName?' — '+d.ownerName:'')+'</div>'+
+        '<div class="admin-card-meta"><span class="ico ico-pin"></span> '+(d.city||d.province||'')+' — '+(d.address||'')+'</div>'+
+        '<div class="admin-card-meta"><span class="ico ico-phone"></span> '+(d.phone||'')+(d.whatsapp?' • 💬 '+d.whatsapp:'')+' • ✉️ '+(d.email||'')+'</div>'+
+        (d.brands&&d.brands.length?'<div class="admin-card-meta"><span class="ico ico-tag"></span> '+d.brands.join('، ')+'</div>':'')+
+        '<div class="admin-card-meta">'+docsNote+'</div>'+
+        '<label style="display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:var(--dim);cursor:pointer;margin-top:4px;"><input type="checkbox" style="accent-color:var(--gold);" '+(d.verified?'checked':'')+' onchange="toggleDealerVerified(\''+d.id+'\',this.checked)"> معرض موثّق</label>'+
+        '<div class="admin-card-actions"><button class="btn-approve" onclick="approveDealer(\''+d.id+'\')"><span class="ico ico-check"></span> قبول</button><button class="btn-reject" onclick="rejectDealer(\''+d.id+'\')"><span class="ico ico-cross"></span> رفض</button><button class="btn-reject" style="color:#f39c12;border-color:rgba(243,156,18,0.3);background:rgba(243,156,18,0.1);" onclick="requestDealerEdit(\''+d.id+'\')">✏️ طلب تعديل</button></div></div></div>';
     }).join(''):'<div style="text-align:center;padding:24px;color:var(--dim);"><span class="ico ico-check"></span> ما في طلبات معارض بانتظار الموافقة</div>';
     html+='<div style="font-size:14px;font-weight:700;margin:22px 0 10px;color:var(--gold);">📋 تقرير كل طلبات المعارض</div>';
     html+=all.length?'<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;"><thead><tr style="background:var(--dark3);">'+
       '<th style="padding:11px;text-align:right;font-size:12px;border-bottom:1px solid var(--border);">اسم المعرض</th>'+
-      '<th style="padding:11px;text-align:right;font-size:12px;border-bottom:1px solid var(--border);">المحافظة</th>'+
+      '<th style="padding:11px;text-align:right;font-size:12px;border-bottom:1px solid var(--border);">المدينة</th>'+
       '<th style="padding:11px;text-align:right;font-size:12px;border-bottom:1px solid var(--border);">الهاتف</th>'+
       '<th style="padding:11px;text-align:right;font-size:12px;border-bottom:1px solid var(--border);">الحالة</th>'+
       '</tr></thead><tbody>'+all.map(function(d){
-        return '<tr style="border-bottom:1px solid var(--border);">'+
-          '<td style="padding:11px;font-size:13px;">'+(d.dealerName||'—')+'</td>'+
-          '<td style="padding:11px;font-size:12px;color:var(--dim);">'+(d.province||'—')+'</td>'+
+        return '<tr style="border-bottom:1px solid var(--border);cursor:pointer;" onclick="openDealerDetail(\''+d.id+'\')">'+
+          '<td style="padding:11px;font-size:13px;">'+(d.dealerName||'—')+(d.verified?' '+VERIFIED_BADGE_SVG:'')+'</td>'+
+          '<td style="padding:11px;font-size:12px;color:var(--dim);">'+(d.city||d.province||'—')+'</td>'+
           '<td style="padding:11px;font-size:12px;color:var(--dim);">'+(d.phone||'—')+'</td>'+
           '<td style="padding:11px;font-size:12px;font-weight:700;color:'+statusColor(d.status)+';">'+statusLabel(d.status)+'</td></tr>';
       }).join('')+'</tbody></table></div>':'<div style="text-align:center;padding:24px;color:var(--dim);">ما في طلبات لحد الآن</div>';
@@ -2488,6 +2628,27 @@ function rejectDealer(id){
     showToast('<span class="ico ico-cross"></span> تم رفض الطلب');
   }catch(e){alert('خطأ: '+e.message);}
   });
+}
+function requestDealerEdit(id){
+  var note=prompt('اكتب ملاحظة للمعرض توضح شنو المطلوب تعديله:');
+  if(note===null)return;
+  note=note.trim();
+  if(!note){alert('لازم تكتب ملاحظة توضح المطلوب تعديله');return;}
+  db.collection('dealerRequests').doc(id).update({status:'needs_edit',editNote:note}).then(function(){
+    var d=(window._ad.dealerRequests||[]).find(function(x){return x.id===id;});
+    if(d){d.status='needs_edit';d.editNote=note;if(d.uid)db.collection('users').doc(d.uid).set({dealerStatus:'needs_edit'},{merge:true});}
+    window._ad.dealerPending=(window._ad.dealerRequests||[]).filter(function(x){return x.status==='pending';});
+    document.getElementById('statDealerPending').textContent=window._ad.dealerPending.length;
+    switchAdminTab('dealers',Array.from(document.querySelectorAll('#adminTabs .admin-tab')).find(function(b){return b.textContent.indexOf('المعارض')>-1;}));
+    showToast('✏️ تم إرسال طلب التعديل للمعرض');
+  }).catch(function(e){alert('خطأ: '+e.message);});
+}
+function toggleDealerVerified(id,checked){
+  db.collection('dealerRequests').doc(id).update({verified:checked}).then(function(){
+    var d=(window._ad.dealerRequests||[]).find(function(x){return x.id===id;});
+    if(d)d.verified=checked;
+    showToast(checked?'<span class="ico ico-check"></span> تم تفعيل شارة التوثيق':'تم إلغاء شارة التوثيق');
+  }).catch(function(e){alert('خطأ: '+e.message);});
 }
 async function closeAgencyRequest(id){
   try{
@@ -2874,26 +3035,314 @@ function calcLoan(){
   document.getElementById('calcResult').style.display='block';
 }
 
-// DEALERS
+// DEALERS / SHOWROOMS
+window._dealers=[];
+window._curDealerId=null;
 function loadDealers(){
-  var dealers=[
-    {name:'معرض النخبة للسيارات',city:'بغداد',verified:true,cars:45,rating:4.8,icon:'<span class="ico ico-building"></span>'},
-    {name:'معرض الفرات الذهبي',city:'البصرة',verified:true,cars:32,rating:4.6,icon:'<span class="ico ico-car"></span>'},
-    {name:'معرض أربيل الفاخر',city:'أربيل',verified:true,cars:28,rating:4.7,icon:'<span class="ico ico-star"></span>'},
-    {name:'معرض كربلاء موتورز',city:'كربلاء',verified:false,cars:15,rating:4.2,icon:'<span class="ico ico-trophy"></span>'},
-    {name:'معرض الموصل للسيارات',city:'الموصل',verified:true,cars:22,rating:4.5,icon:'<span class="ico ico-car"></span>'},
-    {name:'معرض السليمانية الدولي',city:'السليمانية',verified:false,cars:18,rating:4.3,icon:'<span class="ico ico-star"></span>'},
-  ];
-  document.getElementById('dealersGrid').innerHTML=dealers.map(function(d){
-    return '<div class="dealer-card">'+
-      (d.verified?'<div class="verified-badge"><span class="ico ico-check"></span> معرض موثّق</div>':'')+
-      '<div style="font-size:36px;margin-bottom:10px;">'+d.icon+'</div>'+
-      '<div class="dealer-name">'+d.name+'</div>'+
-      '<div class="dealer-city"><span class="ico ico-pin"></span> '+d.city+'</div>'+
-      '<div style="display:flex;gap:14px;margin-top:8px;"><span style="font-size:12px;color:var(--dim);"><span class="ico ico-car"></span> <span style="color:var(--gold);font-weight:700;">'+d.cars+'</span> سيارة</span>'+
-      '<span style="font-size:12px;color:var(--dim);"><span class="ico ico-star"></span> <span style="color:var(--gold);font-weight:700;">'+d.rating+'</span></span></div></div>';
-  }).join('');
+  var grid=document.getElementById('dealersGrid');
+  if(!grid)return;
+  grid.innerHTML='<div class="loading"><span class="ico ico-hourglass"></span> جاري التحميل...</div>';
+  db.collection('dealerRequests').where('status','==','approved').get().then(function(snap){
+    window._dealers=snap.docs.map(function(d){return Object.assign({id:d.id},d.data());});
+    if(!window._dealers.length){
+      grid.innerHTML='<div class="empty"><div class="empty-ico"><span class="ico ico-lg ico-building"></span></div><div class="empty-tit">ما في معارض مسجلة بعد</div><div class="empty-sub">كن أول معرض ينضم للمنصة</div></div>';
+      return;
+    }
+    grid.innerHTML=window._dealers.map(renderDealerCard).join('');
+  }).catch(function(e){
+    grid.innerHTML='<div style="text-align:center;padding:40px;color:var(--red);">خطأ: '+e.message+'</div>';
+  });
 }
+function renderDealerCard(d){
+  var logo=d.logo?'<img class="agency-logo" src="'+d.logo+'">':'<div class="agency-logo-fallback"><span class="ico ico-lg ico-building"></span></div>';
+  var brandsHtml=(d.brands||[]).slice(0,4).map(function(b){return '<span class="agency-brand-tag">'+escAg(b)+'</span>';}).join('');
+  return '<div class="agency-card" onclick="openDealerDetail(\''+d.id+'\')">'+
+    '<div class="agency-cover">'+logo+'</div>'+
+    '<div class="agency-body">'+
+      '<div class="agency-name">'+escAg(d.dealerName)+(d.verified?' '+VERIFIED_BADGE_SVG:'')+'</div>'+
+      '<div class="agency-city"><span class="ico ico-pin"></span> '+escAg(d.city||d.province||'')+'</div>'+
+      (brandsHtml?'<div class="agency-brands">'+brandsHtml+'</div>':'')+
+    '</div></div>';
+}
+function dealerMapEmbedUrl(d){
+  if(d.address)return 'https://maps.google.com/maps?q='+encodeURIComponent((d.city?d.city+' ':'')+d.address)+'&z=14&output=embed';
+  return '';
+}
+function openDealerDetail(id,skipNav){
+  window._curDealerId=id;
+  var render=function(d){
+    document.getElementById('dealerDetailMain').innerHTML=buildDealerDetailHtml(d);
+    loadDealerCarsSection(d);
+  };
+  var d=(window._dealers||[]).find(function(x){return x.id===id;});
+  if(d){render(d);}
+  else{
+    document.getElementById('dealerDetailMain').innerHTML='<div class="loading"><span class="ico ico-hourglass"></span> جاري التحميل...</div>';
+    db.collection('dealerRequests').doc(id).get().then(function(doc){
+      if(!doc.exists||(doc.data().status!=='approved'&&!isAdmin())){document.getElementById('dealerDetailMain').innerHTML='<div class="empty"><div class="empty-tit">404</div></div>';return;}
+      render(Object.assign({id:doc.id},doc.data()));
+    });
+  }
+  if(!skipNav)goPage('dealer-detail');
+}
+function buildDealerDetailHtml(d){
+  var logo=d.logo?'<img class="agency-hero-logo" src="'+d.logo+'">':'<div class="agency-hero-logo" style="display:flex;align-items:center;justify-content:center;font-size:30px;color:var(--gold);"><span class="ico ico-lg ico-building"></span></div>';
+  var cover=d.cover?('<img class="agency-hero-cover" src="'+d.cover+'">'):('<div class="agency-hero-cover-empty"><span class="ico ico-lg ico-building"></span></div>');
+  var waNum=(d.whatsapp||d.phone||'').replace(/\D/g,'');
+  var callNum=d.phone||'';
+  var actions=
+    (waNum?'<a class="btn-wa" href="https://wa.me/'+waNum+'" target="_blank">💬 تواصل مع المعرض</a>':'')+
+    (callNum?'<a class="btn-call" href="tel:'+callNum+'"><span class="ico ico-phone"></span> اتصال</a>':'')+
+    (d.mapLink?'<a class="btn-book" href="'+escAg(d.mapLink)+'" target="_blank"><span class="ico ico-pin"></span> فتح بخرائط Google</a>':'')+
+    (d.website?'<a class="btn-book" href="'+escAg(d.website)+'" target="_blank">🌐 الموقع الإلكتروني</a>':'');
+  var hero='<div class="agency-hero">'+cover+
+    '<div class="agency-hero-content">'+logo+
+    '<div class="agency-hero-info">'+
+      '<div class="agency-hero-name">'+escAg(d.dealerName)+(d.verified?' '+VERIFIED_BADGE_SVG:'')+'</div>'+
+      (d.address?'<div class="agency-hero-meta"><span class="ico ico-pin"></span> '+escAg((d.city?d.city+' — ':'')+d.address)+'</div>':'')+
+      '<div class="agency-hero-actions">'+actions+'</div>'+
+    '</div></div></div>';
+  var brandsHtml=(d.brands||[]).map(function(b){return '<span class="agency-brand-tag">'+escAg(b)+'</span>';}).join('');
+  var typesHtml=(d.carTypes||[]).map(function(b){return '<span class="agency-brand-tag">'+escAg(b)+'</span>';}).join('');
+  var dealTypeLabel=d.dealType==='new'?'سيارات جديدة فقط':(d.dealType==='used'?'سيارات مستعملة فقط':'سيارات جديدة ومستعملة');
+  var socialLinks=['facebook','instagram','tiktok'].map(function(k){
+    var labels={facebook:'📘 فيسبوك',instagram:'📸 إنستغرام',tiktok:'🎵 تيك توك'};
+    return d[k]?'<a class="btn-book" href="'+escAg(d[k])+'" target="_blank">'+labels[k]+'</a>':'';
+  }).join('');
+  var mapUrl=dealerMapEmbedUrl(d);
+  var body='<div class="post-section"><div class="post-section-title">نبذة عن المعرض</div><p style="color:var(--dim);font-size:13.5px;line-height:1.9;">'+(d.about?escAg(d.about).replace(/\n/g,'<br>'):'لا توجد نبذة بعد.')+'</p></div>'+
+    (brandsHtml?'<div class="post-section"><div class="post-section-title">الماركات المتوفرة</div><div class="chip-row">'+brandsHtml+'</div></div>':'')+
+    (typesHtml?'<div class="post-section"><div class="post-section-title">أنواع السيارات</div><div class="chip-row">'+typesHtml+'</div><div style="margin-top:9px;font-size:12.5px;color:var(--gold);font-weight:700;">'+dealTypeLabel+'</div></div>':'')+
+    (socialLinks?'<div class="post-section"><div class="post-section-title">تابعونا</div><div class="agency-hero-actions">'+socialLinks+'</div></div>':'')+
+    ((d.gallery&&d.gallery.length)?'<div class="post-section"><div class="post-section-title"><span class="ico ico-camera"></span> صور المعرض</div><div class="agency-gallery-grid">'+d.gallery.map(function(g){return '<img src="'+g+'" onclick="window.open(\''+g+'\',\'_blank\')">';}).join('')+'</div></div>':'')+
+    (mapUrl?'<div class="post-section"><div class="post-section-title"><span class="ico ico-pin"></span> الموقع على الخريطة</div><iframe src="'+mapUrl+'" style="width:100%;height:260px;border:0;border-radius:11px;" loading="lazy"></iframe></div>':'')+
+    '<div class="post-section"><div class="post-section-title"><span class="ico ico-car"></span> سيارات المعرض</div>'+
+      '<div id="dealerCarsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;"><div class="loading"><span class="ico ico-hourglass"></span> جاري التحميل...</div></div>'+
+      '<div id="dealerCarsMoreWrap" style="display:none;margin-top:12px;"><button class="btn-row-add" onclick="showAllDealerCars()">عرض جميع السيارات</button></div>'+
+    '</div>';
+  return hero+body;
+}
+var _dealerAllCars=[];
+function loadDealerCarsSection(d){
+  var grid=document.getElementById('dealerCarsGrid');
+  if(!grid)return;
+  if(!d.uid){grid.innerHTML='<div class="empty"><div class="empty-tit">ما نشر هذا المعرض سيارات لحد الآن</div></div>';return;}
+  db.collection('cars').where('userId','==',d.uid).get().then(function(snap){
+    var cars=snap.docs.map(function(x){return Object.assign({id:x.id},x.data());});
+    cars=cars.filter(function(c){return c.approved===true;});
+    _dealerAllCars=cars;
+    var moreWrap=document.getElementById('dealerCarsMoreWrap');
+    if(!cars.length){grid.innerHTML='<div class="empty"><div class="empty-ico"><span class="ico ico-lg ico-car"></span></div><div class="empty-tit">ما نشر هذا المعرض سيارات لحد الآن</div></div>';if(moreWrap)moreWrap.style.display='none';return;}
+    renderCars(cars.slice(0,6),'dealerCarsGrid');
+    if(moreWrap){
+      if(cars.length>6){moreWrap.style.display='block';moreWrap.querySelector('button').textContent='عرض جميع السيارات ('+cars.length+')';}
+      else moreWrap.style.display='none';
+    }
+  }).catch(function(){grid.innerHTML='<div class="empty"><div class="empty-tit">تعذر تحميل السيارات</div></div>';});
+}
+function showAllDealerCars(){
+  renderCars(_dealerAllCars,'dealerCarsGrid');
+  var w=document.getElementById('dealerCarsMoreWrap');if(w)w.style.display='none';
+}
+
+// SHOWROOM FORM (add/edit dealer profile — dealer-account users only)
+var _shLogoFile=null,_shLogoUrlExisting='';
+var _shCoverFile=null,_shCoverUrlExisting='';
+var _shGalleryFiles=[],_shGalleryExisting=[];
+var _shOwnerIdFile=null,_shOwnerIdUrlExisting='';
+var _shLicenseFile=null,_shLicenseUrlExisting='';
+function handleAddShowroomClick(){
+  if(!auth.currentUser){openLogin();return;}
+  if(!window._me||window._me.role!=='dealer'){
+    showToast('<span class="ico ico-building"></span> هاي الميزة خاصة بحسابات المعارض فقط');
+    openDealerReg();
+    return;
+  }
+  openShowroomForm();
+}
+function openShowroomForm(){
+  if(!auth.currentUser)return;
+  document.getElementById('shEditId').value='';
+  ['shName','shOwnerName','shPhone','shWhatsapp','shAddress','shMapLink','shAbout','shYear','shBrands','shFacebook','shInstagram','shTiktok','shWebsite'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('shCity').value='';
+  document.getElementById('shEmail').value=auth.currentUser.email||'';
+  document.querySelectorAll('.shCarType').forEach(function(c){c.checked=false;});
+  var dt=document.querySelector('input[name="shDealType"][value="both"]');if(dt)dt.checked=true;
+  document.getElementById('shTerms').checked=false;
+  document.getElementById('shConfirm').checked=false;
+  _shLogoFile=null;_shLogoUrlExisting='';
+  _shCoverFile=null;_shCoverUrlExisting='';
+  _shGalleryFiles=[];_shGalleryExisting=[];
+  _shOwnerIdFile=null;_shOwnerIdUrlExisting='';
+  _shLicenseFile=null;_shLicenseUrlExisting='';
+  document.getElementById('shLogoPreview').innerHTML='';
+  document.getElementById('shCoverPreview').innerHTML='';
+  document.getElementById('shGalleryPreview').innerHTML='';
+  document.getElementById('shGalleryInfo').textContent='0 / 10 صورة';
+  document.getElementById('shOwnerIdPreview').innerHTML='';
+  document.getElementById('shLicensePreview').innerHTML='';
+  document.getElementById('shFormMsg').style.display='none';
+  var banner=document.getElementById('shStatusBanner');banner.style.display='none';
+  document.getElementById('showroomFormOverlay').classList.add('open');
+  db.collection('dealerRequests').where('uid','==',auth.currentUser.uid).limit(1).get().then(function(snap){
+    if(snap.empty)return;
+    var doc=snap.docs[0];
+    document.getElementById('shEditId').value=doc.id;
+    fillShowroomForm(doc.data());
+  }).catch(function(){});
+}
+function fillShowroomForm(d){
+  document.getElementById('shName').value=d.dealerName||'';
+  document.getElementById('shOwnerName').value=d.ownerName||'';
+  document.getElementById('shPhone').value=d.phone||'';
+  document.getElementById('shWhatsapp').value=d.whatsapp||'';
+  document.getElementById('shEmail').value=d.email||auth.currentUser.email||'';
+  document.getElementById('shCity').value=d.city||d.province||'';
+  document.getElementById('shAddress').value=d.address||'';
+  document.getElementById('shMapLink').value=d.mapLink||'';
+  document.getElementById('shAbout').value=d.about||'';
+  document.getElementById('shYear').value=d.foundedYear||'';
+  document.getElementById('shBrands').value=(d.brands||[]).join(', ');
+  (d.carTypes||[]).forEach(function(v){
+    var el=Array.from(document.querySelectorAll('.shCarType')).find(function(c){return c.value===v;});
+    if(el)el.checked=true;
+  });
+  if(d.dealType){var r=document.querySelector('input[name="shDealType"][value="'+d.dealType+'"]');if(r)r.checked=true;}
+  document.getElementById('shFacebook').value=d.facebook||'';
+  document.getElementById('shInstagram').value=d.instagram||'';
+  document.getElementById('shTiktok').value=d.tiktok||'';
+  document.getElementById('shWebsite').value=d.website||'';
+  if(d.logo){_shLogoUrlExisting=d.logo;document.getElementById('shLogoPreview').innerHTML='<img src="'+d.logo+'" style="width:70px;height:70px;border-radius:12px;object-fit:cover;">';}
+  if(d.cover){_shCoverUrlExisting=d.cover;document.getElementById('shCoverPreview').innerHTML='<img src="'+d.cover+'" style="width:100%;max-width:260px;height:100px;border-radius:10px;object-fit:cover;">';}
+  if(d.ownerIdDoc){_shOwnerIdUrlExisting=d.ownerIdDoc;document.getElementById('shOwnerIdPreview').innerHTML='<img src="'+d.ownerIdDoc+'" style="width:100px;height:70px;border-radius:8px;object-fit:cover;"><div style="font-size:11px;color:var(--green);margin-top:4px;">تم رفعها مسبقاً</div>';}
+  if(d.licenseDoc){_shLicenseUrlExisting=d.licenseDoc;document.getElementById('shLicensePreview').innerHTML='<img src="'+d.licenseDoc+'" style="width:100px;height:70px;border-radius:8px;object-fit:cover;"><div style="font-size:11px;color:var(--green);margin-top:4px;">تم رفعها مسبقاً</div>';}
+  _shGalleryExisting=(d.gallery||[]).slice();
+  renderShowroomGalleryPreview();
+  var banner=document.getElementById('shStatusBanner');
+  if(d.status==='pending'){
+    banner.style.cssText='display:block;margin-bottom:14px;padding:11px 14px;border-radius:10px;font-size:13px;line-height:1.8;background:rgba(201,168,76,0.12);color:var(--gold);border:1px solid rgba(201,168,76,0.3);';
+    banner.innerHTML='<span class="ico ico-hourglass"></span> طلبك قيد المراجعة حالياً. أي تعديل ترسله رح يرجّع الطلب لقائمة المراجعة.';
+  }else if(d.status==='needs_edit'){
+    banner.style.cssText='display:block;margin-bottom:14px;padding:11px 14px;border-radius:10px;font-size:13px;line-height:1.8;background:rgba(243,156,18,0.12);color:#f39c12;border:1px solid rgba(243,156,18,0.3);';
+    banner.innerHTML='<span class="ico ico-edit"></span> الإدارة طلبت تعديل على طلبك'+(d.editNote?(': «'+escAg(d.editNote)+'»'):'.')+' عدّل المطلوب وأعد الإرسال.';
+  }else if(d.status==='rejected'){
+    banner.style.cssText='display:block;margin-bottom:14px;padding:11px 14px;border-radius:10px;font-size:13px;line-height:1.8;background:rgba(232,69,69,0.12);color:var(--red);border:1px solid rgba(232,69,69,0.3);';
+    banner.innerHTML='<span class="ico ico-cross"></span> تم رفض طلبك سابقاً. تگدر تعدّل بياناتك وتعيد الإرسال.';
+  }else if(d.status==='approved'){
+    banner.style.cssText='display:block;margin-bottom:14px;padding:11px 14px;border-radius:10px;font-size:13px;line-height:1.8;background:rgba(46,204,113,0.12);color:var(--green);border:1px solid rgba(46,204,113,0.3);';
+    banner.innerHTML='<span class="ico ico-check"></span> معرضك مفعّل ومنشور حالياً. أي تعديل ترسله رح يُعاد للمراجعة قبل ما يُنشر.';
+  }else{
+    banner.style.display='none';
+  }
+}
+function closeShowroomForm(){document.getElementById('showroomFormOverlay').classList.remove('open');}
+function previewShowroomLogo(inp){
+  var f=inp.files[0];if(!f)return;
+  _shLogoFile=f;
+  document.getElementById('shLogoPreview').innerHTML='<img src="'+URL.createObjectURL(f)+'" style="width:70px;height:70px;border-radius:12px;object-fit:cover;">';
+}
+function previewShowroomCover(inp){
+  var f=inp.files[0];if(!f)return;
+  _shCoverFile=f;
+  document.getElementById('shCoverPreview').innerHTML='<img src="'+URL.createObjectURL(f)+'" style="width:100%;max-width:260px;height:100px;border-radius:10px;object-fit:cover;">';
+}
+function previewShowroomDoc(inp,kind){
+  var f=inp.files[0];if(!f)return;
+  var url=URL.createObjectURL(f);
+  if(kind==='ownerId'){_shOwnerIdFile=f;document.getElementById('shOwnerIdPreview').innerHTML='<img src="'+url+'" style="width:100px;height:70px;border-radius:8px;object-fit:cover;">';}
+  else{_shLicenseFile=f;document.getElementById('shLicensePreview').innerHTML='<img src="'+url+'" style="width:100px;height:70px;border-radius:8px;object-fit:cover;">';}
+}
+function addShowroomGalleryPhotos(inp){
+  var free=10-(_shGalleryFiles.length+_shGalleryExisting.length);
+  var files=Array.from(inp.files).slice(0,Math.max(free,0));
+  _shGalleryFiles=_shGalleryFiles.concat(files);
+  renderShowroomGalleryPreview();
+  inp.value='';
+}
+function renderShowroomGalleryPreview(){
+  var existingHtml=_shGalleryExisting.map(function(url,i){
+    return '<div class="photo-thumb"><img src="'+url+'"><button class="photo-rm" onclick="removeShowroomExistingGalleryPhoto('+i+')"><span class="ico ico-cross"></span></button></div>';
+  }).join('');
+  var newHtml=_shGalleryFiles.map(function(f,i){
+    return '<div class="photo-thumb"><img src="'+URL.createObjectURL(f)+'"><button class="photo-rm" onclick="removeShowroomNewGalleryPhoto('+i+')"><span class="ico ico-cross"></span></button></div>';
+  }).join('');
+  document.getElementById('shGalleryPreview').innerHTML=existingHtml+newHtml;
+  document.getElementById('shGalleryInfo').textContent=(_shGalleryExisting.length+_shGalleryFiles.length)+' / 10 صورة';
+}
+function removeShowroomExistingGalleryPhoto(i){_shGalleryExisting.splice(i,1);renderShowroomGalleryPreview();}
+function removeShowroomNewGalleryPhoto(i){_shGalleryFiles.splice(i,1);renderShowroomGalleryPreview();}
+function readShowroomCarTypes(){return Array.from(document.querySelectorAll('.shCarType:checked')).map(function(c){return c.value;});}
+async function submitShowroom(){
+  if(!auth.currentUser){openLogin();return;}
+  var name=document.getElementById('shName').value.trim();
+  var ownerName=document.getElementById('shOwnerName').value.trim();
+  var phone=document.getElementById('shPhone').value.trim();
+  var email=document.getElementById('shEmail').value.trim();
+  var city=document.getElementById('shCity').value;
+  var address=document.getElementById('shAddress').value.trim();
+  var terms=document.getElementById('shTerms').checked;
+  var confirmInfo=document.getElementById('shConfirm').checked;
+  if(!name||!ownerName||!phone||!email||!city||!address){showMsg2('shFormMsg','<span class="ico ico-cross"></span> الرجاء تعبئة جميع الحقول المطلوبة (*)','#e74c3c');return;}
+  if(!terms||!confirmInfo){showMsg2('shFormMsg','<span class="ico ico-cross"></span> لازم توافق على الشروط وتؤكد صحة المعلومات','#e74c3c');return;}
+  var editId=document.getElementById('shEditId').value;
+  var btn=document.getElementById('shSubmitBtn');
+  btn.disabled=true;
+  try{
+    showMsg2('shFormMsg','<span class="ico ico-hourglass"></span> جاري الحفظ...','#f39c12');
+    var logoUrl=_shLogoUrlExisting;
+    if(_shLogoFile){showMsg2('shFormMsg','<span class="ico ico-hourglass"></span> جاري رفع الشعار...','#f39c12');logoUrl=await uploadImg(_shLogoFile);}
+    var coverUrl=_shCoverUrlExisting;
+    if(_shCoverFile){showMsg2('shFormMsg','<span class="ico ico-hourglass"></span> جاري رفع صورة الواجهة...','#f39c12');coverUrl=await uploadImg(_shCoverFile);}
+    var ownerIdUrl=_shOwnerIdUrlExisting;
+    if(_shOwnerIdFile){showMsg2('shFormMsg','<span class="ico ico-hourglass"></span> جاري رفع الهوية...','#f39c12');ownerIdUrl=await uploadImg(_shOwnerIdFile);}
+    var licenseUrl=_shLicenseUrlExisting;
+    if(_shLicenseFile){showMsg2('shFormMsg','<span class="ico ico-hourglass"></span> جاري رفع الرخصة...','#f39c12');licenseUrl=await uploadImg(_shLicenseFile);}
+    var galleryUrls=_shGalleryExisting.slice();
+    for(var i=0;i<_shGalleryFiles.length;i++){
+      showMsg2('shFormMsg','<span class="ico ico-hourglass"></span> جاري رفع الصورة '+(i+1)+' من '+_shGalleryFiles.length+'...','#f39c12');
+      galleryUrls.push(await uploadImg(_shGalleryFiles[i]));
+    }
+    var data={
+      uid:auth.currentUser.uid,
+      dealerName:name,ownerName:ownerName,phone:phone,
+      whatsapp:document.getElementById('shWhatsapp').value.trim(),
+      email:email,city:city,province:city,address:address,
+      mapLink:document.getElementById('shMapLink').value.trim(),
+      about:document.getElementById('shAbout').value.trim(),
+      foundedYear:document.getElementById('shYear').value?Number(document.getElementById('shYear').value):null,
+      brands:document.getElementById('shBrands').value.split(',').map(function(s){return s.trim();}).filter(Boolean),
+      carTypes:readShowroomCarTypes(),
+      dealType:(document.querySelector('input[name="shDealType"]:checked')||{}).value||'both',
+      logo:logoUrl,cover:coverUrl,gallery:galleryUrls.slice(0,10),
+      facebook:document.getElementById('shFacebook').value.trim(),
+      instagram:document.getElementById('shInstagram').value.trim(),
+      tiktok:document.getElementById('shTiktok').value.trim(),
+      website:document.getElementById('shWebsite').value.trim(),
+      ownerIdDoc:ownerIdUrl,licenseDoc:licenseUrl,
+      agreedTerms:true,confirmedInfo:true,
+      status:'pending',editNote:'',
+      updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+    };
+    if(editId){
+      await db.collection('dealerRequests').doc(editId).update(data);
+    }else{
+      data.verified=false;
+      data.createdAt=firebase.firestore.FieldValue.serverTimestamp();
+      var ref=await db.collection('dealerRequests').add(data);
+      document.getElementById('shEditId').value=ref.id;
+    }
+    await db.collection('users').doc(auth.currentUser.uid).set({role:'dealer',dealerStatus:'pending',name:ownerName,phone:phone},{merge:true});
+    if(window._me)window._me.role='dealer';
+    showMsg2('shFormMsg','<span class="ico ico-check"></span> تم إرسال طلبك بنجاح، وصار قيد المراجعة 🕐','#2ecc71');
+    showToast('<span class="ico ico-check"></span> تم إرسال طلب معرضك للمراجعة');
+    setTimeout(function(){closeShowroomForm();},2200);
+  }catch(e){
+    showMsg2('shFormMsg','<span class="ico ico-cross"></span> خطأ: '+e.message,'#e74c3c');
+  }finally{
+    btn.disabled=false;
+  }
+}
+
 
 // ============ AGENCIES MODULE ============
 window._agencies=[];
