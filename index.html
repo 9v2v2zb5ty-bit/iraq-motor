@@ -2575,7 +2575,7 @@ function switchAdminTab(tab,btn){
         (d.brands&&d.brands.length?'<div class="admin-card-meta"><span class="ico ico-tag"></span> '+d.brands.join('، ')+'</div>':'')+
         '<div class="admin-card-meta">'+docsNote+'</div>'+
         '<label style="display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:var(--dim);cursor:pointer;margin-top:4px;"><input type="checkbox" style="accent-color:var(--gold);" '+(d.verified?'checked':'')+' onchange="toggleDealerVerified(\''+d.id+'\',this.checked)"> معرض موثّق</label>'+
-        '<div class="admin-card-actions"><button class="btn-approve" onclick="approveDealer(\''+d.id+'\')"><span class="ico ico-check"></span> قبول</button><button class="btn-reject" onclick="rejectDealer(\''+d.id+'\')"><span class="ico ico-cross"></span> رفض</button><button class="btn-reject" style="color:#f39c12;border-color:rgba(243,156,18,0.3);background:rgba(243,156,18,0.1);" onclick="requestDealerEdit(\''+d.id+'\')">✏️ طلب تعديل</button></div></div></div>';
+        '<div class="admin-card-actions"><button class="btn-approve" onclick="approveDealer(\''+d.id+'\')"><span class="ico ico-check"></span> قبول</button><button class="btn-reject" onclick="rejectDealer(\''+d.id+'\')"><span class="ico ico-cross"></span> رفض</button><button class="btn-reject" style="color:#f39c12;border-color:rgba(243,156,18,0.3);background:rgba(243,156,18,0.1);" onclick="requestDealerEdit(\''+d.id+'\')">✏️ طلب تعديل</button><button class="btn-reject" onclick="deleteDealer(\''+d.id+'\')"><span class="ico ico-trash"></span> حذف</button></div></div></div>';
     }).join(''):'<div style="text-align:center;padding:24px;color:var(--dim);"><span class="ico ico-check"></span> ما في طلبات معارض بانتظار الموافقة</div>';
     html+='<div style="font-size:14px;font-weight:700;margin:22px 0 10px;color:var(--gold);">📋 تقرير كل طلبات المعارض</div>';
     html+=all.length?'<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;"><thead><tr style="background:var(--dark3);">'+
@@ -2583,12 +2583,14 @@ function switchAdminTab(tab,btn){
       '<th style="padding:11px;text-align:right;font-size:12px;border-bottom:1px solid var(--border);">المدينة</th>'+
       '<th style="padding:11px;text-align:right;font-size:12px;border-bottom:1px solid var(--border);">الهاتف</th>'+
       '<th style="padding:11px;text-align:right;font-size:12px;border-bottom:1px solid var(--border);">الحالة</th>'+
+      '<th style="padding:11px;text-align:right;font-size:12px;border-bottom:1px solid var(--border);"></th>'+
       '</tr></thead><tbody>'+all.map(function(d){
         return '<tr style="border-bottom:1px solid var(--border);cursor:pointer;" onclick="openDealerDetail(\''+d.id+'\')">'+
           '<td style="padding:11px;font-size:13px;">'+(d.dealerName||'—')+(d.verified?' '+VERIFIED_BADGE_SVG:'')+'</td>'+
           '<td style="padding:11px;font-size:12px;color:var(--dim);">'+(d.city||d.province||'—')+'</td>'+
           '<td style="padding:11px;font-size:12px;color:var(--dim);">'+(d.phone||'—')+'</td>'+
-          '<td style="padding:11px;font-size:12px;font-weight:700;color:'+statusColor(d.status)+';">'+statusLabel(d.status)+'</td></tr>';
+          '<td style="padding:11px;font-size:12px;font-weight:700;color:'+statusColor(d.status)+';">'+statusLabel(d.status)+'</td>'+
+          '<td style="padding:11px;font-size:12px;" onclick="event.stopPropagation();"><button class="btn-reject" style="padding:4px 10px;" onclick="deleteDealer(\''+d.id+'\')"><span class="ico ico-trash"></span> حذف</button></td></tr>';
       }).join('')+'</tbody></table></div>':'<div style="text-align:center;padding:24px;color:var(--dim);">ما في طلبات لحد الآن</div>';
     ct.innerHTML=html;
   } else if(tab==='agencyReq'){
@@ -2649,6 +2651,19 @@ function toggleDealerVerified(id,checked){
     if(d)d.verified=checked;
     showToast(checked?'<span class="ico ico-check"></span> تم تفعيل شارة التوثيق':'تم إلغاء شارة التوثيق');
   }).catch(function(e){alert('خطأ: '+e.message);});
+}
+function deleteDealer(id){
+  customConfirm('هل تريد حذف هذا المعرض نهائياً؟ راح تنحذف صفحته وكل بياناته ولا يمكن التراجع عن هذا الإجراء.',async function(){
+  try{
+    await db.collection('dealerRequests').doc(id).delete();
+    window._ad.dealerRequests=(window._ad.dealerRequests||[]).filter(function(x){return x.id!==id;});
+    window._ad.dealerPending=(window._ad.dealerRequests||[]).filter(function(x){return x.status==='pending';});
+    window._dealers=(window._dealers||[]).filter(function(x){return x.id!==id;});
+    document.getElementById('statDealerPending').textContent=window._ad.dealerPending.length;
+    switchAdminTab('dealers',Array.from(document.querySelectorAll('#adminTabs .admin-tab')).find(function(b){return b.textContent.indexOf('المعارض')>-1;}));
+    showToast('<span class="ico ico-trash"></span> تم حذف المعرض نهائياً');
+  }catch(e){alert('خطأ: '+e.message);}
+  });
 }
 async function closeAgencyRequest(id){
   try{
