@@ -1566,10 +1566,10 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 // CONFIG
 const AI_WORKER_URL='https://iraq-motorsai.iraqmotors.workers.dev';
 const IMGBB='3897918b48e89d2b67351676170056ed';
-const ADMIN_EMAIL='iraq.motors0@gmail.com';
+const ADMIN_EMAILS=['iraq.motors0@gmail.com','abdullahanasm200@gmail.com'];
 firebase.initializeApp({apiKey:"AIzaSyAb4MheuHSlF4yOxuDfhnxZtIMyXy7g-l8",authDomain:"iraq-motors-38983.firebaseapp.com",projectId:"iraq-motors-38983",storageBucket:"iraq-motors-38983.firebasestorage.app",messagingSenderId:"80307836321",appId:"1:80307836321:web:d61f734a86f5be5a4c67e0"});
 const auth=firebase.auth(), db=firebase.firestore(), storage=firebase.storage();
-function isAdmin(){return auth.currentUser&&auth.currentUser.email===ADMIN_EMAIL;}
+function isAdmin(){return auth.currentUser&&ADMIN_EMAILS.includes(auth.currentUser.email);}
 
 // ============ I18N (Arabic / Kurdish Sorani / English) ============
 const I18N={
@@ -1771,7 +1771,7 @@ auth.onAuthStateChanged(function(user){
     bl.style.display='none'; bpr.style.display='flex';
     bp.style.display='block';
     if(np)np.style.display='block'; if(nf)nf.style.display='block'; if(ng)ng.style.display='block';
-    if(na)na.style.display=user.email===ADMIN_EMAIL?'block':'none';
+    if(na)na.style.display=ADMIN_EMAILS.includes(user.email)?'block':'none';
     document.getElementById('navName').textContent=user.displayName||'حسابي';
     updateMobileNav(user);
     document.getElementById('navAvatar').src=user.photoURL||'https://ui-avatars.com/api/?name='+encodeURIComponent(user.displayName||'U')+'&background=C9A84C&color=000&size=40';
@@ -3827,7 +3827,7 @@ function updateMobileNav(user){
   if(user){
     if(mf)mf.style.display='block';if(mg)mg.style.display='block';
     if(mp)mp.style.display='block';
-    if(ma)ma.style.display=user.email===ADMIN_EMAIL?'block':'none';
+    if(ma)ma.style.display=ADMIN_EMAILS.includes(user.email)?'block':'none';
   } else {
     if(mf)mf.style.display='none';if(mg)mg.style.display='none';
     if(mp)mp.style.display='none';if(ma)ma.style.display='none';
