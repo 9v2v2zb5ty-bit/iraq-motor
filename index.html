@@ -265,8 +265,10 @@ select.filter-sel{background:var(--dark3);border:1px solid var(--border);border-
 .card-price{font-size:17px;font-weight:800;color:var(--gold);font-family:'Rajdhani',sans-serif;}.card-city{font-size:11px;color:var(--dim);}
 /* DETAIL */
 .detail-back{display:flex;align-items:center;gap:8px;color:var(--dim);cursor:pointer;font-size:14px;padding:18px 32px;transition:color .2s;}.detail-back:hover{color:var(--gold);}
-.detail-main{display:grid;grid-template-columns:1fr 360px;gap:28px;padding:0 32px 60px;}
-.gallery-main{width:100%;height:380px;border-radius:14px;overflow:hidden;background:var(--dark3);position:relative;cursor:zoom-in;}
+.detail-main{display:grid;grid-template-columns:1fr 360px;gap:28px;padding:0 32px 60px;max-width:100%;}
+.gallery-main{width:100%;max-width:100%;height:380px;border-radius:14px;overflow:hidden;background:var(--dark3);position:relative;cursor:zoom-in;}
+body.iq-mobile-nav .detail-main{grid-template-columns:1fr!important;}
+body.iq-mobile-nav .gallery-main{height:62vw;max-height:340px;}
 .lightbox-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.94);z-index:9999;align-items:center;justify-content:center;}
 .lightbox-overlay.open{display:flex;}
 .lightbox-overlay img{max-width:92%;max-height:88vh;object-fit:contain;border-radius:8px;}
@@ -764,7 +766,7 @@ body.admin-mode>nav,body.admin-mode .mobile-nav,body.admin-mode .site-footer{dis
 .adm-quick-panel{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;}
 .adm-quick-title{display:flex;flex-direction:row-reverse;align-items:center;gap:7px;font-size:14px;font-weight:800;color:var(--text);margin-bottom:14px;justify-content:flex-end;}
 .adm-quick-title .ico{width:16px;height:16px;margin-left:0;color:var(--gold);}
-.adm-quick-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
+.adm-quick-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;}
 .adm-quick-btn{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:8px;background:var(--dark3);border:1px solid var(--border);color:var(--text);padding:14px 10px;border-radius:11px;font-family:Tajawal,sans-serif;font-size:12.5px;font-weight:700;cursor:pointer;text-align:center;}
 .adm-quick-btn .ico{width:16px;height:16px;margin-left:0;color:var(--gold);}
 .adm-quick-btn:hover{border-color:var(--gold);background:rgba(201,168,76,.08);}
@@ -929,6 +931,12 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
 </style>
 </head>
 <body>
+<div id="maintenanceScreen" style="display:none;position:fixed;inset:0;z-index:850;background:var(--dark);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;">
+  <span class="ico ico-wrench" style="width:56px;height:56px;color:var(--gold);margin-left:0;margin-bottom:22px;"></span>
+  <div style="font-size:24px;font-weight:900;color:var(--text);margin-bottom:10px;">الموقع تحت الصيانة</div>
+  <div style="font-size:14px;color:var(--dim);max-width:420px;line-height:1.9;margin-bottom:26px;">نعمل حالياً على تطوير وتحديث الموقع. راح نرجع خدمتنا قريباً، نعتذر عن أي إزعاج 🙏</div>
+  <div style="font-size:12px;color:var(--dim);cursor:pointer;text-decoration:underline;" onclick="openLogin()">دخول الإدارة</div>
+</div>
 <button id="pwaInstallBtn" onclick="installPWA()" style="display:none;position:fixed;left:16px;bottom:16px;z-index:900;background:var(--gold);color:#000;border:none;border-radius:30px;padding:11px 18px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:13px;box-shadow:0 6px 18px rgba(0,0,0,0.4);cursor:pointer;align-items:center;gap:7px;">
   <span class="ico ico-md" style="background-color:#000;-webkit-mask-image:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%203v11M6%2010l4%204%204-4%22/%3E%3Cpath%20d%3D%22M4%2016v1a1%201%200%200%200%201%201h10a1%201%200%200%200%201-1v-1%22/%3E%3C/svg%3E');mask-image:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%203v11M6%2010l4%204%204-4%22/%3E%3Cpath%20d%3D%22M4%2016v1a1%201%200%200%200%201%201h10a1%201%200%200%200%201-1v-1%22/%3E%3C/svg%3E');"></span>
   تثبيت التطبيق
@@ -1054,7 +1062,7 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
   <button class="pub-nav-item" id="pubNavProfile2" data-pg="profile" onclick="goPage('profile')"><span class="ico ico-user"></span><span class="lbl">حسابي</span></button>
   <button class="pub-nav-item" id="pubNavAdmin" data-pg="admin" onclick="goPage('admin')" style="display:none;color:var(--red);"><span class="ico ico-gear" style="color:var(--red);"></span><span class="lbl">الإدارة</span></button>
   <button class="pub-nav-item" onclick="goPage('profile')"><span class="ico ico-gear"></span><span class="lbl">الإعدادات</span></button>
-  <button class="pub-nav-item" onclick="goPage('about')"><span class="ico ico-headset"></span><span class="lbl">حول الموقع والدعم</span></button>
+  <button class="pub-nav-item" onclick="goPage('about')"><span class="ico ico-headset"></span><span class="lbl">الدعم والمساعدة</span></button>
   <div class="pub-promo-card">
     <span class="ico ico-sparkle pi"></span>
     <b>انشر إعلانك الآن</b>
@@ -1293,6 +1301,11 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
       <div class="form-group" style="margin-bottom:14px;"><label class="form-label">رقم الهاتف</label><input type="text" class="form-input" id="editPhone" placeholder="07XX XXX XXXX"></div>
       <div style="display:flex;gap:9px;"><button class="btn-save" onclick="saveProfile()"><span class="ico ico-save"></span> حفظ</button><button class="btn-danger" onclick="doSignOut()"><span class="ico ico-logout"></span> خروج</button></div>
       <div class="msg-box" id="profMsg"></div>
+    </div>
+    <div class="profile-section" id="myDealerSection" style="display:none;">
+      <div class="profile-section-title">معرضي</div>
+      <div id="myDealerStatus" style="font-size:12.5px;color:var(--dim);margin-bottom:12px;"></div>
+      <button class="btn-save" onclick="openShowroomForm()" style="width:100%;"><span class="ico ico-edit"></span> تعديل معرضي</button>
     </div>
     <div class="profile-section"><div class="profile-section-title">إعلاناتي</div><div class="my-ads-grid" id="myAdsGrid"><div style="color:var(--dim);font-size:13px;">جاري التحميل...</div></div></div>
   </div>
@@ -2313,6 +2326,7 @@ auth.onAuthStateChanged(function(user){
   if(pubName)pubName.textContent=user?(user.displayName||'حسابي'):'تسجيل الدخول';
   if(pubAvatar)pubAvatar.src=user?(user.photoURL||'https://ui-avatars.com/api/?name='+encodeURIComponent(user.displayName||'U')+'&background=C9A84C&color=000&size=40'):'https://ui-avatars.com/api/?name=?&background=1A1F27&color=8A9AB5&size=40';
   pubUpdateBadges(user);
+  applyMaintenanceState();
   if(user){
     bl.style.display='none'; bpr.style.display='flex';
     bp.style.display='block';
@@ -2883,6 +2897,15 @@ function loadProfile(){
   document.getElementById('profPic').src=user.photoURL||'https://ui-avatars.com/api/?name='+encodeURIComponent(user.displayName||'U')+'&background=C9A84C&color=000&size=86';
   document.getElementById('editName').value=user.displayName||'';
   db.collection('users').doc(user.uid).get().then(function(doc){if(doc.exists)document.getElementById('editPhone').value=doc.data().phone||'';}).catch(function(){});
+  db.collection('dealerRequests').where('uid','==',user.uid).limit(1).get().then(function(snap){
+    var sec=document.getElementById('myDealerSection'),st=document.getElementById('myDealerStatus');
+    if(snap.empty){sec.style.display='none';return;}
+    var d=snap.docs[0].data();
+    var labels={pending:['قيد المراجعة من الإدارة','var(--gold)'],approved:['<span class="ico ico-check"></span> معرضك موثّق','var(--green)'],needs_edit:['الإدارة طلبت تعديلات: '+(d.editNote||''),'var(--red)'],rejected:['تم رفض الطلب','var(--red)']};
+    var lb=labels[d.status]||['—','var(--dim)'];
+    st.innerHTML='<span style="color:'+lb[1]+';font-weight:700;">'+lb[0]+'</span>';
+    sec.style.display='block';
+  }).catch(function(){});
   loadMyAds();
 }
 async function loadMyAds(){
@@ -3386,7 +3409,7 @@ function admGo(section){
   var legacyMap={
     users:{tabs:[['users','المستخدمين']],def:'users'},
     ads:{tabs:[['approved','المفعّلة'],['pending','بانتظار الموافقة']],def:'approved'},
-    dealers:{tabs:[['dealers','طلبات المعارض'],['companyAds','إعلانات الشركات']],def:'dealers'},
+    dealers:{tabs:[['dealers','طلبات المعارض'],['companyAds','البانر الإعلاني الرئيسي']],def:'dealers'},
     verify:{tabs:[['dealers','طلبات المعارض'],['agencyReq','طلبات الوكالات']],def:'dealers'},
     reports:{tabs:[],def:'reports'},
     approvals:{tabs:[],def:'pending'}
@@ -3707,10 +3730,18 @@ function admRenderHome(){
       '<button class="adm-quick-btn" onclick="openShowroomForm()">معرض جديد<span class="ico ico-building"></span></button>'+
       '<button class="adm-quick-btn" onclick="admGo(\'chat\')">رسالة جديدة<span class="ico ico-send"></span></button>'+
       '<button class="adm-quick-btn" onclick="admOpenAddUserModal()">مستخدم جديد<span class="ico ico-user-plus"></span></button>'+
+      '<button class="adm-quick-btn" onclick="admOpenBannerManager()">البانر الرئيسي<span class="ico ico-star"></span></button>'+
     '</div></div>';
 }
 
 // ============ quick action: manually add a user record ============
+function admOpenBannerManager(){
+  admGo('dealers');
+  setTimeout(function(){
+    var btn=Array.from(document.querySelectorAll('#admSubtabsBar .admin-tab')).find(function(b){return b.textContent.indexOf('البانر')>-1;});
+    if(btn)btn.click();
+  },50);
+}
 function admOpenAddUserModal(){
   admOpenModal('<button class="modal-close" onclick="admCloseModal()"><span class="ico ico-cross"></span></button>'+
     '<div class="modal-title" style="text-align:right;">إضافة مستخدم يدوياً</div>'+
@@ -4096,7 +4127,7 @@ function admRenderSettings(){
     '<div class="form-group"><div class="form-label">واتساب الدعم</div><input class="form-input" id="admSetWhatsapp" value="'+admEsc(s.whatsapp||'')+'" placeholder="9647xxxxxxxxx"></div>'+
     '<div class="form-group"><div class="form-label">إيميل التواصل</div><input class="form-input" id="admSetEmail" value="'+admEsc(s.contactEmail||'')+'" placeholder="info@example.com"></div>'+
     '<div class="form-group"><div class="form-label">إعلان في أعلى الصفحة الرئيسية (اختياري)</div><textarea class="form-input" id="admSetAnnounce" rows="2">'+admEsc(s.announcement||'')+'</textarea></div>'+
-    '<label style="display:flex;flex-direction:row-reverse;align-items:center;gap:8px;font-size:13px;cursor:pointer;"><input type="checkbox" id="admSetMaint" '+(s.maintenanceMode?'checked':'')+'> وضع الصيانة (يمنع نشر إعلانات جديدة مؤقتاً)</label>'+
+    '<label style="display:flex;flex-direction:row-reverse;align-items:center;gap:8px;font-size:13px;cursor:pointer;background:rgba(232,69,69,.08);border:1px solid rgba(232,69,69,.3);border-radius:9px;padding:11px 13px;"><input type="checkbox" id="admSetMaint" '+(s.maintenanceMode?'checked':'')+'> <span><b style="color:var(--red);">وضع الصيانة</b> — يقفل الموقع بالكامل لجميع الزوار (تقدر إنت بس تدخل وأنت مسجل دخول)</span></label>'+
     '<div style="border-top:1px solid var(--border);padding-top:12px;margin-top:4px;font-size:12.5px;color:var(--dim);">روابط التواصل الاجتماعي (تظهر في القائمة الجانبية للموقع)</div>'+
     '<div class="form-group"><div class="form-label">إنستغرام</div><input class="form-input" id="admSetInsta" value="'+admEsc(s.instagram||'')+'" placeholder="https://instagram.com/..."></div>'+
     '<div class="form-group"><div class="form-label">فيسبوك</div><input class="form-input" id="admSetFb" value="'+admEsc(s.facebook||'')+'" placeholder="https://facebook.com/..."></div>'+
@@ -4123,6 +4154,8 @@ function admSaveSettings(){
   msg.style.color='#f39c12';msg.textContent='جاري الحفظ...';
   db.collection('settings').doc('general').set(payload,{merge:true}).then(function(){
     window._ad2.settings=Object.assign({},window._ad2.settings,payload);
+    window._maintenanceModeOn=payload.maintenanceMode;
+    applyMaintenanceState();
     msg.style.color='#2ECC71';msg.textContent='تم الحفظ بنجاح';
     showToast('<span class="ico ico-check"></span> تم حفظ الإعدادات');
   }).catch(function(e){msg.style.color='#e74c3c';msg.textContent='خطأ: '+e.message;});
@@ -4770,13 +4803,12 @@ async function submitShowroom(){
       website:document.getElementById('shWebsite').value.trim(),
       ownerIdDoc:ownerIdUrl,licenseDoc:licenseUrl,
       agreedTerms:true,confirmedInfo:true,
-      status:'pending',editNote:'',
+      status:'pending',editNote:'',verified:false,
       updatedAt:firebase.firestore.FieldValue.serverTimestamp()
     };
     if(editId){
       await db.collection('dealerRequests').doc(editId).update(data);
     }else{
-      data.verified=false;
       data.createdAt=firebase.firestore.FieldValue.serverTimestamp();
       var ref=await db.collection('dealerRequests').add(data);
       document.getElementById('shEditId').value=ref.id;
@@ -5284,6 +5316,7 @@ loadCars();
 applyI18n();
 initHomeQuickSearch();
 pubLoadSocialLinks();
+checkMaintenanceMode();
 initHomeBrands();
 
 // PWA: تسجيل الـ Service Worker
@@ -5338,6 +5371,14 @@ function pubQuickFilter(overrides){
   }
   goPage('cars');
   ['filterMake','filterModel','filterEngine','filterCity','searchInput'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  pubSyncToggleGroup('fCondition',filterState.condition);
+  pubSyncToggleGroup('fBodyType',filterState.bodyType);
+  pubSyncToggleGroup('fFuel',filterState.fuel);
+}
+function pubSyncToggleGroup(groupId,value){
+  var group=document.getElementById(groupId);
+  if(!group)return;
+  group.querySelectorAll('button').forEach(function(b){b.classList.toggle('active',b.dataset.val===(value||''));});
 }
 
 // ---- homepage: featured carousel + stats (uses real, already-loaded car data) ----
@@ -5454,7 +5495,22 @@ function pubSendChat(){
   }).then(pubLoadChatThread).catch(function(e){alert('خطأ: '+e.message);});
 }
 
-// ---- social links (real, read from the admin-configurable settings doc) ----
+// ---- site-wide maintenance mode (admin-only toggle in Settings; blocks everyone else) ----
+function checkMaintenanceMode(){
+  db.collection('settings').doc('general').get().then(function(doc){
+    window._maintenanceModeOn=!!(doc.exists&&doc.data().maintenanceMode);
+    applyMaintenanceState();
+  }).catch(function(){window._maintenanceModeOn=false;applyMaintenanceState();});
+}
+function applyMaintenanceState(){
+  var scr=document.getElementById('maintenanceScreen');
+  if(!scr)return;
+  var isAdminUser=!!(auth.currentUser&&ADMIN_EMAILS.includes(auth.currentUser.email));
+  var shouldBlock=!!window._maintenanceModeOn&&!isAdminUser;
+  scr.style.display=shouldBlock?'flex':'none';
+  document.body.style.overflow=shouldBlock?'hidden':'';
+}
+
 function pubLoadSocialLinks(){
   var row=document.getElementById('pubSocialRow');
   if(!row)return;
