@@ -835,6 +835,99 @@ body.admin-mode>nav,body.admin-mode .mobile-nav,body.admin-mode .site-footer{dis
 .ico-download{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%203v10.5%22/%3E%3Cpath%20d%3D%22M6%209.5l4%204%204-4%22/%3E%3Cpath%20d%3D%22M3.5%2016.7h13%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%203v10.5%22/%3E%3Cpath%20d%3D%22M6%209.5l4%204%204-4%22/%3E%3Cpath%20d%3D%22M3.5%2016.7h13%22/%3E%3C/svg%3E");}
 .ico-menu{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%205.5h14%22/%3E%3Cpath%20d%3D%22M3%2010h14%22/%3E%3Cpath%20d%3D%22M3%2014.5h14%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%205.5h14%22/%3E%3Cpath%20d%3D%22M3%2010h14%22/%3E%3Cpath%20d%3D%22M3%2014.5h14%22/%3E%3C/svg%3E");}
 
+
+/* ============================================================
+   PUBLIC SITE SHELL V2 — sidebar navigation + slim topbar
+   ============================================================ */
+nav{display:none!important;}
+.pub-topbar{position:fixed;top:0;left:0;right:0;height:64px;background:var(--dark2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:820;gap:14px;}
+.pub-topbar-left{display:flex;align-items:center;gap:8px;}
+.pub-burger{display:none;background:none;border:1px solid var(--border);border-radius:9px;color:var(--dim);cursor:pointer;padding:8px;}
+.pub-burger .ico{width:18px;height:18px;margin-left:0;color:var(--dim);}
+.pub-search{flex:1;max-width:440px;display:flex;flex-direction:row-reverse;align-items:center;gap:8px;background:var(--dark3);border:1px solid var(--border);border-radius:11px;padding:9px 14px;}
+.pub-search .ico{width:16px;height:16px;color:var(--dim);margin-left:0;flex-shrink:0;}
+.pub-search input{flex:1;background:none;border:none;outline:none;color:var(--text);font-family:Tajawal,sans-serif;font-size:13.5px;min-width:0;}
+.pub-search input::placeholder{color:var(--dim);}
+.pub-topbar-right{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.pub-icon-btn{position:relative;width:38px;height:38px;border-radius:10px;background:var(--dark3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
+.pub-icon-btn .ico{width:17px;height:17px;color:var(--dim);margin-left:0;}
+.pub-icon-btn:hover .ico{color:var(--gold);}
+.pub-icon-badge{position:absolute;top:-5px;right:-5px;min-width:16px;height:16px;padding:0 4px;border-radius:9px;background:var(--red);color:#fff;font-size:9.5px;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:Tajawal,sans-serif;border:2px solid var(--dark2);}
+.pub-lang-chip{display:flex;flex-direction:row-reverse;align-items:center;gap:6px;background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:8px 12px;cursor:pointer;font-size:12.5px;color:var(--text);}
+.pub-lang-chip img{width:16px;height:11px;border-radius:2px;}
+.pub-profile-chip{display:flex;flex-direction:row-reverse;align-items:center;gap:8px;cursor:pointer;padding:5px 6px 5px 9px;border-radius:11px;}
+.pub-profile-chip:hover{background:var(--dark3);}
+.pub-profile-chip img{width:34px;height:34px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);}
+.pub-profile-chip span{font-size:13px;font-weight:700;color:var(--text);white-space:nowrap;}
+
+.pub-sidebar{position:fixed;top:64px;left:0;bottom:0;width:250px;background:var(--dark2);border-left:1px solid var(--border);overflow-y:auto;z-index:780;padding:16px 14px 20px;display:flex;flex-direction:column;transition:transform .25s;}
+.pub-sidebar::-webkit-scrollbar{width:5px;}
+.pub-sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:5px;}
+.pub-post-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;background:var(--gold);color:#000;border:none;padding:12px;border-radius:10px;font-family:Tajawal,sans-serif;font-size:13.5px;font-weight:800;cursor:pointer;margin-bottom:14px;}
+.pub-nav-item{display:flex;flex-direction:row-reverse;align-items:center;gap:11px;width:100%;background:none;border:none;color:var(--dim);padding:10px 8px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:13.5px;cursor:pointer;text-align:right;margin-bottom:1px;position:relative;}
+.pub-nav-item .ico{width:17px;height:17px;margin-left:0;color:var(--dim);flex-shrink:0;}
+.pub-nav-item span.lbl{flex:1;}
+.pub-nav-item:hover{background:var(--dark3);color:var(--text);}
+.pub-nav-item:hover .ico{color:var(--gold);}
+.pub-nav-item.active{background:rgba(201,168,76,.13);color:var(--gold);font-weight:700;}
+.pub-nav-item.active .ico{color:var(--gold);}
+.pub-nav-badge{background:var(--gold);color:#000;font-size:10px;font-weight:800;padding:1px 7px;border-radius:8px;flex-shrink:0;}
+.pub-nav-sep{height:1px;background:var(--border);margin:10px 4px;}
+.pub-promo-card{background:linear-gradient(160deg,rgba(201,168,76,.16),rgba(201,168,76,.04));border:1px solid var(--gold);border-radius:13px;padding:16px 14px;text-align:center;margin:14px 0;}
+.pub-promo-card .pi{width:30px;height:30px;color:var(--gold);margin:0 auto 8px;}
+.pub-promo-card b{font-size:13px;color:var(--text);display:block;margin-bottom:3px;}
+.pub-promo-card p{font-size:11px;color:var(--dim);margin-bottom:10px;}
+.pub-promo-card button{background:var(--gold);color:#000;border:none;padding:9px 18px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:12.5px;font-weight:800;cursor:pointer;width:100%;}
+.pub-social-row{display:flex;justify-content:center;gap:10px;margin-top:auto;padding-top:14px;}
+.pub-social-row a{width:34px;height:34px;border-radius:50%;background:var(--dark3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--dim);text-decoration:none;}
+.pub-social-row a:hover{color:var(--gold);border-color:var(--gold);}
+.pub-social-row .ico{width:15px;height:15px;margin-left:0;color:inherit;}
+.pub-sidebar-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:770;}
+
+.pub-main{margin-left:250px;margin-top:64px;min-height:calc(100vh - 64px);}
+#page-admin.active{position:fixed!important;inset:0!important;z-index:1000;overflow-y:auto;margin:0!important;}
+.page{padding-top:0!important;}
+
+/* ---- homepage extras ---- */
+.pub-cat-pills{display:flex;gap:9px;overflow-x:auto;padding:4px 2px 14px;margin-bottom:4px;}
+.pub-cat-pills::-webkit-scrollbar{display:none;}
+.pub-cat-pill{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:7px;background:var(--card);border:1px solid var(--border);border-radius:13px;padding:14px 18px;cursor:pointer;min-width:74px;}
+.pub-cat-pill .ico{width:20px;height:20px;margin-left:0;color:var(--dim);}
+.pub-cat-pill span{font-size:11.5px;color:var(--dim);white-space:nowrap;}
+.pub-cat-pill.active{border-color:var(--gold);background:rgba(201,168,76,.1);}
+.pub-cat-pill.active .ico,.pub-cat-pill.active span{color:var(--gold);}
+.pub-section-head{display:flex;align-items:center;justify-content:space-between;margin:26px 0 14px;}
+.pub-section-head h2{font-size:17px;font-weight:800;color:var(--text);display:flex;flex-direction:row-reverse;align-items:center;gap:7px;}
+.pub-section-head h2 .ico{width:17px;height:17px;margin-left:0;color:var(--gold);}
+.pub-carousel-nav{display:flex;gap:8px;}
+.pub-carousel-btn{width:32px;height:32px;border-radius:50%;background:var(--dark3);border:1px solid var(--border);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.pub-carousel-btn:hover{border-color:var(--gold);color:var(--gold);}
+.pub-stats-bar{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px 18px;margin:30px 0;position:relative;overflow:hidden;}
+.pub-stat{text-align:center;position:relative;z-index:1;}
+.pub-stat .ico{width:24px;height:24px;color:var(--gold);margin:0 auto 8px;}
+.pub-stat b{display:block;font-size:20px;font-weight:900;color:var(--text);font-family:Rajdhani,sans-serif;}
+.pub-stat span{font-size:11.5px;color:var(--dim);}
+
+/* ---- maintenance request modal ---- */
+.pub-maint-form .form-group{margin-bottom:12px;}
+
+/* ---- mobile ---- */
+@media(max-width:900px){
+  .pub-burger{display:flex;}
+  .pub-search{display:none;}
+  .pub-sidebar{display:none;}
+  .pub-main{margin-left:0;}
+  .pub-profile-chip span{display:none;}
+  .pub-stats-bar{grid-template-columns:repeat(2,1fr);}
+  .pub-stat:last-child{grid-column:span 2;}
+}
+@media(max-width:520px){
+  .pub-topbar{padding:0 12px;gap:8px;}
+  .pub-lang-chip span.lc-txt{display:none;}
+  .pub-cat-pill{padding:11px 14px;min-width:64px;}
+  .pub-stats-bar{grid-template-columns:repeat(2,1fr);padding:16px 12px;}
+}
+
 </style>
 </head>
 <body>
@@ -874,7 +967,7 @@ body.admin-mode>nav,body.admin-mode .mobile-nav,body.admin-mode .site-footer{dis
     <button class="btn-nav btn-profile-nav" id="btnProfileNav" onclick="goPage('profile')">
       <img id="navAvatar" src=""> <span id="navName"></span>
     </button>
-    <button class="hamburger" onclick="toggleMobileNav()" id="hamburgerBtn">
+    <button class="hamburger" onclick="toggleMobileNav()">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -888,20 +981,93 @@ body.admin-mode>nav,body.admin-mode .mobile-nav,body.admin-mode .site-footer{dis
     <div class="lang-chip" id="langChipEn" onclick="setLang('en')">English</div>
   </div>
   <a onclick="mobileGoPage('home')"><span class="ico ico-home"></span> <span data-i18n="nav.home">الرئيسية</span></a>
+  <a onclick="mobileNavClose();document.getElementById('pubFeaturedSection')?document.getElementById('pubFeaturedSection').scrollIntoView():goPage('home')"><span class="ico ico-star"></span> إعلانات مميزة</a>
   <a onclick="mobileGoPage('cars')"><span class="ico ico-car"></span> <span data-i18n="nav.cars">السيارات</span></a>
+  <a onclick="mobileNavClose();pubQuickFilter({bodyType:'4x4'})"><span class="ico ico-road"></span> دفع رباعي</a>
+  <a onclick="mobileNavClose();pubQuickFilter({fuel:'كهربائي'})"><span class="ico ico-bolt"></span> كهربائية</a>
   <a onclick="mobileGoPage('compare')"><span class="ico ico-compare"></span> <span data-i18n="nav.compare">المقارنة</span></a>
   <a onclick="mobileGoPage('ai')"><span class="ico ico-ai"></span> <span data-i18n="nav.ai">مستشار AI</span></a>
   <a onclick="mobileGoPage('market')"><span class="ico ico-chart-up"></span> <span data-i18n="nav.market">مؤشر الأسعار</span></a>
   <a onclick="mobileGoPage('dealers')"><span class="ico ico-building"></span> <span data-i18n="nav.dealers">المعارض</span></a>
   <a onclick="mobileGoPage('agencies')"><span class="ico ico-store"></span> <span data-i18n="nav.agencies">الوكالات</span></a>
   <a onclick="mobileGoPage('calc')"><span class="ico ico-calculator"></span> <span data-i18n="nav.calc">حاسبة القسط</span></a>
+  <a onclick="mobileNavClose();pubOpenMaintenance()"><span class="ico ico-wrench"></span> طلب صيانة</a>
   <a onclick="mobileGoPage('favorites')" id="mNavFav" style="display:none"><span class="ico ico-heart-fill"></span> <span data-i18n="nav.favorites">المفضلة</span></a>
+  <a onclick="mobileNavClose();pubOpenChatPage()" id="mNavChat" style="display:none"><span class="ico ico-message"></span> المحادثات</a>
+  <a onclick="mobileNavClose();pubOpenNotifPage()" id="mNavNotif" style="display:none"><span class="ico ico-bell"></span> الإشعارات</a>
   <a onclick="mobileGoPage('garage')" id="mNavGarage" style="display:none"><span class="ico ico-wrench"></span> <span data-i18n="nav.garage">كراجي</span></a>
   <a onclick="mobileGoPage('profile')" id="mNavProfile" style="display:none"><span class="ico ico-user"></span> <span data-i18n="nav.profile">حسابي</span></a>
   <a onclick="mobileGoPage('admin')" id="mNavAdmin" style="display:none;color:var(--red)"><span class="ico ico-gear"></span> <span data-i18n="nav.admin">الإدارة</span></a>
   <a onclick="mobileGoPage('about')"><span class="ico ico-info"></span> <span data-i18n="nav.about">حول الموقع</span></a>
 </div>
 
+<!-- PUBLIC SHELL V2 -->
+<div class="pub-topbar">
+  <div class="pub-topbar-left">
+    <button class="pub-burger" id="hamburgerBtn" onclick="toggleMobileNav()"><span class="ico ico-menu"></span></button>
+    <div class="pub-search">
+      <span class="ico ico-search"></span>
+      <input type="text" id="pubTopSearch" placeholder="ابحث عن سيارة..." onkeydown="if(event.key==='Enter'){pubQuickFilter({keyword:this.value});}">
+    </div>
+  </div>
+  <div class="pub-topbar-right">
+    <div style="position:relative;">
+      <button class="adm-icon-btn" onclick="admToggleDropdown('pubBellMenu')"><span class="ico ico-bell"></span><span class="adm-icon-badge" id="pubBellBadge" style="display:none;">0</span></button>
+      <div class="adm-profile-menu" id="pubBellMenu" style="width:280px;"></div>
+    </div>
+    <div style="position:relative;">
+      <button class="adm-icon-btn" onclick="admToggleDropdown('pubChatMenu')"><span class="ico ico-message"></span><span class="adm-icon-badge" id="pubChatBadge" style="display:none;">0</span></button>
+      <div class="adm-profile-menu" id="pubChatMenu" style="width:280px;"></div>
+    </div>
+    <div class="pub-lang-chip" onclick="admToggleDropdown('pubLangMenu')" style="position:relative;">
+      <span>🇮🇶</span><span class="lc-txt" id="pubLangLabel">العربية</span><span class="ico ico-chevron-down" style="width:11px;height:11px;margin-left:0;"></span>
+      <div class="adm-profile-menu" id="pubLangMenu" style="width:140px;top:44px;">
+        <a onclick="setLang('ar')">العربية</a><a onclick="setLang('ku')">کوردی</a><a onclick="setLang('en')">English</a>
+      </div>
+    </div>
+    <div class="adm-profile-chip" onclick="goPage(auth.currentUser?'profile':'home');if(!auth.currentUser)openLogin();">
+      <img id="pubNavAvatar" src="">
+      <div class="pc-name" id="pubNavName" style="font-size:13px;">تسجيل الدخول</div>
+    </div>
+  </div>
+</div>
+
+<aside class="pub-sidebar" id="pubSidebar">
+  <button class="pub-post-btn" onclick="goPage('post')"><span class="ico ico-plus" style="width:15px;height:15px;margin-left:0;"></span> نشر إعلان</button>
+  <button class="pub-nav-item active" data-pg="home" onclick="goPage('home')"><span class="ico ico-home"></span><span class="lbl">الرئيسية</span></button>
+  <button class="pub-nav-item" onclick="document.getElementById('pubFeaturedSection')?document.getElementById('pubFeaturedSection').scrollIntoView({behavior:'smooth'}):goPage('home')"><span class="ico ico-star"></span><span class="lbl">إعلانات مميزة</span></button>
+  <button class="pub-nav-item" onclick="pubQuickFilter({condition:'جديد'})"><span class="ico ico-sparkle"></span><span class="lbl">سيارات جديدة</span></button>
+  <button class="pub-nav-item" onclick="pubQuickFilter({condition:'مستخدم'})"><span class="ico ico-car"></span><span class="lbl">سيارات مستعملة</span></button>
+  <button class="pub-nav-item" onclick="pubQuickFilter({bodyType:'4x4'})"><span class="ico ico-road"></span><span class="lbl">دفع رباعي</span></button>
+  <button class="pub-nav-item" onclick="goPage('cars')"><span class="ico ico-money"></span><span class="lbl">اقتصادية</span></button>
+  <button class="pub-nav-item" onclick="goPage('cars')"><span class="ico ico-trophy"></span><span class="lbl">فاخرة</span></button>
+  <button class="pub-nav-item" onclick="pubQuickFilter({fuel:'كهربائي'})"><span class="ico ico-bolt"></span><span class="lbl">كهربائية</span></button>
+  <div class="pub-nav-sep"></div>
+  <button class="pub-nav-item" data-pg="dealers" onclick="goPage('dealers')"><span class="ico ico-building"></span><span class="lbl">الشركات والمعارض</span></button>
+  <button class="pub-nav-item" data-pg="agencies" onclick="goPage('agencies')"><span class="ico ico-store"></span><span class="lbl">الوكالات</span></button>
+  <button class="pub-nav-item" data-pg="compare" onclick="goPage('compare')"><span class="ico ico-compare"></span><span class="lbl">مقارنة السيارات</span></button>
+  <button class="pub-nav-item" data-pg="ai" onclick="goPage('ai')"><span class="ico ico-ai"></span><span class="lbl">مستشار AI</span></button>
+  <button class="pub-nav-item" data-pg="market" onclick="goPage('market')"><span class="ico ico-chart-up"></span><span class="lbl">مؤشر الأسعار</span></button>
+  <button class="pub-nav-item" data-pg="calc" onclick="goPage('calc')"><span class="ico ico-calculator"></span><span class="lbl">حاسبة القسط</span></button>
+  <button class="pub-nav-item" onclick="pubOpenMaintenance()"><span class="ico ico-wrench"></span><span class="lbl">طلب صيانة</span></button>
+  <button class="pub-nav-item" id="pubNavFav" data-pg="favorites" onclick="goPage('favorites')"><span class="ico ico-heart"></span><span class="lbl">المفضلة</span></button>
+  <button class="pub-nav-item" id="pubNavChat" onclick="pubOpenChatPage()"><span class="ico ico-message"></span><span class="lbl">المحادثات</span><span class="pub-nav-badge" id="pubNavChatBadge" style="display:none;"></span></button>
+  <button class="pub-nav-item" id="pubNavNotif" onclick="pubOpenNotifPage()"><span class="ico ico-bell"></span><span class="lbl">الإشعارات</span><span class="pub-nav-badge" id="pubNavNotifBadge" style="display:none;"></span></button>
+  <button class="pub-nav-item" id="pubNavProfile2" data-pg="profile" onclick="goPage('profile')"><span class="ico ico-user"></span><span class="lbl">حسابي</span></button>
+  <button class="pub-nav-item" onclick="goPage('profile')"><span class="ico ico-gear"></span><span class="lbl">الإعدادات</span></button>
+  <button class="pub-nav-item" onclick="goPage('about')"><span class="ico ico-headset"></span><span class="lbl">الدعم والمساعدة</span></button>
+  <div class="pub-promo-card">
+    <span class="ico ico-sparkle pi"></span>
+    <b>انشر إعلانك الآن</b>
+    <p>وصول لمشتري جاد في دقائق</p>
+    <button onclick="goPage('post')">ابدأ الآن</button>
+  </div>
+  <div class="pub-social-row" id="pubSocialRow"></div>
+</aside>
+<div class="pub-sidebar-backdrop" id="pubSidebarBackdrop" onclick="toggleMobileNav()"></div>
+<div class="overlay" id="pubModalOverlay" onclick="if(event.target===this)admCloseModalPub()"><div id="pubModalMount"></div></div>
+
+<main class="pub-main">
 <!-- HOME -->
 <div class="page active" id="page-home">
   <div class="hero">
@@ -963,6 +1129,33 @@ body.admin-mode>nav,body.admin-mode .mobile-nav,body.admin-mode .site-footer{dis
       </div>
       <button class="qs-adv" onclick="openAdvancedFromHome()"><span class="ico ico-sliders"></span> بحث متقدم</button>
     </div>
+  </div>
+
+  <div class="pub-cat-pills" id="pubCatPills">
+    <button class="pub-cat-pill active" data-key="" onclick="pubQuickFilter({_key:''})"><span class="ico ico-grid"></span><span>الكل</span></button>
+    <button class="pub-cat-pill" data-key="new" onclick="pubQuickFilter({_key:'new',condition:'جديد'})"><span class="ico ico-sparkle"></span><span>سيارات جديدة</span></button>
+    <button class="pub-cat-pill" data-key="used" onclick="pubQuickFilter({_key:'used',condition:'مستخدم'})"><span class="ico ico-car"></span><span>سيارات مستعملة</span></button>
+    <button class="pub-cat-pill" data-key="4x4" onclick="pubQuickFilter({_key:'4x4',bodyType:'4x4'})"><span class="ico ico-road"></span><span>دفع رباعي</span></button>
+    <button class="pub-cat-pill" data-key="eco" onclick="goPage('cars')"><span class="ico ico-money"></span><span>اقتصادية</span></button>
+    <button class="pub-cat-pill" data-key="lux" onclick="goPage('cars')"><span class="ico ico-trophy"></span><span>فاخرة</span></button>
+    <button class="pub-cat-pill" data-key="ev" onclick="pubQuickFilter({_key:'ev',fuel:'كهربائي'})"><span class="ico ico-bolt"></span><span>كهربائية</span></button>
+    <button class="pub-cat-pill" data-key="more" onclick="openAdvancedFromHome()"><span class="ico ico-sliders"></span><span>المزيد</span></button>
+  </div>
+
+  <div id="pubFeaturedSection">
+    <div class="pub-section-head">
+      <h2><span class="ico ico-star"></span> إعلانات مميزة</h2>
+      <button class="adm-view-all" onclick="goPage('cars')"><span class="ico ico-chevron-down" style="width:11px;height:11px;transform:rotate(90deg);"></span>عرض الكل</button>
+    </div>
+    <div class="cars-grid" id="pubFeaturedGrid"></div>
+  </div>
+
+  <div class="pub-stats-bar" id="pubStatsBar">
+    <div class="pub-stat"><span class="ico ico-car"></span><b id="pubStatCars">—</b><span>سيارة معروضة</span></div>
+    <div class="pub-stat"><span class="ico ico-users"></span><b id="pubStatUsers">—</b><span>مستخدم مسجل</span></div>
+    <div class="pub-stat"><span class="ico ico-check"></span><b id="pubStatActive">—</b><span>إعلان نشط</span></div>
+    <div class="pub-stat"><span class="ico ico-trophy"></span><b>الأول</b><span>في العراق</span></div>
+    <div class="pub-stat"><span class="ico ico-headset"></span><b>24/7</b><span>دعم فني</span></div>
   </div>
 
   <div class="brands-wrap">
@@ -1435,6 +1628,7 @@ body.admin-mode>nav,body.admin-mode .mobile-nav,body.admin-mode .site-footer{dis
     </div>
   </div>
 </div>
+</main>
 
 <!-- GARAGE ADD OVERLAY -->
 <!-- FILTER PANEL -->
@@ -2022,7 +2216,7 @@ function applyI18n(){
   if(pa&&pa.classList.contains('active'))filterAgencies();
   if(pd&&pd.classList.contains('active')&&window._curAgencyId)openAgencyDetail(window._curAgencyId,true);
 }
-function setLang(l){currentLang=l;try{localStorage.setItem('iraqMotorsLang',l);}catch(e){}applyI18n();closeLangMenu();}
+function setLang(l){currentLang=l;try{localStorage.setItem('iraqMotorsLang',l);}catch(e){}applyI18n();closeLangMenu();var pl=document.getElementById('pubLangLabel');if(pl)pl.textContent=({ar:'العربية',ku:'کوردی',en:'English'})[l]||l;admCloseAllDropdowns();}
 function toggleLangMenu(){var m=document.getElementById('langMenu');if(m)m.classList.toggle('open');}
 function closeLangMenu(){var m=document.getElementById('langMenu');if(m)m.classList.remove('open');}
 document.addEventListener('click',function(e){
@@ -2114,6 +2308,12 @@ function setCarVideoUrl(inp){
 auth.onAuthStateChanged(function(user){
   var bl=document.querySelector('.btn-login-nav'),bp=document.getElementById('btnPostNav'),bpr=document.getElementById('btnProfileNav');
   var np=document.getElementById('navProfile'),na=document.getElementById('navAdmin'),nf=document.getElementById('navFav'),ng=document.getElementById('navGarage');
+  var pubAvatar=document.getElementById('pubNavAvatar'),pubName=document.getElementById('pubNavName');
+  ['pubNavFav','pubNavProfile2'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display=user?'flex':'none';});
+  ['pubNavChat','pubNavNotif'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display=user?'flex':'none';});
+  if(pubName)pubName.textContent=user?(user.displayName||'حسابي'):'تسجيل الدخول';
+  if(pubAvatar)pubAvatar.src=user?(user.photoURL||'https://ui-avatars.com/api/?name='+encodeURIComponent(user.displayName||'U')+'&background=C9A84C&color=000&size=40'):'https://ui-avatars.com/api/?name=?&background=1A1F27&color=8A9AB5&size=40';
+  pubUpdateBadges(user);
   if(user){
     bl.style.display='none'; bpr.style.display='flex';
     bp.style.display='block';
@@ -2139,6 +2339,7 @@ auth.onAuthStateChanged(function(user){
 // PAGES
 function goPage(p){
   document.body.classList.toggle('admin-mode',p==='admin');
+  document.querySelectorAll('.pub-nav-item[data-pg]').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-pg')===p);});
   document.querySelectorAll('.page').forEach(function(x){x.classList.remove('active');});
   var el=document.getElementById('page-'+p);
   if(!el)return;
@@ -2362,6 +2563,7 @@ async function loadCars(){
     if(!isAdmin())allCars=allCars.filter(function(c){return c.approved===true;});
     var cntEl=document.getElementById('cntCars');if(cntEl)cntEl.textContent=allCars.length;
     filterCars();
+    pubLoadHomeExtras();
   }catch(e){grid.innerHTML='<div class="empty"><div class="empty-ico"><span class="ico ico-lg ico-warning"></span></div><div class="empty-tit">خطأ في التحميل</div></div>';}
 }
 
@@ -3894,6 +4096,11 @@ function admRenderSettings(){
     '<div class="form-group"><div class="form-label">إيميل التواصل</div><input class="form-input" id="admSetEmail" value="'+admEsc(s.contactEmail||'')+'" placeholder="info@example.com"></div>'+
     '<div class="form-group"><div class="form-label">إعلان في أعلى الصفحة الرئيسية (اختياري)</div><textarea class="form-input" id="admSetAnnounce" rows="2">'+admEsc(s.announcement||'')+'</textarea></div>'+
     '<label style="display:flex;flex-direction:row-reverse;align-items:center;gap:8px;font-size:13px;cursor:pointer;"><input type="checkbox" id="admSetMaint" '+(s.maintenanceMode?'checked':'')+'> وضع الصيانة (يمنع نشر إعلانات جديدة مؤقتاً)</label>'+
+    '<div style="border-top:1px solid var(--border);padding-top:12px;margin-top:4px;font-size:12.5px;color:var(--dim);">روابط التواصل الاجتماعي (تظهر في القائمة الجانبية للموقع)</div>'+
+    '<div class="form-group"><div class="form-label">إنستغرام</div><input class="form-input" id="admSetInsta" value="'+admEsc(s.instagram||'')+'" placeholder="https://instagram.com/..."></div>'+
+    '<div class="form-group"><div class="form-label">فيسبوك</div><input class="form-input" id="admSetFb" value="'+admEsc(s.facebook||'')+'" placeholder="https://facebook.com/..."></div>'+
+    '<div class="form-group"><div class="form-label">تيك توك</div><input class="form-input" id="admSetTiktok" value="'+admEsc(s.tiktok||'')+'" placeholder="https://tiktok.com/@..."></div>'+
+    '<div class="form-group"><div class="form-label">يوتيوب</div><input class="form-input" id="admSetYoutube" value="'+admEsc(s.youtube||'')+'" placeholder="https://youtube.com/..."></div>'+
     '<div id="admSetMsg" style="font-size:12.5px;text-align:center;"></div>'+
     '<button class="btn-post-banner" style="width:100%;" onclick="admSaveSettings()"><span class="ico ico-save"></span> حفظ الإعدادات</button>'+
     '</div></div>';
@@ -3905,6 +4112,10 @@ function admSaveSettings(){
     contactEmail:document.getElementById('admSetEmail').value.trim(),
     announcement:document.getElementById('admSetAnnounce').value.trim(),
     maintenanceMode:document.getElementById('admSetMaint').checked,
+    instagram:document.getElementById('admSetInsta').value.trim(),
+    facebook:document.getElementById('admSetFb').value.trim(),
+    tiktok:document.getElementById('admSetTiktok').value.trim(),
+    youtube:document.getElementById('admSetYoutube').value.trim(),
     updatedAt:firebase.firestore.FieldValue.serverTimestamp()
   };
   var msg=document.getElementById('admSetMsg');
@@ -5047,13 +5258,16 @@ var origAuthHandler=auth.onAuthStateChanged.bind(auth);
 function updateMobileNav(user){
   var mf=document.getElementById('mNavFav'),mg=document.getElementById('mNavGarage');
   var mp=document.getElementById('mNavProfile'),ma=document.getElementById('mNavAdmin');
+  var mc=document.getElementById('mNavChat'),mn=document.getElementById('mNavNotif');
   if(user){
     if(mf)mf.style.display='block';if(mg)mg.style.display='block';
     if(mp)mp.style.display='block';
+    if(mc)mc.style.display='block';if(mn)mn.style.display='block';
     if(ma)ma.style.display=ADMIN_EMAILS.includes(user.email)?'block':'none';
   } else {
     if(mf)mf.style.display='none';if(mg)mg.style.display='none';
     if(mp)mp.style.display='none';if(ma)ma.style.display='none';
+    if(mc)mc.style.display='none';if(mn)mn.style.display='none';
   }
 }
 // Close mobile nav when clicking outside
@@ -5068,6 +5282,7 @@ initMakeFilter();
 loadCars();
 applyI18n();
 initHomeQuickSearch();
+pubLoadSocialLinks();
 initHomeBrands();
 
 // PWA: تسجيل الـ Service Worker
@@ -5096,6 +5311,167 @@ function installPWA(){
     if(btn) btn.style.display='none';
   });
 }
+// ============ PUBLIC SHELL V2 ============
+function mobileNavClose(){var n=document.getElementById('mobileNav');if(n)n.classList.remove('open');}
+
+function pubQuickFilter(overrides){
+  overrides=overrides||{};
+  var key=overrides._key;
+  filterState={brand:'',model:'',city:'',yearFrom:'',yearTo:'',priceFrom:'',priceTo:'',kmFrom:'',kmTo:'',condition:'',color:'',fuel:'',gear:'',bodyType:'',keyword:''};
+  Object.keys(overrides).forEach(function(k){if(k!=='_key')filterState[k]=overrides[k];});
+  if(document.getElementById('page-cars').classList.contains('active')||key!==undefined){
+    document.querySelectorAll('.pub-cat-pill').forEach(function(p){p.classList.toggle('active',p.getAttribute('data-key')===(key||''));});
+  }
+  goPage('cars');
+  ['filterMake','filterModel','filterEngine','filterCity','searchInput'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+}
+
+// ---- homepage: featured carousel + stats (uses real, already-loaded car data) ----
+function pubLoadHomeExtras(){
+  if(typeof allCars==='undefined'||!allCars)return;
+  var featured=allCars.filter(function(c){return c.featured&&c.approved!==false;});
+  if(!featured.length)featured=allCars.slice().sort(function(a,b){return (b.createdAt&&b.createdAt.toMillis?b.createdAt.toMillis():0)-(a.createdAt&&a.createdAt.toMillis?a.createdAt.toMillis():0);}).slice(0,6);
+  renderCars(featured.slice(0,6),'pubFeaturedGrid');
+  var elC=document.getElementById('pubStatCars');if(elC)elC.textContent='+'+allCars.length.toLocaleString();
+  var elA=document.getElementById('pubStatActive');if(elA)elA.textContent='+'+allCars.filter(function(c){return !c.sold;}).length.toLocaleString();
+  db.collection('users').get().then(function(snap){
+    var elU=document.getElementById('pubStatUsers');if(elU)elU.textContent='+'+snap.size.toLocaleString();
+  }).catch(function(){
+    var card=document.getElementById('pubStatUsers');if(card&&card.closest('.pub-stat'))card.closest('.pub-stat').style.display='none';
+  });
+}
+
+// ---- maintenance request (real — writes to the same supportTickets admin already manages) ----
+function pubOpenMaintenance(){
+  if(window.innerWidth<=900)mobileNavClose();
+  var me=window._me||{};
+  admOpenModalPub('<button class="modal-close" onclick="admCloseModalPub()"><span class="ico ico-cross"></span></button>'+
+    '<div class="modal-title" style="text-align:right;">طلب صيانة</div>'+
+    '<div class="modal-sub" style="text-align:right;margin-bottom:14px;">راح يوصل طلبك مباشرة لفريق الدعم الفني</div>'+
+    '<div class="pub-maint-form">'+
+    '<div class="form-group"><div class="form-label">اسمك</div><input class="form-input" id="pmName" value="'+(me.name?me.name.replace(/"/g,'&quot;'):'')+'"></div>'+
+    '<div class="form-group"><div class="form-label">رقم الهاتف</div><input class="form-input" id="pmPhone" value="'+(me.phone?me.phone.replace(/"/g,'&quot;'):'')+'" placeholder="07xxxxxxxxx"></div>'+
+    '<div class="form-group"><div class="form-label">نوع السيارة</div><input class="form-input" id="pmCar" placeholder="مثال: تويوتا كامري 2020"></div>'+
+    '<div class="form-group"><div class="form-label">وصف المشكلة</div><textarea class="form-input" id="pmDesc" rows="3" placeholder="اشرح المشكلة اللي تعاني منها..."></textarea></div>'+
+    '<div id="pmMsg" style="font-size:12.5px;text-align:center;"></div>'+
+    '<button class="btn-post-banner" style="width:100%;" onclick="pubSubmitMaintenance()">إرسال الطلب</button>'+
+    '</div>',420);
+}
+function pubSubmitMaintenance(){
+  var name=document.getElementById('pmName').value.trim();
+  var phone=document.getElementById('pmPhone').value.trim();
+  var car=document.getElementById('pmCar').value.trim();
+  var desc=document.getElementById('pmDesc').value.trim();
+  var msg=document.getElementById('pmMsg');
+  if(!name||!phone){msg.style.color='#e74c3c';msg.textContent='الرجاء إدخال الاسم ورقم الهاتف';return;}
+  msg.style.color='#f39c12';msg.textContent='جاري الإرسال...';
+  db.collection('supportTickets').add({
+    customerName:name,customerPhone:phone,subject:'طلب صيانة'+(car?(' — '+car):''),description:desc,
+    status:'open',notes:[],source:'maintenance-form',uid:(auth.currentUser&&auth.currentUser.uid)||null,
+    createdAt:firebase.firestore.FieldValue.serverTimestamp()
+  }).then(function(){
+    msg.style.color='#2ECC71';msg.textContent='تم إرسال طلبك، سيتواصل معك فريقنا قريباً';
+    setTimeout(admCloseModalPub,1600);
+  }).catch(function(e){msg.style.color='#e74c3c';msg.textContent='خطأ: '+e.message;});
+}
+
+// ---- generic modal for public pages (separate mount from admin's, since admin shell may not be present) ----
+function admOpenModalPub(innerHtml,maxWidth){
+  document.getElementById('pubModalMount').innerHTML='<div class="modal" style="max-width:'+(maxWidth||430)+'px;text-align:right;">'+innerHtml+'</div>';
+  document.getElementById('pubModalOverlay').classList.add('open');
+}
+function admCloseModalPub(){document.getElementById('pubModalOverlay').classList.remove('open');document.getElementById('pubModalMount').innerHTML='';}
+
+// ---- user-facing notifications (reads the same `notifications` collection the admin composer writes to) ----
+function pubOpenNotifPage(){
+  if(window.innerWidth<=900)mobileNavClose();
+  if(!auth.currentUser){goPage('home');openLogin();return;}
+  var uid=auth.currentUser.uid;
+  admOpenModalPub('<button class="modal-close" onclick="admCloseModalPub()"><span class="ico ico-cross"></span></button>'+
+    '<div class="modal-title" style="text-align:right;">الإشعارات</div>'+
+    '<div id="pubNotifList" style="max-height:56vh;overflow-y:auto;"><div class="adm-empty">جاري التحميل...</div></div>',440);
+  db.collection('notifications').orderBy('createdAt','desc').limit(40).get().then(function(snap){
+    var items=snap.docs.map(function(d){return d.data();}).filter(function(n){return n.audience==='all'||n.toUid===uid;});
+    var box=document.getElementById('pubNotifList');
+    if(!box)return;
+    box.innerHTML=!items.length?'<div class="adm-empty"><span class="ico ico-bell"></span>لا توجد إشعارات بعد</div>':items.map(function(n){
+      return '<div class="adm-list-card"><div class="adm-list-card-title">'+(n.title||'').replace(/[<>&]/g,function(c){return{'<':'&lt;','>':'&gt;','&':'&amp;'}[c];})+'</div><div class="adm-list-card-meta">'+(n.body||'').replace(/[<>&]/g,function(c){return{'<':'&lt;','>':'&gt;','&':'&amp;'}[c];})+'</div></div>';
+    }).join('');
+  }).catch(function(){
+    var box=document.getElementById('pubNotifList');if(box)box.innerHTML='<div class="adm-empty">تعذر تحميل الإشعارات</div>';
+  });
+}
+
+// ---- user-facing chat with support/admin (reads & writes the same `messages` collection the admin chat uses) ----
+function pubOpenChatPage(){
+  if(window.innerWidth<=900)mobileNavClose();
+  if(!auth.currentUser){goPage('home');openLogin();return;}
+  admOpenModalPub('<button class="modal-close" onclick="admCloseModalPub()"><span class="ico ico-cross"></span></button>'+
+    '<div class="modal-title" style="text-align:right;">المحادثة مع الإدارة</div>'+
+    '<div id="pubChatThread" style="max-height:44vh;overflow-y:auto;margin-bottom:10px;"><div class="adm-empty">جاري التحميل...</div></div>'+
+    '<div style="display:flex;gap:8px;"><input class="form-input" id="pubChatInput" placeholder="اكتب رسالة..." onkeydown="if(event.key===\'Enter\')pubSendChat();" style="flex:1;"><button class="btn-post-banner" onclick="pubSendChat()"><span class="ico ico-send"></span></button></div>',460);
+  pubLoadChatThread();
+}
+function pubLoadChatThread(){
+  db.collection('messages').get().then(function(snap){
+    var uid2=auth.currentUser.uid;
+    var thread=(snap.docs||[]).map(function(d){return d.data();}).filter(function(m){return m.fromUid===uid2||m.toUid===uid2;}).sort(function(a,b){
+      var ta=a.createdAt&&a.createdAt.toMillis?a.createdAt.toMillis():0,tb=b.createdAt&&b.createdAt.toMillis?b.createdAt.toMillis():0;return ta-tb;
+    });
+    var box=document.getElementById('pubChatThread');if(!box)return;
+    box.innerHTML=!thread.length?'<div class="adm-empty">لا رسائل بعد — ابدأ المحادثة مع فريق الدعم</div>':thread.map(function(m){
+      var mine=!m.isAdmin;
+      var t=(m.text||'').replace(/[<>&]/g,function(c){return{'<':'&lt;','>':'&gt;','&':'&amp;'}[c];});
+      return '<div style="display:flex;justify-content:'+(mine?'flex-end':'flex-start')+';margin-bottom:8px;"><div style="max-width:75%;background:'+(mine?'rgba(201,168,76,.14)':'var(--dark3)')+';border:1px solid var(--border);border-radius:11px;padding:9px 13px;font-size:12.5px;color:var(--text);">'+t+'</div></div>';
+    }).join('');
+    box.scrollTop=box.scrollHeight;
+  }).catch(function(){
+    var box=document.getElementById('pubChatThread');if(box)box.innerHTML='<div class="adm-empty">تعذر تحميل المحادثة</div>';
+  });
+}
+function pubSendChat(){
+  var inp=document.getElementById('pubChatInput');
+  var text=inp.value.trim();
+  if(!text||!auth.currentUser)return;
+  inp.value='';
+  db.collection('messages').add({
+    fromUid:auth.currentUser.uid,fromName:(window._me&&window._me.name)||auth.currentUser.displayName||'مستخدم',
+    toUid:'admin',toName:'الإدارة',text:text,isAdmin:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()
+  }).then(pubLoadChatThread).catch(function(e){alert('خطأ: '+e.message);});
+}
+
+// ---- social links (real, read from the admin-configurable settings doc) ----
+function pubLoadSocialLinks(){
+  var row=document.getElementById('pubSocialRow');
+  if(!row)return;
+  db.collection('settings').doc('general').get().then(function(doc){
+    if(!doc.exists)return;
+    var s=doc.data()||{};
+    var icons={instagram:'ico-camera',facebook:'ico-users',tiktok:'ico-video',youtube:'ico-video'};
+    var html='';
+    ['instagram','facebook','tiktok','youtube'].forEach(function(k){
+      if(s[k])html+='<a href="'+s[k]+'" target="_blank" rel="noopener"><span class="ico '+(icons[k]||'ico-link')+'"></span></a>';
+    });
+    row.innerHTML=html;
+  }).catch(function(){});
+}
+
+// ---- unread badges for bell/chat icons (topbar + sidebar), real counts ----
+function pubUpdateBadges(user){
+  if(!user){
+    ['pubBellBadge','pubNavNotifBadge','pubChatBadge','pubNavChatBadge'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});
+    return;
+  }
+  db.collection('notifications').orderBy('createdAt','desc').limit(30).get().then(function(snap){
+    var n=snap.docs.map(function(d){return d.data();}).filter(function(x){return x.audience==='all'||x.toUid===user.uid;}).length;
+    ['pubBellBadge','pubNavNotifBadge'].forEach(function(id){var el=document.getElementById(id);if(el){el.style.display=n?(id==='pubBellBadge'?'flex':'inline-block'):'none';el.textContent=n>9?'9+':n;}});
+  }).catch(function(){});
+  db.collection('messages').get().then(function(snap){
+    var n=snap.docs.map(function(d){return d.data();}).filter(function(m){return m.toUid===user.uid&&m.isAdmin;}).length;
+    ['pubChatBadge','pubNavChatBadge'].forEach(function(id){var el=document.getElementById(id);if(el){el.style.display=n?(id==='pubChatBadge'?'flex':'inline-block'):'none';el.textContent=n>9?'9+':n;}});
+  }).catch(function(){});
+}
+
 </script>
 </body>
 </html>
