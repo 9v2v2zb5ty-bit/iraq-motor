@@ -804,16 +804,14 @@ body.admin-mode>nav,body.admin-mode .mobile-nav,body.admin-mode .site-footer{dis
 @media(max-width:1050px){
   .adm-grid-2{grid-template-columns:1fr;}
 }
-@media(max-width:900px){
-  .adm-burger{display:block;}
-  .adm-search{display:none;}
-  .adm-sidebar{transform:translateX(-100%);box-shadow:0 0 40px rgba(0,0,0,.5);}
-  .adm-sidebar.open{transform:translateX(0);}
-  .adm-sidebar.open~.adm-sidebar-backdrop,body.adm-sidebar-open .adm-sidebar-backdrop{display:block;}
-  .adm-main{margin-left:0;padding:16px 14px 40px;}
-  .adm-profile-chip .pc-name,.adm-profile-chip .pc-role{display:none;}
-  .adm-grid-3{grid-template-columns:1fr;}
-}
+body.iq-mobile-nav .adm-burger{display:block;}
+body.iq-mobile-nav .adm-search{display:none;}
+body.iq-mobile-nav .adm-sidebar{transform:translateX(-100%);box-shadow:0 0 40px rgba(0,0,0,.5);}
+.adm-sidebar.open{transform:translateX(0);}
+.adm-sidebar.open~.adm-sidebar-backdrop,body.adm-sidebar-open .adm-sidebar-backdrop{display:block;}
+body.iq-mobile-nav .adm-main{margin-left:0;padding:16px 14px 40px;}
+body.iq-mobile-nav .adm-profile-chip .pc-name,body.iq-mobile-nav .adm-profile-chip .pc-role{display:none;}
+body.iq-mobile-nav .adm-grid-3{grid-template-columns:1fr;}
 @media(max-width:640px){
   .adm-stats-row{grid-template-columns:repeat(2,1fr);}
   .adm-quick-grid{grid-template-columns:repeat(2,1fr);}
@@ -912,12 +910,12 @@ nav{display:none!important;}
 .pub-maint-form .form-group{margin-bottom:12px;}
 
 /* ---- mobile ---- */
+body.iq-mobile-nav .pub-burger{display:flex;}
+body.iq-mobile-nav .pub-search{display:none;}
+body.iq-mobile-nav .pub-sidebar{display:none;}
+body.iq-mobile-nav .pub-main{margin-left:0;}
+body.iq-mobile-nav .pub-profile-chip span{display:none;}
 @media(max-width:900px){
-  .pub-burger{display:flex;}
-  .pub-search{display:none;}
-  .pub-sidebar{display:none;}
-  .pub-main{margin-left:0;}
-  .pub-profile-chip span{display:none;}
   .pub-stats-bar{grid-template-columns:repeat(2,1fr);}
   .pub-stat:last-child{grid-column:span 2;}
 }
@@ -3380,7 +3378,7 @@ function admGo(section){
   document.getElementById('admLegacyWrap').style.display='none';
   document.getElementById('admOther').style.display='none';
   admCloseAllDropdowns();
-  if(window.innerWidth<=900)admCloseSidebar();
+  if(document.body.classList.contains('iq-mobile-nav'))admCloseSidebar();
 
   var legacyMap={
     users:{tabs:[['users','المستخدمين']],def:'users'},
@@ -3431,7 +3429,7 @@ function admCloseAllDropdowns(){
   document.querySelectorAll('.adm-profile-menu.open').forEach(function(m){m.classList.remove('open');});
 }
 document.addEventListener('click',function(e){
-  if(!e.target.closest('.adm-profile-chip')&&!e.target.closest('.adm-profile-menu')&&!e.target.closest('.adm-icon-btn')){
+  if(!e.target.closest('.adm-profile-chip')&&!e.target.closest('.adm-profile-menu')&&!e.target.closest('.adm-icon-btn')&&!e.target.closest('.pub-lang-chip')&&!e.target.closest('.adm-side-profile')){
     admCloseAllDropdowns();
   }
   if(!e.target.closest('.adm-search')){
@@ -5312,6 +5310,19 @@ function installPWA(){
   });
 }
 // ============ PUBLIC SHELL V2 ============
+// Decide mobile-nav vs sidebar-nav from the device's actual screen size (stable across
+// rotation) rather than raw viewport width alone — this stops iPads from flipping between
+// two different layouts when rotated between portrait and landscape.
+function iqUpdateMobileMode(){
+  var shortSide=Math.min(window.screen&&window.screen.width||9999,window.screen&&window.screen.height||9999);
+  var isPhoneDevice=shortSide<=500;
+  var isNarrowWindow=window.innerWidth<=640;
+  document.body.classList.toggle('iq-mobile-nav',isPhoneDevice||isNarrowWindow);
+}
+iqUpdateMobileMode();
+window.addEventListener('resize',iqUpdateMobileMode);
+window.addEventListener('orientationchange',function(){setTimeout(iqUpdateMobileMode,120);});
+
 function mobileNavClose(){var n=document.getElementById('mobileNav');if(n)n.classList.remove('open');}
 
 function pubQuickFilter(overrides){
@@ -5343,7 +5354,7 @@ function pubLoadHomeExtras(){
 
 // ---- maintenance request (real — writes to the same supportTickets admin already manages) ----
 function pubOpenMaintenance(){
-  if(window.innerWidth<=900)mobileNavClose();
+  if(document.body.classList.contains('iq-mobile-nav'))mobileNavClose();
   var me=window._me||{};
   admOpenModalPub('<button class="modal-close" onclick="admCloseModalPub()"><span class="ico ico-cross"></span></button>'+
     '<div class="modal-title" style="text-align:right;">طلب صيانة</div>'+
@@ -5384,7 +5395,7 @@ function admCloseModalPub(){document.getElementById('pubModalOverlay').classList
 
 // ---- user-facing notifications (reads the same `notifications` collection the admin composer writes to) ----
 function pubOpenNotifPage(){
-  if(window.innerWidth<=900)mobileNavClose();
+  if(document.body.classList.contains('iq-mobile-nav'))mobileNavClose();
   if(!auth.currentUser){goPage('home');openLogin();return;}
   var uid=auth.currentUser.uid;
   admOpenModalPub('<button class="modal-close" onclick="admCloseModalPub()"><span class="ico ico-cross"></span></button>'+
@@ -5404,7 +5415,7 @@ function pubOpenNotifPage(){
 
 // ---- user-facing chat with support/admin (reads & writes the same `messages` collection the admin chat uses) ----
 function pubOpenChatPage(){
-  if(window.innerWidth<=900)mobileNavClose();
+  if(document.body.classList.contains('iq-mobile-nav'))mobileNavClose();
   if(!auth.currentUser){goPage('home');openLogin();return;}
   admOpenModalPub('<button class="modal-close" onclick="admCloseModalPub()"><span class="ico ico-cross"></span></button>'+
     '<div class="modal-title" style="text-align:right;">المحادثة مع الإدارة</div>'+
@@ -5458,19 +5469,41 @@ function pubLoadSocialLinks(){
 
 // ---- unread badges for bell/chat icons (topbar + sidebar), real counts ----
 function pubUpdateBadges(user){
+  var bellMenu=document.getElementById('pubBellMenu'),chatMenu=document.getElementById('pubChatMenu');
   if(!user){
     ['pubBellBadge','pubNavNotifBadge','pubChatBadge','pubNavChatBadge'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});
+    if(bellMenu)bellMenu.innerHTML='<div style="padding:16px;text-align:center;color:var(--dim);font-size:12.5px;">سجّل الدخول لرؤية إشعاراتك</div>';
+    if(chatMenu)chatMenu.innerHTML='<div style="padding:16px;text-align:center;color:var(--dim);font-size:12.5px;">سجّل الدخول لبدء محادثة</div>';
     return;
   }
   db.collection('notifications').orderBy('createdAt','desc').limit(30).get().then(function(snap){
-    var n=snap.docs.map(function(d){return d.data();}).filter(function(x){return x.audience==='all'||x.toUid===user.uid;}).length;
+    var items=snap.docs.map(function(d){return d.data();}).filter(function(x){return x.audience==='all'||x.toUid===user.uid;});
+    var n=items.length;
     ['pubBellBadge','pubNavNotifBadge'].forEach(function(id){var el=document.getElementById(id);if(el){el.style.display=n?(id==='pubBellBadge'?'flex':'inline-block'):'none';el.textContent=n>9?'9+':n;}});
-  }).catch(function(){});
+    if(bellMenu){
+      bellMenu.innerHTML=!items.length?'<div style="padding:16px;text-align:center;color:var(--dim);font-size:12.5px;">لا توجد إشعارات بعد</div>':
+        items.slice(0,6).map(function(it){
+          var t=(it.title||'').replace(/[<>&]/g,function(c){return{'<':'&lt;','>':'&gt;','&':'&amp;'}[c];});
+          var b=(it.body||'').replace(/[<>&]/g,function(c){return{'<':'&lt;','>':'&gt;','&':'&amp;'}[c];});
+          return '<a onclick="admCloseAllDropdowns();pubOpenNotifPage()" style="display:block;padding:11px 14px;border-bottom:1px solid var(--border);cursor:pointer;color:var(--text);text-decoration:none;"><div style="font-size:12.5px;font-weight:700;">'+t+'</div><div style="font-size:11px;color:var(--dim);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+b+'</div></a>';
+        }).join('')+'<a onclick="admCloseAllDropdowns();pubOpenNotifPage()" style="display:block;padding:10px;text-align:center;color:var(--gold);font-size:12px;cursor:pointer;">عرض الكل</a>';
+    }
+  }).catch(function(){if(bellMenu)bellMenu.innerHTML='<div style="padding:16px;text-align:center;color:var(--dim);font-size:12.5px;">تعذر تحميل الإشعارات</div>';});
   db.collection('messages').get().then(function(snap){
-    var n=snap.docs.map(function(d){return d.data();}).filter(function(m){return m.toUid===user.uid&&m.isAdmin;}).length;
-    ['pubChatBadge','pubNavChatBadge'].forEach(function(id){var el=document.getElementById(id);if(el){el.style.display=n?(id==='pubChatBadge'?'flex':'inline-block'):'none';el.textContent=n>9?'9+':n;}});
-  }).catch(function(){});
+    var mine=snap.docs.map(function(d){return d.data();}).filter(function(m){return m.toUid===user.uid||m.fromUid===user.uid;});
+    var unread=mine.filter(function(m){return m.toUid===user.uid&&m.isAdmin;}).length;
+    ['pubChatBadge','pubNavChatBadge'].forEach(function(id){var el=document.getElementById(id);if(el){el.style.display=unread?(id==='pubChatBadge'?'flex':'inline-block'):'none';el.textContent=unread>9?'9+':unread;}});
+    if(chatMenu){
+      var last=mine.sort(function(a,b){var ta=a.createdAt&&a.createdAt.toMillis?a.createdAt.toMillis():0,tb=b.createdAt&&b.createdAt.toMillis?b.createdAt.toMillis():0;return tb-ta;}).slice(0,4);
+      chatMenu.innerHTML=!last.length?'<div style="padding:16px;text-align:center;color:var(--dim);font-size:12.5px;">لا رسائل بعد</div>':
+        last.map(function(m){
+          var t=(m.text||'').replace(/[<>&]/g,function(c){return{'<':'&lt;','>':'&gt;','&':'&amp;'}[c];});
+          return '<a onclick="admCloseAllDropdowns();pubOpenChatPage()" style="display:block;padding:11px 14px;border-bottom:1px solid var(--border);cursor:pointer;color:var(--text);text-decoration:none;font-size:12.5px;"><b style="color:'+(m.isAdmin?'var(--gold)':'var(--dim)')+';">'+(m.isAdmin?'الإدارة':'أنت')+':</b> '+t+'</a>';
+        }).join('')+'<a onclick="admCloseAllDropdowns();pubOpenChatPage()" style="display:block;padding:10px;text-align:center;color:var(--gold);font-size:12px;cursor:pointer;">فتح المحادثة</a>';
+    }
+  }).catch(function(){if(chatMenu)chatMenu.innerHTML='<div style="padding:16px;text-align:center;color:var(--dim);font-size:12.5px;">تعذر تحميل الرسائل</div>';});
 }
+
 
 </script>
 </body>
