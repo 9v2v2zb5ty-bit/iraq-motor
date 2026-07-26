@@ -1052,6 +1052,7 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
   <button class="pub-nav-item" id="pubNavChat" onclick="pubOpenChatPage()"><span class="ico ico-message"></span><span class="lbl">المحادثات</span><span class="pub-nav-badge" id="pubNavChatBadge" style="display:none;"></span></button>
   <button class="pub-nav-item" id="pubNavNotif" onclick="pubOpenNotifPage()"><span class="ico ico-bell"></span><span class="lbl">الإشعارات</span><span class="pub-nav-badge" id="pubNavNotifBadge" style="display:none;"></span></button>
   <button class="pub-nav-item" id="pubNavProfile2" data-pg="profile" onclick="goPage('profile')"><span class="ico ico-user"></span><span class="lbl">حسابي</span></button>
+  <button class="pub-nav-item" id="pubNavAdmin" data-pg="admin" onclick="goPage('admin')" style="display:none;color:var(--red);"><span class="ico ico-gear" style="color:var(--red);"></span><span class="lbl">الإدارة</span></button>
   <button class="pub-nav-item" onclick="goPage('profile')"><span class="ico ico-gear"></span><span class="lbl">الإعدادات</span></button>
   <button class="pub-nav-item" onclick="goPage('about')"><span class="ico ico-headset"></span><span class="lbl">الدعم والمساعدة</span></button>
   <div class="pub-promo-card">
@@ -2317,6 +2318,7 @@ auth.onAuthStateChanged(function(user){
     bp.style.display='block';
     if(np)np.style.display='block'; if(nf)nf.style.display='block'; if(ng)ng.style.display='block';
     if(na)na.style.display=ADMIN_EMAILS.includes(user.email)?'block':'none';
+    var pna=document.getElementById('pubNavAdmin');if(pna)pna.style.display=ADMIN_EMAILS.includes(user.email)?'flex':'none';
     document.getElementById('navName').textContent=user.displayName||'حسابي';
     updateMobileNav(user);
     document.getElementById('navAvatar').src=user.photoURL||'https://ui-avatars.com/api/?name='+encodeURIComponent(user.displayName||'U')+'&background=C9A84C&color=000&size=40';
@@ -2328,6 +2330,7 @@ auth.onAuthStateChanged(function(user){
     window._me=null;
     bl.style.display='block'; bp.style.display='none'; bpr.style.display='none';
     if(np)np.style.display='none'; if(nf)nf.style.display='none'; if(ng)ng.style.display='none'; if(na)na.style.display='none';
+    var pna2=document.getElementById('pubNavAdmin');if(pna2)pna2.style.display='none';
     updateMobileNav(null);
   }
   var baa=document.getElementById('btnAddAgency');if(baa)baa.style.display=isAdmin()?'flex':'none';
