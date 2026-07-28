@@ -1253,7 +1253,7 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
       <div class="form-grid">
         <div class="form-group"><label class="form-label">السعر *</label><div class="price-wrap"><input type="number" class="form-input" id="adPrice" placeholder="15000"><div class="currency-toggle"><button class="cur-btn active" id="curUSD" onclick="setCurrency('USD')">USD</button><button class="cur-btn" id="curIQD" onclick="setCurrency('IQD')">IQD</button></div></div></div>
         <div class="form-group"><label class="form-label">المدينة *</label><select class="form-input" id="adCity"><option value="">اختر المدينة</option><option>أربيل</option><option>الأنبار</option><option>بابل</option><option>البصرة</option><option>بغداد</option><option>دهوك</option><option>ديالى</option><option>ذي قار</option><option>السليمانية</option><option>صلاح الدين</option><option>القادسية</option><option>كربلاء</option><option>كركوك</option><option>المثنى</option><option>ميسان</option><option>النجف</option><option>نينوى</option><option>واسط</option></select></div>
-        <div class="form-group"><label class="form-label">رقم الواتساب *</label><input type="text" class="form-input" id="adPhone" placeholder="9647701234567"></div>
+        <div class="form-group"><label class="form-label">رقم الواتساب *</label><input type="text" class="form-input" id="adPhone" placeholder="07701234567"></div>
       </div>
     </div>
     <div class="post-section">
@@ -1851,7 +1851,7 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
       <div class="post-section-title"><span class="ico ico-phone"></span> التواصل وأوقات الدوام</div>
       <div class="form-grid">
         <div class="form-group full"><label class="form-label">📞 أرقام الهاتف (افصل بفاصلة إذا أكثر من رقم)</label><input class="form-input" id="agPhones" placeholder="07701234567, 07809876543"></div>
-        <div class="form-group"><label class="form-label">💬 رقم واتساب للتواصل المباشر</label><input class="form-input" id="agWhatsapp" placeholder="9647701234567"></div>
+        <div class="form-group"><label class="form-label">💬 رقم واتساب للتواصل المباشر</label><input class="form-input" id="agWhatsapp" placeholder="07701234567"></div>
         <div class="form-group"><label class="form-label">📧 البريد الإلكتروني</label><input class="form-input" id="agEmail" placeholder="info@agency.com"></div>
         <div class="form-group full"><label class="form-label">🌐 الموقع الإلكتروني</label><input class="form-input" id="agWebsite" placeholder="https://"></div>
         <div class="form-group full"><label class="form-label">🕒 أوقات الدوام</label><input class="form-input" id="agHours" placeholder="السبت - الخميس: 9 صباحاً - 6 مساءً"></div>
@@ -2003,7 +2003,7 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
         <div class="form-group full"><label class="form-label">اسم المعرض *</label><input class="form-input" id="shName" placeholder="مثال: معرض النخبة للسيارات"></div>
         <div class="form-group"><label class="form-label">اسم المالك أو المسؤول *</label><input class="form-input" id="shOwnerName" placeholder="الاسم الكامل"></div>
         <div class="form-group"><label class="form-label">رقم الهاتف *</label><input type="tel" class="form-input" id="shPhone" placeholder="07XX XXX XXXX"></div>
-        <div class="form-group"><label class="form-label">رقم واتساب (اختياري)</label><input class="form-input" id="shWhatsapp" placeholder="9647XXXXXXXXX"></div>
+        <div class="form-group"><label class="form-label">رقم واتساب (اختياري)</label><input class="form-input" id="shWhatsapp" placeholder="07XXXXXXXXX"></div>
         <div class="form-group"><label class="form-label">البريد الإلكتروني *</label><input type="email" class="form-input" id="shEmail" placeholder="info@example.com"></div>
         <div class="form-group"><label class="form-label">المدينة *</label>
           <select class="form-input" id="shCity">
@@ -2880,12 +2880,18 @@ function reportAd(carId,carName){
   document.getElementById('reportMsg').style.display='none';
   document.getElementById('reportOverlay').classList.add('open');
 }
+function waFormat(phone){
+  var d=(phone||'').replace(/\D/g,'');
+  if(!d)return '';
+  if(d.indexOf('964')===0)return d;
+  if(d.charAt(0)==='0')return '964'+d.substring(1);
+  if(d.length===10)return '964'+d;
+  return d;
+}
 function contactSeller(phone){
-  if(!auth.currentUser){openLogin();return;}
-  db.collection('users').doc(auth.currentUser.uid).get().then(function(doc){
-    if(!doc.exists||!doc.data().phone){alert('يجب إضافة رقم هاتفك في البروفايل أولاً');goPage('profile');return;}
-    window.open('https://wa.me/'+phone.replace(/\D/g,''),'_blank');
-  }).catch(function(){alert('يجب إضافة رقم هاتفك في البروفايل أولاً');goPage('profile');});
+  var num=waFormat(phone);
+  if(!num){alert('رقم واتساب البائع غير متوفر');return;}
+  window.open('https://wa.me/'+num,'_blank');
 }
 
 // FAVORITES
@@ -4144,7 +4150,7 @@ function admRenderSettings(){
     '<div class="adm-panel-head"><h3><span class="ico ico-gear"></span>إعدادات عامة</h3></div>'+
     '<div style="display:flex;flex-direction:column;gap:12px;">'+
     '<div class="form-group"><div class="form-label">رقم هاتف التواصل</div><input class="form-input" id="admSetPhone" value="'+admEsc(s.contactPhone||'')+'" placeholder="07xxxxxxxxx"></div>'+
-    '<div class="form-group"><div class="form-label">واتساب الدعم</div><input class="form-input" id="admSetWhatsapp" value="'+admEsc(s.whatsapp||'')+'" placeholder="9647xxxxxxxxx"></div>'+
+    '<div class="form-group"><div class="form-label">واتساب الدعم</div><input class="form-input" id="admSetWhatsapp" value="'+admEsc(s.whatsapp||'')+'" placeholder="07xxxxxxxxx"></div>'+
     '<div class="form-group"><div class="form-label">إيميل التواصل</div><input class="form-input" id="admSetEmail" value="'+admEsc(s.contactEmail||'')+'" placeholder="info@example.com"></div>'+
     '<div class="form-group"><div class="form-label">إعلان في أعلى الصفحة الرئيسية (اختياري)</div><textarea class="form-input" id="admSetAnnounce" rows="2">'+admEsc(s.announcement||'')+'</textarea></div>'+
     '<label style="display:flex;flex-direction:row-reverse;align-items:center;gap:8px;font-size:13px;cursor:pointer;background:rgba(232,69,69,.08);border:1px solid rgba(232,69,69,.3);border-radius:9px;padding:11px 13px;"><input type="checkbox" id="admSetMaint" '+(s.maintenanceMode?'checked':'')+'> <span><b style="color:var(--red);">وضع الصيانة</b> — يقفل الموقع بالكامل لجميع الزوار (تقدر إنت بس تدخل وأنت مسجل دخول)</span></label>'+
@@ -4591,7 +4597,7 @@ function openDealerDetail(id,skipNav){
 function buildDealerDetailHtml(d){
   var logo=d.logo?'<img class="agency-hero-logo" src="'+d.logo+'">':'<div class="agency-hero-logo" style="display:flex;align-items:center;justify-content:center;font-size:30px;color:var(--gold);"><span class="ico ico-lg ico-building"></span></div>';
   var cover=d.cover?('<img class="agency-hero-cover" src="'+d.cover+'">'):('<div class="agency-hero-cover-empty"><span class="ico ico-lg ico-building"></span></div>');
-  var waNum=(d.whatsapp||d.phone||'').replace(/\D/g,'');
+  var waNum=waFormat(d.whatsapp||d.phone||'');
   var callNum=d.phone||'';
   var actions=
     (waNum?'<a class="btn-wa" href="https://wa.me/'+waNum+'" target="_blank">💬 تواصل مع المعرض</a>':'')+
@@ -4922,7 +4928,7 @@ function openAgencyDetail(id,skipNav){
 function buildAgencyDetailHtml(a){
   var logo=a.logo?'<img class="agency-hero-logo" src="'+a.logo+'">':'<div class="agency-hero-logo" style="display:flex;align-items:center;justify-content:center;font-size:30px;color:var(--gold);"><span class="ico ico-lg ico-store"></span></div>';
   var cover=a.cover?('<img class="agency-hero-cover" src="'+a.cover+'">'):('<div class="agency-hero-cover-empty"><span class="ico ico-lg ico-store"></span></div>');
-  var waNum=(a.whatsapp||(a.phones&&a.phones[0])||'').replace(/\D/g,'');
+  var waNum=waFormat(a.whatsapp||(a.phones&&a.phones[0])||'');
   var callNum=(a.phones&&a.phones[0])||'';
   var actions=
     (waNum?'<a class="btn-wa" href="https://wa.me/'+waNum+'" target="_blank">💬 '+t('ag.whatsapp')+'</a>':'')+
