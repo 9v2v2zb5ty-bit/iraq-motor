@@ -932,6 +932,18 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
   .pub-cat-pill{padding:11px 14px;min-width:64px;}
   .pub-stats-bar{grid-template-columns:repeat(2,1fr);padding:16px 12px;}
 }
+/* Pure-CSS failsafe: guarantees the sidebar collapses and the detail page
+   stacks to one column on narrow screens even if the JS-based
+   iq-mobile-nav class (device/orientation detection) fails to apply. */
+@media(max-width:640px){
+  .pub-sidebar{display:none;}
+  .pub-main{margin-left:0;}
+  .pub-burger{display:flex;}
+  .pub-search{display:none;}
+  .pub-profile-chip span{display:none;}
+  .detail-main{grid-template-columns:1fr!important;}
+  .gallery-main{height:62vw;max-height:340px;}
+}
 
 </style>
 </head>
