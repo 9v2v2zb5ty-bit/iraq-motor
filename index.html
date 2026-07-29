@@ -934,8 +934,11 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
 }
 /* Pure-CSS failsafe: guarantees the sidebar collapses and the detail page
    stacks to one column on narrow screens even if the JS-based
-   iq-mobile-nav class (device/orientation detection) fails to apply. */
-@media(max-width:640px){
+   iq-mobile-nav class (device/orientation detection) fails to apply.
+   Raised to 900px (from 640px) because some phones were being
+   misclassified as desktop, leaving the fixed sidebar overlapping
+   the page content instead of collapsing into the hamburger menu. */
+@media(max-width:900px){
   .pub-sidebar{display:none;}
   .pub-main{margin-left:0;}
   .pub-burger{display:flex;}
@@ -3248,6 +3251,7 @@ function switchAdminTab(tab,btn){
       '<th style="padding:11px;text-align:right;font-size:12px;border-bottom:1px solid var(--border);">المدينة</th>'+
       '<th style="padding:11px;text-align:right;font-size:12px;border-bottom:1px solid var(--border);">الهاتف</th>'+
       '<th style="padding:11px;text-align:right;font-size:12px;border-bottom:1px solid var(--border);">الحالة</th>'+
+      '<th style="padding:11px;text-align:right;font-size:12px;border-bottom:1px solid var(--border);">توثيق</th>'+
       '<th style="padding:11px;text-align:right;font-size:12px;border-bottom:1px solid var(--border);"></th>'+
       '</tr></thead><tbody>'+all.map(function(d){
         return '<tr style="border-bottom:1px solid var(--border);cursor:pointer;" onclick="openDealerDetail(\''+d.id+'\')">'+
@@ -3255,6 +3259,7 @@ function switchAdminTab(tab,btn){
           '<td style="padding:11px;font-size:12px;color:var(--dim);">'+(d.city||d.province||'—')+'</td>'+
           '<td style="padding:11px;font-size:12px;color:var(--dim);">'+(d.phone||'—')+'</td>'+
           '<td style="padding:11px;font-size:12px;font-weight:700;color:'+statusColor(d.status)+';">'+statusLabel(d.status)+'</td>'+
+          '<td style="padding:11px;font-size:12px;" onclick="event.stopPropagation();"><label style="display:inline-flex;align-items:center;cursor:pointer;"><input type="checkbox" style="accent-color:var(--gold);" '+(d.verified?'checked':'')+' onchange="toggleDealerVerified(\''+d.id+'\',this.checked)"></label></td>'+
           '<td style="padding:11px;font-size:12px;" onclick="event.stopPropagation();"><button class="btn-reject" style="padding:4px 10px;" onclick="deleteDealer(\''+d.id+'\')"><span class="ico ico-trash"></span> حذف</button></td></tr>';
       }).join('')+'</tbody></table></div>':'<div style="text-align:center;padding:24px;color:var(--dim);">ما في طلبات لحد الآن</div>';
     ct.innerHTML=html;
@@ -3315,6 +3320,7 @@ function toggleDealerVerified(id,checked){
     var d=(window._ad.dealerRequests||[]).find(function(x){return x.id===id;});
     if(d)d.verified=checked;
     showToast(checked?'<span class="ico ico-check"></span> تم تفعيل شارة التوثيق':'تم إلغاء شارة التوثيق');
+    switchAdminTab('dealers',Array.from(document.querySelectorAll('#adminTabs .admin-tab')).find(function(b){return b.textContent.indexOf('المعارض')>-1;}));
   }).catch(function(e){alert('خطأ: '+e.message);});
 }
 function deleteDealer(id){
@@ -4908,7 +4914,7 @@ function renderAgencyCard(a){
   return '<div class="agency-card" onclick="openAgencyDetail(\''+a.id+'\')" style="position:relative;">'+adminBtns+
     '<div class="agency-cover">'+logo+'</div>'+
     '<div class="agency-body">'+
-      '<div class="agency-name">'+escAg(a.name)+'</div>'+
+      '<div class="agency-name">'+escAg(a.name)+(a.verified?' '+VERIFIED_BADGE_SVG:'')+'</div>'+
       (a.address?'<div class="agency-city"><span class="ico ico-pin"></span> '+escAg(a.address)+'</div>':'')+
       (brandsHtml?'<div class="agency-brands">'+brandsHtml+'</div>':'')+
       '<div class="agency-rating"><span class="stars">'+starsStr(a.avgRating||0)+'</span> '+(a.ratingCount?('('+a.ratingCount+')'):'')+'</div>'+
@@ -5390,7 +5396,7 @@ function installPWA(){
 function iqUpdateMobileMode(){
   var shortSide=Math.min(window.screen&&window.screen.width||9999,window.screen&&window.screen.height||9999);
   var isPhoneDevice=shortSide<=500;
-  var isNarrowWindow=window.innerWidth<=640;
+  var isNarrowWindow=window.innerWidth<=900;
   document.body.classList.toggle('iq-mobile-nav',isPhoneDevice||isNarrowWindow);
 }
 iqUpdateMobileMode();
