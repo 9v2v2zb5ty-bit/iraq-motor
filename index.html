@@ -919,7 +919,10 @@ nav{display:none!important;}
 /* ---- mobile ---- */
 body.iq-mobile-nav .pub-burger{display:flex;}
 body.iq-mobile-nav .pub-search{display:none;}
-body.iq-mobile-nav .pub-sidebar{display:none;}
+body.iq-mobile-nav .pub-sidebar{transform:translateX(-100%);box-shadow:0 0 40px rgba(0,0,0,.5);}
+body.iq-mobile-nav .pub-sidebar.open{transform:translateX(0);}
+.pub-sidebar.open{transform:translateX(0);}
+.pub-sidebar.open~.pub-sidebar-backdrop,body.pub-sidebar-open .pub-sidebar-backdrop{display:block;}
 body.iq-mobile-nav .pub-main{margin-left:0;}
 body.iq-mobile-nav .pub-profile-chip span{display:none;}
 @media(max-width:900px){
@@ -939,7 +942,7 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
    misclassified as desktop, leaving the fixed sidebar overlapping
    the page content instead of collapsing into the hamburger menu. */
 @media(max-width:900px){
-  .pub-sidebar{display:none;}
+  .pub-sidebar{transform:translateX(-100%);box-shadow:0 0 40px rgba(0,0,0,.5);}
   .pub-main{margin-left:0;}
   .pub-burger{display:flex;}
   .pub-search{display:none;}
@@ -5325,6 +5328,12 @@ function deleteAgency(id){
 function toggleMobileNav(){
   var nav=document.getElementById('mobileNav');
   nav.classList.toggle('open');
+  document.getElementById('pubSidebar').classList.toggle('open');
+  document.body.classList.toggle('pub-sidebar-open');
+}
+function closePubSidebar(){
+  document.getElementById('pubSidebar').classList.remove('open');
+  document.body.classList.remove('pub-sidebar-open');
 }
 function mobileGoPage(p){
   document.getElementById('mobileNav').classList.remove('open');
@@ -5402,6 +5411,9 @@ function iqUpdateMobileMode(){
 iqUpdateMobileMode();
 window.addEventListener('resize',iqUpdateMobileMode);
 window.addEventListener('orientationchange',function(){setTimeout(iqUpdateMobileMode,120);});
+document.getElementById('pubSidebar').addEventListener('click',function(e){
+  if(e.target.closest('.pub-nav-item,.pub-post-btn'))closePubSidebar();
+});
 
 function mobileNavClose(){var n=document.getElementById('mobileNav');if(n)n.classList.remove('open');}
 
