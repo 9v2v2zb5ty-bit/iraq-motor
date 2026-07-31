@@ -3036,7 +3036,12 @@ function requireAuth(e,msg){
   openAuthGate(msg);
   return false;
 }
-function loginGoogle(){auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(function(){closeLogin();}).catch(function(e){showMsg2('liMsg','<span class="ico ico-cross"></span> '+e.message,'#e74c3c');});}
+function loginGoogle(){
+  auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(function(){closeLogin();closeReg();}).catch(function(e){
+    var msgId=document.getElementById('regOverlay').classList.contains('open')?'regMsg':'liMsg';
+    showMsg2(msgId,'<span class="ico ico-cross"></span> '+e.message,'#e74c3c');
+  });
+}
 function doLoginEmail(){
   var e=document.getElementById('liEmail').value.trim(),p=document.getElementById('liPass').value.trim();
   if(!e||!p){showMsg2('liMsg','<span class="ico ico-cross"></span> أدخل الإيميل وكلمة المرور','#e74c3c');return;}
