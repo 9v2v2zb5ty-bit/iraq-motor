@@ -1001,7 +1001,7 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
         <a onclick="setLang('ar')">العربية</a><a onclick="setLang('ku')">کوردی</a><a onclick="setLang('en')">English</a>
       </div>
     </div>
-    <div class="adm-profile-chip" onclick="goPage(auth.currentUser?'profile':'home');if(!auth.currentUser)openLogin();">
+    <div class="adm-profile-chip" onclick="goPage(auth.currentUser?'profile':'home');if(!auth.currentUser)openAuthGate('سجل مجانًا للوصول لحسابك الشخصي');">
       <img id="pubNavAvatar" src="">
       <div class="pc-name" id="pubNavName" style="font-size:13px;">تسجيل الدخول</div>
     </div>
@@ -1895,21 +1895,6 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
 </div>
 
 <!-- LOGIN -->
-<!-- AUTH GATE: soft prompt shown before login/register when a guest tries a members-only action -->
-<div class="overlay" id="authGateOverlay">
-  <div class="modal">
-    <button class="modal-close" onclick="closeAuthGate()"><span class="ico ico-cross"></span></button>
-    <div class="modal-title"><span class="ico ico-sparkle"></span> أنشئ حسابًا مجانًا</div>
-    <div class="modal-sub" id="authGateMsg">احفظ السيارات المفضلة وتواصل مع المعارض وانشر إعلانك خلال دقيقة.</div>
-    <button class="btn-g" onclick="closeAuthGate();loginGoogle();">
-      <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-      المتابعة عبر Google
-    </button>
-    <button class="btn-sub" onclick="closeAuthGate();openReg();">إنشاء حساب بالإيميل</button>
-    <div class="sw">عندك حساب؟ <a onclick="closeAuthGate();openLogin();">سجل دخول</a></div>
-  </div>
-</div>
-
 <div class="overlay" id="loginOverlay">
   <div class="modal">
     <button class="modal-close" onclick="closeLogin()"><span class="ico ico-cross"></span></button>
@@ -1929,16 +1914,21 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
   </div>
 </div>
 
-<!-- REGISTER -->
+<!-- REGISTER / AUTH GATE -->
 <div class="overlay" id="regOverlay">
   <div class="modal">
     <button class="modal-close" onclick="closeReg()"><span class="ico ico-cross"></span></button>
-    <div class="modal-title"><span class="ico ico-sparkle"></span> حساب جديد</div>
-    <div class="modal-sub">انضم لـ Iraq Motors مجاناً</div>
+    <div class="modal-title"><span class="ico ico-sparkle"></span> أنشئ حسابًا مجانًا</div>
+    <div class="modal-sub" id="regSub">احفظ السيارات المفضلة وتواصل مع المعارض وانشر إعلانك خلال دقيقة.</div>
+    <button class="btn-g" onclick="loginGoogle()">
+      <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+      المتابعة عبر Google
+    </button>
+    <div class="div-line">أو</div>
     <input type="text" class="inp" id="regName" placeholder="الاسم الكامل">
     <input type="email" class="inp" id="regEmail" placeholder="الإيميل">
     <input type="password" class="inp" id="regPass" placeholder="كلمة المرور">
-    <button class="btn-sub" onclick="doRegister()">إنشاء حساب</button>
+    <button class="btn-sub" onclick="doRegister()">إنشاء حساب بالإيميل</button>
     <div class="msg" id="regMsg"></div>
     <div class="sw">عندك حساب؟ <a onclick="switchLogin()">سجل دخول</a></div>
     <div class="sw">عندك معرض سيارات؟ <a onclick="switchDealerReg()">سجل حساب معرض</a></div>
@@ -2398,15 +2388,15 @@ function goPage(p,_skipPush){
   window.scrollTo(0,0);
   if(p==='cars'){initMakeFilter();loadCars();loadCompanyBanners();}
   else if(p==='post'){
-    if(!auth.currentUser){goPage('home');openAuthGate('سجل مجانًا حتى تقدر تنشر إعلانك خلال دقيقة.');return;}
+    if(!auth.currentUser){goPage('home');openAuthGate('سجل مجانًا لتنشر إعلان سيارتك خلال دقيقة');return;}
     initPostForm();
   }
-  else if(p==='profile'){if(!auth.currentUser){goPage('home');openLogin();return;}loadProfile();}
+  else if(p==='profile'){if(!auth.currentUser){goPage('home');openAuthGate('سجل مجانًا للوصول لحسابك الشخصي');return;}loadProfile();}
   else if(p==='compare')initCmpSelects();
   else if(p==='admin'){if(!isAdmin()){goPage('home');return;}loadAdminPage();}
   else if(p==='favorites')loadFavorites();
   else if(p==='dealers')loadDealers();
-  else if(p==='garage'){if(!auth.currentUser){goPage('home');openLogin();return;}loadGarage();}
+  else if(p==='garage'){if(!auth.currentUser){goPage('home');openAuthGate('سجل مجانًا لإدارة كراجك');return;}loadGarage();}
   else if(p==='market')loadMarketIndex();
   else if(p==='agencies')loadAgencies();
 }
@@ -2557,7 +2547,7 @@ async function uploadImg(file){
 
 // SUBMIT AD
 async function submitAd(){
-  if(!auth.currentUser){openLogin();return;}
+  if(!auth.currentUser){openAuthGate('سجل مجانًا لتنشر إعلان سيارتك خلال دقيقة');return;}
   var make=document.getElementById('adMake').value,model=document.getElementById('adModel').value;
   var price=document.getElementById('adPrice').value,year=document.getElementById('adYear').value;
   var city=document.getElementById('adCity').value,phone=document.getElementById('adPhone').value.trim();
@@ -2661,7 +2651,7 @@ function renderCars(cars,gridId){
         '<div class="card-footer">'+
           '<div class="card-price">'+ps+'</div>'+
           '<div style="display:flex;align-items:center;gap:6px;"><div class="card-city"><span class="ico ico-pin"></span> '+(car.city||'')+'</div>'+
-          '<button onclick="event.stopPropagation();toggleFav(\''+car.id+'\')" class="card-fav-btn" style="background:none;border:none;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:4px;color:inherit;">'+(isFav(car.id)?'<span class="ico ico-heart-fill"></span>':'<span class="ico ico-heart"></span>')+'<span style="font-size:11.5px;">حفظ</span></button></div>'+
+          '<button onclick="event.stopPropagation();toggleFav(\''+car.id+'\')" style="background:none;border:none;cursor:pointer;font-size:17px;">'+(isFav(car.id)?'<span class="ico ico-heart-fill"></span>':'<span class="ico ico-heart"></span>')+'</button></div>'+
         '</div>'+
       '</div>'+
     '</div>';
@@ -2931,6 +2921,7 @@ function waFormat(phone){
   return d;
 }
 function contactSeller(phone){
+  if(!auth.currentUser){openAuthGate('سجل مجانًا للتواصل مع البائع عبر واتساب');return;}
   var num=waFormat(phone);
   if(!num){alert('رقم واتساب البائع غير متوفر');return;}
   window.open('https://wa.me/'+num,'_blank');
@@ -3019,12 +3010,6 @@ async function changeProfilePic(inp){
 function doSignOut(){auth.signOut().then(function(){goPage('home');});}
 
 // AUTH FUNCS
-function openAuthGate(msg){
-  var m=document.getElementById('authGateMsg');
-  if(m)m.textContent=msg||'احفظ السيارات المفضلة وتواصل مع المعارض وانشر إعلانك خلال دقيقة.';
-  document.getElementById('authGateOverlay').classList.add('open');
-}
-function closeAuthGate(){document.getElementById('authGateOverlay').classList.remove('open');}
 function openLogin(){document.getElementById('loginOverlay').classList.add('open');}
 function closeLogin(){document.getElementById('loginOverlay').classList.remove('open');}
 function openReg(){document.getElementById('regOverlay').classList.add('open');}
@@ -3035,6 +3020,22 @@ function openDealerReg(){document.getElementById('dealerRegOverlay').classList.a
 function closeDealerReg(){document.getElementById('dealerRegOverlay').classList.remove('open');}
 function switchDealerReg(){closeLogin();closeReg();openDealerReg();}
 function switchLoginFromDealer(){closeDealerReg();openLogin();}
+// AUTH GATE: shown to guests when they try to save/contact/post/get notified.
+// msg (optional) overrides the subtitle with a message specific to the action they tried.
+function openAuthGate(msg){
+  var sub=document.getElementById('regSub');
+  if(sub)sub.textContent=msg||'احفظ السيارات المفضلة وتواصل مع المعارض وانشر إعلانك خلال دقيقة.';
+  openReg();
+}
+// Guard for onclick/href-based actions (e.g. WhatsApp links): returns true and lets the
+// action proceed if logged in; otherwise blocks it and opens the gate. Usage:
+// onclick="return requireAuth(event,'رسالة مخصصة')"
+function requireAuth(e,msg){
+  if(auth.currentUser)return true;
+  if(e&&e.preventDefault)e.preventDefault();
+  openAuthGate(msg);
+  return false;
+}
 function loginGoogle(){auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(function(){closeLogin();}).catch(function(e){showMsg2('liMsg','<span class="ico ico-cross"></span> '+e.message,'#e74c3c');});}
 function doLoginEmail(){
   var e=document.getElementById('liEmail').value.trim(),p=document.getElementById('liPass').value.trim();
@@ -3075,7 +3076,7 @@ function doDealerRegister(){
     setTimeout(function(){closeDealerReg();document.getElementById('drMsg').style.display='none';},2200);
   }).catch(function(er){showMsg2('drMsg','<span class="ico ico-cross"></span> '+er.message,'#e74c3c');});
 }
-['loginOverlay','regOverlay','dealerRegOverlay','garageOverlay','confirmOverlay','reportOverlay','filterOverlay','authGateOverlay'].forEach(function(id){
+['loginOverlay','regOverlay','dealerRegOverlay','garageOverlay','confirmOverlay','reportOverlay','filterOverlay'].forEach(function(id){
   var el=document.getElementById(id);
   if(el)el.addEventListener('click',function(e){if(e.target===e.currentTarget)e.currentTarget.classList.remove('open');});
 });
@@ -3096,6 +3097,7 @@ function toggleReportOther(){
   document.getElementById('reportOtherInp').style.display=(other&&other.checked)?'block':'none';
 }
 async function submitReport(){
+  if(!auth.currentUser){openAuthGate('سجل مجانًا للإبلاغ عن هذا الإعلان');return;}
   var sel=document.querySelector('input[name="reportReason"]:checked');
   if(!sel){showMsg2('reportMsg','الرجاء اختيار سبب البلاغ','#e74c3c');return;}
   var reason=sel.value==='other'?(document.getElementById('reportOtherInp').value.trim()||'سبب آخر'):sel.value;
@@ -4651,7 +4653,7 @@ function buildDealerDetailHtml(d){
   var waNum=waFormat(d.whatsapp||d.phone||'');
   var callNum=d.phone||'';
   var actions=
-    (waNum?'<a class="btn-wa" href="https://wa.me/'+waNum+'" target="_blank">💬 تواصل مع المعرض</a>':'')+
+    (waNum?'<a class="btn-wa" href="https://wa.me/'+waNum+'" target="_blank" onclick="return requireAuth(event,\'سجل مجانًا للتواصل مع المعرض عبر واتساب\')">💬 تواصل مع المعرض</a>':'')+
     (callNum?'<a class="btn-call" href="tel:'+callNum+'"><span class="ico ico-phone"></span> اتصال</a>':'')+
     (d.mapLink?'<a class="btn-book" href="'+escAg(d.mapLink)+'" target="_blank"><span class="ico ico-pin"></span> فتح بخرائط Google</a>':'')+
     (d.website?'<a class="btn-book" href="'+escAg(d.website)+'" target="_blank">🌐 الموقع الإلكتروني</a>':'');
@@ -4712,7 +4714,7 @@ var _shGalleryFiles=[],_shGalleryExisting=[];
 var _shOwnerIdFile=null,_shOwnerIdUrlExisting='';
 var _shLicenseFile=null,_shLicenseUrlExisting='';
 function handleAddShowroomClick(){
-  if(!auth.currentUser){openLogin();return;}
+  if(!auth.currentUser){openAuthGate('سجل مجانًا لإضافة معرضك');return;}
   if(!window._me||window._me.role!=='dealer'){
     showToast('<span class="ico ico-building"></span> هاي الميزة خاصة بحسابات المعارض فقط');
     openDealerReg();
@@ -4833,7 +4835,7 @@ function removeShowroomExistingGalleryPhoto(i){_shGalleryExisting.splice(i,1);re
 function removeShowroomNewGalleryPhoto(i){_shGalleryFiles.splice(i,1);renderShowroomGalleryPreview();}
 function readShowroomCarTypes(){return Array.from(document.querySelectorAll('.shCarType:checked')).map(function(c){return c.value;});}
 async function submitShowroom(){
-  if(!auth.currentUser){openLogin();return;}
+  if(!auth.currentUser){openAuthGate('سجل مجانًا لإضافة معرضك');return;}
   var name=document.getElementById('shName').value.trim();
   var ownerName=document.getElementById('shOwnerName').value.trim();
   var phone=document.getElementById('shPhone').value.trim();
@@ -4982,7 +4984,7 @@ function buildAgencyDetailHtml(a){
   var waNum=waFormat(a.whatsapp||(a.phones&&a.phones[0])||'');
   var callNum=(a.phones&&a.phones[0])||'';
   var actions=
-    (waNum?'<a class="btn-wa" href="https://wa.me/'+waNum+'" target="_blank">💬 '+t('ag.whatsapp')+'</a>':'')+
+    (waNum?'<a class="btn-wa" href="https://wa.me/'+waNum+'" target="_blank" onclick="return requireAuth(event,\'سجل مجانًا للتواصل مع المعرض عبر واتساب\')">💬 '+t('ag.whatsapp')+'</a>':'')+
     (callNum?'<a class="btn-call" href="tel:'+callNum+'"><span class="ico ico-phone"></span> '+t('ag.call')+'</a>':'')+
     (a.acceptsBookings?'<button class="btn-book" onclick="openAgencyReqForm(\''+a.id+'\',\'quote\')"><span class="ico ico-money"></span> '+t('ag.requestQuote')+'</button>':'')+
     (isAdmin()?'<button class="btn-book" onclick="openAgencyForm(\''+a.id+'\')"><span class="ico ico-edit"></span> '+t('ag.edit')+'</button>':'');
@@ -5113,7 +5115,7 @@ function loadAgencyReviews(agencyId){
 }
 var _ratingStarsVal=0;
 function openAgencyRatingForm(agencyId){
-  if(!auth.currentUser){openLogin();return;}
+  if(!auth.currentUser){openAuthGate('سجل مجانًا لتقييم هذه الوكالة');return;}
   document.getElementById('ratingAgencyId').value=agencyId;
   _ratingStarsVal=0;
   setRatingStars(0);
@@ -5129,7 +5131,7 @@ function setRatingStars(n){
 async function submitAgencyRating(){
   var agencyId=document.getElementById('ratingAgencyId').value;
   if(!_ratingStarsVal){showMsg2('ratingMsgBox','<span class="ico ico-cross"></span> الرجاء اختيار عدد النجوم','#e74c3c');return;}
-  if(!auth.currentUser){openLogin();return;}
+  if(!auth.currentUser){openAuthGate('سجل مجانًا لتقييم هذه الوكالة');return;}
   try{
     var comment=document.getElementById('ratingComment').value.trim();
     var uid=auth.currentUser.uid;
@@ -5150,6 +5152,7 @@ async function submitAgencyRating(){
 
 // Booking / quote requests
 function openAgencyReqForm(agencyId,type){
+  if(!auth.currentUser){openAuthGate(type==='quote'?'سجل مجانًا لطلب عرض سعر من الوكالة':'سجل مجانًا لحجز موعد صيانة');return;}
   var a=(window._agencies||[]).find(function(x){return x.id===agencyId;});
   document.getElementById('agReqAgencyId').value=agencyId;
   document.getElementById('agReqType').value=type;
@@ -5468,6 +5471,7 @@ function pubLoadHomeExtras(){
 // ---- maintenance request (real — writes to the same supportTickets admin already manages) ----
 function pubOpenMaintenance(){
   if(document.body.classList.contains('iq-mobile-nav'))mobileNavClose();
+  if(!auth.currentUser){openAuthGate('سجل مجانًا لطلب موعد صيانة');return;}
   var me=window._me||{};
   admOpenModalPub('<button class="modal-close" onclick="admCloseModalPub()"><span class="ico ico-cross"></span></button>'+
     '<div class="modal-title" style="text-align:right;">طلب صيانة</div>'+
@@ -5509,7 +5513,7 @@ function admCloseModalPub(){document.getElementById('pubModalOverlay').classList
 // ---- user-facing notifications (reads the same `notifications` collection the admin composer writes to) ----
 function pubOpenNotifPage(){
   if(document.body.classList.contains('iq-mobile-nav'))mobileNavClose();
-  if(!auth.currentUser){goPage('home');openAuthGate('سجل مجانًا حتى توصلك الإشعارات أول بأول.');return;}
+  if(!auth.currentUser){goPage('home');openAuthGate('سجل مجانًا لتستلم إشعاراتك أول بأول');return;}
   var uid=auth.currentUser.uid;
   admOpenModalPub('<button class="modal-close" onclick="admCloseModalPub()"><span class="ico ico-cross"></span></button>'+
     '<div class="modal-title" style="text-align:right;">الإشعارات</div>'+
@@ -5529,7 +5533,7 @@ function pubOpenNotifPage(){
 // ---- user-facing chat with support/admin (reads & writes the same `messages` collection the admin chat uses) ----
 function pubOpenChatPage(){
   if(document.body.classList.contains('iq-mobile-nav'))mobileNavClose();
-  if(!auth.currentUser){goPage('home');openAuthGate('سجل مجانًا للتواصل مع المعارض ومتابعة رسائلك.');return;}
+  if(!auth.currentUser){goPage('home');openAuthGate('سجل مجانًا لتبدأ محادثتك مع فريق الدعم');return;}
   admOpenModalPub('<button class="modal-close" onclick="admCloseModalPub()"><span class="ico ico-cross"></span></button>'+
     '<div class="modal-title" style="text-align:right;">المحادثة مع الإدارة</div>'+
     '<div id="pubChatThread" style="max-height:44vh;overflow-y:auto;margin-bottom:10px;"><div class="adm-empty">جاري التحميل...</div></div>'+
@@ -5600,8 +5604,8 @@ function pubUpdateBadges(user){
   var bellMenu=document.getElementById('pubBellMenu'),chatMenu=document.getElementById('pubChatMenu');
   if(!user){
     ['pubBellBadge','pubNavNotifBadge','pubChatBadge','pubNavChatBadge'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});
-    if(bellMenu)bellMenu.innerHTML='<div style="padding:16px;text-align:center;color:var(--dim);font-size:12.5px;">سجّل الدخول لرؤية إشعاراتك</div>';
-    if(chatMenu)chatMenu.innerHTML='<div style="padding:16px;text-align:center;color:var(--dim);font-size:12.5px;">سجّل الدخول لبدء محادثة</div>';
+    if(bellMenu)bellMenu.innerHTML='<div onclick="admCloseAllDropdowns();openAuthGate(\'سجل مجانًا لتستلم إشعاراتك أول بأول\')" style="padding:16px;text-align:center;color:var(--dim);font-size:12.5px;cursor:pointer;">سجّل الدخول لرؤية إشعاراتك</div>';
+    if(chatMenu)chatMenu.innerHTML='<div onclick="admCloseAllDropdowns();openAuthGate(\'سجل مجانًا لتبدأ محادثتك مع فريق الدعم\')" style="padding:16px;text-align:center;color:var(--dim);font-size:12.5px;cursor:pointer;">سجّل الدخول لبدء محادثة</div>';
     return;
   }
   db.collection('notifications').orderBy('createdAt','desc').limit(30).get().then(function(snap){
