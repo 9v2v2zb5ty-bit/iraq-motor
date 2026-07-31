@@ -456,6 +456,9 @@ body.iq-mobile-nav .gallery-main{height:62vw;max-height:340px;}
 /* EMPTY/LOADING */
 .empty{grid-column:1/-1;text-align:center;padding:70px 20px;}
 .empty-ico{font-size:52px;margin-bottom:14px;}.empty-tit{font-size:22px;font-weight:800;color:var(--gold);margin-bottom:7px;}.empty-sub{color:var(--dim);}
+.empty-btn{display:inline-flex;align-items:center;gap:7px;background:var(--gold);color:#000;border:none;padding:11px 26px;border-radius:10px;font-family:'Tajawal',sans-serif;font-size:13.5px;font-weight:800;cursor:pointer;margin-top:16px;transition:background .2s;}
+.empty-btn:hover{background:var(--gold2);}
+.empty-btn .ico{margin-left:0;}
 .loading{grid-column:1/-1;text-align:center;padding:60px;color:var(--dim);}
 
 /* ADS BANNER */
@@ -2591,7 +2594,11 @@ async function loadCars(){
     var cntEl=document.getElementById('cntCars');if(cntEl)cntEl.textContent=allCars.length;
     filterCars();
     pubLoadHomeExtras();
-  }catch(e){grid.innerHTML='<div class="empty"><div class="empty-ico"><span class="ico ico-lg ico-warning"></span></div><div class="empty-tit">خطأ في التحميل</div></div>';}
+  }catch(e){
+    grid.innerHTML=auth.currentUser?
+      '<div class="empty"><div class="empty-ico"><span class="ico ico-lg ico-warning"></span></div><div class="empty-tit">خطأ في التحميل</div><div class="empty-sub">صار خلل بالاتصال، جرّب مرة ثانية</div><button class="empty-btn" onclick="loadCars()"><span class="ico ico-refresh"></span> إعادة المحاولة</button></div>':
+      '<div class="empty"><div class="empty-ico"><span class="ico ico-lg ico-key"></span></div><div class="empty-tit">سجّل الدخول لعرض السيارات</div><div class="empty-sub">تحتاج تسجّل الدخول حتى تكدر تتصفح إعلانات السيارات</div><button class="empty-btn" onclick="openLogin()"><span class="ico ico-key"></span> تسجيل الدخول</button></div>';
+  }
 }
 
 function priceStr(car){return car.currency==='IQD'?(car.price||0).toLocaleString()+' د.ع':'$'+(car.price||0).toLocaleString();}
