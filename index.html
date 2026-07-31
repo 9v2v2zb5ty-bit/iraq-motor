@@ -49,7 +49,14 @@
 <!-- PWA: Android/Chrome -->
 <meta name="mobile-web-app-capable" content="yes">
 
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.gstatic.com">
+<link rel="dns-prefetch" href="https://firestore.googleapis.com">
+<link rel="dns-prefetch" href="https://identitytoolkit.googleapis.com">
+<link rel="dns-prefetch" href="https://securetoken.googleapis.com">
+<link rel="dns-prefetch" href="https://firebasestorage.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 .ico{display:inline-block;width:16px;height:16px;vertical-align:-3px;background-color:currentColor;-webkit-mask-size:contain;-webkit-mask-repeat:no-repeat;-webkit-mask-position:center;mask-size:contain;mask-repeat:no-repeat;mask-position:center;flex-shrink:0;margin-left:5px;}
 .ico-lg{width:44px;height:44px;margin-left:0;vertical-align:middle;}
@@ -2279,8 +2286,8 @@ const DARK_LOGO_BRANDS=['Jeep','Jetour','Kia','Dodge','Ford','Changan','Hyundai'
 function brandBadge(make){
   var logo=BRAND_LOGO[make];
   if(logo){
-    if(DARK_LOGO_BRANDS.indexOf(make)>-1)return '<span class="brand-logo-chip"><img class="brand-logo-img" src="'+logo+'" alt="'+make+'"></span>';
-    return '<img class="brand-logo-img" src="'+logo+'" alt="'+make+'">';
+    if(DARK_LOGO_BRANDS.indexOf(make)>-1)return '<span class="brand-logo-chip"><img class="brand-logo-img" src="'+logo+'" alt="'+make+'" loading="lazy"></span>';
+    return '<img class="brand-logo-img" src="'+logo+'" alt="'+make+'" loading="lazy">';
   }
   var s=BRAND_STYLE[make];
   if(!s)return '';
@@ -2588,9 +2595,8 @@ async function loadCars(){
   var grid=document.getElementById('carsGrid');
   grid.innerHTML='<div class="loading"><span class="ico ico-hourglass"></span> جاري التحميل...</div>';
   try{
-    var snap=await db.collection('cars').get();
+    var snap=isAdmin()?await db.collection('cars').get():await db.collection('cars').where('approved','==',true).get();
     allCars=snap.docs.map(function(d){return Object.assign({id:d.id},d.data());});
-    if(!isAdmin())allCars=allCars.filter(function(c){return c.approved===true;});
     var cntEl=document.getElementById('cntCars');if(cntEl)cntEl.textContent=allCars.length;
     filterCars();
     pubLoadHomeExtras();
