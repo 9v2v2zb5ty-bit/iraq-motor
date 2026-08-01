@@ -2541,6 +2541,7 @@ function goPage(p,_skipPush){
   else if(p==='favorites')loadFavorites();
   else if(p==='dealers')loadDealers();
   else if(p==='garage'){if(!auth.currentUser){goPage('home');openAuthGate('سجل مجانًا لإدارة كراجك');return;}loadGarage();}
+  else if(p==='ai'){if(!auth.currentUser){goPage('home');openAuthGate('سجل مجانًا لتسأل مستشار السيارات الذكي');return;}}
   else if(p==='market')loadMarketIndex();
   else if(p==='agencies')loadAgencies();
 }
@@ -4717,6 +4718,7 @@ function runCompare(){
 // AI
 var aiHistory=[];
 async function sendAiMsg(){
+  if(!auth.currentUser){openAuthGate('سجل مجانًا لتسأل مستشار السيارات الذكي');return;}
   var inp=document.getElementById('aiInput');var msg=inp.value.trim();if(!msg)return;
   inp.value='';addAiMsg(msg,'user');
   var chat=document.getElementById('aiChat');var tid='t_'+Date.now();
