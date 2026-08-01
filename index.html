@@ -5017,9 +5017,9 @@ function loadDealerCarsSection(d){
   var grid=document.getElementById('dealerCarsGrid');
   if(!grid)return;
   if(!d.uid){grid.innerHTML='<div class="empty"><div class="empty-tit">ما نشر هذا المعرض سيارات لحد الآن</div></div>';return;}
-  db.collection('cars').where('userId','==',d.uid).get().then(function(snap){
+  var q=isAdmin()?db.collection('cars').where('userId','==',d.uid):db.collection('cars').where('userId','==',d.uid).where('approved','==',true);
+  q.get().then(function(snap){
     var cars=snap.docs.map(function(x){return Object.assign({id:x.id},x.data());});
-    cars=cars.filter(function(c){return c.approved===true;});
     cars.sort(function(a,b){var ta=a.createdAt&&a.createdAt.toMillis?a.createdAt.toMillis():0,tb=b.createdAt&&b.createdAt.toMillis?b.createdAt.toMillis():0;return tb-ta;});
     _dealerAllCars=cars;
     var moreWrap=document.getElementById('dealerCarsMoreWrap');
