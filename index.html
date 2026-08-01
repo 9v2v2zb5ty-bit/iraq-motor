@@ -2751,9 +2751,8 @@ async function loadCars(){
     filterCars();
     pubLoadHomeExtras();
   }catch(e){
-    grid.innerHTML=auth.currentUser?
-      '<div class="empty"><div class="empty-ico"><span class="ico ico-lg ico-warning"></span></div><div class="empty-tit">خطأ في التحميل</div><div class="empty-sub">صار خلل بالاتصال، جرّب مرة ثانية</div><button class="empty-btn" onclick="loadCars()"><span class="ico ico-refresh"></span> إعادة المحاولة</button></div>':
-      '<div class="empty"><div class="empty-ico"><span class="ico ico-lg ico-key"></span></div><div class="empty-tit">سجّل الدخول لعرض السيارات</div><div class="empty-sub">تحتاج تسجّل الدخول حتى تكدر تتصفح إعلانات السيارات</div><button class="empty-btn" onclick="openLogin()"><span class="ico ico-key"></span> تسجيل الدخول</button></div>';
+    var errCode=(e&&e.code)?e.code:'unknown';
+    grid.innerHTML='<div class="empty"><div class="empty-ico"><span class="ico ico-lg ico-warning"></span></div><div class="empty-tit">خطأ في التحميل</div><div class="empty-sub">صار خلل بالاتصال، جرّب مرة ثانية<br><span style="opacity:.6;font-size:11px;direction:ltr;display:inline-block;margin-top:6px;">'+errCode+'</span></div><button class="empty-btn" onclick="loadCars()"><span class="ico ico-refresh"></span> إعادة المحاولة</button></div>';
   }
 }
 
@@ -5030,7 +5029,7 @@ function loadDealerCarsSection(d){
       if(cars.length>6){moreWrap.style.display='block';moreWrap.querySelector('button').textContent='عرض جميع السيارات ('+cars.length+')';}
       else moreWrap.style.display='none';
     }
-  }).catch(function(){grid.innerHTML='<div class="empty"><div class="empty-tit">تعذر تحميل السيارات</div></div>';});
+  }).catch(function(e){grid.innerHTML='<div class="empty"><div class="empty-tit">تعذر تحميل السيارات</div><div class="empty-sub" style="opacity:.6;font-size:11px;direction:ltr;">'+((e&&e.code)?e.code:'unknown')+'</div></div>';});
 }
 function showAllDealerCars(){
   renderCars(_dealerAllCars,'dealerCarsGrid');
