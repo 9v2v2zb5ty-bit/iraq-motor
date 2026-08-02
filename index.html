@@ -612,8 +612,8 @@ body.iq-mobile-nav .gallery-main{height:62vw;max-height:340px;}
 .agency-verified-badge svg{width:100%;height:100%;display:block;}
 .btn-wa{background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.3);color:#25d366;padding:9px 16px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none;transition:all .2s;}
 .btn-wa:hover{background:rgba(37,211,102,0.2);}
-.btn-call{background:rgba(201,168,76,0.1);border:1px solid var(--border);color:var(--gold);padding:9px 16px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none;transition:all .2s;}
-.btn-call:hover{border-color:var(--gold);background:rgba(201,168,76,0.18);}
+.btn-agency-call{background:rgba(201,168,76,0.1);border:1px solid var(--border);color:var(--gold);padding:9px 16px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none;transition:all .2s;}
+.btn-agency-call:hover{border-color:var(--gold);background:rgba(201,168,76,0.18);}
 .btn-book{background:transparent;border:1px solid var(--border);color:var(--text);padding:9px 16px;border-radius:9px;font-family:Tajawal,sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .2s;}
 .btn-book:hover{border-color:var(--gold);color:var(--gold);}
 .agency-tabs{display:flex;gap:7px;margin-bottom:18px;flex-wrap:wrap;overflow-x:auto;padding-bottom:2px;}
@@ -4965,7 +4965,7 @@ function buildDealerDetailHtml(d){
   var callNum=d.phone||'';
   var actions=
     (waNum?'<a class="btn-wa" href="https://wa.me/'+waNum+'" target="_blank" onclick="return requireAuth(event,\'سجل مجانًا للتواصل مع المعرض عبر واتساب\')">💬 تواصل مع المعرض</a>':'')+
-    (callNum?'<a class="btn-call" href="tel:'+callNum+'" onclick="return requireAuth(event,\'سجل مجانًا للتواصل مع المعرض\')"><span class="ico ico-phone"></span> اتصال</a>':'')+
+    (callNum?'<a class="btn-agency-call" href="tel:'+callNum+'" onclick="return requireAuth(event,\'سجل مجانًا للتواصل مع المعرض\')"><span class="ico ico-phone"></span> اتصال</a>':'')+
     (d.mapLink?'<a class="btn-book" href="'+escAg(d.mapLink)+'" target="_blank"><span class="ico ico-pin"></span> فتح بخرائط Google</a>':'')+
     (d.website?'<a class="btn-book" href="'+escAg(d.website)+'" target="_blank">🌐 الموقع الإلكتروني</a>':'');
   var memberSince=fmtMonthYear(d.createdAt);
@@ -5316,7 +5316,7 @@ function buildAgencyDetailHtml(a){
   var callNum=(a.phones&&a.phones[0])||'';
   var actions=
     (waNum?'<a class="btn-wa" href="https://wa.me/'+waNum+'" target="_blank" onclick="return requireAuth(event,\'سجل مجانًا للتواصل مع المعرض عبر واتساب\')">💬 '+t('ag.whatsapp')+'</a>':'')+
-    (callNum?'<a class="btn-call" href="tel:'+callNum+'" onclick="return requireAuth(event,\'سجل مجانًا للتواصل مع الوكالة\')"><span class="ico ico-phone"></span> '+t('ag.call')+'</a>':'')+
+    (callNum?'<a class="btn-agency-call" href="tel:'+callNum+'" onclick="return requireAuth(event,\'سجل مجانًا للتواصل مع الوكالة\')"><span class="ico ico-phone"></span> '+t('ag.call')+'</a>':'')+
     (a.acceptsBookings?'<button class="btn-book" onclick="openAgencyReqForm(\''+a.id+'\',\'quote\')"><span class="ico ico-money"></span> '+t('ag.requestQuote')+'</button>':'')+
     (isAdmin()?'<button class="btn-book" onclick="openAgencyForm(\''+a.id+'\')"><span class="ico ico-edit"></span> '+t('ag.edit')+'</button>':'');
   var hero='<div class="agency-hero">'+cover+
