@@ -1,7 +1,7 @@
 // Iraq Motors - Service Worker
-const CACHE_NAME = 'iraq-motors-v1';
+const CACHE_NAME = 'iraq-motors-v2';
 const APP_SHELL = [
-  './iraq-motors_6.html',
+  './',
   './manifest.webmanifest',
   './icons/icon-192.png',
   './icons/icon-512.png',
@@ -21,7 +21,7 @@ self.addEventListener('install', function(event) {
   );
 });
 
-// عند التفعيل: حذف أي نسخ كاش قديمة
+// عند التفعيل: حذف أي نسخ كاش قديمة (تشمل أي نسخة كانت قد خزّنت صفحة خطأ بالغلط)
 self.addEventListener('activate', function(event) {
   event.waitUntil(
     caches.keys().then(function(keys) {
@@ -33,30 +33,38 @@ self.addEventListener('activate', function(event) {
   );
 });
 
-// استراتيجية الجلب: الشبكة أولاً، والرجوع للكاش عند انقطاع الاتصال
+// استراتيجية الجلب: الشبكة أولاً (بتجاوز كاش المتصفح)، والرجوع للكاش عند انقطاع الاتصال
 self.addEventListener('fetch', function(event) {
   const req = event.request;
 
   if (req.method !== 'GET') return;
 
+  const isSameOrigin = req.url.startsWith(self.location.origin);
+
   event.respondWith(
-    fetch(req)
+    fetch(req, { cache: 'no-store' })
       .then(function(res) {
-        // تحديث الكاش بنسخة جديدة عند نجاح الطلب (لطلبات نفس الموقع فقط)
-        if (req.url.startsWith(self.location.origin)) {
+        // روابط خارجية (خطوط Google مثلاً): مرّرها كما هي بدون فحص أو تخزين
+        if (!isSameOrigin) return res;
+
+        // خزّن فقط الاستجابات الناجحة (نتجاهل 404/500 حتى لا تُحفظ كنسخة صحيحة وتُعرض لاحقًا بدل الصفحة الحقيقية)
+        if (res && res.ok) {
           const resClone = res.clone();
-          caches.open(CACHE_NAME).then(function(cache) {
-            cache.put(req, resClone);
-          });
+          caches.open(CACHE_NAME).then(function(cache) { cache.put(req, resClone); });
+          return res;
         }
-        return res;
+
+        // استجابة غير ناجحة (مثلاً رابط مباشر لإعلان سيارة لا يعرفه الاستضافة) -> نسخة محفوظة، وإلا الصفحة الرئيسية المحفوظة
+        return caches.match(req).then(function(cached) {
+          return cached || (req.mode === 'navigate' ? caches.match('./') : res);
+        });
       })
       .catch(function() {
         return caches.match(req).then(function(cached) {
           if (cached) return cached;
           // إذا كان طلب تصفح صفحة ولا يوجد اتصال، أرجع الصفحة الرئيسية من الكاش
           if (req.mode === 'navigate') {
-            return caches.match('./iraq-motors_6.html');
+            return caches.match('./');
           }
         });
       })
