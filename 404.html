@@ -744,9 +744,9 @@ body.admin-mode .site-footer{display:none!important;}
 .adm-icon-btn .ico{width:17px;height:17px;color:var(--dim);margin-left:0;}
 .adm-icon-btn:hover .ico{color:var(--gold);}
 .adm-icon-badge{position:absolute;top:-5px;right:-5px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--red);color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:Tajawal,sans-serif;border:2px solid var(--dark2);}
-.adm-profile-chip{display:flex;flex-direction:row-reverse;align-items:center;gap:9px;cursor:pointer;padding:5px 6px 5px 9px;border-radius:11px;flex-shrink:0;position:relative;}
+.adm-profile-chip{display:flex;flex-direction:row-reverse;align-items:center;gap:9px;cursor:pointer;padding:0 6px 0 9px;height:38px;box-sizing:border-box;border-radius:11px;flex-shrink:0;position:relative;}
 .adm-profile-chip:hover{background:var(--dark3);}
-.adm-profile-chip img{width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);flex-shrink:0;}
+.adm-profile-chip img{width:30px;height:30px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);flex-shrink:0;}
 .adm-profile-chip .pc-name{font-size:13px;font-weight:700;color:var(--text);white-space:nowrap;}
 .adm-profile-chip .pc-role{font-size:10.5px;color:var(--gold);white-space:nowrap;}
 .adm-profile-chip .ico-chevron-down{width:13px;height:13px;color:var(--dim);margin-left:0;}
@@ -975,7 +975,7 @@ body.iq-mobile-nav .adm-grid-3{grid-template-columns:1fr;}
    ============================================================ */
 .pub-topbar{position:fixed;top:0;left:0;right:0;height:64px;background:var(--dark2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:820;gap:14px;}
 .pub-topbar-left{display:flex;align-items:center;gap:8px;}
-.pub-burger{display:none;background:none;border:1px solid var(--border);border-radius:9px;color:var(--dim);cursor:pointer;padding:8px;}
+.pub-burger{display:none;width:38px;height:38px;box-sizing:border-box;background:var(--dark3);border:1px solid var(--border);border-radius:10px;color:var(--dim);cursor:pointer;padding:0;align-items:center;justify-content:center;flex-shrink:0;}
 .pub-burger .ico{width:18px;height:18px;margin-left:0;color:var(--dim);}
 .pub-search{flex:1;max-width:440px;display:flex;flex-direction:row-reverse;align-items:center;gap:8px;background:var(--dark3);border:1px solid var(--border);border-radius:11px;padding:9px 14px;}
 .pub-search .ico{width:16px;height:16px;color:var(--dim);margin-left:0;flex-shrink:0;}
@@ -986,7 +986,7 @@ body.iq-mobile-nav .adm-grid-3{grid-template-columns:1fr;}
 .pub-icon-btn .ico{width:17px;height:17px;color:var(--dim);margin-left:0;}
 .pub-icon-btn:hover .ico{color:var(--gold);}
 .pub-icon-badge{position:absolute;top:-5px;right:-5px;min-width:16px;height:16px;padding:0 4px;border-radius:9px;background:var(--red);color:#fff;font-size:9.5px;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:Tajawal,sans-serif;border:2px solid var(--dark2);}
-.pub-lang-chip{display:flex;flex-direction:row-reverse;align-items:center;gap:6px;background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:8px 12px;cursor:pointer;font-size:12.5px;color:var(--text);}
+.pub-lang-chip{display:flex;flex-direction:row-reverse;align-items:center;gap:6px;background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:0 12px;height:38px;box-sizing:border-box;cursor:pointer;font-size:12.5px;color:var(--text);flex-shrink:0;}
 .pub-lang-chip img{width:16px;height:11px;border-radius:2px;}
 .pub-profile-chip{display:flex;flex-direction:row-reverse;align-items:center;gap:8px;cursor:pointer;padding:5px 6px 5px 9px;border-radius:11px;}
 .pub-profile-chip:hover{background:var(--dark3);}
@@ -1074,9 +1074,11 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
 @media(max-width:900px){
   .pub-sidebar{transform:translate3d(-100%,0,0);box-shadow:0 0 40px rgba(0,0,0,.5);}
   .pub-main{margin-left:0;}
+  .pub-topbar{justify-content:flex-start;}
   .pub-burger{display:flex;}
   .pub-search{display:none;}
   .pub-profile-chip span{display:none;}
+  .adm-profile-chip .pc-name,.adm-profile-chip .pc-role{display:none;}
   .detail-main{grid-template-columns:1fr!important;}
   .gallery-main{height:62vw;max-height:340px;}
 }
