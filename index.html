@@ -2276,13 +2276,14 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-functions-compat.js"></script>
 <script>
 // CONFIG
 const AI_WORKER_URL='https://iraq-motorsai.iraqmotors.workers.dev';
 const IMGBB='3897918b48e89d2b67351676170056ed';
 const ADMIN_EMAILS=['iraq.motors0@gmail.com','abdullahanasm200@gmail.com','alshindahharthzyad@gmail.com'];
 firebase.initializeApp({apiKey:"AIzaSyAb4MheuHSlF4yOxuDfhnxZtIMyXy7g-l8",authDomain:"iraq-motors-38983.firebaseapp.com",projectId:"iraq-motors-38983",storageBucket:"iraq-motors-38983.firebasestorage.app",messagingSenderId:"80307836321",appId:"1:80307836321:web:d61f734a86f5be5a4c67e0"});
-const auth=firebase.auth(), db=firebase.firestore(), storage=firebase.storage();
+const auth=firebase.auth(), db=firebase.firestore(), storage=firebase.storage(), fnCall=firebase.functions();
 function isAdmin(){return auth.currentUser&&ADMIN_EMAILS.includes(auth.currentUser.email);}
 
 // ============ I18N (Arabic / Kurdish Sorani / English) ============
@@ -2506,6 +2507,7 @@ auth.onAuthStateChanged(function(user){
     db.collection('users').doc(user.uid).get().then(function(doc){
       window._me=doc.exists?doc.data():null;
     }).catch(function(){window._me=null;});
+    handleFeatureReturn();
   } else {
     window._me=null;
     var pna2=document.getElementById('pubNavAdmin');if(pna2)pna2.style.display='none';
@@ -3415,7 +3417,7 @@ function showToast(msg){var el=document.createElement('div');el.innerHTML=msg;el
 
 // ============ paid ad boost ("ميّز إعلانك") — manual QI Card / Mastercard transfer, reviewed by admin ============
 var FEAT_PACKAGES=[{d:3,key:'featPrice3',def:5000},{d:7,key:'featPrice7',def:10000},{d:15,key:'featPrice15',def:20000}];
-var _featCarId=null,_featCarName='',_featPkgIdx=1,_featMethod='qicard',_featSettings=null;
+var _featCarId=null,_featCarName='',_featPkgIdx=1,_featMethod='qicard',_featSettings=null,_featMode='manual';
 function isFeaturedActive(car){
   if(!car||!car.featured)return false;
   if(!car.featuredUntil)return true;
@@ -3430,6 +3432,7 @@ async function openFeatureCheckout(carId,carName){
     '<div class="modal-sub">اظهر بأول النتائج والصفحة الرئيسية لمدة أطول</div>'+
     '<div id="featCheckoutBody" style="text-align:center;color:var(--dim);font-size:13px;padding:20px 0;">جاري التحميل...</div>',440);
   try{var doc=await db.collection('settings').doc('general').get();_featSettings=doc.exists?doc.data():{};}catch(e){_featSettings={};}
+  _featMode=(_featSettings&&_featSettings.qiGatewayEnabled)?'gateway':'manual';
   renderFeatCheckout();
 }
 function renderFeatCheckout(){
@@ -3438,14 +3441,29 @@ function renderFeatCheckout(){
   var pkgHtml=FEAT_PACKAGES.map(function(pk,i){
     return '<button class="feat-pkg-btn'+(i===_featPkgIdx?' active':'')+'" onclick="selectFeatPkg('+i+')"><b>'+pk.d+'</b><span>أيام</span><span>'+featPkgPrice(i).toLocaleString()+' د.ع</span></button>';
   }).join('');
+  var gatewayOn=!!(_featSettings&&_featSettings.qiGatewayEnabled);
+  var carHead=(_featCarName?'<div style="font-size:12.5px;color:var(--text);text-align:center;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border);"><span class="ico ico-car" style="width:13px;height:13px;"></span> '+admEsc(_featCarName)+'</div>':'');
+  var modeSwitch=gatewayOn?('<div class="currency-toggle" style="width:100%;margin-bottom:2px;">'+
+      '<button class="cur-btn'+(_featMode==='gateway'?' active':'')+'" style="flex:1;padding:9px 0;" onclick="selectFeatMode(\'gateway\')"><span class="ico ico-bolt" style="width:12px;height:12px;"></span> دفع فوري بالبطاقة</button>'+
+      '<button class="cur-btn'+(_featMode==='manual'?' active':'')+'" style="flex:1;padding:9px 0;" onclick="selectFeatMode(\'manual\')"><span class="ico ico-refresh" style="width:12px;height:12px;"></span> تحويل يدوي</button>'+
+    '</div>'):'';
+
+  if(_featMode==='gateway'&&gatewayOn){
+    box.innerHTML=carHead+'<div class="feat-pkg-row">'+pkgHtml+'</div>'+modeSwitch+
+      '<div class="feat-pay-box" style="text-align:center;">ادفع مباشرة بأي بطاقة <b style="color:var(--gold);">Visa / Mastercard / QI Card</b> عبر صفحة دفع آمنة، ويتفعل تمييز إعلانك تلقائيًا خلال ثواني بعد الدفع — بدون ما تنتظر مراجعة.</div>'+
+      '<div id="featMsg" style="font-size:12px;text-align:center;margin-bottom:8px;"></div>'+
+      '<button class="btn-post-banner" style="width:100%;" onclick="payWithGatewayNow()"><span class="ico ico-bolt"></span> ادفع الحين — '+featPkgPrice(_featPkgIdx).toLocaleString()+' د.ع</button>'+
+      '<div style="font-size:11px;color:var(--dim);text-align:center;margin-top:10px;">راح تنفتح صفحة دفع QiCard الرسمية. ما نشوف ولا نخزّن رقم بطاقتك أبدًا.</div>';
+    return;
+  }
+
   var qiNum=(_featSettings&&_featSettings.qiCardNumber)||'';
   var qiName=(_featSettings&&_featSettings.qiCardName)||'Iraq Motors';
   var price=featPkgPrice(_featPkgIdx).toLocaleString();
   var methodInstructions=_featMethod==='qicard'?
     ('افتح تطبيق Qi وسوّي تحويل رصيد بمبلغ <b style="color:var(--gold);">'+price+' د.ع</b> إلى رقم محفظة Qi Card أدناه، وبعدها اكتب رقم العملية أو الرقم اللي حوّلت منه بالخانة تحت.'):
     ('حوّل مبلغ <b style="color:var(--gold);">'+price+' د.ع</b> ببطاقة ماستركارد عبر تطبيق بنكك إلى رقم Qi Card أدناه (تقدر تحوّل من أي بطاقة ماستركارد)، وبعدها اكتب رقم العملية بالخانة تحت.');
-  box.innerHTML=(_featCarName?'<div style="font-size:12.5px;color:var(--text);text-align:center;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border);"><span class="ico ico-car" style="width:13px;height:13px;"></span> '+admEsc(_featCarName)+'</div>':'')+
-    '<div class="feat-pkg-row">'+pkgHtml+'</div>'+
+  box.innerHTML=carHead+'<div class="feat-pkg-row">'+pkgHtml+'</div>'+modeSwitch+
     '<div class="currency-toggle" style="width:100%;">'+
       '<button class="cur-btn'+(_featMethod==='qicard'?' active':'')+'" style="flex:1;padding:10px 0;" onclick="selectFeatMethod(\'qicard\')"><span class="ico ico-card" style="width:13px;height:13px;"></span> QI Card</button>'+
       '<button class="cur-btn'+(_featMethod==='mastercard'?' active':'')+'" style="flex:1;padding:10px 0;" onclick="selectFeatMethod(\'mastercard\')"><span class="ico ico-card" style="width:13px;height:13px;"></span> ماستركارد</button>'+
@@ -3458,6 +3476,44 @@ function renderFeatCheckout(){
     '<div id="featMsg" style="font-size:12px;text-align:center;margin-bottom:8px;"></div>'+
     '<button class="btn-post-banner" style="width:100%;" onclick="submitFeatureRequest()"><span class="ico ico-send"></span> إرسال طلب التمييز</button>'+
     '<div style="font-size:11px;color:var(--dim);text-align:center;margin-top:10px;">بعد الإرسال راح نراجع عملية الدفع ونفعّل تمييز إعلانك خلال ساعات قليلة.</div>';
+}
+function selectFeatMode(m){_featMode=m;renderFeatCheckout();}
+async function payWithGatewayNow(){
+  var msg=document.getElementById('featMsg');
+  if(msg){msg.style.color='#f39c12';msg.textContent='جاري تجهيز صفحة الدفع...';}
+  try{
+    var origin=location.href.split('#')[0];
+    var res=await fnCall.httpsCallable('createFeaturePayment')({carId:_featCarId,days:FEAT_PACKAGES[_featPkgIdx].d,origin:origin});
+    if(res&&res.data&&res.data.formUrl){window.location.href=res.data.formUrl;}
+    else if(msg){msg.style.color='#e74c3c';msg.textContent='تعذر إنشاء عملية الدفع، حاول مرة أخرى';}
+  }catch(e){if(msg){msg.style.color='#e74c3c';msg.textContent='خطأ: '+(e.message||e);}}
+}
+var _featReturnHandled=false;
+function handleFeatureReturn(){
+  if(_featReturnHandled)return;
+  var h=location.hash||'';
+  var qIdx=h.indexOf('?');
+  if(qIdx===-1)return;
+  var qs=new URLSearchParams(h.slice(qIdx+1));
+  if(qs.get('featurePaid')!=='1')return;
+  _featReturnHandled=true;
+  var fr=qs.get('fr');
+  if(!fr){cleanFeatureReturnUrl();return;}
+  showToast('<span class="ico ico-hourglass"></span> جاري التأكد من الدفعة...');
+  fnCall.httpsCallable('checkFeaturePaymentStatus')({requestId:fr}).then(function(res){
+    var st=res&&res.data&&res.data.status;
+    if(st==='approved')showToast('<span class="ico ico-check"></span> تم الدفع وتفعيل التمييز 🎉');
+    else if(st==='rejected')showToast('<span class="ico ico-cross"></span> ما اكتملت عملية الدفع');
+    else showToast('<span class="ico ico-hourglass"></span> الدفع لسه قيد المعالجة، راجع "إعلاناتي" بعد شوي');
+    if(document.getElementById('myAdsGrid'))loadMyAds();
+  }).catch(function(){showToast('<span class="ico ico-hourglass"></span> الدفع قيد المعالجة، راجع "إعلاناتي" بعد شوي');});
+  cleanFeatureReturnUrl();
+}
+function cleanFeatureReturnUrl(){
+  var h=location.hash||'';
+  var qIdx=h.indexOf('?');
+  if(qIdx===-1)return;
+  history.replaceState(null,'',location.pathname+location.search+h.slice(0,qIdx));
 }
 function selectFeatPkg(i){_featPkgIdx=i;renderFeatCheckout();}
 function selectFeatMethod(m){_featMethod=m;renderFeatCheckout();}
@@ -4738,8 +4794,9 @@ function admRenderSettings(){
     '<div class="form-group"><div class="form-label">تيك توك</div><input class="form-input" id="admSetTiktok" value="'+admEsc(s.tiktok||'')+'" placeholder="https://tiktok.com/@..."></div>'+
     '<div class="form-group"><div class="form-label">يوتيوب</div><input class="form-input" id="admSetYoutube" value="'+admEsc(s.youtube||'')+'" placeholder="https://youtube.com/..."></div>'+
     '<div style="border-top:1px solid var(--border);padding-top:12px;margin-top:4px;font-size:12.5px;color:var(--dim);"><span class="ico ico-card" style="color:var(--gold);"></span> الدفع وتمييز الإعلانات (QI Card / ماستركارد)</div>'+
-    '<div style="font-size:11.5px;color:var(--dim);line-height:1.8;margin-top:-6px;">المستخدم يحوّل المبلغ يدويًا إلى رقم Qi Card أدناه، وطلبه ينتظر مراجعتك بصفحة "طلبات تمييز الإعلانات" قبل ما يتفعّل. لا يوجد بوابة دفع آلية حاليًا.</div>'+
-    '<div class="form-group"><div class="form-label">رقم محفظة Qi Card لاستلام التحويلات</div><input class="form-input" id="admSetQiNumber" value="'+admEsc(s.qiCardNumber||'')+'" placeholder="مثال: 9902xxxxxxxx"></div>'+
+    '<div style="font-size:11.5px;color:var(--dim);line-height:1.8;margin-top:-6px;">فيه طريقتين: تحويل يدوي يراجعه أدمن (تحت)، أو دفع مباشر ببوابة QiCard الحقيقية (يحتاج نشر Cloud Functions أولاً — راجع DEPLOY_GUIDE.md).</div>'+
+    '<label style="display:flex;flex-direction:row-reverse;align-items:center;gap:8px;font-size:13px;cursor:pointer;background:rgba(46,204,113,.08);border:1px solid rgba(46,204,113,.3);border-radius:9px;padding:11px 13px;"><input type="checkbox" id="admSetQiGateway" '+(s.qiGatewayEnabled?'checked':'')+'> <span><b style="color:var(--green);">تفعيل الدفع المباشر (بوابة QiCard)</b> — لا تفعّلها للزبائن الحقيقيين إلا بعد ما تسوي حساب تاجر رسمي وتحط مفاتيح الإنتاج (شوف DEPLOY_GUIDE.md)</span></label>'+
+    '<div class="form-group"><div class="form-label">رقم محفظة Qi Card لاستلام التحويلات اليدوية</div><input class="form-input" id="admSetQiNumber" value="'+admEsc(s.qiCardNumber||'')+'" placeholder="مثال: 9902xxxxxxxx"></div>'+
     '<div class="form-group"><div class="form-label">الاسم الظاهر على المحفظة</div><input class="form-input" id="admSetQiName" value="'+admEsc(s.qiCardName||'')+'" placeholder="Iraq Motors"></div>'+
     '<div class="form-group"><div class="form-label">أسعار تمييز الإعلان (دينار عراقي)</div>'+
       '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">'+
@@ -4765,6 +4822,7 @@ function admSaveSettings(){
     youtube:document.getElementById('admSetYoutube').value.trim(),
     qiCardNumber:document.getElementById('admSetQiNumber').value.trim(),
     qiCardName:document.getElementById('admSetQiName').value.trim(),
+    qiGatewayEnabled:document.getElementById('admSetQiGateway').checked,
     featPrice3:Number(document.getElementById('admSetFeatP3').value)||5000,
     featPrice7:Number(document.getElementById('admSetFeatP7').value)||10000,
     featPrice15:Number(document.getElementById('admSetFeatP15').value)||20000,
