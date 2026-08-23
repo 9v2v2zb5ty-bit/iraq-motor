@@ -1504,7 +1504,6 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
         <button class="admin-tab" onclick="switchAdminTab('reports',this)"><span class="ico ico-alert"></span> البلاغات</button>
         <button class="admin-tab" onclick="switchAdminTab('users',this)"><span class="ico ico-users"></span> المستخدمين</button>
         <button class="admin-tab" onclick="switchAdminTab('companyAds',this)"><span class="ico ico-building"></span> إعلانات الشركات</button>
-        <button class="admin-tab" onclick="switchAdminTab('heroBanners',this)"><span class="ico ico-camera"></span> بانر الصفحة الرئيسية</button>
         <button class="admin-tab" onclick="switchAdminTab('dealers',this)"><span class="ico ico-store"></span> طلبات المعارض</button>
         <button class="admin-tab" onclick="switchAdminTab('agencyReq',this)"><span class="ico ico-calendar"></span> طلبات الوكالات</button>
       </div>
@@ -4738,7 +4737,7 @@ async function loadHeroBanners(){
     heroIdx=0;
     renderHeroSlide(0);
     startHeroTimer();
-  }catch(e){wrap.innerHTML='';}
+  }catch(e){}
 }
 function renderHeroSlide(i){
   var wrap=document.getElementById('heroAdBanner');
@@ -5916,7 +5915,6 @@ initHomeQuickSearch();
 pubLoadSocialLinks();
 checkMaintenanceMode();
 initHomeBrands();
-loadHeroBanners();
 
 // PWA: تسجيل الـ Service Worker
 if('serviceWorker' in navigator){
