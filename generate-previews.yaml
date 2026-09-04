@@ -1,0 +1,41 @@
+name: Generate car preview pages
+
+# يشغّل سكربت scripts/generate-previews.js تلقائياً كل 6 ساعات، وتقدر
+# تشغله يدوياً بأي وقت من تبويب "Actions" بصفحة الريبو ثم اختيار هذا
+# الوركفلو والضغط على "Run workflow" — مثلاً مباشرة بعد ما تضيف سيارات جديدة
+# بدل ما تنتظر الجدولة.
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate preview pages
+        run: node scripts/generate-previews.js
+
+      - name: Commit and push if anything changed
+        run: |
+          git config user.name "iraq-motors-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add car/ sitemap.xml
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: regenerate car preview pages [automated]"
+            git push
+          fi
