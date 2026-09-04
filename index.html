@@ -14,7 +14,7 @@
 <meta name="description" content="منصة Iraq Motors لبيع وشراء السيارات الجديدة والمستعملة في العراق. آلاف الإعلانات من أفضل المعارض والوكلاء، مقارنة أسعار، ومستشار ذكاء اصطناعي لمساعدتك على اختيار سيارتك.">
 <meta name="keywords" content="سيارات للبيع, بيع وشراء سيارات, سوق السيارات العراق, معارض سيارات, وكالات سيارات, سيارات مستعملة, سيارات جديدة">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://9v2v2zb5ty-bit.github.io/iraq-motor/">
+<link rel="canonical" href="https://iraqmotors.site/">
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
@@ -22,14 +22,14 @@
 <meta property="og:locale" content="ar_IQ">
 <meta property="og:title" content="Iraq Motors | سوق بيع وشراء السيارات في العراق">
 <meta property="og:description" content="منصة Iraq Motors لبيع وشراء السيارات الجديدة والمستعملة في العراق. آلاف الإعلانات من أفضل المعارض والوكلاء، مقارنة أسعار، ومستشار ذكاء اصطناعي لمساعدتك على اختيار سيارتك.">
-<meta property="og:url" content="https://9v2v2zb5ty-bit.github.io/iraq-motor/">
-<meta property="og:image" content="https://9v2v2zb5ty-bit.github.io/iraq-motor/icons/apple-touch-icon.png">
+<meta property="og:url" content="https://iraqmotors.site/">
+<meta property="og:image" content="https://iraqmotors.site/icons/apple-touch-icon.png">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Iraq Motors | سوق بيع وشراء السيارات في العراق">
 <meta name="twitter:description" content="منصة Iraq Motors لبيع وشراء السيارات الجديدة والمستعملة في العراق.">
-<meta name="twitter:image" content="https://9v2v2zb5ty-bit.github.io/iraq-motor/icons/apple-touch-icon.png">
+<meta name="twitter:image" content="https://iraqmotors.site/icons/apple-touch-icon.png">
 
 <!-- Structured data -->
 <script type="application/ld+json">
@@ -2498,10 +2498,11 @@ auth.onAuthStateChanged(function(user){
 });
 
 // ============ SEO: per-page metadata + clean URLs ============
-// This site is served from a GitHub Pages PROJECT path (username.github.io/reponame/),
-// not from a domain root, so every URL needs that folder name in front of it.
-// If you ever move to a custom domain or a root github.io site, just set this to ''.
-var IQ_BASE_PATH='/iraq-motor';
+// This site is served from the custom domain root (iraqmotors.site/...), not the
+// raw GitHub Pages project path (username.github.io/reponame/), so there is no
+// folder prefix to add. Leave this '' unless the site is ever moved back to being
+// served bare from github.io without a custom domain.
+var IQ_BASE_PATH='';
 function iqFullPath(p){return p==='/'?IQ_BASE_PATH+'/':IQ_BASE_PATH+p;}
 function iqStripBase(pathname){
   if(IQ_BASE_PATH&&pathname.indexOf(IQ_BASE_PATH)===0){
@@ -2525,7 +2526,7 @@ var PAGE_SEO={
   profile:{path:'/profile',title:'حسابي | Iraq Motors',noindex:true},
   admin:{path:'/admin',title:'الإدارة | Iraq Motors',noindex:true}
 };
-function iqSetMeta(title,desc,path,noindex){
+function iqSetMeta(title,desc,path,noindex,image){
   document.title=title;
   var m=document.querySelector('meta[name="description"]');if(m&&desc)m.setAttribute('content',desc);
   var c=document.querySelector('link[rel="canonical"]');if(c&&path)c.setAttribute('href',location.origin+iqFullPath(path));
@@ -2533,6 +2534,12 @@ function iqSetMeta(title,desc,path,noindex){
   var ogT=document.querySelector('meta[property="og:title"]');if(ogT)ogT.setAttribute('content',title);
   var ogD=document.querySelector('meta[property="og:description"]');if(ogD&&desc)ogD.setAttribute('content',desc);
   var ogU=document.querySelector('meta[property="og:url"]');if(ogU&&path)ogU.setAttribute('content',location.origin+iqFullPath(path));
+  if(image){
+    var ogI=document.querySelector('meta[property="og:image"]');if(ogI)ogI.setAttribute('content',image);
+    var twI=document.querySelector('meta[name="twitter:image"]');if(twI)twI.setAttribute('content',image);
+  }
+  var twT=document.querySelector('meta[name="twitter:title"]');if(twT)twT.setAttribute('content',title);
+  var twD=document.querySelector('meta[name="twitter:description"]');if(twD&&desc)twD.setAttribute('content',desc);
 }
 function iqCarSlug(car){
   return [car.make,car.model,car.year].filter(Boolean).join('-').toLowerCase().replace(/[^a-z0-9\u0600-\u06FF]+/g,'-').replace(/^-+|-+$/g,'');
@@ -3054,7 +3061,7 @@ function openCarDetail(id,_skipPush){
   if(!isOwner)enhanceSellerCard(car.userId,car.userName);
   bumpCarViews(id,car.userId);
   var carDesc='سيارة '+carLabel+' للبيع'+(car.city?' في '+car.city:'')+' بسعر '+ps+' على Iraq Motors.';
-  iqSetMeta(carLabel+' | Iraq Motors',carDesc,carPath);
+  iqSetMeta(carLabel+' | Iraq Motors',carDesc,carPath,false,imgs&&imgs.length?imgs[0]:null);
   if(!_skipPush){try{history.pushState({page:'detail',id:id},'',iqFullPath(carPath));}catch(e){}}
   iqUpdateCarJsonLd(car,imgs,carLabel);
   goPage('detail');
