@@ -15,7 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 async function runOpenSooqScraper() {
-  console.log('🚀 Starting OpenSooq Scraper (Fixed Selectors)...');
+  console.log('🚀 Starting OpenSooq Scraper (Universal Parser)...');
   
   const browser = await chromium.launch({
     headless: true,
@@ -37,40 +37,37 @@ async function runOpenSooqScraper() {
   try {
     console.log('🌐 Navigating to OpenSooq cars section (Baghdad)...');
     await page.goto('https://iq.opensooq.com/ar/baghdad/cars/cars-for-sale', { 
-      waitUntil: 'networkidle', 
+      waitUntil: 'domcontentloaded', 
       timeout: 60000 
     });
 
-    // الانتظار لتحميل الصور والعناصر بالكامل
-    await page.waitForTimeout(6000);
+    await page.waitForTimeout(5000);
+    await page.evaluate(() => window.scrollBy(0, 1000));
+    await page.waitForTimeout(3000);
 
-    // سحب الإعلانات من خلال استهداف الروابط والعناوين الخاصة بالمنتجات حصراً
     const listings = await page.evaluate(() => {
       const items = [];
-      // البحث عن الروابط التي تحتوي على مسار الإعلانات الفعلية
-      const postLinks = document.querySelectorAll('a[href*="/ar/post/"]');
+      const links = document.querySelectorAll('a');
       const seen = new Set();
 
-      postLinks.forEach(link => {
-        const title = link.innerText.trim();
-        // التأكد من أن العنوان طويل بما يكفي ليكون اسم سيارة حقيقي وليس زر أو فلتر
-        if (title && title.length > 12 && !seen.has(title)) {
+      links.forEach(link => {
+        const title = link.innerText ? link.innerText.trim() : '';
+        const href = link.href || '';
+
+        if (title.length > 15 && !seen.has(title) && (href.includes('/') || href.length > 30)) {
           seen.add(title);
           
-          // العثور على الكارت الأب لإستخراج الصورة والسعر بدقة
-          const card = link.closest('div.flex, div.item, li, article') || link.parentElement.parentElement;
-          
-          const priceEl = card ? card.querySelector('[class*="price"], [class*="Price"], span.text-gray-900') : null;
-          
-          // البحث عن الصورة داخل الكارت (دعم الـ lazy loading)
+          const card = link.closest('div') || link.parentElement;
+          const priceEl = card ? card.querySelector('[class*="price"], [class*="Price"]') : null;
           const imgEl = card ? card.querySelector('img') : null;
+
           let imageUrl = '';
           if (imgEl) {
             imageUrl = imgEl.src || imgEl.getAttribute('data-src') || imgEl.getAttribute('data-lazy-src') || '';
           }
 
           items.push({
-            title: title,
+            title: title.split('\n')[0],
             rawPrice: priceEl ? priceEl.innerText.trim() : '15000',
             image: imageUrl.startsWith('http') ? imageUrl : ''
           });
@@ -80,10 +77,10 @@ async function runOpenSooqScraper() {
       return items;
     });
 
-    console.log(`📦 Found ${listings.length} valid car listings.`);
+    console.log(`📦 Found ${listings.length} raw elements.`);
 
     if (listings.length === 0) {
-      console.log('⚠️ No listings found with current selectors.');
+      console.log('⚠️ Still 0 listings found. Check page access.');
       return;
     }
 
@@ -122,7 +119,7 @@ async function runOpenSooqScraper() {
       savedCount++;
     }
 
-    console.log(`✅ Successfully published ${savedCount} cars with images & correct titles!`);
+    console.log(`✅ Successfully published ${savedCount} valid cars to Firestore!`);
   } catch (err) {
     console.error('❌ Error during scraping:', err.message);
   } finally {
