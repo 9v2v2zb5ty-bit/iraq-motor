@@ -35,8 +35,9 @@ async function runOpenSooqScraper() {
   const page = await context.newPage();
 
   try {
-    console.log('🌐 Navigating to OpenSooq cars section (Iraq/Baghdad)...');
-    await page.goto('[https://iq.opensooq.com/ar/بغداد/سيارات-للسيارات/سيارات-للبيع](https://iq.opensooq.com/ar/بغداد/سيارات-للسيارات/سيارات-للبيع)', { 
+    console.log('🌐 Navigating to OpenSooq cars section (Baghdad)...');
+    // تم استخدام الرابط الإنجليزي لتفادي مشاكل ترميز الحروف العربية في الـ URL
+    await page.goto('https://iq.opensooq.com/ar/baghdad/cars/cars-for-sale', { 
       waitUntil: 'networkidle', 
       timeout: 60000 
     });
