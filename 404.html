@@ -4965,29 +4965,58 @@ async function loadGarage(){
 function deleteGarageCar(id){customConfirm('حذف هذه السيارة من الكراج؟',async function(){try{await db.collection('garage').doc(id).delete();loadGarage();}catch(e){alert('خطأ: '+e.message);}});}
 
 // MARKET
-function loadMarketIndex(){
-  var data=[
-    {name:'Toyota لاندكروزر',price:85000,change:2.3,vol:142},{name:'Nissan باترول',price:75000,change:1.8,vol:98},
-    {name:'Toyota كامري',price:28000,change:-0.5,vol:234},{name:'Kia سبورتاج',price:32000,change:3.1,vol:187},
-    {name:'BMW X5',price:72000,change:-1.2,vol:45},{name:'Toyota برادو',price:55000,change:0.8,vol:76},
-    {name:'Hyundai توسان',price:33000,change:2.0,vol:156},{name:'Dodge Challenger',price:52000,change:-0.3,vol:34},
-    {name:'Mercedes-Benz E-Class',price:63000,change:1.5,vol:52},{name:'Ford رابتور',price:75000,change:4.2,vol:63},
-    {name:'Chevrolet تاهو',price:58000,change:-1.8,vol:41},{name:'Toyota راڤ 4',price:35000,change:1.1,vol:198},
-  ];
-  var rising=data.filter(function(c){return c.change>0;}).length;
-  var falling=data.filter(function(c){return c.change<0;}).length;
-  var avg=(data.reduce(function(s,c){return s+c.change;},0)/data.length).toFixed(2);
+function loadMarketIndex(retried){
+  if(!allCars.length){
+    if(retried){
+      document.getElementById('marketStats').innerHTML='';
+      document.getElementById('marketTable').innerHTML='<div class="empty" style="padding:30px 0;"><div class="empty-sub">تعذّر تحميل بيانات السوق، تأكد من الاتصال وحاول مرة ثانية</div></div>';
+      return;
+    }
+    loadCars().then(function(){loadMarketIndex(true);});
+    return;
+  }
+  // group real listings by make+model (IQD normalized to USD @1310, same rate used in admin analytics)
+  var groups={};
+  allCars.forEach(function(c){
+    if(!c.make||!c.model||!c.price)return;
+    var usd=c.currency==='IQD'?(c.price||0)/1310:(c.price||0);
+    if(!usd||usd<=0)return;
+    var key=(c.make+' '+c.model).trim();
+    (groups[key]=groups[key]||[]).push({price:usd,t:admTsMillis(c.createdAt)});
+  });
+  function avg(arr){return arr.reduce(function(s,v){return s+v.price;},0)/arr.length;}
+  var data=Object.keys(groups).map(function(key){
+    var list=groups[key].slice().sort(function(a,b){return a.t-b.t;}); // oldest→newest
+    var vol=list.length,change=null,curAvg=avg(list);
+    if(vol>=2){
+      var mid=Math.floor(vol/2),older=list.slice(0,mid),recent=list.slice(mid);
+      var oldAvg=avg(older);curAvg=avg(recent);
+      if(oldAvg>0)change=((curAvg-oldAvg)/oldAvg)*100;
+    }
+    return {name:key,price:curAvg,change:change,vol:vol};
+  });
+  var totalVol=data.reduce(function(s,d){return s+d.vol;},0);
+  var withChange=data.filter(function(d){return d.change!==null;});
+  var rising=withChange.filter(function(d){return d.change>0;}).length;
+  var falling=withChange.filter(function(d){return d.change<0;}).length;
+  var avg2=withChange.length?(withChange.reduce(function(s,d){return s+d.change;},0)/withChange.length).toFixed(2):'0.00';
   document.getElementById('marketStats').innerHTML=[
     {label:'<span class="ico ico-chart-up"></span> ارتفعت',val:rising,cls:'market-up'},{label:'<span class="ico ico-chart-down"></span> انخفضت',val:falling,cls:'market-down'},
-    {label:'<span class="ico ico-barchart"></span> متوسط التغير',val:(avg>0?'+':'')+avg+'%',cls:avg>0?'market-up':'market-down'},
-    {label:'<span class="ico ico-refresh"></span> حجم التداول',val:data.reduce(function(s,c){return s+c.vol;},0)+' إعلان',cls:''},
+    {label:'<span class="ico ico-barchart"></span> متوسط التغير',val:(avg2>0?'+':'')+avg2+'%',cls:avg2>0?'market-up':(avg2<0?'market-down':'')},
+    {label:'<span class="ico ico-refresh"></span> حجم التداول',val:totalVol+' إعلان',cls:''},
   ].map(function(s){return '<div class="market-stat-card"><div class="market-stat-num '+s.cls+'">'+s.val+'</div><div class="market-stat-label">'+s.label+'</div></div>';}).join('');
-  document.getElementById('marketTable').innerHTML=data.sort(function(a,b){return Math.abs(b.change)-Math.abs(a.change);}).map(function(car){
-    var up=car.change>0;
+  var shown=data.slice().sort(function(a,b){
+    if(a.change===null&&b.change===null)return b.vol-a.vol;
+    if(a.change===null)return 1;if(b.change===null)return -1;
+    return Math.abs(b.change)-Math.abs(a.change);
+  }).slice(0,20);
+  document.getElementById('marketTable').innerHTML=shown.length?shown.map(function(car){
+    var up=car.change!==null&&car.change>0;
+    var changeHtml=car.change===null?'<div class="market-change" style="background:rgba(255,255,255,0.06);color:var(--dim);">— جديد</div>':
+      '<div class="market-change" style="background:'+(up?'rgba(46,204,113,0.1)':'rgba(232,69,69,0.1)')+';color:'+(up?'var(--green)':'var(--red)')+'">'+(up?'▲':'▼')+Math.abs(car.change).toFixed(1)+'%</div>';
     return '<div class="market-row"><div><div class="market-car-name">'+car.name+'</div><div style="font-size:10px;color:var(--dim);">'+car.vol+' إعلان</div></div>'+
-      '<div style="display:flex;align-items:center;gap:10px;"><div style="font-size:14px;font-weight:700;font-family:Rajdhani,sans-serif;">$'+car.price.toLocaleString('en-US')+'</div>'+
-      '<div class="market-change" style="background:'+(up?'rgba(46,204,113,0.1)':'rgba(232,69,69,0.1)')+';color:'+(up?'var(--green)':'var(--red)')+'">'+(up?'▲':'▼')+Math.abs(car.change)+'%</div></div></div>';
-  }).join('');
+      '<div style="display:flex;align-items:center;gap:10px;"><div style="font-size:14px;font-weight:700;font-family:Rajdhani,sans-serif;">$'+Math.round(car.price).toLocaleString('en-US')+'</div>'+changeHtml+'</div></div>';
+  }).join(''):'<div class="empty" style="padding:30px 0;"><div class="empty-sub">لا توجد بيانات كافية حالياً</div></div>';
   document.getElementById('trendingCars').innerHTML=['Toyota لاندكروزر','Nissan باترول','Ford رابتور','Toyota كامري','Kia K5','BMW M5','Dodge Challenger'].map(function(t){
     return '<button class="trending-tag" onclick="document.getElementById(\'searchInput\').value=\''+t.split(' ')[1]+'\';goPage(\'cars\')">'+t+'</button>';
   }).join('');
