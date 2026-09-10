@@ -1,67 +1,42 @@
-const express = require('express');
-const cors = require('cors');
-const admin = require('firebase-admin');
-const { randomUUID } = require('crypto');
-const { chromium } = require('playwright');
-
-admin.initializeApp({
-  credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT))
-});
-const db = admin.firestore();
-const app = express();
-app.use(cors());
-app.use(express.json());
-
-const QI_API_HOST = process.env.QI_API_HOST;
-const QI_USERNAME = process.env.QI_USERNAME;
-const QI_PASSWORD = process.env.QI_PASSWORD;
-const QI_TERMINAL_ID = process.env.QI_TERMINAL_ID;
-const QI_WEBHOOK_URL = process.env.QI_WEBHOOK_URL;
-
-const FEAT_PRICE_KEY = {3: 'featPrice3', 7: 'featPrice7', 15: 'featPrice15'};
-const FEAT_PRICE_DEFAULT = {3: 5000, 7: 10000, 15: 20000};
-
-function qiAuthHeader() {
-  return 'Basic ' + Buffer.from(QI_USERNAME + ':' + QI_PASSWORD).toString('base64');
-}
-function qiHost() {
-  return QI_API_HOST.replace(/\/$/, '');
-}
-
-async function verifyAuth(req) {
-  const header = req.headers.authorization || '';
-  const token = header.replace('Bearer ', '');
-  if (!token) throw new Error('no-token');
-  return admin.auth().verifyIdToken(token);
-}
-
-// --- دالة الكشط والنشر الحقيقية ---
+// --- دالة الكشط المحسّنة ---
 async function runOpenSooqScraper() {
   console.log('Starting OpenSooq Scraper...');
   const browser = await chromium.launch({ headless: true });
-  const page = await browser.newPage();
+  const context = await browser.newContext({
+    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
+  });
+  const page = await context.newPage();
 
   try {
-    // الانتقال لصفحة السيارات في العراق على السوق المفتوح
-    await page.goto('https://iq.opensooq.com/ar/عمان/سيارات-للسيارات/سيارات-للبيع', { waitUntil: 'domcontentloaded', timeout: 60000 });
-    
-    // سحب عناوين وأسعار الإعلانات
+    // 1. الانتقال إلى قسم السيارات في العراق
+    await page.goto('https://iq.opensooq.com/ar/عمان/سيارات-للسيارات/سيارات-للبيع', { 
+      waitUntil: 'networkidle', 
+      timeout: 60000 
+    });
+
+    // 2. الانتظار حتى تحميل الإعلانات
+    await page.waitForTimeout(5000);
+
+    // 3. استخراج الإعلانات
     const listings = await page.evaluate(() => {
       const items = [];
-      const cards = document.querySelectorAll('[data-listing-id], .post-card, article');
+      // البحث عن كروت الإعلانات بكل المسميات المحتملة في السوق المفتوح
+      const cards = document.querySelectorAll('li[data-id], div[class*="PostCard"], article, .post-card');
+      
       cards.forEach(card => {
-        const titleEl = card.querySelector('h2, h3, .post-title');
-        const priceEl = card.querySelector('.price, .post-price');
+        const titleEl = card.querySelector('h2, h3, [class*="title"], [class*="Title"]');
+        const priceEl = card.querySelector('[class*="price"], [class*="Price"]');
         const imgEl = card.querySelector('img');
-        
-        if (titleEl) {
+        const linkEl = card.querySelector('a');
+
+        if (titleEl && titleEl.innerText.trim()) {
           items.push({
             title: titleEl.innerText.trim(),
-            price: priceEl ? priceEl.innerText.trim() : 'غير حدد',
-            image: imgEl ? imgEl.src : '',
-            source: 'OpenSooq',
+            price: priceEl ? priceEl.innerText.trim() : 'السعر عند الاتصال',
+            image: imgEl ? (imgEl.src || imgEl.getAttribute('data-src') || '') : '',
+            link: linkEl ? linkEl.href : '',
             approved: true,
-            createdAt: new Date().toISOString()
+            source: 'OpenSooq'
           });
         }
       });
@@ -70,7 +45,7 @@ async function runOpenSooqScraper() {
 
     console.log(`Scraped ${listings.length} listings.`);
 
-    // حفظ البيانات في Firestore داخل مجموعة cars
+    // 4. حفظ البيانات في Firestore
     for (const item of listings) {
       await db.collection('cars').add({
         ...item,
@@ -84,143 +59,4 @@ async function runOpenSooqScraper() {
   } finally {
     await browser.close();
   }
-}
-
-app.get('/', (req, res) => res.send('Iraq Motors backend OK'));
-
-app.post('/createFeaturePayment', async (req, res) => {
-  try {
-    const decoded = await verifyAuth(req);
-    const uid = decoded.uid;
-    const carId = req.body.carId;
-    const days = Number(req.body.days);
-    const origin = (req.body.origin || '').replace(/\/$/, '');
-    if (!carId || ![3, 7, 15].includes(days)) return res.status(400).json({error: 'بيانات غير صحيحة'});
-    if (!origin) return res.status(400).json({error: 'origin مفقود'});
-
-    const carSnap = await db.collection('cars').doc(carId).get();
-    if (!carSnap.exists) return res.status(404).json({error: 'الإعلان غير موجود'});
-    const car = carSnap.data();
-    if (car.userId !== uid) return res.status(403).json({error: 'هذا الإعلان مو الك'});
-    if (!car.approved) return res.status(400).json({error: 'الإعلان لازم يكون مفعّل أولاً'});
-
-    const settingsSnap = await db.collection('settings').doc('general').get();
-    const settings = settingsSnap.exists ? settingsSnap.data() : {};
-    if (!settings.qiGatewayEnabled) return res.status(400).json({error: 'الدفع المباشر غير مفعّل حاليًا'});
-
-    const price = Number(settings[FEAT_PRICE_KEY[days]]) || FEAT_PRICE_DEFAULT[days];
-    const requestId = randomUUID();
-    const carName = ((car.make || '') + ' ' + (car.model || '') + ' ' + (car.year || '')).trim();
-
-    const reqRef = db.collection('featureRequests').doc(requestId);
-    await reqRef.set({
-      carId, carName, uid,
-      userName: decoded.name || '',
-      days, priceIQD: price, method: 'qicard_gateway',
-      status: 'awaiting_payment',
-      createdAt: admin.firestore.FieldValue.serverTimestamp()
-    });
-
-    const resp = await fetch(qiHost() + '/payment', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Terminal-Id': QI_TERMINAL_ID,
-        'Authorization': qiAuthHeader()
-      },
-      body: JSON.stringify({
-        requestId,
-        amount: Number(price.toFixed(2)),
-        currency: 'IQD',
-        locale: 'ar',
-        finishPaymentUrl: origin + '/#/profile?featurePaid=1&fr=' + requestId,
-        notificationUrl: QI_WEBHOOK_URL,
-        customerInfo: { firstName: decoded.name || 'User', phone: car.phone || '', accountId: uid },
-        additionalInfo: {carId, days: String(days)}
-      })
-    });
-    const data = await resp.json();
-    if (!resp.ok || !data.formUrl) {
-      await reqRef.update({status: 'failed', error: JSON.stringify(data).slice(0, 500)});
-      return res.status(500).json({error: 'تعذر إنشاء عملية الدفع'});
-    }
-    await reqRef.update({paymentId: data.paymentId});
-    res.json({formUrl: data.formUrl, requestId});
-  } catch (e) {
-    res.status(401).json({error: String(e)});
-  }
-});
-
-async function confirmAndApply(requestId) {
-  const reqRef = db.collection('featureRequests').doc(requestId);
-  const reqSnap = await reqRef.get();
-  if (!reqSnap.exists) return {ok: false, reason: 'not-found'};
-  const reqData = reqSnap.data();
-  if (reqData.status === 'approved' || reqData.status === 'rejected') {
-    return {ok: true, status: reqData.status, already: true};
-  }
-  if (!reqData.paymentId) return {ok: false, reason: 'no-payment-id'};
-
-  const resp = await fetch(qiHost() + '/payment/' + reqData.paymentId + '/status', {
-    headers: {'X-Terminal-Id': QI_TERMINAL_ID, 'Authorization': qiAuthHeader()}
-  });
-  const confirmed = await resp.json();
-
-  if (confirmed.status === 'SUCCESS') {
-    const until = admin.firestore.Timestamp.fromDate(new Date(Date.now() + reqData.days * 86400000));
-    await db.collection('cars').doc(reqData.carId).update({featured: true, featuredUntil: until});
-    await reqRef.update({status: 'approved', gatewayStatus: confirmed.status, reviewedAt: admin.firestore.FieldValue.serverTimestamp()});
-    await db.collection('notifications').add({
-      title: 'تم تفعيل تمييز إعلانك ⭐',
-      body: 'إعلانك "' + (reqData.carName || '') + '" الآن مميز لمدة ' + reqData.days + ' يوم.',
-      audience: 'user', toUid: reqData.uid, toName: reqData.userName || null,
-      sentBy: 'qi-gateway', createdAt: admin.firestore.FieldValue.serverTimestamp()
-    });
-    return {ok: true, status: 'approved'};
-  }
-  if (confirmed.status === 'FAILED' || confirmed.status === 'AUTHENTICATION_FAILED') {
-    await reqRef.update({status: 'rejected', gatewayStatus: confirmed.status, reviewedAt: admin.firestore.FieldValue.serverTimestamp()});
-    return {ok: true, status: 'rejected'};
-  }
-  return {ok: true, status: 'pending'};
-}
-
-app.post('/qiWebhook', async (req, res) => {
-  try {
-    const requestId = req.body && req.body.requestId;
-    if (!requestId) return res.status(200).send('ignored');
-    const result = await confirmAndApply(requestId);
-    res.status(200).json(result);
-  } catch (e) {
-    res.status(200).send('error-logged');
-  }
-});
-
-app.post('/checkFeaturePaymentStatus', async (req, res) => {
-  try {
-    const decoded = await verifyAuth(req);
-    const requestId = req.body.requestId;
-    if (!requestId) return res.status(400).json({error: 'requestId مفقود'});
-    const reqSnap = await db.collection('featureRequests').doc(requestId).get();
-    if (!reqSnap.exists || reqSnap.data().uid !== decoded.uid) return res.status(403).json({error: 'غير مسموح'});
-    const result = await confirmAndApply(requestId);
-    res.json(result);
-  } catch (e) {
-    res.status(401).json({error: String(e)});
-  }
-});
-
-const PORT = process.env.PORT || 3000;
-
-if (process.argv.includes('once')) {
-  console.log('Running scraper mode (once)...');
-  runOpenSooqScraper().then(() => {
-    console.log('Task completed.');
-    process.exit(0);
-  }).catch(err => {
-    console.error('Task failed:', err);
-    process.exit(1);
-  });
-} else {
-  app.listen(PORT, () => console.log('Server running on port ' + PORT));
 }
