@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const admin = require('firebase-admin');
 const { randomUUID } = require('crypto');
+const { chromium } = require('playwright');
 
 admin.initializeApp({
   credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT))
@@ -32,6 +33,57 @@ async function verifyAuth(req) {
   const token = header.replace('Bearer ', '');
   if (!token) throw new Error('no-token');
   return admin.auth().verifyIdToken(token);
+}
+
+// --- دالة الكشط والنشر الحقيقية ---
+async function runOpenSooqScraper() {
+  console.log('Starting OpenSooq Scraper...');
+  const browser = await chromium.launch({ headless: true });
+  const page = await browser.newPage();
+
+  try {
+    // الانتقال لصفحة السيارات في العراق على السوق المفتوح
+    await page.goto('https://iq.opensooq.com/ar/عمان/سيارات-للسيارات/سيارات-للبيع', { waitUntil: 'domcontentloaded', timeout: 60000 });
+    
+    // سحب عناوين وأسعار الإعلانات
+    const listings = await page.evaluate(() => {
+      const items = [];
+      const cards = document.querySelectorAll('[data-listing-id], .post-card, article');
+      cards.forEach(card => {
+        const titleEl = card.querySelector('h2, h3, .post-title');
+        const priceEl = card.querySelector('.price, .post-price');
+        const imgEl = card.querySelector('img');
+        
+        if (titleEl) {
+          items.push({
+            title: titleEl.innerText.trim(),
+            price: priceEl ? priceEl.innerText.trim() : 'غير حدد',
+            image: imgEl ? imgEl.src : '',
+            source: 'OpenSooq',
+            approved: true,
+            createdAt: new Date().toISOString()
+          });
+        }
+      });
+      return items;
+    });
+
+    console.log(`Scraped ${listings.length} listings.`);
+
+    // حفظ البيانات في Firestore داخل مجموعة cars
+    for (const item of listings) {
+      await db.collection('cars').add({
+        ...item,
+        createdAt: admin.firestore.FieldValue.serverTimestamp()
+      });
+    }
+
+    console.log('All scraped listings published to Firestore successfully.');
+  } catch (err) {
+    console.error('Error during scraping:', err.message);
+  } finally {
+    await browser.close();
+  }
 }
 
 app.get('/', (req, res) => res.send('Iraq Motors backend OK'));
@@ -162,11 +214,13 @@ const PORT = process.env.PORT || 3000;
 
 if (process.argv.includes('once')) {
   console.log('Running scraper mode (once)...');
-  // هنا يتم إنهاء العملية فوراً عند استدعائها عبر GitHub Actions
-  setTimeout(() => {
-    console.log('Task completed successfully.');
+  runOpenSooqScraper().then(() => {
+    console.log('Task completed.');
     process.exit(0);
-  }, 3000);
+  }).catch(err => {
+    console.error('Task failed:', err);
+    process.exit(1);
+  });
 } else {
   app.listen(PORT, () => console.log('Server running on port ' + PORT));
 }
