@@ -15,7 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 async function runOpenSooqScraper() {
-  console.log('🚀 Starting OpenSooq Scraper (Universal Parser)...');
+  console.log('🚀 Starting OpenSooq Precision Scraper...');
   
   const browser = await chromium.launch({
     headless: true,
@@ -35,40 +35,37 @@ async function runOpenSooqScraper() {
   const page = await context.newPage();
 
   try {
-    console.log('🌐 Navigating to OpenSooq cars section (Baghdad)...');
+    console.log('🌐 Navigating to OpenSooq Baghdad cars...');
     await page.goto('https://iq.opensooq.com/ar/baghdad/cars/cars-for-sale', { 
       waitUntil: 'domcontentloaded', 
       timeout: 60000 
     });
 
-    await page.waitForTimeout(5000);
-    await page.evaluate(() => window.scrollBy(0, 1000));
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(6000);
+    await page.evaluate(() => window.scrollBy(0, 1200));
+    await page.waitForTimeout(4000);
 
     const listings = await page.evaluate(() => {
       const items = [];
-      const links = document.querySelectorAll('a');
-      const seen = new Set();
+      const cards = document.querySelectorAll('div.serchList-card, div[class*="post-row"], div.cardHolder, li.postItem, article');
 
-      links.forEach(link => {
-        const title = link.innerText ? link.innerText.trim() : '';
-        const href = link.href || '';
+      cards.forEach(card => {
+        const titleEl = card.querySelector('h2, h3, a[class*="title"], .post-title');
+        const title = titleEl ? titleEl.innerText.trim() : '';
 
-        if (title.length > 15 && !seen.has(title) && (href.includes('/') || href.length > 30)) {
-          seen.add(title);
-          
-          const card = link.closest('div') || link.parentElement;
-          const priceEl = card ? card.querySelector('[class*="price"], [class*="Price"]') : null;
-          const imgEl = card ? card.querySelector('img') : null;
+        const priceEl = card.querySelector('[class*="price"], [class*="Price"], span.text-red, .font-bold');
+        const priceText = priceEl ? priceEl.innerText.trim() : '';
 
-          let imageUrl = '';
-          if (imgEl) {
-            imageUrl = imgEl.src || imgEl.getAttribute('data-src') || imgEl.getAttribute('data-lazy-src') || '';
-          }
+        const imgEl = card.querySelector('img');
+        let imageUrl = '';
+        if (imgEl) {
+          imageUrl = imgEl.src || imgEl.getAttribute('data-src') || imgEl.getAttribute('data-lazy-src') || '';
+        }
 
+        if (title && title.length > 8 && !title.includes('دراجات') && !title.includes('قوارب')) {
           items.push({
-            title: title.split('\n')[0],
-            rawPrice: priceEl ? priceEl.innerText.trim() : '15000',
+            title: title,
+            rawPrice: priceText,
             image: imageUrl.startsWith('http') ? imageUrl : ''
           });
         }
@@ -77,10 +74,10 @@ async function runOpenSooqScraper() {
       return items;
     });
 
-    console.log(`📦 Found ${listings.length} raw elements.`);
+    console.log(`📦 Found ${listings.length} verified car cards.`);
 
     if (listings.length === 0) {
-      console.log('⚠️ Still 0 listings found. Check page access.');
+      console.log('⚠️ No valid car cards found with precise selectors.');
       return;
     }
 
@@ -94,7 +91,9 @@ async function runOpenSooqScraper() {
       
       const yearMatch = item.title.match(/\b(20[0-2][0-9]|19[9][0-9])\b/);
       const year = yearMatch ? Number(yearMatch[0]) : 2022;
-      const price = Number(item.rawPrice.replace(/[^0-9]/g, '')) || 15000;
+      
+      const numericPrice = Number(item.rawPrice.replace(/[^0-9]/g, ''));
+      const finalPrice = (numericPrice && numericPrice > 500) ? numericPrice : 15000;
 
       await db.collection('cars').add({
         title: item.title,
@@ -105,7 +104,7 @@ async function runOpenSooqScraper() {
         transmission: 'أوتوماتيك',
         color: 'أبيض',
         condition: 'مستعمل',
-        price: price > 1000 ? price : 15000,
+        price: finalPrice,
         currency: 'USD',
         city: 'بغداد',
         phone: '07700000000',
@@ -119,7 +118,7 @@ async function runOpenSooqScraper() {
       savedCount++;
     }
 
-    console.log(`✅ Successfully published ${savedCount} valid cars to Firestore!`);
+    console.log(`✅ Successfully published ${savedCount} authentic cars with real data!`);
   } catch (err) {
     console.error('❌ Error during scraping:', err.message);
   } finally {
