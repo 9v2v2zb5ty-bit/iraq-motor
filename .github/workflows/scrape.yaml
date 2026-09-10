@@ -1,0 +1,30 @@
+name: OpenSooq Scraper
+
+on:
+  schedule:
+    - cron: '0 */3 * * *'   # every 3 hours, UTC time (Iraq = UTC+3)
+  workflow_dispatch:         # adds a manual "Run workflow" button in the Actions tab
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Write Firebase service account file
+        run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}' > service-account.json
+
+      - name: Run scraper once
+        run: node scraper.js once
