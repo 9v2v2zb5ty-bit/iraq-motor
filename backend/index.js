@@ -1,61 +1,90 @@
-async function runOpenSooqScraper() {
-  console.log('Starting OpenSooq Scraper with Full Schema...');
-  const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({
-    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
+const express = require('express');
+const cors = require('cors');
+const admin = require('firebase-admin');
+const { chromium } = require('playwright');
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT))
   });
+}
+
+const db = admin.firestore();
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+// دالة الكشط الفعالة والمحدثة
+async function runOpenSooqScraper() {
+  console.log('🚀 Starting OpenSooq Scraper...');
+  
+  const browser = await chromium.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  });
+
+  const context = await browser.newContext({
+    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    locale: 'ar-IQ'
+  });
+
   const page = await context.newPage();
 
   try {
-    // 1. فتح قسم السيارات في العراق
+    console.log('🌐 Navigating to OpenSooq cars section...');
     await page.goto('https://iq.opensooq.com/ar/عمان/سيارات-للسيارات/سيارات-للبيع', { 
-      waitUntil: 'networkidle', 
+      waitUntil: 'domcontentloaded', 
       timeout: 60000 
     });
 
     await page.waitForTimeout(4000);
 
-    // 2. كشط البيانات وتحليل الحقول المطلوبة للموقع
-    const rawListings = await page.evaluate(() => {
+    // سحب الإعلانات من الصفحة
+    const listings = await page.evaluate(() => {
       const items = [];
-      const cards = document.querySelectorAll('li[data-id], div[class*="PostCard"], article, .post-card');
-      
-      cards.forEach(card => {
-        const titleEl = card.querySelector('h2, h3, [class*="title"], [class*="Title"]');
-        const priceEl = card.querySelector('[class*="price"], [class*="Price"]');
-        const imgEl = card.querySelector('img');
-        const cityEl = card.querySelector('[class*="city"], [class*="location"]');
+      const links = document.querySelectorAll('a[href*="/ar/post/"]');
+      const seen = new Set();
 
-        if (titleEl && titleEl.innerText.trim()) {
+      links.forEach(link => {
+        const title = link.innerText.trim();
+        const href = link.href;
+
+        if (title && title.length > 5 && !seen.has(title)) {
+          seen.add(title);
+          const card = link.closest('li') || link.closest('div') || link.parentElement;
+          const priceText = card ? (card.querySelector('[class*="price"], [class*="Price"]')?.innerText || '') : '';
+          const imgEl = card ? card.querySelector('img') : null;
+
           items.push({
-            fullTitle: titleEl.innerText.trim(),
-            rawPrice: priceEl ? priceEl.innerText.trim() : '0',
-            image: imgEl ? (imgEl.src || imgEl.getAttribute('data-src') || '') : '',
-            city: cityEl ? cityEl.innerText.trim() : 'بغداد'
+            title: title,
+            rawPrice: priceText,
+            image: imgEl ? (imgEl.src || imgEl.getAttribute('data-src') || '') : ''
           });
         }
       });
+
       return items;
     });
 
-    console.log(`Scraped ${rawListings.length} raw listings.`);
+    console.log(`📦 Found ${listings.length} raw listings.`);
 
-    // 3. تحويل وتجهيز البيانات للتوافق مع شروط موقعك (Schema Matching)
-    for (const item of rawListings) {
-      const titleWords = item.fullTitle.split(' ');
-      const make = titleWords[0] || 'سيارة';
-      const model = titleWords[1] || 'عام';
+    if (listings.length === 0) {
+      console.log('⚠️ No listings found. Check selectors or blocking.');
+      return;
+    }
+
+    let savedCount = 0;
+    for (const item of listings) {
+      const titleWords = item.title.split(' ');
+      const make = titleWords[0] || 'تويوتا';
+      const model = titleWords[1] || 'كورولا';
       
-      // استخراج سنة الصنع من العنوان إن وجدت، وإلا اعتماد سنة حديثة
-      const yearMatch = item.fullTitle.match(/\b(20[0-2][0-9]|19[9][0-9])\b/);
+      const yearMatch = item.title.match(/\b(20[0-2][0-9]|19[9][0-9])\b/);
       const year = yearMatch ? Number(yearMatch[0]) : 2022;
+      const price = Number(item.rawPrice.replace(/[^0-9]/g, '')) || 15000;
 
-      // تحويل السعر إلى رقم
-      const numericPrice = Number(item.rawPrice.replace(/[^0-9]/g, '')) || 12000;
-
-      // إضافة المستند إلى Firestore بنفس الهيكل المرفق بصورتك
       await db.collection('cars').add({
-        title: item.fullTitle,
+        title: item.title,
         make: make,
         model: model,
         year: year,
@@ -63,23 +92,42 @@ async function runOpenSooqScraper() {
         transmission: 'أوتوماتيك',
         color: 'أبيض',
         condition: 'مستعمل',
-        price: numericPrice,
+        price: price,
         currency: 'USD',
-        city: item.city || 'بغداد',
+        city: 'بغداد',
         phone: '07700000000',
         images: item.image ? [item.image] : [],
-        approved: true, // تفعيل الإعلان مباشرة ليظهر في الصفحة الرئيسية
+        approved: true, // تفعيل فورياً ليظهر في الموقع
         featured: false,
         source: 'OpenSooq',
-        userId: 'system-bot-scraper', // معرف المستخدم الآلي
+        userId: 'system-bot-scraper',
         createdAt: admin.firestore.FieldValue.serverTimestamp()
       });
+      savedCount++;
     }
 
-    console.log('All listings formatted and published successfully!');
+    console.log(`✅ Successfully published ${savedCount} cars to Firestore!`);
   } catch (err) {
-    console.error('Error during scraping:', err.message);
+    console.error('❌ Error during scraping:', err.message);
   } finally {
     await browser.close();
   }
+}
+
+app.get('/', (req, res) => res.send('Server is running'));
+
+const PORT = process.env.PORT || 3000;
+
+// التحقق من حالة التشغيل (once) لتنفيذ السكربت عبر GitHub Actions
+if (process.argv.includes('once')) {
+  console.log('⚙️ Running in scraper mode (once)...');
+  runOpenSooqScraper().then(() => {
+    console.log('🏁 Task completed successfully.');
+    process.exit(0);
+  }).catch(err => {
+    console.error('❌ Task failed:', err);
+    process.exit(1);
+  });
+} else {
+  app.listen(PORT, () => console.log('🚀 Server listening on port ' + PORT));
 }
