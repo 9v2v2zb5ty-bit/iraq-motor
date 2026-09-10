@@ -30,4 +30,4 @@ jobs:
         run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}' > service-account.json
 
       - name: Run scraper once
-        run: node scraper.js once
+        run: node index.js once
