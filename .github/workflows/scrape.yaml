@@ -2,12 +2,15 @@ name: OpenSooq Scraper
 
 on:
   schedule:
-    - cron: '0 */3 * * *'   # every 3 hours, UTC time (Iraq = UTC+3)
-  workflow_dispatch:         # adds a manual "Run workflow" button in the Actions tab
+    - cron: '0 */3 * * *'
+  workflow_dispatch:
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
