@@ -14,7 +14,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// دالة الكشط الفعالة والمحدثة
+// دالة الكشط المحدثة برابط العراق الصحيح (بغداد)
 async function runOpenSooqScraper() {
   console.log('🚀 Starting OpenSooq Scraper...');
   
@@ -31,8 +31,9 @@ async function runOpenSooqScraper() {
   const page = await context.newPage();
 
   try {
-    console.log('🌐 Navigating to OpenSooq cars section...');
-    await page.goto('https://iq.opensooq.com/ar/عمان/سيارات-للسيارات/سيارات-للبيع', { 
+    console.log('🌐 Navigating to OpenSooq cars section (Iraq/Baghdad)...');
+    // تم تصحيح الرابط إلى بغداد ليتوافق مع نطاق العراق iq.opensooq.com
+    await page.goto('https://iq.opensooq.com/ar/بغداد/سيارات-للسيارات/سيارات-للبيع', { 
       waitUntil: 'domcontentloaded', 
       timeout: 60000 
     });
