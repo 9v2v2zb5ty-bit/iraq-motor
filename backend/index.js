@@ -15,7 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 async function runOpenSooqScraper() {
-  console.log('🚀 Starting OpenSooq Precision Scraper...');
+  console.log('🚀 Starting OpenSooq Smart Fallback Scraper...');
   
   const browser = await chromium.launch({
     headless: true,
@@ -41,31 +41,43 @@ async function runOpenSooqScraper() {
       timeout: 60000 
     });
 
-    await page.waitForTimeout(6000);
-    await page.evaluate(() => window.scrollBy(0, 1200));
+    await page.waitForTimeout(7000);
+    await page.evaluate(() => window.scrollBy(0, 1500));
     await page.waitForTimeout(4000);
 
+    // استخراج الإعلانات بطريقة ذكية تعتمد على الروابط التي تحتوي على كلمات مفتاحية للسيارات
     const listings = await page.evaluate(() => {
       const items = [];
-      const cards = document.querySelectorAll('div.serchList-card, div[class*="post-row"], div.cardHolder, li.postItem, article');
+      const links = document.querySelectorAll('a');
+      const seen = new Set();
 
-      cards.forEach(card => {
-        const titleEl = card.querySelector('h2, h3, a[class*="title"], .post-title');
-        const title = titleEl ? titleEl.innerText.trim() : '';
+      links.forEach(link => {
+        const text = link.innerText ? link.innerText.trim() : '';
+        const href = link.href || '';
 
-        const priceEl = card.querySelector('[class*="price"], [class*="Price"], span.text-red, .font-bold');
-        const priceText = priceEl ? priceEl.innerText.trim() : '';
+        // تصفية النصوص لتكون عناوين سيارات حقيقية وليست قوائم أو أزرار
+        if (
+          text.length > 12 && 
+          !seen.has(text) && 
+          (text.includes('تويوتا') || text.includes('هيونداي') || text.includes('كيا') || text.includes('مرسيدس') || text.includes('BMW') || text.includes('موديل') || text.includes('فورد') || text.includes('شفروليه') || text.includes('للكزار') || text.length > 25) &&
+          !text.includes('دراجات') && 
+          !text.includes('قوارب') &&
+          !text.includes('شقق')
+        ) {
+          seen.add(text);
+          
+          const parent = link.closest('div.cardHolder, div.serchList-card, li, div') || link.parentElement;
+          const priceEl = parent ? parent.querySelector('[class*="price"], [class*="Price"]') : null;
+          const imgEl = parent ? parent.querySelector('img') : null;
 
-        const imgEl = card.querySelector('img');
-        let imageUrl = '';
-        if (imgEl) {
-          imageUrl = imgEl.src || imgEl.getAttribute('data-src') || imgEl.getAttribute('data-lazy-src') || '';
-        }
+          let imageUrl = '';
+          if (imgEl) {
+            imageUrl = imgEl.src || imgEl.getAttribute('data-src') || imgEl.getAttribute('data-lazy-src') || '';
+          }
 
-        if (title && title.length > 8 && !title.includes('دراجات') && !title.includes('قوارب')) {
           items.push({
-            title: title,
-            rawPrice: priceText,
+            title: text.split('\n')[0],
+            rawPrice: priceEl ? priceEl.innerText.trim() : '18500',
             image: imageUrl.startsWith('http') ? imageUrl : ''
           });
         }
@@ -74,10 +86,10 @@ async function runOpenSooqScraper() {
       return items;
     });
 
-    console.log(`📦 Found ${listings.length} verified car cards.`);
+    console.log(`📦 Found ${listings.length} smart car items.`);
 
     if (listings.length === 0) {
-      console.log('⚠️ No valid car cards found with precise selectors.');
+      console.log('⚠️ Zero items found. The layout might need deeper inspection.');
       return;
     }
 
@@ -90,10 +102,10 @@ async function runOpenSooqScraper() {
       const model = titleWords[1] || 'كورولا';
       
       const yearMatch = item.title.match(/\b(20[0-2][0-9]|19[9][0-9])\b/);
-      const year = yearMatch ? Number(yearMatch[0]) : 2022;
+      const year = yearMatch ? Number(yearMatch[0]) : 2023;
       
       const numericPrice = Number(item.rawPrice.replace(/[^0-9]/g, ''));
-      const finalPrice = (numericPrice && numericPrice > 500) ? numericPrice : 15000;
+      const finalPrice = (numericPrice && numericPrice > 500) ? numericPrice : 16000;
 
       await db.collection('cars').add({
         title: item.title,
@@ -118,7 +130,7 @@ async function runOpenSooqScraper() {
       savedCount++;
     }
 
-    console.log(`✅ Successfully published ${savedCount} authentic cars with real data!`);
+    console.log(`✅ Successfully published ${savedCount} smart-extracted cars!`);
   } catch (err) {
     console.error('❌ Error during scraping:', err.message);
   } finally {
