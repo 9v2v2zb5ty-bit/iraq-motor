@@ -1,4 +1,4 @@
-جconst express = require('express');
+const express = require('express');
 const cors = require('cors');
 const admin = require('firebase-admin');
 const { chromium } = require('playwright');
@@ -36,15 +36,13 @@ async function runOpenSooqScraper() {
 
   try {
     console.log('🌐 Navigating to OpenSooq cars section (Iraq/Baghdad)...');
-    await page.goto('https://iq.opensooq.com/ar/بغداد/سيارات-للسيارات/سيارات-للبيع', { 
+    await page.goto('[https://iq.opensooq.com/ar/بغداد/سيارات-للسيارات/سيارات-للبيع](https://iq.opensooq.com/ar/بغداد/سيارات-للسيارات/سيارات-للبيع)', { 
       waitUntil: 'networkidle', 
       timeout: 60000 
     });
 
-    // الانتظار الإضافي لضمان تحميل محتوى الصفحة بالكامل
     await page.waitForTimeout(6000);
 
-    // سحب العناوين باستخدام محددات عامة لأي بطاقة إعلان داخل الصفحة
     const listings = await page.evaluate(() => {
       const items = [];
       const postElements = document.querySelectorAll('h2, h3, .post-title, [class*="title"], [class*="Title"]');
