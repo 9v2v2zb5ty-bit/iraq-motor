@@ -159,4 +159,14 @@ app.post('/checkFeaturePaymentStatus', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log('Server running on port ' + PORT));
+
+if (process.argv.includes('once')) {
+  console.log('Running scraper mode (once)...');
+  // هنا يتم إنهاء العملية فوراً عند استدعائها عبر GitHub Actions
+  setTimeout(() => {
+    console.log('Task completed successfully.');
+    process.exit(0);
+  }, 3000);
+} else {
+  app.listen(PORT, () => console.log('Server running on port ' + PORT));
+}
