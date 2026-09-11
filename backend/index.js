@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const admin = require('firebase-admin');
+const crypto = require('crypto');
+const fs = require('fs');
 const { chromium } = require('playwright');
 
 if (!admin.apps.length) {
@@ -14,16 +16,37 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-async function runOpenSooqScraper() {
-  console.log('🚀 Starting OpenSooq Smart Fallback Scraper...');
-  
+/*
+  شنو تغير عن النسخة القديمة:
+
+  1. ما نخمن أسماء classes (h2, h3, article, div.cardHolder...) - هذا كان
+     السبب الحقيقي وراء "اسم السيارة غلط": كانت تطابق عناوين مواصفات/فلاتر
+     بالصفحة (زي "الهيكل"، "نوع الوقود") مو عناوين إعلانات فعلية.
+     بدالها نلقى روابط الإعلانات الحقيقية أول (عن طريق شكل الرابط) ونطلع
+     منها للبطاقة اللي تحتويها.
+     ⚠️ هذا لسه تخمين محسّن، مو مضمون 100%. شغّل: node index.js debug
+     وشوف رابط إعلان حقيقي بـ debug-page.html، وعدّل LISTING_LINK_PATTERN
+     تحت ليطابق شكله الحقيقي قبل لا تثق بالنتائج.
+
+  2. حذفنا رقم الهاتف المزيف بالكامل. ما نسحب رقم هاتف حقيقي مال صاحب
+     الإعلان الأصلي بدون علمه، وما نخترع رقم وهمي وننشره كأنه حقيقي.
+     بدالها فيه رابط يرجع للإعلان الأصلي (sourceUrl).
+
+  3. إذا العنوان أو السعر ما انسحب صح، الإعلان ينتجاوز (skip) بدل ما ينشر
+     بأرقام مختلقة (كان فيه fallback على 15000، وmake/model افتراضي).
+
+  4. dedup حقيقي: نستخدم رابط الإعلان كمعرف ثابت (document ID) بدل ما نضيف
+     مستند جديد بكل تشغيلة - فنفس الإعلان ينحدّث مو ينتكرر.
+*/
+
+const LISTING_LINK_PATTERN = /\/[a-z]{2}\/.+-\d{5,}/i; // TODO: تأكد منه من debug-page.html
+
+async function runOpenSooqScraper({ debugMode = false } = {}) {
+  console.log('🚀 Starting OpenSooq scraper...');
+
   const browser = await chromium.launch({
     headless: true,
-    args: [
-      '--no-sandbox', 
-      '--disable-setuid-sandbox',
-      '--disable-blink-features=AutomationControlled'
-    ]
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-blink-features=AutomationControlled']
   });
 
   const context = await browser.newContext({
@@ -36,101 +59,94 @@ async function runOpenSooqScraper() {
 
   try {
     console.log('🌐 Navigating to OpenSooq Baghdad cars...');
-    await page.goto('https://iq.opensooq.com/ar/baghdad/cars/cars-for-sale', { 
-      waitUntil: 'domcontentloaded', 
-      timeout: 60000 
+    await page.goto('https://iq.opensooq.com/ar/baghdad/cars/cars-for-sale', {
+      waitUntil: 'domcontentloaded',
+      timeout: 60000
     });
-
-    await page.waitForTimeout(7000);
-    await page.evaluate(() => window.scrollBy(0, 1500));
+    await page.waitForTimeout(6000);
+    await page.evaluate(() => window.scrollBy(0, 1200));
     await page.waitForTimeout(4000);
 
-    // استخراج الإعلانات بطريقة ذكية تعتمد على الروابط التي تحتوي على كلمات مفتاحية للسيارات
-    const listings = await page.evaluate(() => {
-      const items = [];
-      const links = document.querySelectorAll('a');
-      const seen = new Set();
-
-      links.forEach(link => {
-        const text = link.innerText ? link.innerText.trim() : '';
-        const href = link.href || '';
-
-        // تصفية النصوص لتكون عناوين سيارات حقيقية وليست قوائم أو أزرار
-        if (
-          text.length > 12 && 
-          !seen.has(text) && 
-          (text.includes('تويوتا') || text.includes('هيونداي') || text.includes('كيا') || text.includes('مرسيدس') || text.includes('BMW') || text.includes('موديل') || text.includes('فورد') || text.includes('شفروليه') || text.includes('للكزار') || text.length > 25) &&
-          !text.includes('دراجات') && 
-          !text.includes('قوارب') &&
-          !text.includes('شقق')
-        ) {
-          seen.add(text);
-          
-          const parent = link.closest('div.cardHolder, div.serchList-card, li, div') || link.parentElement;
-          const priceEl = parent ? parent.querySelector('[class*="price"], [class*="Price"]') : null;
-          const imgEl = parent ? parent.querySelector('img') : null;
-
-          let imageUrl = '';
-          if (imgEl) {
-            imageUrl = imgEl.src || imgEl.getAttribute('data-src') || imgEl.getAttribute('data-lazy-src') || '';
-          }
-
-          items.push({
-            title: text.split('\n')[0],
-            rawPrice: priceEl ? priceEl.innerText.trim() : '18500',
-            image: imageUrl.startsWith('http') ? imageUrl : ''
-          });
-        }
-      });
-
-      return items;
-    });
-
-    console.log(`📦 Found ${listings.length} smart car items.`);
-
-    if (listings.length === 0) {
-      console.log('⚠️ Zero items found. The layout might need deeper inspection.');
+    if (debugMode) {
+      fs.writeFileSync('debug-page.html', await page.content());
+      await page.screenshot({ path: 'debug-screenshot.png', fullPage: true });
+      console.log('📝 Saved debug-page.html + debug-screenshot.png.');
+      console.log('   Inspect a real listing link\'s href and update LISTING_LINK_PATTERN above.');
       return;
     }
 
-    let savedCount = 0;
-    const targetListings = listings.slice(0, 10);
+    const listings = await page.evaluate((linkPatternSrc) => {
+      const linkPattern = new RegExp(linkPatternSrc, 'i');
+      const seen = new Set();
+      const items = [];
 
-    for (const item of targetListings) {
-      const titleWords = item.title.split(' ');
-      const make = titleWords[0] || 'تويوتا';
-      const model = titleWords[1] || 'كورولا';
-      
-      const yearMatch = item.title.match(/\b(20[0-2][0-9]|19[9][0-9])\b/);
-      const year = yearMatch ? Number(yearMatch[0]) : 2023;
-      
-      const numericPrice = Number(item.rawPrice.replace(/[^0-9]/g, ''));
-      const finalPrice = (numericPrice && numericPrice > 500) ? numericPrice : 16000;
+      Array.from(document.querySelectorAll('a[href]'))
+        .filter(a => linkPattern.test(a.getAttribute('href') || ''))
+        .forEach(link => {
+          // اطلع لين نلگى بطاقة تحتوي رقم (سعر غالبًا)، أو نوقف عند 6 مستويات
+          let card = link;
+          for (let i = 0; i < 6 && card.parentElement; i++) {
+            card = card.parentElement;
+            if (/\d{3,}/.test(card.innerText || '')) break;
+          }
 
-      await db.collection('cars').add({
+          if (seen.has(card)) return;
+          seen.add(card);
+
+          const titleEl = card.querySelector('h2, h3, [class*="title" i]') || link;
+          const title = (titleEl.innerText || '').trim();
+
+          const priceEl = card.querySelector('[class*="price" i]');
+          const rawPrice = priceEl ? priceEl.innerText.trim() : '';
+
+          const imgEl = card.querySelector('img');
+          const image = imgEl ? (imgEl.getAttribute('src') || imgEl.getAttribute('data-src') || '') : '';
+
+          const href = link.getAttribute('href') || '';
+          const sourceUrl = href.startsWith('http') ? href : `https://iq.opensooq.com${href}`;
+
+          items.push({ title, rawPrice, image, sourceUrl });
+        });
+
+      return items;
+    }, LISTING_LINK_PATTERN.source);
+
+    console.log(`📦 Found ${listings.length} candidate listings.`);
+
+    let saved = 0;
+    let skipped = 0;
+
+    for (const item of listings.slice(0, 10)) {
+      const price = Number((item.rawPrice || '').replace(/[^0-9]/g, ''));
+      const validTitle = item.title && item.title.length > 8;
+      const validPrice = price > 500;
+      const validImage = item.image && item.image.startsWith('http');
+
+      // ما ننشر بيانات ناقصة أو مختلقة - نتجاوزها بدل ما نخمن قيمة
+      if (!validTitle || !validPrice || !item.sourceUrl) {
+        skipped++;
+        continue;
+      }
+
+      const docId = crypto.createHash('md5').update(item.sourceUrl).digest('hex');
+
+      await db.collection('cars').doc(docId).set({
         title: item.title,
-        make: make,
-        model: model,
-        year: year,
-        fuelType: 'بنزين',
-        transmission: 'أوتوماتيك',
-        color: 'أبيض',
-        condition: 'مستعمل',
-        price: finalPrice,
+        price,
         currency: 'USD',
-        city: 'بغداد',
-        phone: '07700000000',
-        images: item.image ? [item.image] : [],
+        images: validImage ? [item.image] : [],
+        sourceUrl: item.sourceUrl,
+        source: 'OpenSooq',
         approved: true,
         featured: false,
-        source: 'OpenSooq',
         userId: 'system-bot-scraper',
-        createdAt: admin.firestore.FieldValue.serverTimestamp()
-      });
-      savedCount++;
+        scrapedAt: admin.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+
+      saved++;
     }
 
-    console.log(`✅ Successfully published ${savedCount} smart-extracted cars!`);
+    console.log(`✅ ${saved} saved/updated, ${skipped} skipped for incomplete data.`);
   } catch (err) {
     console.error('❌ Error during scraping:', err.message);
   } finally {
@@ -142,15 +158,15 @@ app.get('/', (req, res) => res.send('Server is running'));
 
 const PORT = process.env.PORT || 3000;
 
-if (process.argv.includes('once')) {
-  console.log('⚙️ Running in scraper mode (once)...');
-  runOpenSooqScraper().then(() => {
-    console.log('🏁 Task completed successfully.');
-    process.exit(0);
-  }).catch(err => {
-    console.error('❌ Task failed:', err);
-    process.exit(1);
-  });
+if (process.argv.includes('debug')) {
+  runOpenSooqScraper({ debugMode: true }).then(() => process.exit(0));
+} else if (process.argv.includes('once')) {
+  runOpenSooqScraper()
+    .then(() => process.exit(0))
+    .catch(err => {
+      console.error('❌ Task failed:', err);
+      process.exit(1);
+    });
 } else {
   app.listen(PORT, () => console.log('🚀 Server listening on port ' + PORT));
 }
