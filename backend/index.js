@@ -39,6 +39,21 @@ app.use(express.json());
 
 const LISTING_LINK_PATTERN = /\/ar\/search\/\d+/; // ✅ متأكد منه من اللوق - نمط رابط إعلان حقيقي
 
+// 🆕 5. صفحة "cars-for-sale" ترجع أيضاً بطاقات من أقسام ثانية مجاورة
+//    (لوحات/أرقام، قطع واكسسوارات، أنظمة هيدروليكية، أجهزة الكترونية...)
+//    وهذي تطابق نفس نمط الرابط فوق لأنه نمط رابط عام لكل الموقع مو خاص
+//    بالسيارات بس. هذا سبب "الاسماء الغريبة ونفس الاسعار" اللي طلعت:
+//    مو خطأ سحب، هي فعلاً إعلانات حقيقية بس مو سيارات.
+//    نستبعدها بكلمات مفتاحية معروفة + نطلب إشارة "هذا كار فعلاً" (كيلومترات
+//    أو نوع وقود) موجودة ببطاقات السيارات الحقيقية (BMW/Chevrolet بالصور اللي
+//    ارسلتها) ومو موجودة ببطاقات الأقسام الثانية.
+const NON_CAR_KEYWORDS = [
+  'لوحات', 'أرقام مركبات', 'ارقام مركبات', 'قطع', 'إكسسوار', 'اكسسوار',
+  'كماليات', 'هيدروليك', 'الكتروني', 'إلكتروني', 'اطارات', 'إطارات',
+  'زيوت', 'زيت', 'بطاريات', 'بطارية'
+];
+const CAR_SIGNAL_PATTERN = /\d[\d,\.]*\s*(كم|ميل)|بنزين|ديزل|دیزل|كهرباء|كهربائي|هايبرد|هجين/;
+
 async function runOpenSooqScraper({ debugMode = false } = {}) {
   console.log('🚀 Starting OpenSooq scraper...');
 
@@ -66,8 +81,6 @@ async function runOpenSooqScraper({ debugMode = false } = {}) {
     await page.waitForTimeout(7000);
 
     if (debugMode) {
-      // نطبع كل شي مفيد بضربة وحدة: العنوان، الرابط الحالي، معاينة النص،
-      // وعدد الروابط - عشان نعرف هل الصفحة الحقيقية طلعت أصلاً أو صفحة حجب/تحقق
       const pageInfo = await page.evaluate(() => ({
         url: location.href,
         title: document.title,
@@ -80,8 +93,6 @@ async function runOpenSooqScraper({ debugMode = false } = {}) {
       console.log('📝 Body preview:', pageInfo.bodyPreview);
 
       const unique = [...new Set(pageInfo.hrefs.filter(Boolean))];
-      // روابط الأقسام (دراجات، قوارب...) ما فيها أرقام أبدًا - روابط الإعلانات
-      // الحقيقية غالبًا فيها رقم (سنة، سعر، أو ID) فنفلتر عليه لنلقاها
       const withDigit = unique.filter(h => /\d/.test(h));
       const withoutDigit = unique.filter(h => !/\d/.test(h));
 
@@ -95,10 +106,12 @@ async function runOpenSooqScraper({ debugMode = false } = {}) {
       return;
     }
 
-    const listings = await page.evaluate((linkPatternSrc) => {
+    const listingsResult = await page.evaluate((linkPatternSrc, junkKeywords, carSignalSrc) => {
       const linkPattern = new RegExp(linkPatternSrc, 'i');
+      const carSignalPattern = new RegExp(carSignalSrc, 'i');
       const seenIds = new Set();
       const items = [];
+      let junkSkipped = 0;
 
       Array.from(document.querySelectorAll('a[href]'))
         .filter(a => linkPattern.test(a.getAttribute('href') || ''))
@@ -108,8 +121,6 @@ async function runOpenSooqScraper({ debugMode = false } = {}) {
           if (seenIds.has(listingId)) return;
           seenIds.add(listingId);
 
-          // اطلع فوق بس لين نوصل مستوى فيه أكثر من إعلان وحد - عشان نضمن
-          // البطاقة خاصة بهذا الإعلان بس، مو حاوية مشتركة تلم عدة إعلانات
           let card = link;
           for (let i = 0; i < 8 && card.parentElement; i++) {
             const next = card.parentElement;
@@ -123,6 +134,19 @@ async function runOpenSooqScraper({ debugMode = false } = {}) {
             card = next;
           }
 
+          // نوحّد المسافات (سطر جديد/تاب يصير مسافة وحدة) عشان الكلمات
+          // المركبة بقائمة الكلمات المفتاحية تنطابق حتى لو العنوان والقسم
+          // بعناصر/أسطر منفصلة بالبطاقة الحقيقية
+          const cardText = (card.innerText || '').replace(/\s+/g, ' ').trim();
+
+          // 🚫 بطاقة من قسم ثاني (لوحات/قطع/هيدروليك/الكتروني...) مو سيارة
+          const isJunkCategory = junkKeywords.some(kw => cardText.includes(kw));
+          if (isJunkCategory) { junkSkipped++; return; }
+
+          // 🚫 بطاقة سيارة حقيقية لازم يبين فيها كيلومترات أو نوع وقود
+          // (زي بطاقات BMW/Chevrolet) - إذا ما فيها، غالباً بطاقة قسم/إعلان مروج
+          if (!carSignalPattern.test(cardText)) { junkSkipped++; return; }
+
           const titleEl = card.querySelector('h2, h3, [class*="title" i]') || link;
           const title = (titleEl.innerText || '').trim();
 
@@ -130,17 +154,23 @@ async function runOpenSooqScraper({ debugMode = false } = {}) {
           const rawPrice = priceEl ? priceEl.innerText.trim() : '';
 
           const imgEl = card.querySelector('img');
-          const image = imgEl ? (imgEl.getAttribute('src') || imgEl.getAttribute('data-src') || '') : '';
+          const image = imgEl
+            ? (imgEl.getAttribute('src') || imgEl.getAttribute('data-src') || imgEl.getAttribute('data-lazy-src') || '')
+            : '';
 
           const sourceUrl = href.startsWith('http') ? href : `https://iq.opensooq.com${href}`;
 
           items.push({ title, rawPrice, image, sourceUrl });
         });
 
-      return items;
-    }, LISTING_LINK_PATTERN.source);
+      return { items, junkSkipped };
+    }, LISTING_LINK_PATTERN.source, NON_CAR_KEYWORDS, CAR_SIGNAL_PATTERN.source);
 
-    console.log(`📦 Found ${listings.length} candidate listings.`);
+    // ملاحظة: console.log داخل page.evaluate يطبع بمتصفح مخفي (headless) ما
+    // يوصل للوق مالتنا هنا - لهذا نرجع العدد كبيانات ونطبعه بره الـ evaluate
+    const { items: listings, junkSkipped } = listingsResult;
+    console.log(`🚫 filtered out ${junkSkipped} non-car card(s) (other OpenSooq categories).`);
+    console.log(`📦 Found ${listings.length} candidate car listings (after category filter).`);
 
     let saved = 0;
     let skipped = 0;
@@ -151,7 +181,6 @@ async function runOpenSooqScraper({ debugMode = false } = {}) {
       const validPrice = price > 500;
       const validImage = item.image && item.image.startsWith('http');
 
-      // ما ننشر بيانات ناقصة أو مختلقة - نتجاوزها بدل ما نخمن قيمة
       if (!validTitle || !validPrice || !item.sourceUrl) {
         skipped++;
         continue;
