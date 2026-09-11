@@ -2,7 +2,8 @@ name: OpenSooq Scraper
 
 on:
   schedule:
-    - cron: '0 */3 * * *'   # every 3 hours, UTC time (Iraq = UTC+3)
+    - cron: '0 */3 * * *' # كل 3 ساعات، بتوقيت UTC
+
   workflow_dispatch:
     inputs:
       mode:
@@ -17,9 +18,11 @@ on:
 jobs:
   scrape:
     runs-on: ubuntu-latest
+
     defaults:
       run:
         working-directory: ./backend
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -36,9 +39,6 @@ jobs:
 
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
-
-      - name: Write Firebase service account file
-        run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}' > service-account.json
 
       - name: Run scraper
         env:
