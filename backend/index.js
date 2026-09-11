@@ -97,21 +97,31 @@ async function runOpenSooqScraper({ debugMode = false } = {}) {
 
     const listings = await page.evaluate((linkPatternSrc) => {
       const linkPattern = new RegExp(linkPatternSrc, 'i');
-      const seen = new Set();
+      const seenIds = new Set();
       const items = [];
 
       Array.from(document.querySelectorAll('a[href]'))
         .filter(a => linkPattern.test(a.getAttribute('href') || ''))
         .forEach(link => {
-          // اطلع لين نلگى بطاقة تحتوي رقم (سعر غالبًا)، أو نوقف عند 6 مستويات
-          let card = link;
-          for (let i = 0; i < 6 && card.parentElement; i++) {
-            card = card.parentElement;
-            if (/\d{3,}/.test(card.innerText || '')) break;
-          }
+          const href = link.getAttribute('href') || '';
+          const listingId = (href.match(/\d+/) || [href])[0];
+          if (seenIds.has(listingId)) return;
+          seenIds.add(listingId);
 
-          if (seen.has(card)) return;
-          seen.add(card);
+          // اطلع فوق بس لين نوصل مستوى فيه أكثر من إعلان وحد - عشان نضمن
+          // البطاقة خاصة بهذا الإعلان بس، مو حاوية مشتركة تلم عدة إعلانات
+          let card = link;
+          for (let i = 0; i < 8 && card.parentElement; i++) {
+            const next = card.parentElement;
+            const idsInNext = new Set(
+              Array.from(next.querySelectorAll('a[href]'))
+                .map(a => a.getAttribute('href') || '')
+                .filter(h => linkPattern.test(h))
+                .map(h => (h.match(/\d+/) || [h])[0])
+            );
+            if (idsInNext.size > 1) break;
+            card = next;
+          }
 
           const titleEl = card.querySelector('h2, h3, [class*="title" i]') || link;
           const title = (titleEl.innerText || '').trim();
@@ -122,7 +132,6 @@ async function runOpenSooqScraper({ debugMode = false } = {}) {
           const imgEl = card.querySelector('img');
           const image = imgEl ? (imgEl.getAttribute('src') || imgEl.getAttribute('data-src') || '') : '';
 
-          const href = link.getAttribute('href') || '';
           const sourceUrl = href.startsWith('http') ? href : `https://iq.opensooq.com${href}`;
 
           items.push({ title, rawPrice, image, sourceUrl });
