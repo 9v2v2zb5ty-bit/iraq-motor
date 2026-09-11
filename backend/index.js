@@ -63,16 +63,25 @@ async function runOpenSooqScraper({ debugMode = false } = {}) {
       waitUntil: 'domcontentloaded',
       timeout: 60000
     });
-    await page.waitForTimeout(6000);
+    await page.waitForTimeout(8000);
     await page.evaluate(() => window.scrollBy(0, 1200));
-    await page.waitForTimeout(4000);
+    await page.waitForTimeout(7000);
 
     if (debugMode) {
-      // نطبع الروابط مباشرة باللوق - أسهل من ملفات لازم تنزلها من GitHub Actions
-      const allHrefs = await page.evaluate(() =>
-        Array.from(document.querySelectorAll('a[href]')).map(a => a.getAttribute('href'))
-      );
-      const unique = [...new Set(allHrefs.filter(Boolean))];
+      // نطبع كل شي مفيد بضربة وحدة: العنوان، الرابط الحالي، معاينة النص،
+      // وعدد الروابط - عشان نعرف هل الصفحة الحقيقية طلعت أصلاً أو صفحة حجب/تحقق
+      const pageInfo = await page.evaluate(() => ({
+        url: location.href,
+        title: document.title,
+        bodyPreview: (document.body ? document.body.innerText : '').replace(/\s+/g, ' ').slice(0, 300),
+        hrefs: Array.from(document.querySelectorAll('a[href]')).map(a => a.getAttribute('href'))
+      }));
+
+      console.log('🔗 Current URL:', pageInfo.url);
+      console.log('📄 Page title:', pageInfo.title);
+      console.log('📝 Body preview:', pageInfo.bodyPreview);
+
+      const unique = [...new Set(pageInfo.hrefs.filter(Boolean))];
       console.log(`🔗 ${unique.length} unique links found. Sample:`);
       unique.slice(0, 40).forEach(h => console.log('  ' + h));
 
