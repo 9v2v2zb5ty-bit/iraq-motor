@@ -39,7 +39,7 @@ app.use(express.json());
      مستند جديد بكل تشغيلة - فنفس الإعلان ينحدّث مو ينتكرر.
 */
 
-const LISTING_LINK_PATTERN = /\/[a-z]{2}\/.+-\d{5,}/i; // TODO: تأكد منه من debug-page.html
+const LISTING_LINK_PATTERN = /\/ar\/search\/\d+/; // ✅ متأكد منه من اللوق - نمط رابط إعلان حقيقي
 
 async function runOpenSooqScraper({ debugMode = false } = {}) {
   console.log('🚀 Starting OpenSooq scraper...');
