@@ -1,5 +1,6 @@
 import os
 import json
+import time
 import requests
 
 BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
@@ -15,7 +16,7 @@ def load_sources():
     try:
         with open(SOURCES_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
-    except:
+    except Exception:
         return []
 
 
@@ -25,14 +26,17 @@ def save_sources(sources):
 
 
 def send_message(chat_id, text):
-    requests.post(
-        f"{API}/sendMessage",
-        json={
-            "chat_id": chat_id,
-            "text": text
-        },
-        timeout=30
-    )
+    try:
+        requests.post(
+            f"{API}/sendMessage",
+            json={
+                "chat_id": chat_id,
+                "text": text
+            },
+            timeout=30
+        )
+    except Exception as e:
+        print("Send message error:", e)
 
 
 def get_updates(offset=None):
@@ -53,135 +57,153 @@ def get_updates(offset=None):
     return response.json()
 
 
+def handle_message(message):
+    sources = load_sources()
+
+    chat_id = message["chat"]["id"]
+    text = message.get("text", "").strip()
+
+    print(f"Received: {text}")
+
+    # /start
+    if text == "/start":
+        send_message(
+            chat_id,
+            "🚗 Iraq Motors Bot\n\n"
+            "هلا بيك!\n\n"
+            "الأوامر المتوفرة:\n\n"
+            "/add - إضافة معرض\n"
+            "/list - عرض المعارض\n"
+            "/help - المساعدة"
+        )
+
+    # /help
+    elif text == "/help":
+        send_message(
+            chat_id,
+            "📖 طريقة الاستخدام:\n\n"
+            "إضافة معرض:\n"
+            "/add https://www.instagram.com/example/\n\n"
+            "عرض المعارض:\n"
+            "/list"
+        )
+
+    # /add
+    elif text.startswith("/add"):
+        parts = text.split(maxsplit=1)
+
+        if len(parts) < 2:
+            send_message(
+                chat_id,
+                "❌ لازم ترسل رابط المعرض بعد الأمر.\n\n"
+                "مثال:\n"
+                "/add https://www.instagram.com/marsin_motors/"
+            )
+            return
+
+        url = parts[1].strip()
+
+        if not (
+            "instagram.com" in url
+            or "facebook.com" in url
+        ):
+            send_message(
+                chat_id,
+                "❌ حالياً أقبل روابط Instagram و Facebook فقط."
+            )
+            return
+
+        if any(source["url"] == url for source in sources):
+            send_message(
+                chat_id,
+                "⚠️ هذا المصدر مضاف مسبقاً."
+            )
+            return
+
+        source_type = (
+            "instagram"
+            if "instagram.com" in url
+            else "facebook"
+        )
+
+        source = {
+            "url": url,
+            "type": source_type
+        }
+
+        sources.append(source)
+        save_sources(sources)
+
+        send_message(
+            chat_id,
+            "✅ تمت إضافة المصدر!\n\n"
+            f"النوع: {source_type}\n"
+            f"الرابط:\n{url}"
+        )
+
+    # /list
+    elif text == "/list":
+
+        if not sources:
+            send_message(
+                chat_id,
+                "📋 ماكو مصادر مضافة حالياً."
+            )
+            return
+
+        message_text = "📋 مصادر Iraq Motors:\n\n"
+
+        for i, source in enumerate(sources, start=1):
+            message_text += (
+                f"{i}. {source['type']}\n"
+                f"{source['url']}\n\n"
+            )
+
+        send_message(chat_id, message_text)
+
+    else:
+        send_message(
+            chat_id,
+            "❓ أمر غير معروف.\n\n"
+            "استخدم /help حتى تشوف الأوامر."
+        )
+
+
 def main():
 
-    sources = load_sources()
+    print("🚀 Iraq Motors Telegram Bot started!")
 
     offset = None
 
-    data = get_updates(offset)
+    while True:
 
-    if not data.get("ok"):
-        raise Exception(data)
+        try:
 
-    for update in data.get("result", []):
+            data = get_updates(offset)
 
-        offset = update["update_id"] + 1
-
-        message = update.get("message")
-
-        if not message:
-            continue
-
-        chat_id = message["chat"]["id"]
-        text = message.get("text", "").strip()
-
-        # /start
-        if text == "/start":
-
-            send_message(
-                chat_id,
-                "🚗 Iraq Motors Bot\n\n"
-                "هلا بيك!\n\n"
-                "الأوامر:\n"
-                "/add - إضافة معرض\n"
-                "/list - عرض المعارض\n"
-                "/help - المساعدة"
-            )
-
-        # /help
-        elif text == "/help":
-
-            send_message(
-                chat_id,
-                "📖 طريقة الاستخدام:\n\n"
-                "إضافة معرض:\n"
-                "/add https://www.instagram.com/example/\n\n"
-                "عرض المعارض:\n"
-                "/list"
-            )
-
-        # /add
-        elif text.startswith("/add"):
-
-            parts = text.split(maxsplit=1)
-
-            if len(parts) < 2:
-
-                send_message(
-                    chat_id,
-                    "❌ لازم ترسل رابط المعرض بعد الأمر.\n\n"
-                    "مثال:\n"
-                    "/add https://www.instagram.com/marsin_motors/"
-                )
-
+            if not data.get("ok"):
+                print("Telegram API error:", data)
+                time.sleep(5)
                 continue
 
-            url = parts[1].strip()
+            for update in data.get("result", []):
 
-            if not (
-                "instagram.com" in url
-                or "facebook.com" in url
-            ):
+                offset = update["update_id"] + 1
 
-                send_message(
-                    chat_id,
-                    "❌ حالياً أقبل روابط Instagram و Facebook فقط."
-                )
+                message = update.get("message")
 
-                continue
+                if message:
+                    handle_message(message)
 
-            # منع التكرار
-            if any(source["url"] == url for source in sources):
+        except requests.exceptions.RequestException as e:
 
-                send_message(
-                    chat_id,
-                    "⚠️ هذا المصدر مضاف مسبقاً."
-                )
+            print("Network error:", e)
+            time.sleep(5)
 
-                continue
+        except Exception as e:
 
-            source = {
-                "url": url,
-                "type": (
-                    "instagram"
-                    if "instagram.com" in url
-                    else "facebook"
-                )
-            }
-
-            sources.append(source)
-            save_sources(sources)
-
-            send_message(
-                chat_id,
-                "✅ تمت إضافة المصدر!\n\n"
-                f"النوع: {source['type']}\n"
-                f"الرابط:\n{url}"
-            )
-
-        # /list
-        elif text == "/list":
-
-            if not sources:
-
-                send_message(
-                    chat_id,
-                    "📋 ماكو مصادر مضافة حالياً."
-                )
-
-                continue
-
-            message_text = "📋 مصادر Iraq Motors:\n\n"
-
-            for i, source in enumerate(sources, start=1):
-
-                message_text += (
-                    f"{i}. {source['type']}\n"
-                    f"{source['url']}\n\n"
-                )
-
-            send_message(chat_id, message_text)
+            print("Unexpected error:", e)
+            time.sleep(5)
 
 
 if __name__ == "__main__":
