@@ -68,10 +68,17 @@ async function runOpenSooqScraper({ debugMode = false } = {}) {
     await page.waitForTimeout(4000);
 
     if (debugMode) {
+      // نطبع الروابط مباشرة باللوق - أسهل من ملفات لازم تنزلها من GitHub Actions
+      const allHrefs = await page.evaluate(() =>
+        Array.from(document.querySelectorAll('a[href]')).map(a => a.getAttribute('href'))
+      );
+      const unique = [...new Set(allHrefs.filter(Boolean))];
+      console.log(`🔗 ${unique.length} unique links found. Sample:`);
+      unique.slice(0, 40).forEach(h => console.log('  ' + h));
+
       fs.writeFileSync('debug-page.html', await page.content());
       await page.screenshot({ path: 'debug-screenshot.png', fullPage: true });
-      console.log('📝 Saved debug-page.html + debug-screenshot.png.');
-      console.log('   Inspect a real listing link\'s href and update LISTING_LINK_PATTERN above.');
+      console.log('📝 Also saved debug-page.html + debug-screenshot.png (مفيدة بس لو تشغلها لوكال).');
       return;
     }
 
