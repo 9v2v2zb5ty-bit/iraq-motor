@@ -82,8 +82,14 @@ async function runOpenSooqScraper({ debugMode = false } = {}) {
       console.log('📝 Body preview:', pageInfo.bodyPreview);
 
       const unique = [...new Set(pageInfo.hrefs.filter(Boolean))];
-      console.log(`🔗 ${unique.length} unique links found. Sample:`);
-      unique.slice(0, 40).forEach(h => console.log('  ' + h));
+      // روابط الأقسام (دراجات، قوارب...) ما فيها أرقام أبدًا - روابط الإعلانات
+      // الحقيقية غالبًا فيها رقم (سنة، سعر، أو ID) فنفلتر عليه لنلقاها
+      const withDigit = unique.filter(h => /\d/.test(h));
+      const withoutDigit = unique.filter(h => !/\d/.test(h));
+
+      console.log(`🔗 ${unique.length} unique links total — ${withDigit.length} فيها رقم، ${withoutDigit.length} بدون رقم (غالبًا أقسام).`);
+      console.log('🎯 عينة من الروابط اللي فيها رقم (مرشحة تكون إعلانات حقيقية):');
+      withDigit.slice(0, 20).forEach(h => console.log('  ' + h));
 
       fs.writeFileSync('debug-page.html', await page.content());
       await page.screenshot({ path: 'debug-screenshot.png', fullPage: true });
