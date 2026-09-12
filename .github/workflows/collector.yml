@@ -6,6 +6,9 @@ on:
   schedule:
     - cron: "*/15 * * * *"
 
+permissions:
+  contents: write
+
 jobs:
   collector:
     runs-on: ubuntu-latest
@@ -30,3 +33,9 @@ jobs:
           APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
         run: |
           python collector.py
+
+      - name: Save seen_posts.json back to repo
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update seen_posts.json [skip ci]"
+          file_pattern: seen_posts.json
