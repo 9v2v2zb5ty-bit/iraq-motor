@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -34,8 +36,13 @@ jobs:
         run: |
           python collector.py
 
-      - name: Save seen_posts.json back to repo
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "chore: update seen_posts.json [skip ci]"
-          file_pattern: seen_posts.json
+      - name: Save seen posts
+        run: |
+          git config user.name "Iraq Motors Bot"
+          git config user.email "bot@iraqmotors.site"
+
+          git add seen_posts.json
+
+          git diff --cached --quiet || git commit -m "Update seen Instagram posts"
+
+          git push
