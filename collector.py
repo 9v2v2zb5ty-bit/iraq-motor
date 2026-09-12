@@ -147,7 +147,15 @@ def get_instagram_posts(username):
 
         "maxRunSeconds": 1800,
 
-        "mediaType": "any"
+        "mediaType": "any",
+
+        # مهم: هذا الأكتور عنده ذاكرة خاصة بحسابك بالـ Apify نفسه —
+        # أي بوست "تسلّم" لحسابك بأي تشغيل سابق (حتى تجربة يدوية
+        # جربتها بالكونسول قبل ما تربطه بـ GitHub Actions) ما يرجع
+        # مرة ثانية إطلاقًا إلا إذا فعّلنا هالخيار. إحنا أصلاً عدنا
+        # seen_posts.json نسوي فيه الفلترة بنفسنا، فنخلي الأكتور
+        # يرجّعلنا كل شي يلگه ونتحكم إحنا بالتكرار محليًا.
+        "includeSeen": True
     }
 
     headers = {
@@ -203,9 +211,20 @@ def get_instagram_posts(username):
             )
 
             # ---------------------------------------------
-            # IMPORTANT:
-            # نستبعد profile / summary rows
-            # ونخلي فقط النتائج اللي تمثل منشورات فعلية
+            # هذا الأكتور (steadyfetch/instagram-profile-posts)
+            # يحط بنفس الداتاسيت 3 أنواع صفوف مخلوطة سوا:
+            #   1) صفوف بوستات حقيقية -> دايمًا فيها postId/shortCode + url
+            #   2) صف واحد لكل بروفايل تطلبه -> status="profile" لو نجح،
+            #      أو حالة فشل زي private_account/not_found/no_posts/
+            #      rate_wall/rate_limited... لو فشل -> ما فيه postId
+            #      ولا url إطلاقًا
+            #   3) صف ملخص واحد للتشغيل كله -> نفس الشي، بلا postId
+            # يعني "raw items" هميشة أكبر من عدد البوستات الفعلية بصف
+            # أو صفين حتى لو رجعت صفر بوستات — هذا طبيعي مو خطأ.
+            # نفلتر حسب وجود postId/url (هذا الفيصل الحقيقي بين بوست
+            # وبين صف بروفايل/ملخص)، وأي صف نستبعده نطبع status/
+            # statusReason حقّه عشان نعرف بالضبط ليش ما طلعت بوستات
+            # إذا صارت هالحالة مرة ثانية.
             # ---------------------------------------------
 
             posts = []
@@ -228,25 +247,19 @@ def get_instagram_posts(username):
                     or item.get("permalink")
                 )
 
-                post_type = (
-                    item.get("type")
-                    or item.get("format")
-                    or ""
-                )
-
-                # المنشور الحقيقي لازم يكون عنده ID
-                # أو رابط منشور
                 if post_id or post_url:
 
-                    # نستبعد صفوف الحساب والملخص
-                    if post_type in [
-                        "profile",
-                        "summary"
-                    ]:
-
-                        continue
-
                     posts.append(item)
+
+                else:
+
+                    print(
+                        "ℹ️ صف مو بوست (بروفايل/ملخص) — "
+                        f"status={item.get('status') or '—'} | "
+                        f"reason={item.get('statusReason') or '—'} | "
+                        f"profile={item.get('profileHandle') or '—'} | "
+                        f"postsReturned={item.get('postsReturned')}"
+                    )
 
             print(
                 f"🚗 Actual posts found: "
@@ -263,6 +276,7 @@ def get_instagram_posts(username):
                     f"   {i}. "
                     f"{post.get('shortCode') or post.get('postId')} "
                     f"| type={post.get('type')} "
+                    f"| status={post.get('status')} "
                     f"| carousel={post.get('carouselCount')}"
                 )
 
@@ -380,6 +394,13 @@ def get_caption(post):
 
 def get_media_urls(post):
 
+    # ملاحظة مهمة حسب توثيق الأكتور steadyfetch/instagram-profile-posts:
+    # ما فيه حقل يرجّع صور الكاروسيل وحدة وحدة — بس فيه displayUrl
+    # (صورة الغلاف) حتى للمنشورات نوع carousel. يعني إذا المنشور
+    # عدة صور، رح نرسل بس الصورة الأولى (الغلاف)، والباقي ما يوصلنا
+    # من هذا الأكتور بالذات — المراجع لازم يفتح رابط المنشور لو
+    # يريد يشوف باقي صور الألبوم.
+
     urls = []
 
     def add(value):
@@ -404,8 +425,7 @@ def get_media_urls(post):
                 "url",
                 "src",
                 "imageUrl",
-                "displayUrl",
-                "display_url"
+                "displayUrl"
             ]:
 
                 if value.get(key):
@@ -414,17 +434,20 @@ def get_media_urls(post):
                         value.get(key)
                     )
 
-    # الحقول المحتملة للـ carousel
+    # الحقل المؤكد من توثيق الأكتور (صورة الغلاف/الرئيسية)
+    add(
+        post.get("displayUrl")
+    )
+
+    # فحص احتياطي فقط لأسماء حقول كاروسيل قديمة/مستقبلية —
+    # حاليًا هذي الحقول مو موجودة بمخرجات steadyfetch، بس نخليها
+    # عشان لو الأكتور تغيّر لاحقًا نلتقطها تلقائيًا بلا ما نعدّل الكود
     for key in [
         "images",
         "imageUrls",
         "mediaUrls",
-        "mediaAssets",
-        "children",
-        "childPosts",
-        "carousel",
         "sidecar",
-        "media"
+        "children"
     ]:
 
         value = post.get(key)
@@ -434,24 +457,6 @@ def get_media_urls(post):
             for item in value:
                 add(item)
 
-        elif isinstance(value, dict):
-
-            for item in value.values():
-                add(item)
-
-    # الصورة الرئيسية
-    for key in [
-        "displayUrl",
-        "imageUrl",
-        "thumbnailUrl",
-        "thumbnail"
-    ]:
-
-        add(
-            post.get(key)
-        )
-
-    # إزالة التكرار
     result = []
 
     for url in urls:
@@ -595,10 +600,17 @@ def format_post(
         "🚗 IRAQ MOTORS\n\n"
         f"🏪 المعرض: @{username}\n"
         f"📸 نوع المنشور: {post_type}\n"
-        f"🖼️ عدد الصور: {carousel_count}\n\n"
+        f"🖼️ عدد الصور بالمنشور الأصلي: {carousel_count}\n\n"
         "📝 الإعلان:\n"
         f"{caption[:3000]}\n\n"
     )
+
+    if carousel_count and carousel_count > 1:
+
+        message += (
+            "📌 ملاحظة: نعرض هنا صورة الغلاف بس — "
+            "لباقي صور الألبوم افتح رابط المنشور.\n\n"
+        )
 
     if timestamp:
 
@@ -742,7 +754,7 @@ def process_source(
                     message
                 )
 
-                # باقي الصور
+                # باقي الصور (لو الأكتور رجّع أكثر من وحدة مستقبلًا)
                 for extra_photo in media_urls[1:15]:
 
                     try:
