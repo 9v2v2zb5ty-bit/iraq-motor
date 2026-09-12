@@ -1,8 +1,14 @@
 import os
 import json
 import re
+import time
 import requests
 from datetime import datetime
+
+
+# =========================================================
+# SETTINGS
+# =========================================================
 
 TELEGRAM_BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 TELEGRAM_CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
@@ -15,10 +21,16 @@ SEEN_FILE = "seen_posts.json"
 
 POST_LIMIT = 100
 
+APIFY_ACTOR_URL = (
+    "https://api.apify.com/v2/acts/"
+    "steadyfetch~instagram-profile-posts/"
+    "run-sync-get-dataset-items"
+)
 
-# =========================
+
+# =========================================================
 # JSON
-# =========================
+# =========================================================
 
 def load_json(filename, default):
 
@@ -26,16 +38,32 @@ def load_json(filename, default):
         return default
 
     try:
-        with open(filename, "r", encoding="utf-8") as f:
+
+        with open(
+            filename,
+            "r",
+            encoding="utf-8"
+        ) as f:
+
             return json.load(f)
 
-    except Exception:
+    except Exception as e:
+
+        print(
+            f"⚠️ Failed to read {filename}: {e}"
+        )
+
         return default
 
 
 def save_json(filename, data):
 
-    with open(filename, "w", encoding="utf-8") as f:
+    with open(
+        filename,
+        "w",
+        encoding="utf-8"
+    ) as f:
+
         json.dump(
             data,
             f,
@@ -44,9 +72,9 @@ def save_json(filename, data):
         )
 
 
-# =========================
+# =========================================================
 # TELEGRAM
-# =========================
+# =========================================================
 
 def send_message(text):
 
@@ -63,7 +91,10 @@ def send_message(text):
     response.raise_for_status()
 
 
-def send_photo(photo_url, caption=None):
+def send_photo(
+    photo_url,
+    caption=None
+):
 
     data = {
         "chat_id": TELEGRAM_CHAT_ID,
@@ -71,6 +102,7 @@ def send_photo(photo_url, caption=None):
     }
 
     if caption:
+
         data["caption"] = caption
 
     response = requests.post(
@@ -82,9 +114,9 @@ def send_photo(photo_url, caption=None):
     response.raise_for_status()
 
 
-# =========================
+# =========================================================
 # INSTAGRAM USERNAME
-# =========================
+# =========================================================
 
 def extract_username(url):
 
@@ -94,153 +126,289 @@ def extract_username(url):
     )
 
     if not match:
+
         return None
 
     username = match.group(1).strip()
 
     if username.startswith("@"):
+
         username = username[1:]
 
     return username
 
 
-# =========================
+# =========================================================
 # APIFY
-# =========================
+# =========================================================
 
 def get_instagram_posts(username):
 
-    actor_url = (
-        "https://api.apify.com/v2/acts/"
-        "steadyfetch~instagram-profile-posts/"
-        "run-sync-get-dataset-items"
-    )
-
-    params = {
-        "token": APIFY_TOKEN
-    }
-
     payload = {
+
         "profiles": [
             username
         ],
+
         "resultsLimit": POST_LIMIT,
+
         "maxItems": POST_LIMIT,
+
         "maxRunSeconds": 900,
+
         "mediaType": "any"
     }
 
+    headers = {
+
+        "Content-Type":
+            "application/json",
+
+        "Accept":
+            "application/json",
+
+        "User-Agent":
+            "IraqMotorsCollector/1.0"
+    }
+
+    max_attempts = 3
+
+    for attempt in range(
+        1,
+        max_attempts + 1
+    ):
+
+        try:
+
+            print(
+                f"🔄 Apify attempt "
+                f"{attempt}/{max_attempts}"
+            )
+
+            response = requests.post(
+
+                APIFY_ACTOR_URL,
+
+                params={
+                    "token": APIFY_TOKEN
+                },
+
+                json=payload,
+
+                headers=headers,
+
+                timeout=1200
+            )
+
+            print(
+                f"📡 Apify HTTP status: "
+                f"{response.status_code}"
+            )
+
+            response.raise_for_status()
+
+            data = response.json()
+
+            if not isinstance(
+                data,
+                list
+            ):
+
+                print(
+                    "⚠️ Apify returned "
+                    "unexpected data format"
+                )
+
+                print(
+                    str(data)[:2000]
+                )
+
+                return []
+
+            print(
+                f"📦 Received "
+                f"{len(data)} posts"
+            )
+
+            return data
+
+        except (
+            requests.exceptions.ConnectionError,
+            requests.exceptions.Timeout
+        ) as e:
+
+            print(
+                f"⚠️ Apify connection "
+                f"failed: {e}"
+            )
+
+            if attempt < max_attempts:
+
+                wait_time = attempt * 10
+
+                print(
+                    f"⏳ Waiting "
+                    f"{wait_time} seconds..."
+                )
+
+                time.sleep(
+                    wait_time
+                )
+
+        except requests.exceptions.HTTPError as e:
+
+            print(
+                f"❌ Apify HTTP error: {e}"
+            )
+
+            print(
+                response.text[:3000]
+            )
+
+            return []
+
+        except Exception as e:
+
+            print(
+                f"❌ Unexpected Apify error: {e}"
+            )
+
+            return []
+
     print(
-        f"🔎 Searching Instagram: @{username}"
+        "❌ Apify failed after "
+        "all attempts"
     )
 
-    response = requests.post(
-        actor_url,
-        params=params,
-        json=payload,
-        timeout=1000
-    )
-
-    response.raise_for_status()
-
-    data = response.json()
-
-    print(
-        f"📦 Received {len(data)} results"
-    )
-
-    return data
+    return []
 
 
-# =========================
+# =========================================================
 # POST ID
-# =========================
+# =========================================================
 
 def get_post_id(post):
 
     for key in [
+
         "id",
         "shortCode",
         "shortcode",
         "postId",
         "pk"
+
     ]:
 
         value = post.get(key)
 
         if value:
+
             return str(value)
 
     url = (
+
         post.get("url")
+
         or post.get("postUrl")
+
         or post.get("permalink")
+
     )
 
     if url:
+
         return url
 
     return None
 
 
-# =========================
+# =========================================================
 # POST URL
-# =========================
+# =========================================================
 
 def get_post_url(post):
 
     return (
+
         post.get("url")
+
         or post.get("postUrl")
+
         or post.get("permalink")
+
         or ""
+
     )
 
 
-# =========================
+# =========================================================
 # CAPTION
-# =========================
+# =========================================================
 
 def get_caption(post):
 
     caption = (
+
         post.get("caption")
+
         or post.get("text")
+
         or post.get("description")
+
         or ""
+
     )
 
-    return str(caption).strip()
+    return str(
+        caption
+    ).strip()
 
 
-# =========================
+# =========================================================
 # IMAGE EXTRACTION
-# =========================
+# =========================================================
 
 def get_media_urls(post):
 
     urls = []
 
+
     def add_url(value):
 
         if not value:
+
             return
 
-        # إذا الرابط نفسه
-        if isinstance(value, str):
+
+        # URL مباشرة
+
+        if isinstance(
+            value,
+            str
+        ):
 
             if (
+
                 value.startswith("http")
+
                 and value not in urls
+
             ):
+
                 urls.append(value)
 
             return
 
-        # إذا Dictionary
-        if isinstance(value, dict):
+
+        # Dictionary
+
+        if isinstance(
+            value,
+            dict
+        ):
 
             for key in [
+
                 "url",
                 "src",
                 "imageUrl",
@@ -249,6 +417,7 @@ def get_media_urls(post):
                 "image_url",
                 "thumbnailUrl",
                 "thumbnail"
+
             ]:
 
                 if value.get(key):
@@ -258,11 +427,12 @@ def get_media_urls(post):
                     )
 
 
-    # =================================
-    # الصور المتعددة
-    # =================================
+    # =====================================================
+    # MULTIPLE IMAGES
+    # =====================================================
 
     for key in [
+
         "images",
         "imageUrls",
         "mediaUrls",
@@ -271,33 +441,44 @@ def get_media_urls(post):
         "childPosts",
         "carousel",
         "sidecar"
+
     ]:
 
         value = post.get(key)
 
-        if isinstance(value, list):
+
+        if isinstance(
+            value,
+            list
+        ):
 
             for item in value:
 
                 add_url(item)
 
-        elif isinstance(value, dict):
+
+        elif isinstance(
+            value,
+            dict
+        ):
 
             for item in value.values():
 
                 add_url(item)
 
 
-    # =================================
-    # الصورة الرئيسية
-    # =================================
+    # =====================================================
+    # MAIN IMAGE
+    # =====================================================
 
     for key in [
+
         "displayUrl",
         "imageUrl",
         "thumbnailUrl",
         "thumbnail",
         "display_url"
+
     ]:
 
         add_url(
@@ -305,36 +486,58 @@ def get_media_urls(post):
         )
 
 
-    # =================================
-    # بعض APIs تستخدم edge structures
-    # =================================
+    # =====================================================
+    # INSTAGRAM EDGE STRUCTURES
+    # =====================================================
 
     for key in [
+
         "edge_sidecar_to_children",
         "edge_media_to_caption",
         "edge_media_preview"
+
     ]:
 
         value = post.get(key)
 
-        if isinstance(value, dict):
 
-            edges = value.get("edges")
+        if isinstance(
+            value,
+            dict
+        ):
 
-            if isinstance(edges, list):
+            edges = value.get(
+                "edges"
+            )
+
+
+            if isinstance(
+                edges,
+                list
+            ):
 
                 for edge in edges:
 
-                    if isinstance(edge, dict):
+                    if isinstance(
+                        edge,
+                        dict
+                    ):
 
-                        node = edge.get("node")
+                        node = edge.get(
+                            "node"
+                        )
 
                         if node:
 
-                            add_url(node)
+                            add_url(
+                                node
+                            )
 
 
-    # إزالة التكرار
+    # =====================================================
+    # REMOVE DUPLICATES
+    # =====================================================
+
     unique_urls = []
 
     for url in urls:
@@ -346,140 +549,71 @@ def get_media_urls(post):
     return unique_urls
 
 
-# =========================
+# =========================================================
 # CAR FILTER
-# =========================
+# =========================================================
 
 def looks_like_car_ad(post):
 
-    text = get_caption(post).lower()
+    text = get_caption(
+        post
+    ).lower()
 
     car_keywords = [
 
-        # عربي
         "سيارة",
         "سياره",
         "للبيع",
-        "للبيع فقط",
         "موديل",
         "كيلو",
         "كم",
         "سعر",
         "مليون",
         "دولار",
-        "عاجل",
 
-        # Toyota
         "toyota",
-        "land cruiser",
-        "prado",
-        "camry",
-        "corolla",
-        "rav4",
-        "supra",
-
-        # Lexus
         "lexus",
-        "lx",
-        "gx",
-        "es",
-        "is",
-
-        # BMW
         "bmw",
-        "x5",
-        "x6",
-        "x7",
-        "m3",
-        "m4",
-        "m5",
-
-        # Mercedes
         "mercedes",
         "benz",
-        "g63",
-        "gle",
-        "gls",
-        "c63",
-        "s500",
-
-        # Audi
         "audi",
-        "q7",
-        "q8",
-        "rs",
 
-        # Range Rover
         "range rover",
         "land rover",
         "defender",
 
-        # Porsche
         "porsche",
-        "911",
-        "cayenne",
-        "macan",
-
-        # Ferrari
         "ferrari",
-
-        # Lamborghini
         "lamborghini",
 
-        # Chevrolet
         "chevrolet",
         "corvette",
         "tahoe",
-        "suburban",
 
-        # Ford
         "ford",
         "mustang",
         "raptor",
 
-        # GMC
         "gmc",
         "yukon",
-        "denali",
 
-        # Kia
         "kia",
-        "telluride",
-        "sportage",
-
-        # Hyundai
         "hyundai",
-        "tucson",
-        "santa fe",
-
-        # Nissan
         "nissan",
-        "patrol",
-        "pathfinder",
 
-        # Chery
         "chery",
-
-        # Jetour
         "jetour",
-
-        # Geely
         "geely",
-
-        # Haval
         "haval",
-
-        # MG
         "mg",
 
-        # Dodge
         "dodge",
         "charger",
         "challenger",
 
-        # Jeep
         "jeep",
         "wrangler"
+
     ]
 
     return any(
@@ -488,61 +622,108 @@ def looks_like_car_ad(post):
     )
 
 
-# =========================
-# FORMAT TELEGRAM MESSAGE
-# =========================
+# =========================================================
+# FORMAT MESSAGE
+# =========================================================
 
-def format_post(post, source_url):
+def format_post(
+    post,
+    source_url
+):
 
-    caption = get_caption(post)
+    caption = get_caption(
+        post
+    )
 
-    post_url = get_post_url(post)
+    post_url = get_post_url(
+        post
+    )
 
     username = (
-        post.get("ownerUsername")
-        or post.get("username")
-        or extract_username(source_url)
+
+        post.get(
+            "ownerUsername"
+        )
+
+        or post.get(
+            "username"
+        )
+
+        or extract_username(
+            source_url
+        )
+
         or "unknown"
+
     )
 
     timestamp = (
-        post.get("timestamp")
-        or post.get("takenAt")
-        or post.get("date")
+
+        post.get(
+            "timestamp"
+        )
+
+        or post.get(
+            "takenAt"
+        )
+
+        or post.get(
+            "date"
+        )
+
         or ""
+
     )
 
+
     text = (
+
         "🚗 IRAQ MOTORS\n\n"
+
         f"المعرض: @{username}\n\n"
+
         "📝 الإعلان:\n"
+
         f"{caption[:3000]}\n\n"
+
     )
+
 
     if timestamp:
 
         text += (
-            f"📅 التاريخ: {timestamp}\n\n"
+
+            f"📅 التاريخ: "
+            f"{timestamp}\n\n"
+
         )
+
 
     if post_url:
 
         text += (
+
             "🔗 رابط المنشور:\n"
+
             f"{post_url}\n\n"
+
         )
 
+
     text += (
+
         "━━━━━━━━━━━━━━\n"
+
         "⏳ يحتاج مراجعة يدوية"
+
     )
 
     return text
 
 
-# =========================
+# =========================================================
 # PROCESS SOURCE
-# =========================
+# =========================================================
 
 def process_source(
     source,
@@ -554,9 +735,12 @@ def process_source(
         ""
     )
 
-    if source.get("type") != "instagram":
+    if source.get(
+        "type"
+    ) != "instagram":
 
         return
+
 
     username = extract_username(
         source_url
@@ -565,34 +749,30 @@ def process_source(
     if not username:
 
         print(
-            f"❌ Username error: {source_url}"
+            f"❌ Invalid Instagram URL: "
+            f"{source_url}"
         )
 
         return
 
-    try:
 
-        posts = get_instagram_posts(
-            username
-        )
+    posts = get_instagram_posts(
+        username
+    )
 
-    except Exception as e:
-
-        print(
-            f"❌ Apify error: {e}"
-        )
-
-        return
 
     if not posts:
 
         print(
-            f"⚠️ No posts found for @{username}"
+            f"⚠️ No posts returned "
+            f"for @{username}"
         )
 
         return
 
+
     new_count = 0
+
 
     for post in posts:
 
@@ -604,46 +784,78 @@ def process_source(
 
             continue
 
+
         unique_id = (
+
             f"instagram:"
             f"{username}:"
             f"{post_id}"
+
         )
 
-        # منع التكرار
+
+        # =================================================
+        # DUPLICATE CHECK
+        # =================================================
+
         if unique_id in seen_posts:
 
             continue
 
-        # نحفظه حتى ما يتكرر
-        seen_posts[unique_id] = {
 
-            "username": username,
+        # =================================================
+        # SAVE AS SEEN
+        # =================================================
 
-            "post_id": post_id,
+        seen_posts[
+            unique_id
+        ] = {
 
-            "url": get_post_url(post),
+            "username":
+                username,
+
+            "post_id":
+                post_id,
+
+            "url":
+                get_post_url(
+                    post
+                ),
 
             "first_seen":
                 datetime.utcnow().isoformat()
+
         }
 
-        # فلترة إعلانات السيارات
-        if not looks_like_car_ad(post):
+
+        # =================================================
+        # CAR FILTER
+        # =================================================
+
+        if not looks_like_car_ad(
+            post
+        ):
 
             print(
-                f"⏭️ Not a car ad: {post_id}"
+                f"⏭️ Not a car ad: "
+                f"{post_id}"
             )
 
             continue
 
-        # استخراج كل الصور
+
+        # =================================================
+        # IMAGES
+        # =================================================
+
         media_urls = get_media_urls(
             post
         )
 
+
         print(
-            f"🚗 Car ad found: {post_id}"
+            f"🚗 Car ad found: "
+            f"{post_id}"
         )
 
         print(
@@ -651,27 +863,30 @@ def process_source(
             f"{len(media_urls)}"
         )
 
+
         message = format_post(
             post,
             source_url
         )
 
+
+        # =================================================
+        # SEND TO TELEGRAM
+        # =================================================
+
         try:
 
-            # =================================
-            # إرسال الإعلان + الصورة الأولى
-            # =================================
-
             if media_urls:
+
+                # الصورة الأولى + معلومات الإعلان
 
                 send_photo(
                     media_urls[0],
                     message
                 )
 
-                # =================================
-                # إرسال باقي الصور
-                # =================================
+
+                # باقي الصور
 
                 for extra_photo in media_urls[1:15]:
 
@@ -686,8 +901,7 @@ def process_source(
 
                         print(
                             "⚠️ Failed to send "
-                            "extra image:",
-                            e
+                            f"extra image: {e}"
                         )
 
             else:
@@ -696,7 +910,9 @@ def process_source(
                     message
                 )
 
+
             new_count += 1
+
 
         except Exception as e:
 
@@ -712,9 +928,9 @@ def process_source(
     )
 
 
-# =========================
+# =========================================================
 # MAIN
-# =========================
+# =========================================================
 
 def main():
 
@@ -722,15 +938,18 @@ def main():
         "🚀 Iraq Motors Collector Started"
     )
 
+
     sources = load_json(
         SOURCES_FILE,
         []
     )
 
+
     seen_posts = load_json(
         SEEN_FILE,
         {}
     )
+
 
     if not sources:
 
@@ -741,9 +960,12 @@ def main():
 
         return
 
+
     print(
-        f"📋 Sources: {len(sources)}"
+        f"📋 Sources: "
+        f"{len(sources)}"
     )
+
 
     for source in sources:
 
@@ -757,18 +979,22 @@ def main():
         except Exception as e:
 
             print(
-                f"❌ Source error: {e}"
+                f"❌ Source processing error: "
+                f"{e}"
             )
+
 
     save_json(
         SEEN_FILE,
         seen_posts
     )
 
+
     print(
         f"💾 Saved "
         f"{len(seen_posts)} seen posts"
     )
+
 
     print(
         "🏁 Collector finished"
