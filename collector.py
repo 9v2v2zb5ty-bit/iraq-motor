@@ -32,25 +32,32 @@ TELEGRAM_API = (
     f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}"
 )
 
+
 # =========================================================
-# LOAD JSON
+# LOAD / SAVE JSON
 # =========================================================
 
 def load_json(filename, default):
     try:
         with open(filename, "r", encoding="utf-8") as f:
             return json.load(f)
+
     except Exception:
         return default
 
 
 def save_json(filename, data):
     with open(filename, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+        json.dump(
+            data,
+            f,
+            ensure_ascii=False,
+            indent=2
+        )
 
 
 # =========================================================
-# CAR FILTER
+# CAR KEYWORDS
 # =========================================================
 
 CAR_KEYWORDS = [
@@ -59,17 +66,13 @@ CAR_KEYWORDS = [
     "سياره",
     "للبيع",
     "بيع",
-    "للبيع حصرا",
-    "للبیع",
     "سعر",
-    "موديل",
     "موديل",
     "موديلها",
     "مواصفات",
     "وارد",
     "وارد امريكي",
     "وارد أمريكي",
-    "وارد خليجي",
     "وارد خليجي",
     "بغداد",
     "اربيل",
@@ -81,7 +84,6 @@ CAR_KEYWORDS = [
     "دهوك",
     "سليمانية",
     "سعر السيارة",
-    "رقم",
     "للاستفسار",
 
     # English
@@ -99,41 +101,56 @@ CAR_KEYWORDS = [
     "v10",
     "v12",
 
-    # Brands
+    # Brands / models
     "toyota",
     "lexus",
     "land cruiser",
+    "landcruiser",
     "prado",
     "camry",
     "corolla",
     "hilux",
     "rav4",
     "fortuner",
+
     "nissan",
     "patrol",
     "infiniti",
+
     "bmw",
+
     "mercedes",
     "benz",
+
     "audi",
+
     "porsche",
+
     "range rover",
     "land rover",
     "defender",
+
     "ford",
     "mustang",
     "raptor",
+
     "chevrolet",
     "corvette",
+
     "cadillac",
     "gmc",
+
     "dodge",
     "ram",
+
     "jeep",
+
     "chery",
+
     "kia",
     "hyundai",
     "genesis",
+
     "volkswagen",
     "volvo",
     "honda",
@@ -141,12 +158,16 @@ CAR_KEYWORDS = [
     "subaru",
     "mitsubishi",
     "suzuki",
+
     "tesla",
+
     "ferrari",
     "lamborghini",
     "bentley",
+
     "rolls royce",
     "rolls-royce",
+
     "maserati",
     "aston martin",
     "mclaren",
@@ -154,16 +175,24 @@ CAR_KEYWORDS = [
 
 
 def looks_like_car_ad(post):
-    caption = str(post.get("caption") or "").lower()
+    caption = str(
+        post.get("caption") or ""
+    ).lower()
 
     hashtags = post.get("hashtags") or []
 
     if isinstance(hashtags, list):
-        hashtag_text = " ".join(str(x) for x in hashtags).lower()
+        hashtag_text = " ".join(
+            str(x) for x in hashtags
+        ).lower()
     else:
-        hashtag_text = str(hashtags).lower()
+        hashtag_text = str(
+            hashtags
+        ).lower()
 
-    text = f"{caption} {hashtag_text}"
+    text = (
+        f"{caption} {hashtag_text}"
+    )
 
     for keyword in CAR_KEYWORDS:
         if keyword.lower() in text:
@@ -173,41 +202,68 @@ def looks_like_car_ad(post):
 
 
 # =========================================================
-# SOURCE HANDLING
+# INSTAGRAM USERNAME
 # =========================================================
 
 def normalize_instagram_username(url):
-    url = url.strip().rstrip("/")
+
+    url = str(url).strip().rstrip("/")
 
     if "instagram.com/" in url:
-        username = url.split("instagram.com/")[-1]
+
+        username = (
+            url.split("instagram.com/")[-1]
+        )
+
         username = username.split("/")[0]
+
         return username
 
     return url.replace("@", "")
 
 
+# =========================================================
+# LOAD SOURCES
+# =========================================================
+
 def load_sources():
-    sources = load_json(SOURCES_FILE, [])
+
+    sources = load_json(
+        SOURCES_FILE,
+        []
+    )
 
     if not sources:
-        print("⚠️ No sources found in sources.json")
+
+        print(
+            "⚠️ No sources found in sources.json"
+        )
+
         return []
 
     return sources
 
 
 # =========================================================
-# APIFY PROFILE SCRAPER
+# PROFILE APIFY
 # =========================================================
 
-def run_profile_actor(username):
+def run_profile_actor(
+    profile_url,
+    username
+):
 
     payload = {
-        "profiles": [username],
+        "profiles": [
+            profile_url
+        ],
+
         "resultsLimit": POST_LIMIT,
+
         "maxItems": POST_LIMIT,
+
         "maxRunSeconds": 1800,
+
         "mediaType": "any"
     }
 
@@ -215,64 +271,190 @@ def run_profile_actor(username):
         "Content-Type": "application/json"
     }
 
-    for attempt in range(1, 4):
+    # 5 محاولات
+    for attempt in range(1, 6):
 
-        print(f"🔄 Profile Apify attempt {attempt}/3")
+        print(
+            f"🔄 Profile Apify attempt "
+            f"{attempt}/5"
+        )
 
         try:
 
             response = requests.post(
                 PROFILE_ACTOR,
-                params={"token": APIFY_TOKEN},
+
+                params={
+                    "token": APIFY_TOKEN
+                },
+
                 json=payload,
+
                 headers=headers,
-                timeout=600
+
+                timeout=900
             )
 
             print(
-                f"📡 Apify profile HTTP status: "
+                "📡 Apify profile HTTP status: "
                 f"{response.status_code}"
             )
 
-            if response.status_code == 201:
+            # -------------------------------------------------
+            # HTTP ERROR
+            # -------------------------------------------------
+
+            if response.status_code != 201:
+
+                print(
+                    "⚠️ Apify HTTP error:"
+                )
+
+                print(
+                    response.text[:1000]
+                )
+
+                time.sleep(15)
+
+                continue
+
+            # -------------------------------------------------
+            # JSON
+            # -------------------------------------------------
+
+            try:
 
                 data = response.json()
 
-                if not isinstance(data, list):
-                    print("⚠️ Unexpected Apify response")
-                    return []
+            except Exception:
+
+                print(
+                    "❌ Apify response "
+                    "is not valid JSON"
+                )
+
+                time.sleep(15)
+
+                continue
+
+            if not isinstance(data, list):
+
+                print(
+                    "⚠️ Unexpected Apify response"
+                )
+
+                time.sleep(15)
+
+                continue
+
+            # -------------------------------------------------
+            # COUNT REAL POSTS
+            # -------------------------------------------------
+
+            actual_posts = []
+
+            for item in data:
+
+                if not isinstance(item, dict):
+                    continue
+
+                status = item.get(
+                    "status"
+                )
+
+                if status in [
+                    "profile",
+                    "run_summary"
+                ]:
+                    continue
+
+                post_id = (
+                    item.get("postId")
+                    or item.get("id")
+                    or item.get("shortCode")
+                )
+
+                post_url = item.get(
+                    "url"
+                )
+
+                if post_id or post_url:
+
+                    actual_posts.append(
+                        item
+                    )
+
+            print(
+                f"📦 Raw items received: "
+                f"{len(data)}"
+            )
+
+            print(
+                f"🚗 Actual posts found: "
+                f"{len(actual_posts)}"
+            )
+
+            # -------------------------------------------------
+            # SUCCESS
+            # -------------------------------------------------
+
+            if actual_posts:
 
                 return data
 
+            # -------------------------------------------------
+            # ZERO POSTS
+            # -------------------------------------------------
+
             print(
-                f"⚠️ Apify returned: "
-                f"{response.text[:500]}"
+                f"⚠️ Apify رجع 0 بوست "
+                f"لـ @{username}"
             )
 
-        except Exception as e:
-            print(f"❌ Apify profile error: {e}")
+            print(
+                "🔁 راح نعيد المحاولة..."
+            )
 
-        time.sleep(5)
+            time.sleep(15)
+
+        except Exception as e:
+
+            print(
+                f"❌ Apify profile error: "
+                f"{e}"
+            )
+
+            time.sleep(15)
+
+    print(
+        f"❌ فشل قراءة @{username} "
+        f"بعد 5 محاولات"
+    )
 
     return []
 
 
 # =========================================================
-# APIFY POST MEDIA SCRAPER
+# POST MEDIA APIFY
 # =========================================================
 
-def run_media_actor(post_urls):
+def run_media_actor(
+    post_urls
+):
 
     if not post_urls:
+
         return {}
 
     print(
-        f"📸 Enriching {len(post_urls)} posts "
-        f"to retrieve ALL carousel media..."
+        f"📸 Enriching "
+        f"{len(post_urls)} posts "
+        "to retrieve ALL carousel media..."
     )
 
     payload = {
         "postUrls": post_urls,
+
         "maxItems": len(post_urls)
     }
 
@@ -282,72 +464,115 @@ def run_media_actor(post_urls):
 
     for attempt in range(1, 4):
 
-        print(f"🔄 Media Apify attempt {attempt}/3")
+        print(
+            f"🔄 Media Apify attempt "
+            f"{attempt}/3"
+        )
 
         try:
 
             response = requests.post(
                 POST_ACTOR,
-                params={"token": APIFY_TOKEN},
+
+                params={
+                    "token": APIFY_TOKEN
+                },
+
                 json=payload,
+
                 headers=headers,
+
                 timeout=900
             )
 
             print(
-                f"📡 Apify media HTTP status: "
+                "📡 Apify media HTTP status: "
                 f"{response.status_code}"
             )
 
-            if response.status_code == 201:
+            if response.status_code != 201:
+
+                print(
+                    "⚠️ Media actor error:"
+                )
+
+                print(
+                    response.text[:1000]
+                )
+
+                time.sleep(10)
+
+                continue
+
+            try:
 
                 data = response.json()
 
-                if not isinstance(data, list):
-                    print("⚠️ Unexpected media response")
-                    return {}
-
-                result = {}
-
-                for item in data:
-
-                    if not isinstance(item, dict):
-                        continue
-
-                    shortcode = (
-                        item.get("shortCode")
-                        or item.get("shortcode")
-                    )
-
-                    url = item.get("url")
-
-                    key = shortcode or url
-
-                    if key:
-                        result[key] = item
+            except Exception:
 
                 print(
-                    f"📦 Media details received: "
-                    f"{len(result)} posts"
+                    "❌ Media response "
+                    "is not valid JSON"
                 )
 
-                return result
+                time.sleep(10)
+
+                continue
+
+            if not isinstance(data, list):
+
+                print(
+                    "⚠️ Unexpected media response"
+                )
+
+                return {}
+
+            result = {}
+
+            for item in data:
+
+                if not isinstance(item, dict):
+                    continue
+
+                shortcode = (
+                    item.get("shortCode")
+                    or item.get("shortcode")
+                )
+
+                url = item.get(
+                    "url"
+                )
+
+                key = (
+                    shortcode
+                    or url
+                )
+
+                if key:
+
+                    result[key] = item
 
             print(
-                f"⚠️ Media actor response: "
-                f"{response.text[:500]}"
+                f"📦 Media details received: "
+                f"{len(result)} posts"
             )
 
-        except Exception as e:
-            print(f"❌ Apify media error: {e}")
+            return result
 
-        time.sleep(5)
+        except Exception as e:
+
+            print(
+                f"❌ Apify media error: "
+                f"{e}"
+            )
+
+            time.sleep(10)
 
     return {}
 
 
 # =========================================================
-# EXTRACT ALL IMAGES
+# EXTRACT ALL MEDIA
 # =========================================================
 
 def extract_all_media(post):
@@ -355,16 +580,19 @@ def extract_all_media(post):
     media = []
 
     # -----------------------------------------------------
-    # 1. images array
+    # images
     # -----------------------------------------------------
 
-    images = post.get("images")
+    images = post.get(
+        "images"
+    )
 
     if isinstance(images, list):
 
         for item in images:
 
             if isinstance(item, str):
+
                 media.append({
                     "type": "image",
                     "url": item
@@ -375,19 +603,23 @@ def extract_all_media(post):
                 url = (
                     item.get("url")
                     or item.get("displayUrl")
+                    or item.get("src")
                 )
 
                 if url:
+
                     media.append({
                         "type": "image",
                         "url": url
                     })
 
     # -----------------------------------------------------
-    # 2. childPosts
+    # childPosts
     # -----------------------------------------------------
 
-    children = post.get("childPosts")
+    children = post.get(
+        "childPosts"
+    )
 
     if isinstance(children, list):
 
@@ -396,16 +628,15 @@ def extract_all_media(post):
             if not isinstance(child, dict):
                 continue
 
-            child_type = str(
-                child.get("type") or ""
-            ).lower()
-
             image_url = (
                 child.get("displayUrl")
                 or child.get("image")
+                or child.get("url")
             )
 
-            video_url = child.get("videoUrl")
+            video_url = child.get(
+                "videoUrl"
+            )
 
             if image_url:
 
@@ -422,12 +653,59 @@ def extract_all_media(post):
                 })
 
     # -----------------------------------------------------
-    # 3. displayUrl fallback
+    # media
+    # -----------------------------------------------------
+
+    media_array = post.get(
+        "media"
+    )
+
+    if isinstance(media_array, list):
+
+        for item in media_array:
+
+            if isinstance(item, str):
+
+                media.append({
+                    "type": "image",
+                    "url": item
+                })
+
+            elif isinstance(item, dict):
+
+                image_url = (
+                    item.get("url")
+                    or item.get("displayUrl")
+                    or item.get("image")
+                )
+
+                video_url = item.get(
+                    "videoUrl"
+                )
+
+                if image_url:
+
+                    media.append({
+                        "type": "image",
+                        "url": image_url
+                    })
+
+                elif video_url:
+
+                    media.append({
+                        "type": "video",
+                        "url": video_url
+                    })
+
+    # -----------------------------------------------------
+    # displayUrl fallback
     # -----------------------------------------------------
 
     if not media:
 
-        display_url = post.get("displayUrl")
+        display_url = post.get(
+            "displayUrl"
+        )
 
         if display_url:
 
@@ -437,12 +715,14 @@ def extract_all_media(post):
             })
 
     # -----------------------------------------------------
-    # 4. video fallback
+    # video fallback
     # -----------------------------------------------------
 
     if not media:
 
-        video_url = post.get("videoUrl")
+        video_url = post.get(
+            "videoUrl"
+        )
 
         if video_url:
 
@@ -456,11 +736,14 @@ def extract_all_media(post):
     # -----------------------------------------------------
 
     unique = []
+
     seen = set()
 
     for item in media:
 
-        url = item.get("url")
+        url = item.get(
+            "url"
+        )
 
         if not url:
             continue
@@ -469,51 +752,146 @@ def extract_all_media(post):
             continue
 
         seen.add(url)
-        unique.append(item)
+
+        unique.append(
+            item
+        )
 
     return unique
 
 
 # =========================================================
-# TELEGRAM
+# HTML ESCAPE
 # =========================================================
 
-def telegram_send_message(text):
+def escape_html(text):
 
-    url = f"{TELEGRAM_API}/sendMessage"
-
-    payload = {
-        "chat_id": TELEGRAM_CHAT_ID,
-        "text": text,
-        "disable_web_page_preview": True
-    }
-
-    response = requests.post(
-        url,
-        json=payload,
-        timeout=60
+    text = str(
+        text or ""
     )
 
-    return response.ok
+    return (
+        text
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+    )
 
 
-def telegram_send_album(media_items, caption):
+# =========================================================
+# BUILD TELEGRAM CAPTION
+# =========================================================
 
-    """
-    Telegram media group maximum = 10 items.
-    So 12 photos become 10 + 2.
-    """
+def build_caption(post):
+
+    caption = (
+        post.get("caption")
+        or ""
+    )
+
+    post_url = (
+        post.get("url")
+        or ""
+    )
+
+    username = (
+        post.get("ownerUsername")
+        or post.get("profileHandle")
+        or ""
+    )
+
+    taken_at = (
+        post.get("takenAt")
+        or ""
+    )
+
+    carousel_count = post.get(
+        "carouselCount"
+    )
+
+    text = (
+        "🚗 <b>Iraq Motors - إعلان جديد</b>\n\n"
+    )
+
+    if username:
+
+        text += (
+            "👤 الحساب: @"
+            f"{escape_html(username)}\n"
+        )
+
+    if taken_at:
+
+        text += (
+            "🕒 التاريخ: "
+            f"{escape_html(taken_at)}\n"
+        )
+
+    if carousel_count:
+
+        text += (
+            f"📸 الصور: "
+            f"{carousel_count}\n"
+        )
+
+    text += "\n"
+
+    if caption:
+
+        safe_caption = escape_html(
+            caption
+        )
+
+        if len(safe_caption) > 800:
+
+            safe_caption = (
+                safe_caption[:800]
+                + "..."
+            )
+
+        text += safe_caption
+
+        text += "\n\n"
+
+    if post_url:
+
+        safe_url = escape_html(
+            post_url
+        )
+
+        text += (
+            f'<a href="{safe_url}">'
+            "🔗 فتح المنشور على Instagram"
+            "</a>"
+        )
+
+    return text
+
+
+# =========================================================
+# TELEGRAM ALBUM
+# =========================================================
+
+def telegram_send_album(
+    media_items,
+    caption
+):
 
     if not media_items:
+
         return False
 
-    success = True
-
-    # Telegram supports max 10 media items per group
+    # Telegram يسمح بحد أقصى 10 عناصر
     chunks = [
         media_items[i:i + 10]
-        for i in range(0, len(media_items), 10)
+        for i in range(
+            0,
+            len(media_items),
+            10
+        )
     ]
+
+    success = True
 
     first_chunk = True
 
@@ -521,10 +899,21 @@ def telegram_send_album(media_items, caption):
 
         media = []
 
-        for index, item in enumerate(chunk):
+        for index, item in enumerate(
+            chunk
+        ):
 
-            media_type = item["type"]
-            media_url = item["url"]
+            media_type = item.get(
+                "type",
+                "image"
+            )
+
+            media_url = item.get(
+                "url"
+            )
+
+            if not media_url:
+                continue
 
             if media_type == "video":
 
@@ -540,29 +929,45 @@ def telegram_send_album(media_items, caption):
                     "media": media_url
                 }
 
-            # Caption only on first item
-            if first_chunk and index == 0:
+            # الكابشن على أول صورة فقط
+            if (
+                first_chunk
+                and index == 0
+            ):
+
                 obj["caption"] = caption
+
                 obj["parse_mode"] = "HTML"
 
-            media.append(obj)
+            media.append(
+                obj
+            )
+
+        if not media:
+
+            continue
 
         try:
 
             response = requests.post(
                 f"{TELEGRAM_API}/sendMediaGroup",
+
                 json={
                     "chat_id": TELEGRAM_CHAT_ID,
                     "media": media
                 },
+
                 timeout=120
             )
 
             if not response.ok:
 
                 print(
-                    "❌ Telegram album error:",
-                    response.text[:500]
+                    "❌ Telegram album error:"
+                )
+
+                print(
+                    response.text[:1000]
                 )
 
                 success = False
@@ -570,89 +975,19 @@ def telegram_send_album(media_items, caption):
         except Exception as e:
 
             print(
-                f"❌ Telegram album exception: {e}"
+                f"❌ Telegram album exception: "
+                f"{e}"
             )
 
             success = False
 
         first_chunk = False
 
-        # Small delay between chunks
         if len(chunks) > 1:
-            time.sleep(1)
+
+            time.sleep(2)
 
     return success
-
-
-# =========================================================
-# FORMAT TELEGRAM CAPTION
-# =========================================================
-
-def escape_html(text):
-
-    text = str(text or "")
-
-    return (
-        text
-        .replace("&", "&amp;")
-        .replace("<", "&lt;")
-        .replace(">", "&gt;")
-    )
-
-
-def build_caption(post):
-
-    caption = post.get("caption") or ""
-
-    post_url = post.get("url") or ""
-
-    username = (
-        post.get("ownerUsername")
-        or post.get("profileHandle")
-        or ""
-    )
-
-    taken_at = post.get("takenAt") or ""
-
-    carousel_count = post.get("carouselCount")
-
-    text = (
-        "🚗 <b>Iraq Motors - إعلان جديد</b>\n\n"
-        f"👤 الحساب: @{escape_html(username)}\n"
-    )
-
-    if taken_at:
-        text += (
-            f"🕒 التاريخ: "
-            f"{escape_html(taken_at)}\n"
-        )
-
-    if carousel_count:
-        text += (
-            f"📸 الصور: {carousel_count}\n"
-        )
-
-    text += "\n"
-
-    if caption:
-
-        # Telegram caption limit
-        safe_caption = escape_html(caption)
-
-        if len(safe_caption) > 800:
-            safe_caption = safe_caption[:800] + "..."
-
-        text += safe_caption
-        text += "\n\n"
-
-    if post_url:
-        text += (
-            f'🔗 <a href="{post_url}">'
-            "فتح المنشور على Instagram"
-            "</a>"
-        )
-
-    return text
 
 
 # =========================================================
@@ -661,19 +996,41 @@ def build_caption(post):
 
 def main():
 
-    print("🚀 Iraq Motors Collector Started")
+    print(
+        "🚀 Iraq Motors Collector Started"
+    )
+
+    # -----------------------------------------------------
+    # CHECK SECRETS
+    # -----------------------------------------------------
 
     if not TELEGRAM_BOT_TOKEN:
-        print("❌ TELEGRAM_BOT_TOKEN missing")
+
+        print(
+            "❌ TELEGRAM_BOT_TOKEN missing"
+        )
+
         return
 
     if not TELEGRAM_CHAT_ID:
-        print("❌ TELEGRAM_CHAT_ID missing")
+
+        print(
+            "❌ TELEGRAM_CHAT_ID missing"
+        )
+
         return
 
     if not APIFY_TOKEN:
-        print("❌ APIFY_TOKEN missing")
+
+        print(
+            "❌ APIFY_TOKEN missing"
+        )
+
         return
+
+    # -----------------------------------------------------
+    # SOURCES
+    # -----------------------------------------------------
 
     sources = load_sources()
 
@@ -681,59 +1038,113 @@ def main():
         f"📋 Sources: {len(sources)}"
     )
 
+    # -----------------------------------------------------
+    # SEEN
+    # -----------------------------------------------------
+
     seen_posts = set(
-        load_json(SEEN_FILE, [])
+        str(x)
+        for x in load_json(
+            SEEN_FILE,
+            []
+        )
     )
 
     all_new_car_posts = []
 
     # =====================================================
-    # COLLECT FROM ALL SOURCES
+    # PROCESS SOURCES
     # =====================================================
 
     for source in sources:
 
-        source_url = source.get("url")
+        source_url = source.get(
+            "url"
+        )
 
         if not source_url:
+
             continue
 
-        username = normalize_instagram_username(
-            source_url
+        username = (
+            normalize_instagram_username(
+                source_url
+            )
         )
 
         print(
-            f"\n🔍 Processing @{username}"
+            f"\n🔍 Processing "
+            f"@{username}"
         )
 
+        # -------------------------------------------------
+        # APIFY
+        # -------------------------------------------------
+
         raw_items = run_profile_actor(
+            source_url,
             username
         )
 
-        print(
-            f"📦 Raw items received: "
-            f"{len(raw_items)}"
-        )
+        # -------------------------------------------------
+        # PROTECTION:
+        # If Apify completely failed,
+        # don't change seen_posts.
+        # -------------------------------------------------
+
+        if not raw_items:
+
+            print(
+                f"🛑 ما حصلنا أي بوستات "
+                f"من @{username}"
+            )
+
+            print(
+                "⏭️ تخطي المصدر بدون "
+                "تغيير seen_posts"
+            )
+
+            continue
+
+        # -------------------------------------------------
+        # FILTER PROFILE/SUMMARY
+        # -------------------------------------------------
 
         actual_posts = []
 
         for item in raw_items:
 
-            if not isinstance(item, dict):
+            if not isinstance(
+                item,
+                dict
+            ):
+
                 continue
 
-            status = item.get("status")
+            status = item.get(
+                "status"
+            )
 
             if status in [
                 "profile",
                 "run_summary"
             ]:
 
+                reason = item.get(
+                    "reason"
+                )
+
                 print(
                     "ℹ️ صف مو بوست "
                     f"(بروفايل/ملخص) — "
                     f"status={status}"
                 )
+
+                if reason:
+
+                    print(
+                        f"   ↳ {str(reason)[:500]}"
+                    )
 
                 continue
 
@@ -743,17 +1154,24 @@ def main():
                 or item.get("shortCode")
             )
 
-            post_url = item.get("url")
+            post_url = item.get(
+                "url"
+            )
 
-            if not post_id and not post_url:
-                continue
+            if post_id or post_url:
 
-            actual_posts.append(item)
+                actual_posts.append(
+                    item
+                )
 
         print(
             f"🚗 Actual posts found: "
             f"{len(actual_posts)}"
         )
+
+        # -------------------------------------------------
+        # DEBUG FIRST 5
+        # -------------------------------------------------
 
         for index, post in enumerate(
             actual_posts[:5],
@@ -769,10 +1187,8 @@ def main():
             )
 
         # -------------------------------------------------
-        # FILTER
+        # FILTER NEW POSTS
         # -------------------------------------------------
-
-        new_candidates = []
 
         for post in actual_posts:
 
@@ -783,21 +1199,43 @@ def main():
             )
 
             if not post_id:
+
                 continue
 
-            if str(post_id) in seen_posts:
+            post_id = str(
+                post_id
+            )
+
+            # -------------------------------------------------
+            # DUPLICATE
+            # -------------------------------------------------
+
+            if post_id in seen_posts:
+
+                print(
+                    f"⏭️ Already seen: "
+                    f"{post_id}"
+                )
+
                 continue
 
-            if not looks_like_car_ad(post):
+            # -------------------------------------------------
+            # CAR FILTER
+            # -------------------------------------------------
+
+            if not looks_like_car_ad(
+                post
+            ):
 
                 print(
                     f"⏭️ Not a car ad: "
                     f"{post_id}"
                 )
 
-                # We mark it seen too, so it doesn't
-                # get checked forever.
-                seen_posts.add(str(post_id))
+                # Mark non-car post as seen
+                seen_posts.add(
+                    post_id
+                )
 
                 continue
 
@@ -806,20 +1244,22 @@ def main():
                 f"{post_id}"
             )
 
-            new_candidates.append(post)
-
-        all_new_car_posts.extend(
-            new_candidates
-        )
+            all_new_car_posts.append(
+                post
+            )
 
     # =====================================================
-    # MEDIA ENRICHMENT
+    # NEW POSTS COUNT
     # =====================================================
 
     print(
-        f"\n🚗 New car ads requiring processing: "
-        f"{len(all_new_car_posts)}"
+        "\n🚗 New car ads requiring "
+        f"processing: {len(all_new_car_posts)}"
     )
+
+    # -----------------------------------------------------
+    # NOTHING NEW
+    # -----------------------------------------------------
 
     if not all_new_car_posts:
 
@@ -829,27 +1269,44 @@ def main():
         )
 
         print(
-            f"💾 Saved {len(seen_posts)} seen posts"
+            f"💾 Saved "
+            f"{len(seen_posts)} seen posts"
         )
 
-        print("🏁 Collector finished")
+        print(
+            "🏁 Collector finished"
+        )
+
         return
+
+    # =====================================================
+    # GET POST URLS
+    # =====================================================
 
     post_urls = []
 
     for post in all_new_car_posts:
 
-        url = post.get("url")
+        url = post.get(
+            "url"
+        )
 
         if url:
-            post_urls.append(url)
+
+            post_urls.append(
+                url
+            )
+
+    # =====================================================
+    # MEDIA ENRICHMENT
+    # =====================================================
 
     media_details = run_media_actor(
         post_urls
     )
 
     # =====================================================
-    # SEND TO TELEGRAM
+    # SEND POSTS
     # =====================================================
 
     sent_count = 0
@@ -862,28 +1319,48 @@ def main():
             or post.get("shortCode")
         )
 
-        post_url = post.get("url")
+        post_id = str(
+            post_id
+        )
+
+        post_url = post.get(
+            "url"
+        )
 
         shortcode = (
             post.get("shortCode")
             or post.get("shortcode")
         )
 
-        # Find enriched media row
+        # -------------------------------------------------
+        # FIND ENRICHED DATA
+        # -------------------------------------------------
+
         enriched = None
 
         if shortcode:
+
             enriched = media_details.get(
                 shortcode
             )
 
-        if enriched is None and post_url:
+        if (
+            enriched is None
+            and post_url
+        ):
+
             enriched = media_details.get(
                 post_url
             )
 
+        # fallback
         if enriched is None:
+
             enriched = post
+
+        # -------------------------------------------------
+        # MEDIA
+        # -------------------------------------------------
 
         media_items = extract_all_media(
             enriched
@@ -891,17 +1368,16 @@ def main():
 
         print(
             f"📸 Images found for "
-            f"{post_id}: {len(media_items)}"
+            f"{post_id}: "
+            f"{len(media_items)}"
         )
+
+        # -------------------------------------------------
+        # FALLBACK DISPLAY URL
+        # -------------------------------------------------
 
         if not media_items:
 
-            print(
-                f"⚠️ No media found: "
-                f"{post_id}"
-            )
-
-            # Fallback to original display URL
             display_url = post.get(
                 "displayUrl"
             )
@@ -913,19 +1389,42 @@ def main():
                     "url": display_url
                 }]
 
+                print(
+                    "📸 Using original "
+                    "displayUrl fallback"
+                )
+
+        # -------------------------------------------------
+        # NO MEDIA
+        # -------------------------------------------------
+
         if not media_items:
 
             print(
                 f"❌ Cannot send "
-                f"{post_id}, no media"
+                f"{post_id}, "
+                "no media"
             )
 
-            # Mark as seen to avoid endless retries
-            seen_posts.add(str(post_id))
+            # نخليه seen حتى ما يظل
+            # يعيد نفس البوست كل 15 دقيقة
+            seen_posts.add(
+                post_id
+            )
 
             continue
 
-        caption = build_caption(post)
+        # -------------------------------------------------
+        # CAPTION
+        # -------------------------------------------------
+
+        caption = build_caption(
+            post
+        )
+
+        # -------------------------------------------------
+        # SEND
+        # -------------------------------------------------
 
         success = telegram_send_album(
             media_items,
@@ -937,11 +1436,12 @@ def main():
             sent_count += 1
 
             seen_posts.add(
-                str(post_id)
+                post_id
             )
 
             print(
-                f"✅ Sent: {post_id} "
+                f"✅ Sent: "
+                f"{post_id} "
                 f"({len(media_items)} media)"
             )
 
@@ -955,7 +1455,7 @@ def main():
         time.sleep(1)
 
     # =====================================================
-    # SAVE SEEN
+    # SAVE
     # =====================================================
 
     save_json(
@@ -973,11 +1473,13 @@ def main():
         f"{len(seen_posts)} seen posts"
     )
 
-    print("🏁 Collector finished")
+    print(
+        "🏁 Collector finished"
+    )
 
 
 # =========================================================
-# RUN
+# START
 # =========================================================
 
 if __name__ == "__main__":
