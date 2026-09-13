@@ -896,6 +896,22 @@ def main():
         {}
     )
 
+    # حماية: لو seen_posts.json بالريبو صار شكله array مو object
+    # (يصير هذا لو الملف انسوى/انعدّل يدوي غلط بشكل [] بدل {})،
+    # كل try نسوي seen_posts[unique_id] = ... ينفجر بنفس خطأ
+    # "list indices must be integers or slices, not str" اللي
+    # شفناه. نتحقق ونصلحه هنا بدل ما ينهار السكربت كل مرة.
+    if not isinstance(seen_posts, dict):
+
+        print(
+            "⚠️ seen_posts.json مو بالشكل المتوقع "
+            f"(لقيناه {type(seen_posts).__name__} مو "
+            "dict) — رح نبدأ بذاكرة فاضية هالمرة، وبآخر "
+            "التشغيلة رح ينحفظ بالشكل الصحيح."
+        )
+
+        seen_posts = {}
+
     if not sources:
 
         print(
