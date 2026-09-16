@@ -985,7 +985,9 @@ body.iq-mobile-nav .adm-grid-3{grid-template-columns:1fr;}
    ============================================================ */
 .pub-topbar{position:fixed;top:0;left:0;right:0;height:64px;background:var(--dark2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:820;gap:14px;}
 .pub-topbar-left{display:flex;align-items:center;gap:8px;}
-.pub-burger{display:none;background:none;border:1px solid var(--border);border-radius:9px;color:var(--dim);cursor:pointer;padding:8px;}
+.pub-burger{display:flex;height:38px;box-sizing:border-box;background:var(--dark3);border:1px solid var(--border);border-radius:10px;color:var(--dim);cursor:pointer;padding:0 14px;align-items:center;justify-content:center;gap:7px;flex-shrink:0;font-family:Tajawal,sans-serif;font-size:12.5px;font-weight:700;}
+.pub-burger:hover{border-color:var(--gold);color:var(--gold);}
+.pub-burger:hover .ico{color:var(--gold);}
 .pub-burger .ico{width:18px;height:18px;margin-left:0;color:var(--dim);}
 .pub-search{flex:1;max-width:440px;display:flex;flex-direction:row-reverse;align-items:center;gap:8px;background:var(--dark3);border:1px solid var(--border);border-radius:11px;padding:9px 14px;}
 .pub-search .ico{width:16px;height:16px;color:var(--dim);margin-left:0;flex-shrink:0;}
@@ -1003,7 +1005,7 @@ body.iq-mobile-nav .adm-grid-3{grid-template-columns:1fr;}
 .pub-profile-chip img{width:34px;height:34px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);}
 .pub-profile-chip span{font-size:13px;font-weight:700;color:var(--text);white-space:nowrap;}
 
-.pub-sidebar{position:fixed;top:64px;left:0;bottom:0;width:250px;background:var(--dark2);border-left:1px solid var(--border);z-index:780;transition:transform .25s;transform:translate3d(0,0,0);will-change:transform;backface-visibility:hidden;-webkit-backface-visibility:hidden;isolation:isolate;}
+.pub-sidebar{position:fixed;top:64px;left:0;bottom:0;width:250px;background:var(--dark2);border-left:1px solid var(--border);z-index:780;transition:transform .25s;transform:translate3d(-100%,0,0);box-shadow:0 0 40px rgba(0,0,0,.5);will-change:transform;backface-visibility:hidden;-webkit-backface-visibility:hidden;isolation:isolate;}
 .pub-sidebar-inner{height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 14px 20px;display:flex;flex-direction:column;}
 .pub-sidebar-inner::-webkit-scrollbar{width:5px;}
 .pub-sidebar-inner::-webkit-scrollbar-thumb{background:var(--border);border-radius:5px;}
@@ -1028,7 +1030,7 @@ body.iq-mobile-nav .adm-grid-3{grid-template-columns:1fr;}
 .pub-social-row .ico{width:15px;height:15px;margin-left:0;color:inherit;}
 .pub-sidebar-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:770;}
 
-.pub-main{margin-left:250px;margin-top:64px;min-height:calc(100vh - 64px);min-height:calc(100dvh - 64px);}
+.pub-main{margin-left:0;margin-top:64px;min-height:calc(100vh - 64px);min-height:calc(100dvh - 64px);}
 #page-admin.active{position:fixed!important;inset:0!important;z-index:1000;overflow-y:auto;margin:0!important;}
 .page{padding-top:0!important;}
 
@@ -1111,7 +1113,7 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
 <!-- PUBLIC SHELL V2 -->
 <div class="pub-topbar">
   <div class="pub-topbar-left">
-    <button class="pub-burger" id="hamburgerBtn" onclick="toggleMobileNav()"><span class="ico ico-menu"></span></button>
+    <button class="pub-burger" id="hamburgerBtn" onclick="toggleMobileNav()"><span class="ico ico-menu"></span><span>المزيد</span></button>
     <div class="pub-search">
       <span class="ico ico-search"></span>
       <input type="text" id="pubTopSearch" placeholder="ابحث عن سيارة..." onkeydown="if(event.key==='Enter'){pubQuickFilter({keyword:this.value});}">
@@ -1164,7 +1166,7 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
   <button class="pub-nav-item" id="pubNavProfile2" data-pg="profile" onclick="goPage('profile')"><span class="ico ico-user"></span><span class="lbl">حسابي</span></button>
   <button class="pub-nav-item" id="pubNavAdmin" data-pg="admin" onclick="goPage('admin')" style="display:none;color:var(--red);"><span class="ico ico-gear" style="color:var(--red);"></span><span class="lbl">الإدارة</span></button>
   <button class="pub-nav-item" onclick="goPage('profile')"><span class="ico ico-gear"></span><span class="lbl">الإعدادات</span></button>
-  <button class="pub-nav-item" onclick="goPage('about')"><span class="ico ico-headset"></span><span class="lbl">الدعم والمساعدة</span></button>
+  <button class="pub-nav-item" onclick="goPage('about')"><span class="ico ico-headset"></span><span class="lbl">مركز المساعدة</span></button>
   <div class="pub-promo-card">
     <span class="ico ico-sparkle pi"></span>
     <b>انشر إعلانك الآن</b>
@@ -4273,7 +4275,7 @@ function admRenderNotifs(){
     '<div class="adm-panel"><div class="adm-panel-head"><h3>سجل الإشعارات المرسلة</h3></div>'+
       (!list.length?'<div class="adm-empty"><span class="ico ico-bell"></span>لم يتم إرسال أي إشعار بعد</div>':
       '<div class="adm-activity-list" style="max-height:520px;">'+list.map(function(n){
-        return '<div class="adm-list-card"><div class="adm-list-card-head"><span class="adm-list-card-title">'+admEsc(n.title||'')+'</span><span class="adm-status-pill '+(n.audience==='all'?'ok':'pending')+'">'+(n.audience==='all'?'الكل':admEsc(n.toName||'مستخدم محدد'))+'</span></div><div class="adm-list-card-meta">'+admEsc(n.body||'')+'</div><div class="adm-list-card-meta" style="margin-top:6px;">'+admTimeAgo(n.createdAt)+'</div></div>';
+        return '<div class="adm-list-card"><div class="adm-list-card-head"><span class="adm-list-card-title">'+admEsc(n.title||'')+'</span><span class="adm-status-pill '+(n.audience==='all'?'ok':'pending')+'">'+(n.audience==='all'?'الكل':admEsc(n.toName||'مستخدم محدد'))+'</span></div><div class="adm-list-card-meta">'+admEsc(n.body||'')+'</div><div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;gap:8px;"><span class="adm-list-card-meta" style="margin:0;">'+admTimeAgo(n.createdAt)+'</span><button class="adm-pill-btn" onclick="admDeleteNotification(\''+n.id+'\')"><span class="ico ico-trash"></span>حذف</button></div></div>';
       }).join('')+'</div>')+
     '</div></div>';
 }
@@ -4302,12 +4304,22 @@ function admSendNotification(){
   if(audience==='user'&&!window._admNfTarget){msg.style.color='#e74c3c';msg.textContent='الرجاء اختيار مستخدم من نتائج البحث';return;}
   var payload={title:title,body:body,audience:audience,toUid:audience==='user'?window._admNfTarget.uid:null,toName:audience==='user'?window._admNfTarget.name:null,sentBy:(auth.currentUser&&auth.currentUser.email)||'admin',createdAt:firebase.firestore.FieldValue.serverTimestamp()};
   msg.style.color='#f39c12';msg.textContent='جاري الإرسال...';
-  db.collection('notifications').add(payload).then(function(){
-    window._ad2.notifications.unshift(Object.assign({},payload,{createdAt:new Date()}));
+  db.collection('notifications').add(payload).then(function(ref){
+    window._ad2.notifications.unshift(Object.assign({id:ref.id},payload,{createdAt:new Date()}));
     showToast('<span class="ico ico-check"></span> تم إرسال الإشعار');
     document.getElementById('admNfTitle').value='';document.getElementById('admNfBody').value='';
     admRenderNotifs();
   }).catch(function(e){msg.style.color='#e74c3c';msg.textContent='خطأ: '+e.message;});
+}
+function admDeleteNotification(id){
+  if(!id)return;
+  customConfirm('هل تريد حذف هذا الإشعار نهائياً؟',function(){
+    db.collection('notifications').doc(id).delete().then(function(){
+      window._ad2.notifications=window._ad2.notifications.filter(function(x){return x.id!==id;});
+      showToast('<span class="ico ico-trash"></span> تم حذف الإشعار');
+      admRenderNotifs();
+    }).catch(function(e){alert('خطأ: '+e.message);});
+  });
 }
 
 // ============ MEETINGS (real scheduling + free Jitsi Meet rooms — no API key needed) ============
