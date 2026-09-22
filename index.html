@@ -6508,8 +6508,17 @@ function pubUpdateBadges(user){
     }
   }).catch(function(){if(chatMenu)chatMenu.innerHTML='<div style="padding:16px;text-align:center;color:var(--dim);font-size:12.5px;">تعذر تحميل الرسائل</div>';});
 }
+// تهيئة عنصر reCAPTCHA للتحقق الأمني الخفي
+window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+  'size': 'invisible',
+  'callback': function(response) {
+    // تم التحقق بنجاح
+  }
+});
 
 
 </script>
+<div id="recaptcha-container"></div>
+
 </body>
 </html>
