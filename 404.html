@@ -1403,7 +1403,7 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
     <div class="profile-section">
       <div class="profile-section-title">تعديل المعلومات</div>
       <div class="form-group" style="margin-bottom:10px;"><label class="form-label">الاسم</label><input type="text" class="form-input" id="editName" placeholder="اسمك الكامل"></div>
-      <div class="form-group" style="margin-bottom:14px;"><label class="form-label">رقم الهاتف</label><input type="text" class="form-input" id="editPhone" placeholder="07XX XXX XXXX"></div>
+      <div class="form-group" style="margin-bottom:14px;"><label class="form-label">رقم الهاتف</label><input type="text" class="form-input" id="editPhone" placeholder="07XX XXX XXXX" oninput="renderPhoneVerifyBadge()"><div id="phoneVerifyBox" style="margin-top:8px;"></div></div>
       <div style="display:flex;gap:9px;"><button class="btn-save" onclick="saveProfile()"><span class="ico ico-save"></span> حفظ</button><button class="btn-danger" onclick="doSignOut()"><span class="ico ico-logout"></span> خروج</button></div>
       <div class="msg-box" id="profMsg"></div>
     </div>
@@ -1892,6 +1892,31 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
   </div>
 </div>
 
+<!-- PHONE VERIFY -->
+<div class="overlay" id="phoneVerifyOverlay">
+  <div class="modal" style="max-width:360px;text-align:center;">
+    <button class="modal-close" onclick="closePhoneVerify()"><span class="ico ico-cross"></span></button>
+    <div class="modal-title"><span class="ico ico-message"></span> تحقق من رقم الهاتف</div>
+    <div class="modal-sub" id="pvStepSub">راح نرسلك رمز تحقق مكوّن من 6 أرقام عبر رسالة SMS</div>
+    <div id="pvStepSend">
+      <div class="form-group" style="margin:16px 0;text-align:right;">
+        <label class="form-label">رقم الهاتف</label>
+        <input type="tel" class="form-input" id="pvPhoneDisplay" placeholder="07XX XXX XXXX">
+      </div>
+      <button class="btn-sub" id="pvSendBtn" onclick="sendPhoneCode()">إرسال رمز التحقق</button>
+    </div>
+    <div id="pvStepCode" style="display:none;">
+      <div class="form-group" style="margin:16px 0;">
+        <label class="form-label">أدخل الرمز المرسل</label>
+        <input type="tel" inputmode="numeric" maxlength="6" class="form-input" id="pvCodeInp" placeholder="••••••" style="text-align:center;letter-spacing:6px;font-size:20px;">
+      </div>
+      <button class="btn-sub" onclick="confirmPhoneCode()">تأكيد الرمز</button>
+      <div style="margin-top:12px;font-size:12px;color:var(--gold);cursor:pointer;" onclick="sendPhoneCode()">إعادة إرسال الرمز</div>
+    </div>
+    <div class="msg" id="pvMsg" style="margin-top:12px;"></div>
+  </div>
+</div>
+
 <!-- LIGHTBOX -->
 <div class="lightbox-overlay" id="lightboxOverlay" onclick="if(event.target===this)closeLightbox()">
   <button class="lightbox-close" onclick="closeLightbox()"><span class="ico ico-cross"></span></button>
@@ -2071,8 +2096,8 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
       <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
       تسجيل الدخول بـ Google
     </button>
-    <div class="div-line">أو بالإيميل</div>
-    <input type="email" class="inp" id="liEmail" placeholder="الإيميل">
+    <div class="div-line">أو برقم الهاتف</div>
+    <input type="tel" class="inp" id="liLogin" placeholder="رقم الهاتف: 7xxxxxxxx" inputmode="tel" maxlength="13">
     <input type="password" class="inp" id="liPass" placeholder="كلمة المرور">
     <button class="btn-sub" onclick="doLoginEmail()">دخول</button>
     <div class="msg" id="liMsg"></div>
@@ -2092,10 +2117,17 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
       المتابعة عبر Google
     </button>
     <div class="div-line">أو</div>
-    <input type="text" class="inp" id="regName" placeholder="الاسم الكامل">
-    <input type="email" class="inp" id="regEmail" placeholder="الإيميل">
-    <input type="password" class="inp" id="regPass" placeholder="كلمة المرور">
-    <button class="btn-sub" onclick="doRegister()">إنشاء حساب بالإيميل</button>
+    <div id="regStep1">
+      <input type="text" class="inp" id="regName" placeholder="الاسم الكامل">
+      <input type="tel" class="inp" id="regPhone" placeholder="رقم الهاتف: 7xxxxxxxx" inputmode="tel" maxlength="13">
+      <input type="password" class="inp" id="regPass" placeholder="كلمة المرور">
+      <button class="btn-sub" id="regSendBtn" onclick="requestRegCode()">إرسال رمز التحقق عبر واتساب</button>
+    </div>
+    <div id="regStep2" style="display:none;">
+      <input type="tel" class="inp" id="regCode" placeholder="رمز التحقق (6 أرقام)" inputmode="numeric" maxlength="6">
+      <button class="btn-sub" onclick="confirmRegCode()">تأكيد وإنشاء الحساب</button>
+      <div class="sw"><a id="resendLink" onclick="requestRegCode()">إعادة إرسال الرمز</a></div>
+    </div>
     <div class="msg" id="regMsg"></div>
     <div class="sw">عندك حساب؟ <a onclick="switchLogin()">سجل دخول</a></div>
     <div class="sw">عندك معرض سيارات؟ <a onclick="switchDealerReg()">سجل حساب معرض</a></div>
@@ -3227,7 +3259,13 @@ function loadProfile(){
   document.getElementById('profEmail').textContent=user.email||'—';
   document.getElementById('profPic').src=user.photoURL||'https://ui-avatars.com/api/?name='+encodeURIComponent(user.displayName||'U')+'&background=C9A84C&color=000&size=86';
   document.getElementById('editName').value=user.displayName||'';
-  db.collection('users').doc(user.uid).get().then(function(doc){if(doc.exists)document.getElementById('editPhone').value=doc.data().phone||'';}).catch(function(){});
+  db.collection('users').doc(user.uid).get().then(function(doc){
+    var d=doc.exists?doc.data():{};
+    document.getElementById('editPhone').value=d.phone||'';
+    window._pvVerified=!!d.phoneVerified;
+    window._pvVerifiedNum=d.phoneVerifiedNumber||'';
+    renderPhoneVerifyBadge();
+  }).catch(function(){window._pvVerified=false;window._pvVerifiedNum='';renderPhoneVerifyBadge();});
   db.collection('dealerRequests').where('uid','==',user.uid).limit(1).get().then(function(snap){
     var sec=document.getElementById('myDealerSection'),st=document.getElementById('myDealerStatus');
     if(snap.empty){sec.style.display='none';return;}
@@ -3281,11 +3319,95 @@ async function changeProfilePic(inp){
 }
 function doSignOut(){auth.signOut().then(function(){goPage('home');});}
 
+// ============ PHONE VERIFICATION (Twilio SMS via external server — see otp-server/) ============
+// After deploying otp-server (see its README) fill these two in:
+var PHONE_OTP_API_BASE='https://YOUR-VERCEL-PROJECT.vercel.app'; // TODO: your Vercel deployment URL
+var PHONE_OTP_API_KEY='REPLACE_WITH_YOUR_API_KEY'; // TODO: must match the API_KEY env var on the server
+window._pvVerified=false;window._pvVerifiedNum='';
+var pvToken=null;
+function renderPhoneVerifyBadge(){
+  var box=document.getElementById('phoneVerifyBox');if(!box)return;
+  var cur=(document.getElementById('editPhone').value||'').trim();
+  if(window._pvVerified&&window._pvVerifiedNum&&cur===window._pvVerifiedNum){
+    box.innerHTML='<span style="display:inline-flex;align-items:center;gap:5px;color:#2ecc71;font-size:12px;font-weight:700;"><span class="ico ico-check" style="width:14px;height:14px;margin-left:0;color:#2ecc71;"></span> رقم موثّق</span>';
+  }else if(cur){
+    box.innerHTML='<button type="button" onclick="openPhoneVerify()" style="background:none;border:1px solid var(--gold);color:var(--gold);padding:6px 13px;border-radius:8px;font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:700;cursor:pointer;"><span class="ico ico-check" style="width:13px;height:13px;margin-left:4px;color:var(--gold);"></span>تحقق من الرقم</button>';
+  }else{
+    box.innerHTML='';
+  }
+}
+function openPhoneVerify(){
+  var user=auth.currentUser;if(!user)return;
+  document.getElementById('pvPhoneDisplay').value=document.getElementById('editPhone').value.trim();
+  document.getElementById('pvStepSend').style.display='block';
+  document.getElementById('pvStepCode').style.display='none';
+  document.getElementById('pvCodeInp').value='';
+  pvToken=null;
+  var msg=document.getElementById('pvMsg');msg.textContent='';
+  document.getElementById('phoneVerifyOverlay').classList.add('open');
+}
+function closePhoneVerify(){document.getElementById('phoneVerifyOverlay').classList.remove('open');}
+function sendPhoneCode(){
+  var user=auth.currentUser;if(!user)return;
+  var raw=document.getElementById('pvPhoneDisplay').value.trim();
+  var msg=document.getElementById('pvMsg');
+  if(!/^0?7\d{9}$/.test(raw.replace(/\D/g,''))){msg.style.color='#e74c3c';msg.textContent='الرجاء إدخال رقم عراقي صحيح (07XX XXX XXXX)';return;}
+  msg.style.color='#f39c12';msg.textContent='جاري إرسال الرمز...';
+  fetch(PHONE_OTP_API_BASE+'/api/send-otp',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','X-Api-Key':PHONE_OTP_API_KEY},
+    body:JSON.stringify({phone:raw})
+  }).then(function(r){return r.json().then(function(d){return {status:r.status,data:d};});}).then(function(res){
+    if(res.status!==200){
+      var err=(res.data&&res.data.error)||'';
+      msg.style.color='#e74c3c';
+      if(err==='invalid_phone')msg.textContent='رقم الهاتف غير صحيح';
+      else if(err==='unauthorized'||err==='server_not_configured')msg.textContent='إعداد السيرفر غير مكتمل بعد';
+      else msg.textContent='تعذر إرسال الرمز، حاول مرة ثانية';
+      return;
+    }
+    pvToken=res.data.token;
+    window._pvPendingRaw=raw;
+    document.getElementById('pvStepSend').style.display='none';
+    document.getElementById('pvStepCode').style.display='block';
+    msg.style.color='#2ecc71';msg.textContent='تم إرسال الرمز إلى '+res.data.phone;
+  }).catch(function(){msg.style.color='#e74c3c';msg.textContent='تعذر الاتصال بالخادم';});
+}
+function confirmPhoneCode(){
+  var code=document.getElementById('pvCodeInp').value.trim();
+  var msg=document.getElementById('pvMsg');
+  if(!code||!pvToken){msg.style.color='#e74c3c';msg.textContent='الرجاء إدخال الرمز';return;}
+  msg.style.color='#f39c12';msg.textContent='جاري التحقق...';
+  fetch(PHONE_OTP_API_BASE+'/api/verify-otp',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','X-Api-Key':PHONE_OTP_API_KEY},
+    body:JSON.stringify({token:pvToken,code:code})
+  }).then(function(r){return r.json().then(function(d){return {status:r.status,data:d};});}).then(function(res){
+    if(res.status!==200){
+      var err=(res.data&&res.data.error)||'';
+      msg.style.color='#e74c3c';
+      if(err==='wrong_code')msg.textContent='الرمز غير صحيح';
+      else if(err==='expired')msg.textContent='انتهت صلاحية الرمز، اطلب رمز جديد';
+      else msg.textContent='تعذر التحقق، حاول مرة ثانية';
+      return;
+    }
+    var user=auth.currentUser;
+    var raw=window._pvPendingRaw;
+    db.collection('users').doc(user.uid).set({phone:raw,phoneVerified:true,phoneVerifiedNumber:raw,phoneVerifiedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true}).then(function(){
+      document.getElementById('editPhone').value=raw;
+      window._pvVerified=true;window._pvVerifiedNum=raw;
+      renderPhoneVerifyBadge();
+      showToast('<span class="ico ico-check"></span> تم توثيق رقم الهاتف');
+      closePhoneVerify();
+    });
+  }).catch(function(){msg.style.color='#e74c3c';msg.textContent='تعذر الاتصال بالخادم';});
+}
+
 // AUTH FUNCS
 function openLogin(){document.getElementById('loginOverlay').classList.add('open');}
 function closeLogin(){document.getElementById('loginOverlay').classList.remove('open');}
 function openReg(){document.getElementById('regOverlay').classList.add('open');}
-function closeReg(){document.getElementById('regOverlay').classList.remove('open');}
+function closeReg(){document.getElementById('regOverlay').classList.remove('open');resetRegForm();}
 function switchReg(){closeLogin();openReg();}
 function switchLogin(){closeReg();openLogin();}
 function openDealerReg(){document.getElementById('dealerRegOverlay').classList.add('open');}
@@ -3315,18 +3437,80 @@ function loginGoogle(){
   });
 }
 function doLoginEmail(){
-  var e=document.getElementById('liEmail').value.trim(),p=document.getElementById('liPass').value.trim();
-  if(!e||!p){showMsg2('liMsg','<span class="ico ico-cross"></span> أدخل الإيميل وكلمة المرور','#e74c3c');return;}
-  auth.signInWithEmailAndPassword(e,p).then(function(){closeLogin();}).catch(function(){showMsg2('liMsg','<span class="ico ico-cross"></span> إيميل أو كلمة مرور غلط','#e74c3c');});
+  var v=document.getElementById('liLogin').value.trim(),p=document.getElementById('liPass').value.trim();
+  if(!v||!p){showMsg2('liMsg','<span class="ico ico-cross"></span> أدخل رقم الهاتف وكلمة المرور','#e74c3c');return;}
+  var loginEmail;
+  if(v.indexOf('@')>-1){
+    loginEmail=v; // legacy accounts that registered with a real email before the phone switch
+  }else{
+    var phone=normalizeIraqiPhone(v);
+    if(!phone){showMsg2('liMsg','<span class="ico ico-cross"></span> رقم هاتف عراقي غير صحيح','#e74c3c');return;}
+    loginEmail=phone.replace('+','')+'@phone.iraqmotors.site';
+  }
+  auth.signInWithEmailAndPassword(loginEmail,p).then(function(){closeLogin();}).catch(function(){showMsg2('liMsg','<span class="ico ico-cross"></span> رقم الهاتف أو كلمة المرور غلط','#e74c3c');});
 }
-function doRegister(){
-  var n=document.getElementById('regName').value.trim(),e=document.getElementById('regEmail').value.trim(),p=document.getElementById('regPass').value.trim();
-  if(!n||!e||!p){showMsg2('regMsg','<span class="ico ico-cross"></span> الرجاء ملء جميع الحقول','#e74c3c');return;}
-  auth.createUserWithEmailAndPassword(e,p).then(function(r){
-    r.user.updateProfile({displayName:n});
-    db.collection('users').doc(r.user.uid).set({name:n,email:e,phone:'',createdAt:firebase.firestore.FieldValue.serverTimestamp()});
-    closeReg();
-  }).catch(function(er){showMsg2('regMsg','<span class="ico ico-cross"></span> '+er.message,'#e74c3c');});
+// Base URL of your deployed Cloud Functions. Update the region/project if
+// different from what `firebase deploy` prints after you deploy.
+var FUNCTIONS_BASE='https://us-central1-iraq-motors-38983.cloudfunctions.net';
+var _resendTimer=null;
+
+function requestRegCode(){
+  var n=document.getElementById('regName').value.trim();
+  var phoneRaw=document.getElementById('regPhone').value.trim();
+  var p=document.getElementById('regPass').value.trim();
+  if(!n||!phoneRaw||!p){showMsg2('regMsg','<span class="ico ico-cross"></span> الرجاء ملء جميع الحقول','#e74c3c');return;}
+  var phone=normalizeIraqiPhone(phoneRaw);
+  if(!phone){showMsg2('regMsg','<span class="ico ico-cross"></span> رقم هاتف عراقي غير صحيح، اكتب مثلاً 7801234567 أو 07801234567','#e74c3c');return;}
+  var btn=document.getElementById('regSendBtn');
+  if(btn)btn.disabled=true;
+  showMsg2('regMsg','<span class="ico ico-hourglass"></span> جاري إرسال الرمز عبر واتساب...','#f39c12');
+  fetch(FUNCTIONS_BASE+'/sendRegistrationCode',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:phone})})
+  .then(function(r){return r.json().then(function(d){return {ok:r.ok,data:d};});})
+  .then(function(res){
+    if(btn)btn.disabled=false;
+    if(!res.ok){showMsg2('regMsg','<span class="ico ico-cross"></span> '+(res.data.message||'صار خطأ'),'#e74c3c');return;}
+    document.getElementById('regStep1').style.display='none';
+    document.getElementById('regStep2').style.display='block';
+    showMsg2('regMsg','<span class="ico ico-check"></span> أرسلنا رمز التحقق لرقمك عبر واتساب','#2ecc71');
+    startResendCooldown();
+  }).catch(function(){if(btn)btn.disabled=false;showMsg2('regMsg','<span class="ico ico-cross"></span> تعذر الاتصال بالخادم','#e74c3c');});
+}
+
+function startResendCooldown(){
+  var link=document.getElementById('resendLink');
+  if(!link)return;
+  var secs=60,orig=link.textContent;
+  link.style.pointerEvents='none';link.style.opacity='.5';
+  if(_resendTimer)clearInterval(_resendTimer);
+  _resendTimer=setInterval(function(){
+    secs--;
+    link.textContent='إعادة الإرسال ('+secs+')';
+    if(secs<=0){clearInterval(_resendTimer);link.style.pointerEvents='auto';link.style.opacity='1';link.textContent=orig;}
+  },1000);
+}
+
+function confirmRegCode(){
+  var n=document.getElementById('regName').value.trim();
+  var phoneRaw=document.getElementById('regPhone').value.trim();
+  var p=document.getElementById('regPass').value.trim();
+  var code=document.getElementById('regCode').value.trim();
+  var phone=normalizeIraqiPhone(phoneRaw);
+  if(!code||code.length!==6){showMsg2('regMsg','<span class="ico ico-cross"></span> أدخل رمز التحقق المكون من 6 أرقام','#e74c3c');return;}
+  showMsg2('regMsg','<span class="ico ico-hourglass"></span> جاري التحقق...','#f39c12');
+  fetch(FUNCTIONS_BASE+'/verifyAndRegister',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:phone,code:code,name:n,password:p})})
+  .then(function(r){return r.json().then(function(d){return {ok:r.ok,data:d};});})
+  .then(function(res){
+    if(!res.ok){showMsg2('regMsg','<span class="ico ico-cross"></span> '+(res.data.message||'صار خطأ'),'#e74c3c');return;}
+    var fakeEmail=phone.replace('+','')+'@phone.iraqmotors.site';
+    auth.signInWithEmailAndPassword(fakeEmail,p).then(function(){closeReg();resetRegForm();}).catch(function(){showMsg2('regMsg','<span class="ico ico-check"></span> تم إنشاء الحساب، سجل الدخول يدوياً','#f39c12');});
+  }).catch(function(){showMsg2('regMsg','<span class="ico ico-cross"></span> تعذر الاتصال بالخادم','#e74c3c');});
+}
+
+function resetRegForm(){
+  var s1=document.getElementById('regStep1'),s2=document.getElementById('regStep2'),c=document.getElementById('regCode');
+  if(s1)s1.style.display='block';
+  if(s2)s2.style.display='none';
+  if(c)c.value='';
 }
 function doDealerRegister(){
   var name=document.getElementById('drName').value.trim();
