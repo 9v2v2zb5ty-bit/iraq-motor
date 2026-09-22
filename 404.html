@@ -2121,7 +2121,8 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
       <input type="text" class="inp" id="regName" placeholder="الاسم الكامل">
       <input type="tel" class="inp" id="regPhone" placeholder="رقم الهاتف: 7xxxxxxxx" inputmode="tel" maxlength="13">
       <input type="password" class="inp" id="regPass" placeholder="كلمة المرور">
-      <button class="btn-sub" id="regSendBtn" onclick="requestRegCode()">إرسال رمز التحقق عبر واتساب</button>
+      <button class="btn-sub" id="regSendBtn" onclick="requestRegCode()">إرسال رمز التحقق</button>
+      <div id="recaptcha-container"></div>
     </div>
     <div id="regStep2" style="display:none;">
       <input type="tel" class="inp" id="regCode" placeholder="رمز التحقق (6 أرقام)" inputmode="numeric" maxlength="6">
@@ -2292,6 +2293,8 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+<!-- يحمّل بعد اكتمال الصفحة (type=module يتأخر تلقائياً) فيستخدم نفس تطبيق Firebase اللي يهيّئه السكربت تحت -->
+<script type="module" src="./firebase-config.js"></script>
 <script>
 // CONFIG
 const AI_WORKER_URL='https://iraq-motorsai.iraqmotors.workers.dev';
@@ -3449,9 +3452,6 @@ function doLoginEmail(){
   }
   auth.signInWithEmailAndPassword(loginEmail,p).then(function(){closeLogin();}).catch(function(){showMsg2('liMsg','<span class="ico ico-cross"></span> رقم الهاتف أو كلمة المرور غلط','#e74c3c');});
 }
-// Base URL of your deployed Cloud Functions. Update the region/project if
-// different from what `firebase deploy` prints after you deploy.
-var FUNCTIONS_BASE='https://us-central1-iraq-motors-38983.cloudfunctions.net';
 var _resendTimer=null;
 
 function requestRegCode(){
@@ -3459,21 +3459,19 @@ function requestRegCode(){
   var phoneRaw=document.getElementById('regPhone').value.trim();
   var p=document.getElementById('regPass').value.trim();
   if(!n||!phoneRaw||!p){showMsg2('regMsg','<span class="ico ico-cross"></span> الرجاء ملء جميع الحقول','#e74c3c');return;}
-  var phone=normalizeIraqiPhone(phoneRaw);
-  if(!phone){showMsg2('regMsg','<span class="ico ico-cross"></span> رقم هاتف عراقي غير صحيح، اكتب مثلاً 7801234567 أو 07801234567','#e74c3c');return;}
+  if(!normalizeIraqiPhone(phoneRaw)){showMsg2('regMsg','<span class="ico ico-cross"></span> رقم هاتف عراقي غير صحيح، اكتب مثلاً 7801234567 أو 07801234567','#e74c3c');return;}
+  if(!window.sendOTP){showMsg2('regMsg','<span class="ico ico-cross"></span> نظام التحقق لسا ما تحمّل، أعد تحميل الصفحة','#e74c3c');return;}
   var btn=document.getElementById('regSendBtn');
   if(btn)btn.disabled=true;
-  showMsg2('regMsg','<span class="ico ico-hourglass"></span> جاري إرسال الرمز عبر واتساب...','#f39c12');
-  fetch(FUNCTIONS_BASE+'/sendRegistrationCode',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:phone})})
-  .then(function(r){return r.json().then(function(d){return {ok:r.ok,data:d};});})
-  .then(function(res){
+  showMsg2('regMsg','<span class="ico ico-hourglass"></span> جاري إرسال الرمز...','#f39c12');
+  window.sendOTP(phoneRaw).then(function(res){
     if(btn)btn.disabled=false;
-    if(!res.ok){showMsg2('regMsg','<span class="ico ico-cross"></span> '+(res.data.message||'صار خطأ'),'#e74c3c');return;}
+    if(!res.success){showMsg2('regMsg','<span class="ico ico-cross"></span> '+(res.message||'تعذر إرسال الرمز'),'#e74c3c');return;}
     document.getElementById('regStep1').style.display='none';
     document.getElementById('regStep2').style.display='block';
-    showMsg2('regMsg','<span class="ico ico-check"></span> أرسلنا رمز التحقق لرقمك عبر واتساب','#2ecc71');
+    showMsg2('regMsg','<span class="ico ico-check"></span> أرسلنا رمز التحقق لرقمك عبر رسالة نصية','#2ecc71');
     startResendCooldown();
-  }).catch(function(){if(btn)btn.disabled=false;showMsg2('regMsg','<span class="ico ico-cross"></span> تعذر الاتصال بالخادم','#e74c3c');});
+  });
 }
 
 function startResendCooldown(){
@@ -3491,19 +3489,19 @@ function startResendCooldown(){
 
 function confirmRegCode(){
   var n=document.getElementById('regName').value.trim();
-  var phoneRaw=document.getElementById('regPhone').value.trim();
   var p=document.getElementById('regPass').value.trim();
   var code=document.getElementById('regCode').value.trim();
-  var phone=normalizeIraqiPhone(phoneRaw);
   if(!code||code.length!==6){showMsg2('regMsg','<span class="ico ico-cross"></span> أدخل رمز التحقق المكون من 6 أرقام','#e74c3c');return;}
   showMsg2('regMsg','<span class="ico ico-hourglass"></span> جاري التحقق...','#f39c12');
-  fetch(FUNCTIONS_BASE+'/verifyAndRegister',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:phone,code:code,name:n,password:p})})
-  .then(function(r){return r.json().then(function(d){return {ok:r.ok,data:d};});})
-  .then(function(res){
-    if(!res.ok){showMsg2('regMsg','<span class="ico ico-cross"></span> '+(res.data.message||'صار خطأ'),'#e74c3c');return;}
-    var fakeEmail=phone.replace('+','')+'@phone.iraqmotors.site';
-    auth.signInWithEmailAndPassword(fakeEmail,p).then(function(){closeReg();resetRegForm();}).catch(function(){showMsg2('regMsg','<span class="ico ico-check"></span> تم إنشاء الحساب، سجل الدخول يدوياً','#f39c12');});
-  }).catch(function(){showMsg2('regMsg','<span class="ico ico-cross"></span> تعذر الاتصال بالخادم','#e74c3c');});
+  window.verifyOTP(code).then(function(res){
+    if(!res.success){showMsg2('regMsg','<span class="ico ico-cross"></span> '+(res.message||'الرمز غلط'),'#e74c3c');return;}
+    window.linkPasswordAndProfile(n,p).then(function(res2){
+      if(!res2.success){showMsg2('regMsg','<span class="ico ico-cross"></span> '+(res2.message||'صار خطأ'),'#e74c3c');return;}
+      db.collection('users').doc(res2.uid).set({name:n,email:'',phone:res2.phone,createdAt:firebase.firestore.FieldValue.serverTimestamp()}).then(function(){
+        closeReg();resetRegForm();
+      });
+    });
+  });
 }
 
 function resetRegForm(){
