@@ -32,11 +32,17 @@ export const auth = getAuth(app);
 
 // ---- invisible reCAPTCHA (recreated fresh on every send/resend) ----
 function initRecaptcha(){
+  const container = document.getElementById('recaptcha-container');
+  if (!container) {
+    throw new Error('missing-recaptcha-container');
+  }
+
   if (window.recaptchaVerifier){
     try { window.recaptchaVerifier.clear(); } catch(e){}
     window.recaptchaVerifier = null;
   }
-  window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', { size: 'invisible' });
+
+  window.recaptchaVerifier = new RecaptchaVerifier(auth, container, { size: 'invisible' });
   return window.recaptchaVerifier;
 }
 
@@ -57,10 +63,19 @@ window.sendOTP = async function(phoneNumber){
     return { success: true };
   }catch(error){
     console.error("sendOTP error:", error);
+
     let msg = 'تعذر إرسال الرمز، حاول لاحقاً';
-    if (error.code === 'auth/too-many-requests') msg = 'محاولات كثيرة على هذا الرقم، حاول بعد شوي';
-    if (error.code === 'auth/invalid-phone-number') msg = 'رقم الهاتف غير صحيح';
-    return { success: false, message: msg };
+    if (error?.code === 'auth/too-many-requests') msg = 'محاولات كثيرة على هذا الرقم، حاول بعد شوي';
+    if (error?.code === 'auth/invalid-phone-number') msg = 'رقم الهاتف غير صحيح';
+    if (error?.code === 'auth/network-request-failed') msg = 'فشل الاتصال بالخادم، تأكد من الإنترنت ثم حاول مرة ثانية';
+    if (error?.code === 'auth/internal-error') msg = 'مشكلة في خدمة Firebase أو في إعدادات reCAPTCHA / النطاق المصرح به';
+    if (error?.code === 'auth/captcha-check-failed') msg = 'فشل التحقق البصري (reCAPTCHA)، أعد تحميل الصفحة ثم حاول مرة ثانية';
+    if (error?.code === 'auth/invalid-app-credential') msg = 'إعدادات Firebase غير صحيحة، راجع إعدادات المشروع';
+    if (error?.message && error.message.includes('missing-recaptcha-container')) {
+      msg = 'عنصر التحقق غير موجود في الصفحة، أعد تحميل الصفحة ثم حاول مرة ثانية';
+    }
+
+    return { success: false, message: msg, code: error?.code || null };
   }
 };
 
