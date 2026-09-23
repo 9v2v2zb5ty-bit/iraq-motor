@@ -1,13 +1,2 @@
 node_modules
 **/node_modules
-.git
-.github
-backend
-*.py
-*.yaml
-*.yml
-README.md
-package.json
-package-lock.json
-wrangler.jsonc
-cloudflareignore
