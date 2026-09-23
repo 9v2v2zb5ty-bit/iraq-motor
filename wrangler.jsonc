@@ -2,10 +2,6 @@
   "name": "iraqmotors",
   "compatibility_date": "2026-09-21",
   "assets": {
-    "directory": ".",
-    "exclude": [
-      "node_modules/**",
-      ".git/**"
-    ]
+    "directory": "."
   }
 }
