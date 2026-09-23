@@ -2098,8 +2098,8 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
       <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
       تسجيل الدخول بـ Google
     </button>
-    <div class="div-line">أو برقم الهاتف</div>
-    <input type="tel" class="inp" id="liLogin" placeholder="رقم الهاتف: 7xxxxxxxx" inputmode="tel" maxlength="13">
+    <div class="div-line">أو بالإيميل</div>
+    <input type="email" class="inp" id="liLogin" placeholder="الإيميل">
     <input type="password" class="inp" id="liPass" placeholder="كلمة المرور">
     <button class="btn-sub" onclick="doLoginEmail()">دخول</button>
     <div class="msg" id="liMsg"></div>
@@ -2119,18 +2119,11 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
       المتابعة عبر Google
     </button>
     <div class="div-line">أو</div>
-    <div id="regStep1">
-      <input type="text" class="inp" id="regName" placeholder="الاسم الكامل">
-      <input type="tel" class="inp" id="regPhone" placeholder="رقم الهاتف: 7xxxxxxxx" inputmode="tel" maxlength="13">
-      <input type="password" class="inp" id="regPass" placeholder="كلمة المرور">
-      <button class="btn-sub" id="regSendBtn" onclick="requestRegCode()">إرسال رمز التحقق</button>
-      <div id="recaptcha-container"></div>
-    </div>
-    <div id="regStep2" style="display:none;">
-      <input type="tel" class="inp" id="regCode" placeholder="رمز التحقق (6 أرقام)" inputmode="numeric" maxlength="6">
-      <button class="btn-sub" onclick="confirmRegCode()">تأكيد وإنشاء الحساب</button>
-      <div class="sw"><a id="resendLink" onclick="requestRegCode()">إعادة إرسال الرمز</a></div>
-    </div>
+    <input type="text" class="inp" id="regName" placeholder="الاسم الكامل">
+    <input type="email" class="inp" id="regEmail" placeholder="الإيميل">
+    <input type="tel" class="inp" id="regPhone" placeholder="رقم الهاتف: 7xxxxxxxx" inputmode="tel" maxlength="13">
+    <input type="password" class="inp" id="regPass" placeholder="كلمة المرور">
+    <button class="btn-sub" onclick="doRegister()">إنشاء حساب</button>
     <div class="msg" id="regMsg"></div>
     <div class="sw">عندك حساب؟ <a onclick="switchLogin()">سجل دخول</a></div>
     <div class="sw">عندك معرض سيارات؟ <a onclick="switchDealerReg()">سجل حساب معرض</a></div>
@@ -2295,8 +2288,6 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
-<!-- يحمّل بعد اكتمال الصفحة وبصيغة compat لتعمل بشكل موثوق على iPad/Safari -->
-<script src="./firebase-config.js"></script>
 <script>
 // CONFIG
 const AI_WORKER_URL='https://iraq-motorsai.iraqmotors.workers.dev';
@@ -2305,86 +2296,6 @@ const ADMIN_EMAILS=['iraq.motors0@gmail.com','abdullahanasm200@gmail.com','alshi
 firebase.initializeApp({apiKey:"AIzaSyAb4MheuHSlF4yOxuDfhnxZtIMyXy7g-l8",authDomain:"iraq-motors-38983.firebaseapp.com",projectId:"iraq-motors-38983",storageBucket:"iraq-motors-38983.firebasestorage.app",messagingSenderId:"80307836321",appId:"1:80307836321:web:d61f734a86f5be5a4c67e0"});
 const auth=firebase.auth(), db=firebase.firestore(), storage=firebase.storage();
 function isAdmin(){return auth.currentUser&&ADMIN_EMAILS.includes(auth.currentUser.email);}
-
-(function(){
-  function ensureRecaptchaContainer(){
-    let el=document.getElementById('recaptcha-container');
-    if(!el){
-      el=document.createElement('div');
-      el.id='recaptcha-container';
-      el.style.display='none';
-      document.body.appendChild(el);
-    }
-    return el;
-  }
-
-  function formatIraqiPhone(phone){
-    let cleaned=String(phone||'').replace(/\D/g,'');
-    if(cleaned.startsWith('964')) cleaned=cleaned.slice(3);
-    if(cleaned.startsWith('0')) cleaned=cleaned.slice(1);
-    return '+964'+cleaned;
-  }
-
-  function initRecaptcha(){
-    const el=ensureRecaptchaContainer();
-    if(window.recaptchaVerifier){
-      try{window.recaptchaVerifier.clear();}catch(e){}
-      window.recaptchaVerifier=null;
-    }
-    window.recaptchaVerifier=new firebase.auth.RecaptchaVerifier(el,{size:'invisible'});
-    return window.recaptchaVerifier;
-  }
-
-  if(!window.sendOTP){
-    window.sendOTP=async function(phoneNumber){
-      try{
-        const appVerifier=initRecaptcha();
-        const formattedPhone=formatIraqiPhone(phoneNumber);
-        window.confirmationResult=await auth.signInWithPhoneNumber(formattedPhone, appVerifier);
-        return {success:true};
-      }catch(error){
-        console.error('sendOTP fallback error:', error);
-        let msg='تعذر إرسال الرمز، حاول لاحقاً';
-        if(error&&error.code==='auth/invalid-phone-number') msg='رقم الهاتف غير صحيح';
-        if(error&&error.code==='auth/network-request-failed') msg='فشل الاتصال بالخادم، تأكد من الإنترنت ثم حاول مرة ثانية';
-        if(error&&error.code==='auth/too-many-requests') msg='محاولات كثيرة على هذا الرقم، حاول بعد شوي';
-        return {success:false, message:msg, code:error&&error.code ? error.code : null};
-      }
-    };
-  }
-
-  if(!window.verifyOTP){
-    window.verifyOTP=async function(code){
-      try{
-        if(!window.confirmationResult) return {success:false, message:'اطلب رمز تحقق أولاً'};
-        const result=await window.confirmationResult.confirm(code);
-        return {success:true, user:result.user};
-      }catch(error){
-        console.error('verifyOTP fallback error:', error);
-        return {success:false, message:'الرمز غير صحيح'};
-      }
-    };
-  }
-
-  if(!window.linkPasswordAndProfile){
-    window.linkPasswordAndProfile=async function(name, password){
-      try{
-        const user=auth.currentUser;
-        if(!user) throw {code:'no_user'};
-        const fakeEmail=user.phoneNumber.replace('+','')+'@phone.iraqmotors.site';
-        const credential=firebase.auth.EmailAuthProvider.credential(fakeEmail, password);
-        await user.linkWithCredential(credential);
-        await user.updateProfile({displayName:name});
-        return {success:true, uid:user.uid, phone:user.phoneNumber};
-      }catch(error){
-        console.error('linkPasswordAndProfile fallback error:', error);
-        let msg='صار خطأ، حاول مرة ثانية';
-        if(error&&error.code==='auth/email-already-in-use') msg='هذا الرقم مسجل مسبقاً، جرب تسجيل الدخول';
-        return {success:false, message:msg};
-      }
-    };
-  }
-})();
 
 // ============ I18N (Arabic / Kurdish Sorani / English) ============
 const I18N={
@@ -3492,7 +3403,7 @@ function confirmPhoneCode(){
 function openLogin(){document.getElementById('loginOverlay').classList.add('open');}
 function closeLogin(){document.getElementById('loginOverlay').classList.remove('open');}
 function openReg(){document.getElementById('regOverlay').classList.add('open');}
-function closeReg(){document.getElementById('regOverlay').classList.remove('open');resetRegForm();}
+function closeReg(){document.getElementById('regOverlay').classList.remove('open');}
 function switchReg(){closeLogin();openReg();}
 function switchLogin(){closeReg();openLogin();}
 function openDealerReg(){document.getElementById('dealerRegOverlay').classList.add('open');}
@@ -3531,75 +3442,28 @@ function normalizeIraqiPhone(v){
   return '+964'+d;
 }
 function doLoginEmail(){
-  var v=document.getElementById('liLogin').value.trim(),p=document.getElementById('liPass').value.trim();
-  if(!v||!p){showMsg2('liMsg','<span class="ico ico-cross"></span> أدخل رقم الهاتف وكلمة المرور','#e74c3c');return;}
-  var loginEmail;
-  if(v.indexOf('@')>-1){
-    loginEmail=v; // legacy accounts that registered with a real email before the phone switch
-  }else{
-    var phone=normalizeIraqiPhone(v);
-    if(!phone){showMsg2('liMsg','<span class="ico ico-cross"></span> رقم هاتف عراقي غير صحيح','#e74c3c');return;}
-    loginEmail=phone.replace('+','')+'@phone.iraqmotors.site';
-  }
-  auth.signInWithEmailAndPassword(loginEmail,p).then(function(){closeLogin();}).catch(function(){showMsg2('liMsg','<span class="ico ico-cross"></span> رقم الهاتف أو كلمة المرور غلط','#e74c3c');});
+  var e=document.getElementById('liLogin').value.trim(),p=document.getElementById('liPass').value.trim();
+  if(!e||!p){showMsg2('liMsg','<span class="ico ico-cross"></span> أدخل الإيميل وكلمة المرور','#e74c3c');return;}
+  auth.signInWithEmailAndPassword(e,p).then(function(){closeLogin();}).catch(function(){showMsg2('liMsg','<span class="ico ico-cross"></span> إيميل أو كلمة مرور غلط','#e74c3c');});
 }
-var _resendTimer=null;
-
-function requestRegCode(){
+function doRegister(){
   var n=document.getElementById('regName').value.trim();
+  var e=document.getElementById('regEmail').value.trim();
   var phoneRaw=document.getElementById('regPhone').value.trim();
   var p=document.getElementById('regPass').value.trim();
-  if(!n||!phoneRaw||!p){showMsg2('regMsg','<span class="ico ico-cross"></span> الرجاء ملء جميع الحقول','#e74c3c');return;}
-  if(!normalizeIraqiPhone(phoneRaw)){showMsg2('regMsg','<span class="ico ico-cross"></span> رقم هاتف عراقي غير صحيح، اكتب مثلاً 7801234567 أو 07801234567','#e74c3c');return;}
-  if(!window.sendOTP){showMsg2('regMsg','<span class="ico ico-cross"></span> نظام التحقق لسا ما تحمّل، أعد تحميل الصفحة','#e74c3c');return;}
-  var btn=document.getElementById('regSendBtn');
-  if(btn)btn.disabled=true;
-  showMsg2('regMsg','<span class="ico ico-hourglass"></span> جاري إرسال الرمز...','#f39c12');
-  window.sendOTP(phoneRaw).then(function(res){
-    if(btn)btn.disabled=false;
-    if(!res.success){showMsg2('regMsg','<span class="ico ico-cross"></span> '+(res.message||'تعذر إرسال الرمز'),'#e74c3c');return;}
-    document.getElementById('regStep1').style.display='none';
-    document.getElementById('regStep2').style.display='block';
-    showMsg2('regMsg','<span class="ico ico-check"></span> أرسلنا رمز التحقق لرقمك عبر رسالة نصية','#2ecc71');
-    startResendCooldown();
+  if(!n||!e||!phoneRaw||!p){showMsg2('regMsg','<span class="ico ico-cross"></span> الرجاء ملء جميع الحقول','#e74c3c');return;}
+  var phone=normalizeIraqiPhone(phoneRaw);
+  if(!phone){showMsg2('regMsg','<span class="ico ico-cross"></span> رقم هاتف عراقي غير صحيح، اكتب مثلاً 7801234567 أو 07801234567','#e74c3c');return;}
+  auth.createUserWithEmailAndPassword(e,p).then(function(r){
+    r.user.updateProfile({displayName:n});
+    r.user.sendEmailVerification();
+    db.collection('users').doc(r.user.uid).set({name:n,email:e,phone:phone,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+    closeReg();
+    showMsg2('liMsg','<span class="ico ico-check"></span> تم إنشاء الحساب! أرسلنا رابط تفعيل لإيميلك، افتحه لتأكيد حسابك','#2ecc71');
+  }).catch(function(er){
+    var msg=er.code==='auth/email-already-in-use'?'هذا الإيميل مسجل مسبقاً':er.message;
+    showMsg2('regMsg','<span class="ico ico-cross"></span> '+msg,'#e74c3c');
   });
-}
-
-function startResendCooldown(){
-  var link=document.getElementById('resendLink');
-  if(!link)return;
-  var secs=60,orig=link.textContent;
-  link.style.pointerEvents='none';link.style.opacity='.5';
-  if(_resendTimer)clearInterval(_resendTimer);
-  _resendTimer=setInterval(function(){
-    secs--;
-    link.textContent='إعادة الإرسال ('+secs+')';
-    if(secs<=0){clearInterval(_resendTimer);link.style.pointerEvents='auto';link.style.opacity='1';link.textContent=orig;}
-  },1000);
-}
-
-function confirmRegCode(){
-  var n=document.getElementById('regName').value.trim();
-  var p=document.getElementById('regPass').value.trim();
-  var code=document.getElementById('regCode').value.trim();
-  if(!code||code.length!==6){showMsg2('regMsg','<span class="ico ico-cross"></span> أدخل رمز التحقق المكون من 6 أرقام','#e74c3c');return;}
-  showMsg2('regMsg','<span class="ico ico-hourglass"></span> جاري التحقق...','#f39c12');
-  window.verifyOTP(code).then(function(res){
-    if(!res.success){showMsg2('regMsg','<span class="ico ico-cross"></span> '+(res.message||'الرمز غلط'),'#e74c3c');return;}
-    window.linkPasswordAndProfile(n,p).then(function(res2){
-      if(!res2.success){showMsg2('regMsg','<span class="ico ico-cross"></span> '+(res2.message||'صار خطأ'),'#e74c3c');return;}
-      db.collection('users').doc(res2.uid).set({name:n,email:'',phone:res2.phone,createdAt:firebase.firestore.FieldValue.serverTimestamp()}).then(function(){
-        closeReg();resetRegForm();
-      });
-    });
-  });
-}
-
-function resetRegForm(){
-  var s1=document.getElementById('regStep1'),s2=document.getElementById('regStep2'),c=document.getElementById('regCode');
-  if(s1)s1.style.display='block';
-  if(s2)s2.style.display='none';
-  if(c)c.value='';
 }
 function doDealerRegister(){
   var name=document.getElementById('drName').value.trim();
