@@ -2,110 +2,96 @@
 // -----------------------------------------------------------------------
 // Native Firebase Phone Auth (SMS OTP) for registration.
 //
-// IMPORTANT: this file does NOT call initializeApp() itself. index.html
-// already initializes the Firebase app with firebase.initializeApp(...)
-// using the classic "compat" scripts. This file just reuses that SAME
-// app via getApp(), so there is only ever one app / one signed-in user
-// state shared between this file and the rest of index.html. Calling
-// initializeApp() a second time here would throw
-// "Firebase App named '[DEFAULT]' already exists" (or worse, silently
-// create a second, disconnected auth session).
+// IMPORTANT: this file is intentionally written for the classic Firebase
+// compat SDK, not ES modules. This is the most reliable method on iPad
+// Safari and on some hosting setups where module scripts may fail to load
+// or show up as "not loaded" even though the page appears to be open.
 //
-// Load order is safe because <script type="module"> always runs AFTER
-// the page has finished parsing, i.e. after the classic compat scripts
-// (including the initializeApp(...) call) have already run — regardless
-// of where in the HTML this script tag sits.
+// We reuse the same Firebase app that index.html already initializes,
+// instead of calling initializeApp() again.
 // -----------------------------------------------------------------------
 
-import { getApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import {
-  getAuth,
-  RecaptchaVerifier,
-  signInWithPhoneNumber,
-  EmailAuthProvider,
-  linkWithCredential,
-  updateProfile
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-const app = getApp();          // reuses the app index.html already initialized
-export const auth = getAuth(app);
-
-// ---- invisible reCAPTCHA (recreated fresh on every send/resend) ----
-function initRecaptcha(){
-  const container = document.getElementById('recaptcha-container');
-  if (!container) {
-    throw new Error('missing-recaptcha-container');
+(function () {
+  if (!window.firebase || !window.firebase.auth) {
+    console.error('Firebase compat SDK not ready yet.');
+    return;
   }
 
-  if (window.recaptchaVerifier){
-    try { window.recaptchaVerifier.clear(); } catch(e){}
-    window.recaptchaVerifier = null;
-  }
+  const auth = window.firebase.auth();
 
-  window.recaptchaVerifier = new RecaptchaVerifier(auth, container, { size: 'invisible' });
-  return window.recaptchaVerifier;
-}
-
-// "07xxxxxxxxx" أو "7xxxxxxxxx" أو "+9647xxxxxxxxx" → "+9647xxxxxxxxx"
-function formatIraqiPhone(phone){
-  let cleaned = phone.replace(/\D/g, '');
-  if (cleaned.startsWith('964')) cleaned = cleaned.slice(3);
-  if (cleaned.startsWith('0')) cleaned = cleaned.slice(1);
-  return `+964${cleaned}`;
-}
-
-// يرجع {success, message} بدل alert() حتى تعرض index.html الرسالة بنفس ستايل الموقع
-window.sendOTP = async function(phoneNumber){
-  try{
-    const appVerifier = initRecaptcha();
-    const formattedPhone = formatIraqiPhone(phoneNumber);
-    window.confirmationResult = await signInWithPhoneNumber(auth, formattedPhone, appVerifier);
-    return { success: true };
-  }catch(error){
-    console.error("sendOTP error:", error);
-
-    let msg = 'تعذر إرسال الرمز، حاول لاحقاً';
-    if (error?.code === 'auth/too-many-requests') msg = 'محاولات كثيرة على هذا الرقم، حاول بعد شوي';
-    if (error?.code === 'auth/invalid-phone-number') msg = 'رقم الهاتف غير صحيح';
-    if (error?.code === 'auth/network-request-failed') msg = 'فشل الاتصال بالخادم، تأكد من الإنترنت ثم حاول مرة ثانية';
-    if (error?.code === 'auth/internal-error') msg = 'مشكلة في خدمة Firebase أو في إعدادات reCAPTCHA / النطاق المصرح به';
-    if (error?.code === 'auth/captcha-check-failed') msg = 'فشل التحقق البصري (reCAPTCHA)، أعد تحميل الصفحة ثم حاول مرة ثانية';
-    if (error?.code === 'auth/invalid-app-credential') msg = 'إعدادات Firebase غير صحيحة، راجع إعدادات المشروع';
-    if (error?.message && error.message.includes('missing-recaptcha-container')) {
-      msg = 'عنصر التحقق غير موجود في الصفحة، أعد تحميل الصفحة ثم حاول مرة ثانية';
+  function initRecaptcha() {
+    const container = document.getElementById('recaptcha-container');
+    if (!container) {
+      throw new Error('missing-recaptcha-container');
     }
 
-    return { success: false, message: msg, code: error?.code || null };
-  }
-};
-
-window.verifyOTP = async function(code){
-  try{
-    if (!window.confirmationResult) return { success:false, message:'اطلب رمز تحقق أولاً' };
-    const result = await window.confirmationResult.confirm(code);
-    return { success: true, user: result.user };
-  }catch(error){
-    console.error("verifyOTP error:", error);
-    return { success: false, message: 'الرمز غير صحيح' };
-  }
-};
-
-// يربط باسورد + اسم بنفس الحساب اللي تحقق برقمه، حتى تسجيل الدخول القادم
-// يصير بالرقم + الباسورد (بدون حاجة لرمز تحقق جديد بكل مرة)
-window.linkPasswordAndProfile = async function(name, password){
-  try{
-    const user = auth.currentUser;
-    if (!user) throw { code: 'no_user' };
-    const fakeEmail = user.phoneNumber.replace('+', '') + '@phone.iraqmotors.site';
-    await linkWithCredential(user, EmailAuthProvider.credential(fakeEmail, password));
-    await updateProfile(user, { displayName: name });
-    return { success: true, uid: user.uid, phone: user.phoneNumber };
-  }catch(error){
-    console.error("linkPasswordAndProfile error:", error);
-    let msg = 'صار خطأ، حاول مرة ثانية';
-    if (error.code === 'auth/email-already-in-use' || error.code === 'auth/credential-already-in-use') {
-      msg = 'هذا الرقم مسجل مسبقاً، جرب تسجيل الدخول';
+    if (window.recaptchaVerifier) {
+      try { window.recaptchaVerifier.clear(); } catch (e) {}
+      window.recaptchaVerifier = null;
     }
-    return { success: false, message: msg };
+
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(container, { size: 'invisible' });
+    return window.recaptchaVerifier;
   }
-};
+
+  function formatIraqiPhone(phone) {
+    let cleaned = String(phone || '').replace(/\D/g, '');
+    if (cleaned.startsWith('964')) cleaned = cleaned.slice(3);
+    if (cleaned.startsWith('0')) cleaned = cleaned.slice(1);
+    return `+964${cleaned}`;
+  }
+
+  window.sendOTP = async function(phoneNumber) {
+    try {
+      const appVerifier = initRecaptcha();
+      const formattedPhone = formatIraqiPhone(phoneNumber);
+      window.confirmationResult = await auth.signInWithPhoneNumber(formattedPhone, appVerifier);
+      return { success: true };
+    } catch (error) {
+      console.error('sendOTP error:', error);
+
+      let msg = 'تعذر إرسال الرمز، حاول لاحقاً';
+      if (error && error.code === 'auth/too-many-requests') msg = 'محاولات كثيرة على هذا الرقم، حاول بعد شوي';
+      if (error && error.code === 'auth/invalid-phone-number') msg = 'رقم الهاتف غير صحيح';
+      if (error && error.code === 'auth/network-request-failed') msg = 'فشل الاتصال بالخادم، تأكد من الإنترنت ثم حاول مرة ثانية';
+      if (error && error.code === 'auth/internal-error') msg = 'مشكلة في خدمة Firebase أو في إعدادات reCAPTCHA / النطاق المصرح به';
+      if (error && error.code === 'auth/captcha-check-failed') msg = 'فشل التحقق البصري (reCAPTCHA)، أعد تحميل الصفحة ثم حاول مرة ثانية';
+      if (error && error.message && error.message.includes('missing-recaptcha-container')) {
+        msg = 'عنصر التحقق غير موجود في الصفحة، أعد تحميل الصفحة ثم حاول مرة ثانية';
+      }
+
+      return { success: false, message: msg, code: error && error.code ? error.code : null };
+    }
+  };
+
+  window.verifyOTP = async function(code) {
+    try {
+      if (!window.confirmationResult) return { success: false, message: 'اطلب رمز تحقق أولاً' };
+      const result = await window.confirmationResult.confirm(code);
+      return { success: true, user: result.user };
+    } catch (error) {
+      console.error('verifyOTP error:', error);
+      return { success: false, message: 'الرمز غير صحيح' };
+    }
+  };
+
+  window.linkPasswordAndProfile = async function(name, password) {
+    try {
+      const user = auth.currentUser;
+      if (!user) throw { code: 'no_user' };
+
+      const fakeEmail = user.phoneNumber.replace('+', '') + '@phone.iraqmotors.site';
+      const emailCred = firebase.auth.EmailAuthProvider.credential(fakeEmail, password);
+      await user.linkWithCredential(emailCred);
+      await user.updateProfile({ displayName: name });
+      return { success: true, uid: user.uid, phone: user.phoneNumber };
+    } catch (error) {
+      console.error('linkPasswordAndProfile error:', error);
+      let msg = 'صار خطأ، حاول مرة ثانية';
+      if (error && (error.code === 'auth/email-already-in-use' || error.code === 'auth/credential-already-in-use')) {
+        msg = 'هذا الرقم مسجل مسبقاً، جرب تسجيل الدخول';
+      }
+      return { success: false, message: msg };
+    }
+  };
+})();
