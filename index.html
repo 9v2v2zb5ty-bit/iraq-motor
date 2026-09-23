@@ -2306,6 +2306,86 @@ firebase.initializeApp({apiKey:"AIzaSyAb4MheuHSlF4yOxuDfhnxZtIMyXy7g-l8",authDom
 const auth=firebase.auth(), db=firebase.firestore(), storage=firebase.storage();
 function isAdmin(){return auth.currentUser&&ADMIN_EMAILS.includes(auth.currentUser.email);}
 
+(function(){
+  function ensureRecaptchaContainer(){
+    let el=document.getElementById('recaptcha-container');
+    if(!el){
+      el=document.createElement('div');
+      el.id='recaptcha-container';
+      el.style.display='none';
+      document.body.appendChild(el);
+    }
+    return el;
+  }
+
+  function formatIraqiPhone(phone){
+    let cleaned=String(phone||'').replace(/\D/g,'');
+    if(cleaned.startsWith('964')) cleaned=cleaned.slice(3);
+    if(cleaned.startsWith('0')) cleaned=cleaned.slice(1);
+    return '+964'+cleaned;
+  }
+
+  function initRecaptcha(){
+    const el=ensureRecaptchaContainer();
+    if(window.recaptchaVerifier){
+      try{window.recaptchaVerifier.clear();}catch(e){}
+      window.recaptchaVerifier=null;
+    }
+    window.recaptchaVerifier=new firebase.auth.RecaptchaVerifier(el,{size:'invisible'});
+    return window.recaptchaVerifier;
+  }
+
+  if(!window.sendOTP){
+    window.sendOTP=async function(phoneNumber){
+      try{
+        const appVerifier=initRecaptcha();
+        const formattedPhone=formatIraqiPhone(phoneNumber);
+        window.confirmationResult=await auth.signInWithPhoneNumber(formattedPhone, appVerifier);
+        return {success:true};
+      }catch(error){
+        console.error('sendOTP fallback error:', error);
+        let msg='تعذر إرسال الرمز، حاول لاحقاً';
+        if(error&&error.code==='auth/invalid-phone-number') msg='رقم الهاتف غير صحيح';
+        if(error&&error.code==='auth/network-request-failed') msg='فشل الاتصال بالخادم، تأكد من الإنترنت ثم حاول مرة ثانية';
+        if(error&&error.code==='auth/too-many-requests') msg='محاولات كثيرة على هذا الرقم، حاول بعد شوي';
+        return {success:false, message:msg, code:error&&error.code ? error.code : null};
+      }
+    };
+  }
+
+  if(!window.verifyOTP){
+    window.verifyOTP=async function(code){
+      try{
+        if(!window.confirmationResult) return {success:false, message:'اطلب رمز تحقق أولاً'};
+        const result=await window.confirmationResult.confirm(code);
+        return {success:true, user:result.user};
+      }catch(error){
+        console.error('verifyOTP fallback error:', error);
+        return {success:false, message:'الرمز غير صحيح'};
+      }
+    };
+  }
+
+  if(!window.linkPasswordAndProfile){
+    window.linkPasswordAndProfile=async function(name, password){
+      try{
+        const user=auth.currentUser;
+        if(!user) throw {code:'no_user'};
+        const fakeEmail=user.phoneNumber.replace('+','')+'@phone.iraqmotors.site';
+        const credential=firebase.auth.EmailAuthProvider.credential(fakeEmail, password);
+        await user.linkWithCredential(credential);
+        await user.updateProfile({displayName:name});
+        return {success:true, uid:user.uid, phone:user.phoneNumber};
+      }catch(error){
+        console.error('linkPasswordAndProfile fallback error:', error);
+        let msg='صار خطأ، حاول مرة ثانية';
+        if(error&&error.code==='auth/email-already-in-use') msg='هذا الرقم مسجل مسبقاً، جرب تسجيل الدخول';
+        return {success:false, message:msg};
+      }
+    };
+  }
+})();
+
 // ============ I18N (Arabic / Kurdish Sorani / English) ============
 const I18N={
   ar:{
