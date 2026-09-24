@@ -593,8 +593,8 @@ body.iq-mobile-nav .gallery-main{height:62vw;max-height:340px;}
 .dtoolbar-group .ico{width:13px;height:13px;background-color:var(--dim);margin:0;flex-shrink:0;}
 .dtoolbar-group select{background:transparent;border:none;color:var(--text);padding:9px 4px;font-family:Tajawal,sans-serif;font-size:12.5px;cursor:pointer;}
 .dtoolbar-group select:focus{outline:none;}
-.dealers-layout{max-width:1400px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;}
-.dealer-featured{grid-row:span 2;position:relative;background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;transition:all .3s;display:flex;flex-direction:column;min-height:420px;}
+.dealers-layout{max-width:1400px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;}
+.dealer-featured{position:relative;background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;transition:all .3s;display:flex;flex-direction:column;min-height:420px;}
 .dealer-featured:hover{border-color:var(--gold);box-shadow:0 16px 40px rgba(0,0,0,0.4);}
 .dealer-featured-cover{height:230px;background:linear-gradient(160deg,rgba(201,168,76,0.22),rgba(8,10,15,0.6)),var(--dark3);position:relative;flex-shrink:0;}
 .dealer-featured-cover img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:.55;}
@@ -612,7 +612,6 @@ body.iq-mobile-nav .gallery-main{height:62vw;max-height:340px;}
 .dfs-item:last-child{border-right:none;}
 .dfs-num{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:800;}
 .dfs-lbl{font-size:10px;color:var(--dim);margin-top:2px;}
-.dealer-grid-wrap{grid-column:2/4;display:grid;grid-template-columns:1fr 1fr;gap:18px;}
 .dealer-card-count{font-size:11px;color:var(--dim);margin-top:8px;padding-top:8px;border-top:1px solid var(--border);}
 .dealer-card-count b{color:var(--text);font-family:'Rajdhani',sans-serif;}
 .dealers-trust-row{max-width:1400px;margin:26px auto 40px;padding:0 32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;}
@@ -620,13 +619,8 @@ body.iq-mobile-nav .gallery-main{height:62vw;max-height:340px;}
 .dtrust-item .ico{width:24px;height:24px;background-color:var(--gold);margin:0;flex-shrink:0;}
 .dtrust-item b{display:block;font-size:12.5px;margin-bottom:2px;}
 .dtrust-item span{font-size:11px;color:var(--dim);}
-@media(max-width:900px){
-  .dealers-layout{grid-template-columns:1fr;padding:0 32px;}
-  .dealer-featured{grid-row:auto;min-height:auto;}
-  .dealer-grid-wrap{grid-column:1;grid-template-columns:1fr 1fr;}
-}
 @media(max-width:520px){
-  .dealer-grid-wrap{grid-template-columns:1fr;}
+  .dealers-layout{padding:0 16px;grid-template-columns:1fr;}
   .dealers-hero-title{flex-direction:column;text-align:center;}
 }
 /* AGENCY DETAIL */
@@ -5449,11 +5443,7 @@ function filterSortDealers(){
     if(av!==0)return av;
     return dealerCarCount(b.uid)-dealerCarCount(a.uid);
   });
-  var featured=list[0],rest=list.slice(1);
-  grid.innerHTML='<div class="dealers-layout">'+
-    renderFeaturedDealerCard(featured)+
-    '<div class="dealer-grid-wrap">'+rest.map(function(d){return renderDealerCard(d);}).join('')+'</div>'+
-    '</div>';
+  grid.innerHTML='<div class="dealers-layout">'+list.map(function(d){return renderFeaturedDealerCard(d);}).join('')+'</div>';
 }
 function renderDealerCard(d){
   var logo=d.logo?'<img class="agency-logo" src="'+d.logo+'">':'<div class="agency-logo-fallback"><span class="ico ico-lg ico-building"></span></div>';
