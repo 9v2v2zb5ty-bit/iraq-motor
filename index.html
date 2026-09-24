@@ -1657,6 +1657,7 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
   <div class="page-header"><div class="page-title"><span class="ico ico-store"></span> <span data-i18n="agencies.title">الوكالات</span></div><div class="page-sub" data-i18n="agencies.sub">الوكالات الرسمية المعتمدة للشركات المصنعة في العراق</div></div>
   <div class="agency-toolbar">
     <input class="search-input" style="max-width:340px;" placeholder="ابحث عن وكالة أو ماركة..." id="agencySearchInput" oninput="filterAgencies()" data-i18n-ph="agencies.search">
+    <button class="btn-add-agency" id="btnApplyAgency" style="display:none;background:transparent;border:1px solid var(--gold);color:var(--gold);" onclick="handleApplyAgencyClick()"><span class="ico ico-shield"></span> قدّم طلب تسجيل وكالتك</button>
     <button class="btn-add-agency" id="btnAddAgency" style="display:none;" onclick="openAgencyForm()"><span class="ico ico-plus"></span> <span data-i18n="agencies.add">إضافة وكالة</span></button>
   </div>
   <div class="section-page" style="padding-top:0;">
@@ -2042,6 +2043,84 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
 
     <button class="btn-submit-big" onclick="submitAgency()"><span class="ico ico-save"></span> حفظ الوكالة</button>
     <div class="msg-box" id="agFormMsg"></div>
+  </div>
+</div>
+
+<!-- AGENCY OWNERSHIP APPLICATION (self-service — requires real admin approval before publishing) -->
+<div class="overlay" id="agencyApplyOverlay">
+  <div class="modal" style="max-width:680px;">
+    <button class="modal-close" onclick="closeAgencyApplyForm()"><span class="ico ico-cross"></span></button>
+    <div class="modal-title"><span class="ico ico-shield"></span> طلب تسجيل وكالة رسمية</div>
+    <div class="modal-sub">هاي المعلومات ما تظهر لأحد ولا تُنشر إلا بعد ما تراجعها الإدارة وتوافق عليها فعلياً</div>
+    <input type="hidden" id="agAppEditId" value="">
+    <div id="agAppStatusBanner" style="display:none;margin-bottom:14px;padding:11px 14px;border-radius:10px;font-size:13px;line-height:1.8;"></div>
+
+    <div class="post-section">
+      <div class="post-section-title"><span class="ico ico-building"></span> معلومات الوكالة</div>
+      <div class="form-grid">
+        <div class="form-group full"><label class="form-label">🏢 اسم الوكالة *</label><input class="form-input" id="agAppName" placeholder="مثال: الوكيل المعتمد لتويوتا"></div>
+        <div class="form-group full"><label class="form-label">🚗 الماركة/الماركات التي تمثلها رسمياً * (افصل بفاصلة)</label><input class="form-input" id="agAppBrands" placeholder="تويوتا، لكزس"></div>
+        <div class="form-group full"><label class="form-label">نبذة عن الوكالة</label><textarea class="form-input" id="agAppAbout" rows="3" placeholder="نبذة مختصرة عن الوكالة وتاريخها وخدماتها..."></textarea></div>
+        <div class="form-group"><label class="form-label">المدينة *</label>
+          <select class="form-input" id="agAppCity">
+            <option value="">اختر المدينة</option>
+            <option>أربيل</option><option>الأنبار</option><option>بابل</option><option>البصرة</option><option>بغداد</option><option>دهوك</option><option>ديالى</option><option>ذي قار</option><option>السليمانية</option><option>صلاح الدين</option><option>القادسية</option><option>كربلاء</option><option>كركوك</option><option>المثنى</option><option>ميسان</option><option>النجف</option><option>نينوى</option><option>واسط</option>
+          </select>
+        </div>
+        <div class="form-group full"><label class="form-label">العنوان بالتفصيل *</label><textarea class="form-input" id="agAppAddress" rows="2" placeholder="المنطقة، الشارع، أقرب نقطة دالة..."></textarea></div>
+      </div>
+    </div>
+
+    <div class="post-section">
+      <div class="post-section-title"><span class="ico ico-phone"></span> التواصل</div>
+      <div class="form-grid">
+        <div class="form-group full"><label class="form-label">📞 أرقام الهاتف * (افصل بفاصلة إذا أكثر من رقم)</label><input class="form-input" id="agAppPhones" placeholder="07701234567, 07809876543"></div>
+        <div class="form-group"><label class="form-label">💬 رقم واتساب</label><input class="form-input" id="agAppWhatsapp" placeholder="07701234567"></div>
+        <div class="form-group"><label class="form-label">📧 البريد الإلكتروني *</label><input type="email" class="form-input" id="agAppEmail" placeholder="info@agency.com"></div>
+        <div class="form-group full"><label class="form-label">🌐 الموقع الإلكتروني (إذا موجود)</label><input class="form-input" id="agAppWebsite" placeholder="https://"></div>
+      </div>
+    </div>
+
+    <div class="post-section">
+      <div class="post-section-title"><span class="ico ico-camera"></span> الصور</div>
+      <div class="form-grid">
+        <div class="form-group full"><label class="form-label">شعار الوكالة</label><input type="file" class="form-input" id="agAppLogoFile" accept="image/*" onchange="previewAgAppLogo(this)"><div id="agAppLogoPreview" style="margin-top:8px;"></div></div>
+        <div class="form-group full"><label class="form-label">صورة الغلاف</label><input type="file" class="form-input" id="agAppCoverFile" accept="image/*" onchange="previewAgAppCover(this)"><div id="agAppCoverPreview" style="margin-top:8px;"></div></div>
+      </div>
+      <div style="margin-top:14px;">
+        <label class="form-label" style="display:block;margin-bottom:8px;">صور إضافية لصالة العرض (حتى 8 صور)</label>
+        <div class="photos-upload-area" onclick="document.getElementById('agAppGalleryFile').click()">
+          <span class="ico ico-lg ico-camera"></span>
+          <div style="margin-top:6px;font-size:13px;">اضغط لإضافة صور</div>
+          <input type="file" id="agAppGalleryFile" accept="image/*" multiple style="display:none;" onchange="addAgAppGalleryPhotos(this)">
+        </div>
+        <div class="photos-preview" id="agAppGalleryPreview"></div>
+        <div class="photos-info" id="agAppGalleryInfo">0 / 8 صورة</div>
+      </div>
+    </div>
+
+    <div class="post-section">
+      <div class="post-section-title"><span class="ico ico-shield"></span> إثبات التخويل الرسمي (للتوثيق فقط)</div>
+      <div class="form-group full">
+        <label class="form-label">وثيقة تثبت انك الوكيل الرسمي المعتمد للماركة (كتاب تخويل من الشركة، سجل تجاري، عقد وكالة...) *</label>
+        <input type="file" class="form-input" id="agAppAuthDocFile" accept="image/*,.pdf" onchange="previewAgAppDoc(this)">
+        <div id="agAppAuthDocPreview" style="margin-top:8px;"></div>
+      </div>
+      <div style="font-size:11px;color:var(--dim);margin-top:2px;">هاي الوثيقة تُستخدم فقط لتأكيد صحة طلبك من قبل الإدارة، وما تُعرض للعموم أبداً. بدونها ما نگدر نوافق على طلبك.</div>
+    </div>
+
+    <div class="post-section">
+      <div class="post-section-title"><span class="ico ico-check"></span> خيارات</div>
+      <label class="part-check" style="width:100%;justify-content:flex-start;">
+        <input type="checkbox" id="agAppTerms"><span>أوافق على الشروط والأحكام</span>
+      </label>
+      <label class="part-check" style="width:100%;justify-content:flex-start;margin-top:8px;">
+        <input type="checkbox" id="agAppConfirm"><span>أؤكد أني الوكيل الرسمي المعتمد وأن جميع المعلومات صحيحة</span>
+      </label>
+    </div>
+
+    <button class="btn-submit-big" id="agAppSubmitBtn" onclick="submitAgencyApplication()"><span class="ico ico-save"></span> إرسال طلب التسجيل</button>
+    <div class="msg-box" id="agAppFormMsg"></div>
   </div>
 </div>
 
@@ -3566,6 +3645,9 @@ async function loadAdminPage(){
     var arsnap=await db.collection('agencyRequests').orderBy('createdAt','desc').get().catch(function(){return {docs:[]};});
     var agencyRequests=arsnap.docs.map(function(d){return Object.assign({id:d.id},d.data());});
     var agencyReqOpen=agencyRequests.filter(function(r){return r.status!=='closed';});
+    var aasnap=await db.collection('agencyApplications').orderBy('createdAt','desc').get().catch(function(){return {docs:[]};});
+    var agencyApps=aasnap.docs.map(function(d){return Object.assign({id:d.id},d.data());});
+    var agencyAppPending=agencyApps.filter(function(a){return a.status==='pending';});
     var pending=allAds.filter(function(c){return !c.approved;});
     var approved=allAds.filter(function(c){return c.approved;});
     document.getElementById('statTotalAds').textContent=allAds.length;
@@ -3576,7 +3658,7 @@ async function loadAdminPage(){
     document.getElementById('statReports').textContent=reports.length;
     document.getElementById('statDealerPending').textContent=dealerPending.length;
     document.getElementById('statAgencyReq').textContent=agencyReqOpen.length;
-    window._ad={allAds,pending,approved,reports,companyAds,heroBanners,dealerRequests,dealerPending,agencyRequests,agencyReqOpen,users:usnap.docs.map(function(d){return Object.assign({id:d.id},d.data());})};
+    window._ad={allAds,pending,approved,reports,companyAds,heroBanners,dealerRequests,dealerPending,agencyRequests,agencyReqOpen,agencyApps,agencyAppPending,users:usnap.docs.map(function(d){return Object.assign({id:d.id},d.data());})};
 
     // ---- ADMIN DASHBOARD V2: extra collections (safe no-ops if not yet created / rules pending) ----
     var nfSnap=await db.collection('notifications').orderBy('createdAt','desc').limit(50).get().catch(function(){return {docs:[]};});
@@ -3596,19 +3678,19 @@ async function loadAdminPage(){
       counters:ctrDoc.exists?ctrDoc.data():{rejectedAds:0}
     };
     var admBadgeVerify=document.getElementById('admBadgeVerify');
-    if(admBadgeVerify){var vN=dealerPending.length+agencyReqOpen.length;admBadgeVerify.style.display=vN?'inline-block':'none';admBadgeVerify.textContent=vN;}
+    if(admBadgeVerify){var vN=dealerPending.length+agencyReqOpen.length+agencyAppPending.length;admBadgeVerify.style.display=vN?'inline-block':'none';admBadgeVerify.textContent=vN;}
     var admBadgeReports=document.getElementById('admBadgeReports');
     if(admBadgeReports){admBadgeReports.style.display=reports.length?'inline-block':'none';admBadgeReports.textContent=reports.length;}
     var admBadgeApprovals=document.getElementById('admBadgeApprovals');
     if(admBadgeApprovals){admBadgeApprovals.style.display=pending.length?'inline-block':'none';admBadgeApprovals.textContent=pending.length;}
-    var totalActionable=pending.length+dealerPending.length+agencyReqOpen.length+reports.length;
+    var totalActionable=pending.length+dealerPending.length+agencyReqOpen.length+agencyAppPending.length+reports.length;
     var admBellBadge=document.getElementById('admBellBadge');
     if(admBellBadge){admBellBadge.style.display=totalActionable?'flex':'none';admBellBadge.textContent=totalActionable>9?'9+':totalActionable;}
     var admBellMenu=document.getElementById('admBellMenu');
     if(admBellMenu){
       var bellRows=[
         pending.length?['بانتظار الموافقة','ico-hourglass','approvals',pending.length]:null,
-        (dealerPending.length+agencyReqOpen.length)?['طلبات توثيق جديدة','ico-shield','verify',dealerPending.length+agencyReqOpen.length]:null,
+        (dealerPending.length+agencyReqOpen.length+agencyAppPending.length)?['طلبات توثيق جديدة','ico-shield','verify',dealerPending.length+agencyReqOpen.length+agencyAppPending.length]:null,
         reports.length?['بلاغات مفتوحة','ico-warning','reports',reports.length]:null
       ].filter(Boolean);
       admBellMenu.innerHTML=bellRows.length?bellRows.map(function(r){return '<a onclick="admGo(\''+r[2]+'\')"><span class="ico '+r[1]+'"></span> '+r[0]+' <b style="margin-right:auto;color:var(--gold);">'+r[3]+'</b></a>';}).join(''):'<div style="padding:16px;text-align:center;color:var(--dim);font-size:12.5px;">لا يوجد ما يحتاج إجراء 🎉</div>';
@@ -3771,6 +3853,39 @@ function switchAdminTab(tab,btn){
         (r.message?'<div class="admin-card-meta">'+r.message+'</div>':'')+
         '<div class="admin-card-actions">'+(closed?'':'<button class="btn-approve" onclick="closeAgencyRequest(\''+r.id+'\')"><span class="ico ico-check"></span> تم التواصل</button>')+'</div></div></div>';
     }).join('');
+  } else if(tab==='agencyApps'){
+    var apend=data.agencyAppPending||[];
+    var aall=data.agencyApps||[];
+    var aStatusLabel=function(s){return s==='approved'?'<span class="ico ico-check"></span> مقبولة ومنشورة':(s==='rejected'?'<span class="ico ico-cross"></span> مرفوض':(s==='needs_edit'?'✏️ بانتظار تعديل من مقدّم الطلب':'<span class="ico ico-hourglass"></span> بانتظار'));};
+    var aStatusColor=function(s){return s==='approved'?'var(--green)':(s==='rejected'?'var(--red)':(s==='needs_edit'?'#f39c12':'var(--gold)'));};
+    var html='<div style="font-size:14px;font-weight:700;margin-bottom:10px;color:var(--gold);"><span class="ico ico-hourglass"></span> طلبات بانتظار الموافقة</div>';
+    html+=apend.length?apend.map(function(d){
+      var thumb=d.logo?'<img class="admin-card-img" src="'+d.logo+'">':'<div class="admin-card-img" style="display:flex;align-items:center;justify-content:center;font-size:22px;"><span class="ico ico-md ico-store"></span></div>';
+      var docsNote=d.authDoc?'<a href="'+d.authDoc+'" target="_blank" style="color:var(--green);text-decoration:none;"><span class="ico ico-shield"></span> عرض وثيقة التخويل</a>':'<span style="color:var(--red);">⚠️ بدون وثيقة تخويل — لا يُنصح بالقبول</span>';
+      return '<div class="admin-card">'+thumb+
+        '<div class="admin-card-info"><div class="admin-card-name">'+admEsc(d.name||'')+(d.linkedAgencyId?' <span style="color:var(--dim);font-size:11px;">(تعديل على وكالة منشورة سابقاً)</span>':' <span style="color:var(--dim);font-size:11px;">(تسجيل جديد)</span>')+'</div>'+
+        '<div class="admin-card-meta"><span class="ico ico-pin"></span> '+admEsc(d.city||'')+' — '+admEsc(d.address||'')+'</div>'+
+        '<div class="admin-card-meta"><span class="ico ico-phone"></span> '+admEsc((d.phones||[]).join('، '))+(d.whatsapp?' • 💬 '+admEsc(d.whatsapp):'')+' • ✉️ '+admEsc(d.email||'')+'</div>'+
+        (d.brands&&d.brands.length?'<div class="admin-card-meta"><span class="ico ico-tag"></span> '+admEsc(d.brands.join('، '))+'</div>':'')+
+        '<div class="admin-card-meta">'+docsNote+'</div>'+
+        '<div class="admin-card-actions"><button class="btn-approve" onclick="approveAgencyApp(\''+d.id+'\')"><span class="ico ico-check"></span> قبول ونشر</button><button class="btn-reject" onclick="rejectAgencyApp(\''+d.id+'\')"><span class="ico ico-cross"></span> رفض</button><button class="btn-reject" style="color:#f39c12;border-color:rgba(243,156,18,0.3);background:rgba(243,156,18,0.1);" onclick="requestAgencyAppEdit(\''+d.id+'\')">✏️ طلب تعديل</button><button class="btn-reject" onclick="deleteAgencyApp(\''+d.id+'\')"><span class="ico ico-trash"></span> حذف</button></div></div></div>';
+    }).join(''):'<div style="text-align:center;padding:24px;color:var(--dim);"><span class="ico ico-check"></span> ما في طلبات تسجيل وكالات بانتظار الموافقة</div>';
+    html+='<div style="font-size:14px;font-weight:700;margin:22px 0 10px;color:var(--gold);">📋 تقرير كل طلبات تسجيل الوكالات</div>';
+    html+=aall.length?'<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;"><thead><tr style="background:var(--dark3);">'+
+      '<th style="padding:11px;text-align:right;font-size:12px;border-bottom:1px solid var(--border);">اسم الوكالة</th>'+
+      '<th style="padding:11px;text-align:right;font-size:12px;border-bottom:1px solid var(--border);">المدينة</th>'+
+      '<th style="padding:11px;text-align:right;font-size:12px;border-bottom:1px solid var(--border);">الهاتف</th>'+
+      '<th style="padding:11px;text-align:right;font-size:12px;border-bottom:1px solid var(--border);">الحالة</th>'+
+      '<th style="padding:11px;text-align:right;font-size:12px;border-bottom:1px solid var(--border);"></th>'+
+      '</tr></thead><tbody>'+aall.map(function(d){
+        return '<tr style="border-bottom:1px solid var(--border);">'+
+          '<td style="padding:11px;font-size:13px;">'+admEsc(d.name||'—')+'</td>'+
+          '<td style="padding:11px;font-size:12px;color:var(--dim);">'+admEsc(d.city||'—')+'</td>'+
+          '<td style="padding:11px;font-size:12px;color:var(--dim);">'+admEsc((d.phones||[])[0]||'—')+'</td>'+
+          '<td style="padding:11px;font-size:12px;font-weight:700;color:'+aStatusColor(d.status)+';">'+aStatusLabel(d.status)+'</td>'+
+          '<td style="padding:11px;font-size:12px;"><button class="btn-reject" style="padding:4px 10px;" onclick="deleteAgencyApp(\''+d.id+'\')"><span class="ico ico-trash"></span> حذف</button></td></tr>';
+      }).join('')+'</tbody></table></div>':'<div style="text-align:center;padding:24px;color:var(--dim);">ما في طلبات لحد الآن</div>';
+    ct.innerHTML=html;
   }
 }
 async function approveDealer(id){
@@ -3842,6 +3957,81 @@ async function closeAgencyRequest(id){
     switchAdminTab('agencyReq',Array.from(document.querySelectorAll('#adminTabs .admin-tab')).find(function(b){return b.textContent.indexOf('الوكالات')>-1;}));
     showToast('<span class="ico ico-check"></span> تم التحديث');
   }catch(e){alert('خطأ: '+e.message);}
+}
+// ---- Agency ownership applications (self-service signup, requires real admin approval before anything publishes) ----
+async function approveAgencyApp(id){
+  try{
+    var app=(window._ad.agencyApps||[]).find(function(x){return x.id===id;});
+    if(!app){var snap0=await db.collection('agencyApplications').doc(id).get();if(!snap0.exists)return;app=Object.assign({id:snap0.id},snap0.data());}
+    if(!app.ownerUid){alert('خطأ: هذا الطلب بدون مالك صالح');return;}
+    var agencyData={
+      name:app.name||'',
+      about:app.about||'',
+      brands:app.brands||[],
+      address:(app.city?app.city+' — ':'')+(app.address||''),
+      phones:app.phones||[],
+      whatsapp:app.whatsapp||'',
+      email:app.email||'',
+      website:app.website||'',
+      logo:app.logo||'',
+      cover:app.cover||'',
+      gallery:app.gallery||[],
+      ownerUid:app.ownerUid
+    };
+    var agencyId=app.linkedAgencyId;
+    if(agencyId){
+      await db.collection('agencies').doc(agencyId).update(agencyData);
+    }else{
+      agencyData.services=[];agencyData.acceptsBookings=false;agencyData.verified=false;
+      agencyData.newCars=[];agencyData.offers=[];agencyData.news=[];agencyData.avgRating=0;agencyData.ratingCount=0;
+      agencyData.createdAt=firebase.firestore.FieldValue.serverTimestamp();
+      var ref=await db.collection('agencies').add(agencyData);
+      agencyId=ref.id;
+    }
+    await db.collection('agencyApplications').doc(id).update({status:'approved',linkedAgencyId:agencyId});
+    await db.collection('users').doc(app.ownerUid).set({agencyOwnerStatus:'approved',agencyId:agencyId},{merge:true});
+    var a=(window._ad.agencyApps||[]).find(function(x){return x.id===id;});
+    if(a){a.status='approved';a.linkedAgencyId=agencyId;}
+    window._ad.agencyAppPending=(window._ad.agencyApps||[]).filter(function(x){return x.status==='pending';});
+    switchAdminTab('agencyApps');
+    showToast('<span class="ico ico-check"></span> تم قبول الوكالة ونشرها');
+  }catch(e){alert('خطأ: '+e.message);}
+}
+function rejectAgencyApp(id){
+  customConfirm('هل تريد رفض طلب هذه الوكالة؟',async function(){
+  try{
+    await db.collection('agencyApplications').doc(id).update({status:'rejected'});
+    var a=(window._ad.agencyApps||[]).find(function(x){return x.id===id;});
+    if(a){a.status='rejected';if(a.ownerUid)db.collection('users').doc(a.ownerUid).set({agencyOwnerStatus:'rejected'},{merge:true});}
+    window._ad.agencyAppPending=(window._ad.agencyApps||[]).filter(function(x){return x.status==='pending';});
+    switchAdminTab('agencyApps');
+    showToast('<span class="ico ico-cross"></span> تم رفض الطلب');
+  }catch(e){alert('خطأ: '+e.message);}
+  });
+}
+function requestAgencyAppEdit(id){
+  var note=prompt('اكتب ملاحظة توضح شنو المطلوب تعديله:');
+  if(note===null)return;
+  note=note.trim();
+  if(!note){alert('لازم تكتب ملاحظة توضح المطلوب تعديله');return;}
+  db.collection('agencyApplications').doc(id).update({status:'needs_edit',editNote:note}).then(function(){
+    var a=(window._ad.agencyApps||[]).find(function(x){return x.id===id;});
+    if(a){a.status='needs_edit';a.editNote=note;if(a.ownerUid)db.collection('users').doc(a.ownerUid).set({agencyOwnerStatus:'needs_edit'},{merge:true});}
+    window._ad.agencyAppPending=(window._ad.agencyApps||[]).filter(function(x){return x.status==='pending';});
+    switchAdminTab('agencyApps');
+    showToast('✏️ تم إرسال طلب التعديل');
+  }).catch(function(e){alert('خطأ: '+e.message);});
+}
+function deleteAgencyApp(id){
+  customConfirm('هل تريد حذف طلب التسجيل هذا نهائياً؟ (هذا لا يحذف الوكالة المنشورة نفسها إذا كانت موجودة أصلاً — لحذفها استخدم زر حذف الوكالة من صفحة الوكالات)',async function(){
+  try{
+    await db.collection('agencyApplications').doc(id).delete();
+    window._ad.agencyApps=(window._ad.agencyApps||[]).filter(function(x){return x.id!==id;});
+    window._ad.agencyAppPending=(window._ad.agencyApps||[]).filter(function(x){return x.status==='pending';});
+    switchAdminTab('agencyApps');
+    showToast('<span class="ico ico-trash"></span> تم الحذف');
+  }catch(e){alert('خطأ: '+e.message);}
+  });
 }
 function toggleCaType(){
   var v=document.querySelector('input[name="caType"]:checked').value;
@@ -4012,7 +4202,7 @@ function admGo(section){
     users:{tabs:[['users','المستخدمين']],def:'users'},
     ads:{tabs:[['approved','المفعّلة'],['pending','بانتظار الموافقة']],def:'approved'},
     dealers:{tabs:[['dealers','طلبات المعارض'],['companyAds','بانر صفحة السيارات'],['heroBanners','بانر الصفحة الرئيسية']],def:'dealers'},
-    verify:{tabs:[['dealers','طلبات المعارض'],['agencyReq','طلبات الوكالات']],def:'dealers'},
+    verify:{tabs:[['dealers','طلبات المعارض'],['agencyReq','طلبات الوكالات'],['agencyApps','طلبات تسجيل وكالة']],def:'dealers'},
     reports:{tabs:[],def:'reports'},
     approvals:{tabs:[],def:'pending'}
   };
@@ -5617,6 +5807,7 @@ function loadAgencies(){
     grid.innerHTML='<div style="text-align:center;padding:40px;color:var(--red);">خطأ: '+e.message+'</div>';
   });
   var baa=document.getElementById('btnAddAgency');if(baa)baa.style.display=isAdmin()?'flex':'none';
+  var bap=document.getElementById('btnApplyAgency');if(bap)bap.style.display=isAdmin()?'none':'flex';
 }
 function filterAgencies(){
   var grid=document.getElementById('agenciesGrid');
@@ -5681,7 +5872,7 @@ function buildAgencyDetailHtml(a){
     (waNum?'<a class="btn-wa" href="https://wa.me/'+waNum+'" target="_blank" onclick="return requireAuth(event,\'سجل مجانًا للتواصل مع المعرض عبر واتساب\')">💬 '+t('ag.whatsapp')+'</a>':'')+
     (callNum?'<a class="btn-agency-call" href="tel:'+callNum+'" onclick="return requireAuth(event,\'سجل مجانًا للتواصل مع الوكالة\')"><span class="ico ico-phone"></span> '+t('ag.call')+'</a>':'')+
     (a.acceptsBookings?'<button class="btn-book" onclick="openAgencyReqForm(\''+a.id+'\',\'quote\')"><span class="ico ico-money"></span> '+t('ag.requestQuote')+'</button>':'')+
-    (isAdmin()?'<button class="btn-book" onclick="openAgencyForm(\''+a.id+'\')"><span class="ico ico-edit"></span> '+t('ag.edit')+'</button>':'');
+    (isAdmin()?'<button class="btn-book" onclick="openAgencyForm(\''+a.id+'\')"><span class="ico ico-edit"></span> '+t('ag.edit')+'</button>':((auth.currentUser&&a.ownerUid===auth.currentUser.uid)?'<button class="btn-book" onclick="handleApplyAgencyClick()"><span class="ico ico-edit"></span> تعديل بيانات وكالتي</button>':''));
   var hero='<div class="agency-hero">'+cover+
     '<div class="agency-hero-content">'+logo+
     '<div class="agency-hero-info">'+
@@ -6099,6 +6290,164 @@ function deleteAgency(id){
       showToast('<span class="ico ico-trash"></span> تم الحذف');
     }catch(e){alert('خطأ: '+e.message);}
   });
+}
+// ---- AGENCY OWNERSHIP APPLICATIONS (self-service signup for official brand agencies) ----
+// Anyone can submit this form, but nothing here ever becomes a public "agencies" doc,
+// and no field the owner sends is ever copied to their public profile, until an admin
+// approves it. See approveAgencyApp() above. Matching Firestore Security Rules on the
+// agencyApplications/agencies collections are required for this gate to be real and not
+// just cosmetic — see the notes shared alongside this file.
+var _agAppLogoFile=null,_agAppLogoUrlExisting='';
+var _agAppCoverFile=null,_agAppCoverUrlExisting='';
+var _agAppGalleryFiles=[],_agAppGalleryExisting=[];
+var _agAppAuthDocFile=null,_agAppAuthDocUrlExisting='';
+function handleApplyAgencyClick(){
+  if(!auth.currentUser){openAuthGate('سجل مجانًا لتسجيل وكالتك الرسمية');return;}
+  openAgencyApplyForm();
+}
+function openAgencyApplyForm(){
+  if(!auth.currentUser)return;
+  document.getElementById('agAppEditId').value='';
+  ['agAppName','agAppBrands','agAppAbout','agAppAddress','agAppPhones','agAppWhatsapp','agAppWebsite'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('agAppEmail').value=auth.currentUser.email||'';
+  document.getElementById('agAppCity').value='';
+  document.getElementById('agAppTerms').checked=false;
+  document.getElementById('agAppConfirm').checked=false;
+  _agAppLogoFile=null;_agAppLogoUrlExisting='';
+  _agAppCoverFile=null;_agAppCoverUrlExisting='';
+  _agAppGalleryFiles=[];_agAppGalleryExisting=[];
+  _agAppAuthDocFile=null;_agAppAuthDocUrlExisting='';
+  document.getElementById('agAppLogoPreview').innerHTML='';
+  document.getElementById('agAppCoverPreview').innerHTML='';
+  document.getElementById('agAppGalleryPreview').innerHTML='';
+  document.getElementById('agAppGalleryInfo').textContent='0 / 8 صورة';
+  document.getElementById('agAppAuthDocPreview').innerHTML='';
+  document.getElementById('agAppFormMsg').style.display='none';
+  var banner=document.getElementById('agAppStatusBanner');banner.style.display='none';
+  document.getElementById('agencyApplyOverlay').classList.add('open');
+  db.collection('agencyApplications').where('ownerUid','==',auth.currentUser.uid).limit(1).get().then(function(snap){
+    if(snap.empty)return;
+    var doc=snap.docs[0];
+    document.getElementById('agAppEditId').value=doc.id;
+    fillAgencyApplyForm(doc.data());
+  }).catch(function(){});
+}
+function fillAgencyApplyForm(d){
+  document.getElementById('agAppName').value=d.name||'';
+  document.getElementById('agAppBrands').value=(d.brands||[]).join(', ');
+  document.getElementById('agAppAbout').value=d.about||'';
+  document.getElementById('agAppCity').value=d.city||'';
+  document.getElementById('agAppAddress').value=d.address||'';
+  document.getElementById('agAppPhones').value=(d.phones||[]).join(', ');
+  document.getElementById('agAppWhatsapp').value=d.whatsapp||'';
+  document.getElementById('agAppEmail').value=d.email||auth.currentUser.email||'';
+  document.getElementById('agAppWebsite').value=d.website||'';
+  if(d.logo){_agAppLogoUrlExisting=d.logo;document.getElementById('agAppLogoPreview').innerHTML='<img src="'+d.logo+'" style="width:70px;height:70px;border-radius:12px;object-fit:cover;">';}
+  if(d.cover){_agAppCoverUrlExisting=d.cover;document.getElementById('agAppCoverPreview').innerHTML='<img src="'+d.cover+'" style="width:100%;max-width:260px;height:100px;border-radius:10px;object-fit:cover;">';}
+  if(d.authDoc){_agAppAuthDocUrlExisting=d.authDoc;document.getElementById('agAppAuthDocPreview').innerHTML='<div style="font-size:11px;color:var(--green);">تم رفعها مسبقاً</div>';}
+  _agAppGalleryExisting=(d.gallery||[]).slice();
+  renderAgAppGalleryPreview();
+  var banner=document.getElementById('agAppStatusBanner');
+  if(d.status==='pending'){
+    banner.style.cssText='display:block;margin-bottom:14px;padding:11px 14px;border-radius:10px;font-size:13px;line-height:1.8;background:rgba(201,168,76,0.12);color:var(--gold);border:1px solid rgba(201,168,76,0.3);';
+    banner.innerHTML='<span class="ico ico-hourglass"></span> طلبك قيد المراجعة حالياً. وكالتك ما رح تظهر للعموم إلا بعد موافقة الإدارة فعلياً — مو مجرد إرسال الطلب.';
+  }else if(d.status==='needs_edit'){
+    banner.style.cssText='display:block;margin-bottom:14px;padding:11px 14px;border-radius:10px;font-size:13px;line-height:1.8;background:rgba(243,156,18,0.12);color:#f39c12;border:1px solid rgba(243,156,18,0.3);';
+    banner.innerHTML='<span class="ico ico-edit"></span> الإدارة طلبت تعديل على طلبك'+(d.editNote?(': «'+escAg(d.editNote)+'»'):'.')+' عدّل المطلوب وأعد الإرسال.';
+  }else if(d.status==='rejected'){
+    banner.style.cssText='display:block;margin-bottom:14px;padding:11px 14px;border-radius:10px;font-size:13px;line-height:1.8;background:rgba(232,69,69,0.12);color:var(--red);border:1px solid rgba(232,69,69,0.3);';
+    banner.innerHTML='<span class="ico ico-cross"></span> تم رفض طلبك سابقاً. تگدر تعدّل بياناتك وتعيد الإرسال.';
+  }else if(d.status==='approved'){
+    banner.style.cssText='display:block;margin-bottom:14px;padding:11px 14px;border-radius:10px;font-size:13px;line-height:1.8;background:rgba(46,204,113,0.12);color:var(--green);border:1px solid rgba(46,204,113,0.3);';
+    banner.innerHTML='<span class="ico ico-check"></span> وكالتك موثّقة ومنشورة حالياً. أي تعديل ترسله هنا رح يُعاد للمراجعة قبل ما يظهر للعموم — صفحتك المنشورة تبقى بآخر نسخة موافَق عليها لين تتم مراجعة التعديل.';
+  }else{
+    banner.style.display='none';
+  }
+}
+function closeAgencyApplyForm(){document.getElementById('agencyApplyOverlay').classList.remove('open');}
+function previewAgAppLogo(inp){var f=inp.files[0];if(!f)return;_agAppLogoFile=f;document.getElementById('agAppLogoPreview').innerHTML='<img src="'+URL.createObjectURL(f)+'" style="width:70px;height:70px;border-radius:12px;object-fit:cover;">';}
+function previewAgAppCover(inp){var f=inp.files[0];if(!f)return;_agAppCoverFile=f;document.getElementById('agAppCoverPreview').innerHTML='<img src="'+URL.createObjectURL(f)+'" style="width:100%;max-width:260px;height:100px;border-radius:10px;object-fit:cover;">';}
+function previewAgAppDoc(inp){var f=inp.files[0];if(!f)return;_agAppAuthDocFile=f;document.getElementById('agAppAuthDocPreview').innerHTML='<div style="font-size:11px;color:var(--text);"><span class="ico ico-check"></span> '+escAg(f.name)+'</div>';}
+function addAgAppGalleryPhotos(inp){
+  var free=8-(_agAppGalleryFiles.length+_agAppGalleryExisting.length);
+  var files=Array.from(inp.files).slice(0,Math.max(free,0));
+  _agAppGalleryFiles=_agAppGalleryFiles.concat(files);
+  renderAgAppGalleryPreview();
+  inp.value='';
+}
+function renderAgAppGalleryPreview(){
+  var existingHtml=_agAppGalleryExisting.map(function(url,i){
+    return '<div class="photo-thumb"><img src="'+url+'"><button class="photo-rm" onclick="removeAgAppExistingGalleryPhoto('+i+')"><span class="ico ico-cross"></span></button></div>';
+  }).join('');
+  var newHtml=_agAppGalleryFiles.map(function(f,i){
+    return '<div class="photo-thumb"><img src="'+URL.createObjectURL(f)+'"><button class="photo-rm" onclick="removeAgAppNewGalleryPhoto('+i+')"><span class="ico ico-cross"></span></button></div>';
+  }).join('');
+  document.getElementById('agAppGalleryPreview').innerHTML=existingHtml+newHtml;
+  document.getElementById('agAppGalleryInfo').textContent=(_agAppGalleryExisting.length+_agAppGalleryFiles.length)+' / 8 صورة';
+}
+function removeAgAppExistingGalleryPhoto(i){_agAppGalleryExisting.splice(i,1);renderAgAppGalleryPreview();}
+function removeAgAppNewGalleryPhoto(i){_agAppGalleryFiles.splice(i,1);renderAgAppGalleryPreview();}
+async function submitAgencyApplication(){
+  if(!auth.currentUser){openAuthGate('سجل مجانًا لتسجيل وكالتك الرسمية');return;}
+  var name=document.getElementById('agAppName').value.trim();
+  var brands=document.getElementById('agAppBrands').value.trim();
+  var city=document.getElementById('agAppCity').value;
+  var address=document.getElementById('agAppAddress').value.trim();
+  var phones=document.getElementById('agAppPhones').value.trim();
+  var email=document.getElementById('agAppEmail').value.trim();
+  var terms=document.getElementById('agAppTerms').checked;
+  var confirmInfo=document.getElementById('agAppConfirm').checked;
+  if(!name||!brands||!city||!address||!phones||!email){showMsg2('agAppFormMsg','<span class="ico ico-cross"></span> الرجاء تعبئة جميع الحقول المطلوبة (*)','#e74c3c');return;}
+  if(!terms||!confirmInfo){showMsg2('agAppFormMsg','<span class="ico ico-cross"></span> لازم توافق على الشروط وتؤكد صحة المعلومات','#e74c3c');return;}
+  if(!_agAppAuthDocFile&&!_agAppAuthDocUrlExisting){showMsg2('agAppFormMsg','<span class="ico ico-cross"></span> لازم ترفع وثيقة تثبت انك الوكيل الرسمي المعتمد','#e74c3c');return;}
+  var editId=document.getElementById('agAppEditId').value;
+  var btn=document.getElementById('agAppSubmitBtn');
+  btn.disabled=true;
+  try{
+    showMsg2('agAppFormMsg','<span class="ico ico-hourglass"></span> جاري الحفظ...','#f39c12');
+    var logoUrl=_agAppLogoUrlExisting;
+    if(_agAppLogoFile){showMsg2('agAppFormMsg','<span class="ico ico-hourglass"></span> جاري رفع الشعار...','#f39c12');logoUrl=await uploadImg(_agAppLogoFile);}
+    var coverUrl=_agAppCoverUrlExisting;
+    if(_agAppCoverFile){showMsg2('agAppFormMsg','<span class="ico ico-hourglass"></span> جاري رفع صورة الغلاف...','#f39c12');coverUrl=await uploadImg(_agAppCoverFile);}
+    var authDocUrl=_agAppAuthDocUrlExisting;
+    if(_agAppAuthDocFile){showMsg2('agAppFormMsg','<span class="ico ico-hourglass"></span> جاري رفع وثيقة التخويل...','#f39c12');authDocUrl=await uploadImg(_agAppAuthDocFile);}
+    var galleryUrls=_agAppGalleryExisting.slice();
+    for(var i=0;i<_agAppGalleryFiles.length;i++){
+      showMsg2('agAppFormMsg','<span class="ico ico-hourglass"></span> جاري رفع الصورة '+(i+1)+' من '+_agAppGalleryFiles.length+'...','#f39c12');
+      galleryUrls.push(await uploadImg(_agAppGalleryFiles[i]));
+    }
+    var data={
+      ownerUid:auth.currentUser.uid,
+      name:name,
+      brands:brands.split(',').map(function(s){return s.trim();}).filter(Boolean),
+      about:document.getElementById('agAppAbout').value.trim(),
+      city:city,address:address,
+      phones:phones.split(',').map(function(s){return s.trim();}).filter(Boolean),
+      whatsapp:document.getElementById('agAppWhatsapp').value.trim(),
+      email:email,
+      website:document.getElementById('agAppWebsite').value.trim(),
+      logo:logoUrl,cover:coverUrl,gallery:galleryUrls.slice(0,8),
+      authDoc:authDocUrl,
+      agreedTerms:true,confirmedInfo:true,
+      status:'pending',editNote:'',
+      updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+    };
+    if(editId){
+      await db.collection('agencyApplications').doc(editId).update(data);
+    }else{
+      data.createdAt=firebase.firestore.FieldValue.serverTimestamp();
+      var ref=await db.collection('agencyApplications').add(data);
+      document.getElementById('agAppEditId').value=ref.id;
+    }
+    await db.collection('users').doc(auth.currentUser.uid).set({agencyOwnerStatus:'pending'},{merge:true});
+    showMsg2('agAppFormMsg','<span class="ico ico-check"></span> تم إرسال طلبك بنجاح، وصار قيد المراجعة 🕐','#2ecc71');
+    showToast('<span class="ico ico-check"></span> تم إرسال طلب توثيق وكالتك للمراجعة');
+    setTimeout(function(){closeAgencyApplyForm();},2200);
+  }catch(e){
+    showMsg2('agAppFormMsg','<span class="ico ico-cross"></span> خطأ: '+e.message,'#e74c3c');
+  }finally{
+    btn.disabled=false;
+  }
 }
 // ============ END AGENCIES MODULE ============
 
