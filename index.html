@@ -3418,12 +3418,20 @@ function openAuthGate(msg){
   openReg();
 }
 // Guard for onclick/href-based actions (e.g. WhatsApp links): returns true and lets the
-// action proceed if logged in; otherwise blocks it and opens the gate. Usage:
-// onclick="return requireAuth(event,'رسالة مخصصة')"
+// action proceed if logged in AND email-verified; otherwise blocks it and opens the
+// right prompt. Usage: onclick="return requireAuth(event,'رسالة مخصصة')"
 function requireAuth(e,msg){
-  if(auth.currentUser)return true;
+  if(auth.currentUser&&auth.currentUser.emailVerified)return true;
   if(e&&e.preventDefault)e.preventDefault();
-  openAuthGate(msg);
+  if(auth.currentUser&&!auth.currentUser.emailVerified){
+    customConfirm('لازم تفعّل حسابك أولاً عبر الرابط المرسل لإيميلك. تريد نعيد إرسال رابط التفعيل؟',function(){
+      auth.currentUser.sendEmailVerification().then(function(){
+        alert('تم إرسال رابط التفعيل من جديد، افتح إيميلك.');
+      });
+    });
+  }else{
+    openAuthGate(msg);
+  }
   return false;
 }
 function loginGoogle(){
@@ -3444,7 +3452,19 @@ function normalizeIraqiPhone(v){
 function doLoginEmail(){
   var e=document.getElementById('liLogin').value.trim(),p=document.getElementById('liPass').value.trim();
   if(!e||!p){showMsg2('liMsg','<span class="ico ico-cross"></span> أدخل الإيميل وكلمة المرور','#e74c3c');return;}
-  auth.signInWithEmailAndPassword(e,p).then(function(){closeLogin();}).catch(function(){showMsg2('liMsg','<span class="ico ico-cross"></span> إيميل أو كلمة مرور غلط','#e74c3c');});
+  auth.signInWithEmailAndPassword(e,p).then(function(r){
+    if(!r.user.emailVerified){
+      showMsg2('liMsg','<span class="ico ico-warning"></span> حسابك لسا غير مفعّل. افتح إيميلك وفعّله، أو <a onclick="resendVerifyEmail()" style="color:var(--gold);cursor:pointer;text-decoration:underline;">أعد إرسال رابط التفعيل</a>','#f39c12');
+      return;
+    }
+    closeLogin();
+  }).catch(function(){showMsg2('liMsg','<span class="ico ico-cross"></span> إيميل أو كلمة مرور غلط','#e74c3c');});
+}
+function resendVerifyEmail(){
+  if(!auth.currentUser)return;
+  auth.currentUser.sendEmailVerification().then(function(){
+    showMsg2('liMsg','<span class="ico ico-check"></span> تم إرسال رابط التفعيل من جديد، تحقق من إيميلك','#2ecc71');
+  });
 }
 function doRegister(){
   var n=document.getElementById('regName').value.trim();
@@ -3458,8 +3478,7 @@ function doRegister(){
     r.user.updateProfile({displayName:n});
     r.user.sendEmailVerification();
     db.collection('users').doc(r.user.uid).set({name:n,email:e,phone:phone,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
-    closeReg();
-    showMsg2('liMsg','<span class="ico ico-check"></span> تم إنشاء الحساب! أرسلنا رابط تفعيل لإيميلك، افتحه لتأكيد حسابك','#2ecc71');
+    showMsg2('regMsg','<span class="ico ico-check"></span> تم إنشاء الحساب! أرسلنا رابط تفعيل لإيميلك (تحقق من صندوق الوارد أو السبام) — افتحه قبل لا تكدر تحفظ سيارات أو تراسل معارض.','#2ecc71');
   }).catch(function(er){
     var msg=er.code==='auth/email-already-in-use'?'هذا الإيميل مسجل مسبقاً':er.message;
     showMsg2('regMsg','<span class="ico ico-cross"></span> '+msg,'#e74c3c');
