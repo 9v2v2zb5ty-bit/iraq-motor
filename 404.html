@@ -249,6 +249,152 @@ table{max-width:100%;}
 .currency-toggle{display:flex;border:1px solid var(--border);border-radius:10px;overflow:hidden;}
 .cur-btn{padding:0 14px;background:transparent;color:var(--dim);border:none;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:13px;transition:all .2s;}
 .cur-btn.active{background:var(--gold);color:#000;font-weight:700;}
+
+/* =========================================================
+   IRAQ MOTORS — PUBLISH AD REDESIGN
+   Scoped to #page-post so existing site pages/functionality
+   are not visually or behaviorally affected.
+   ========================================================= */
+#page-post .post-page-wrap{max-width:1160px;margin:0 auto;padding:28px 24px 56px;}
+#page-post .post-hero{
+  position:relative;min-height:205px;border:1px solid rgba(201,168,76,.28);
+  border-radius:20px;overflow:hidden;margin-bottom:22px;
+  background:linear-gradient(110deg,#070b10 0%,#0d141c 52%,#101923 100%);
+  box-shadow:0 18px 55px rgba(0,0,0,.28);
+}
+#page-post .post-hero:before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 18% 60%,rgba(201,168,76,.15),transparent 34%),
+             linear-gradient(90deg,rgba(8,10,15,.05),rgba(8,10,15,.7));
+  pointer-events:none;z-index:1;
+}
+#page-post .post-hero-img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.34;
+  filter:saturate(.75) contrast(1.08);
+}
+#page-post .post-hero-content{
+  position:relative;z-index:2;min-height:205px;display:flex;align-items:center;
+  justify-content:flex-start;padding:34px 42px;
+}
+#page-post .post-hero-copy{max-width:650px;text-align:right;}
+#page-post .post-hero-kicker{
+  color:var(--gold2);font-size:12px;font-weight:800;letter-spacing:.5px;
+  display:flex;align-items:center;gap:7px;margin-bottom:8px;
+}
+#page-post .post-hero-kicker .ico{width:19px;height:19px;margin:0;background:var(--gold2);}
+#page-post .post-hero h1{font-size:34px;line-height:1.2;font-weight:900;margin:0 0 9px;color:#fff;}
+#page-post .post-hero h1 span{color:var(--gold2);}
+#page-post .post-hero p{font-size:13px;color:#b8c1cf;line-height:1.9;margin:0;max-width:610px;}
+
+#page-post .post-layout{
+  display:grid;grid-template-columns:minmax(0,1fr) 255px;gap:18px;align-items:start;
+}
+#page-post .post-main{min-width:0;}
+#page-post .post-side{
+  background:linear-gradient(180deg,#151b22,#0d1219);
+  border:1px solid rgba(201,168,76,.28);border-radius:18px;padding:24px 18px;
+  position:sticky;top:84px;overflow:hidden;
+}
+#page-post .post-side:after{
+  content:"";position:absolute;width:150px;height:150px;border-radius:50%;
+  left:-70px;bottom:-80px;background:rgba(201,168,76,.07);
+}
+#page-post .post-side-image{
+  height:125px;border-radius:12px;overflow:hidden;margin:-2px -2px 20px;
+  background:#090d12;border:1px solid rgba(255,255,255,.05);
+}
+#page-post .post-side-image img{width:100%;height:100%;object-fit:cover;opacity:.72;}
+#page-post .post-side-title{font-size:17px;font-weight:900;line-height:1.55;margin-bottom:18px;}
+#page-post .post-side-title strong{color:var(--gold2);}
+#page-post .post-benefit{
+  display:flex;align-items:center;gap:11px;padding:14px 0;
+  border-top:1px solid rgba(255,255,255,.07);
+}
+#page-post .post-benefit .benefit-ico{
+  width:36px;height:36px;border:1px solid rgba(201,168,76,.35);border-radius:10px;
+  display:flex;align-items:center;justify-content:center;flex:0 0 36px;
+  background:rgba(201,168,76,.07);
+}
+#page-post .post-benefit .ico{width:18px;height:18px;margin:0;background:var(--gold2);}
+#page-post .post-benefit b{display:block;font-size:12px;margin-bottom:2px;}
+#page-post .post-benefit span{display:block;color:var(--dim);font-size:10px;line-height:1.5;}
+
+#page-post .post-section{
+  background:linear-gradient(180deg,rgba(18,24,32,.98),rgba(11,17,24,.98));
+  border:1px solid rgba(201,168,76,.28);border-radius:17px;
+  padding:20px 22px 22px;margin-bottom:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);
+}
+#page-post .post-section-head{
+  display:flex;align-items:center;gap:11px;padding-bottom:14px;
+  border-bottom:1px solid rgba(201,168,76,.18);margin-bottom:18px;
+}
+#page-post .post-step{
+  width:31px;height:31px;border-radius:50%;background:rgba(201,168,76,.13);
+  border:1px solid rgba(201,168,76,.45);color:var(--gold2);font:700 14px/29px Rajdhani,Arial,sans-serif;
+  text-align:center;flex:0 0 31px;
+}
+#page-post .post-section-title{
+  margin:0;border:0;padding:0;color:var(--gold2);font-size:16px;font-weight:900;
+  display:flex;align-items:center;gap:7px;
+}
+#page-post .post-section-title .ico{width:19px;height:19px;margin:0;background:var(--gold2);}
+#page-post .form-grid{gap:15px 20px;}
+#page-post .form-group{gap:6px;}
+#page-post .form-label{font-size:11.5px;color:#aeb8c7;font-weight:700;}
+#page-post .form-input{
+  min-height:45px;background:#0d151e;border:1px solid #34404e;border-radius:10px;
+  padding:11px 13px;color:var(--text);font-size:13px;box-shadow:inset 0 1px 0 rgba(255,255,255,.02);
+}
+#page-post .form-input:hover{border-color:#526071;}
+#page-post .form-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.08);}
+#page-post select.form-input{appearance:auto;}
+#page-post .price-wrap{gap:8px;}
+#page-post .price-wrap .form-input{min-width:0;}
+#page-post .currency-toggle{height:45px;flex:0 0 auto;border-color:#34404e;border-radius:10px;}
+#page-post .cur-btn{min-width:62px;}
+#page-post .photos-upload-area{
+  min-height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  border:1px dashed #465363;background:#0c141d;border-radius:12px;margin:0;
+}
+#page-post .photos-upload-area:hover{border-color:var(--gold);background:rgba(201,168,76,.04);}
+#page-post .photos-preview{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+#page-post .photos-info{font-size:10px;color:var(--dim);margin-top:7px;}
+#page-post .progress-wrap{margin:14px 0 0;}
+#page-post .btn-submit-big{
+  width:100%;height:52px;margin-top:4px;border-radius:11px;background:linear-gradient(135deg,#e5b94e,#f2cf77);
+  color:#080a0f;font-size:15px;font-weight:900;box-shadow:0 10px 25px rgba(201,168,76,.16);
+}
+#page-post .btn-submit-big:hover{transform:translateY(-1px);filter:brightness(1.04);}
+#page-post .msg-box{margin-top:10px;}
+#page-post .post-actions{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px;
+}
+#page-post .post-save-btn{
+  height:52px;border-radius:11px;background:transparent;color:var(--text);
+  border:1px solid var(--gold);font-family:Tajawal,sans-serif;font-size:14px;font-weight:800;cursor:pointer;
+}
+#page-post .post-save-btn:hover{background:rgba(201,168,76,.08);}
+
+@media(max-width:900px){
+  #page-post .post-page-wrap{padding:20px 14px 40px;}
+  #page-post .post-layout{grid-template-columns:1fr;}
+  #page-post .post-side{position:relative;top:auto;order:-1;}
+  #page-post .post-side-image{display:none;}
+  #page-post .post-benefit{padding:10px 0;}
+}
+@media(max-width:620px){
+  #page-post .post-hero{min-height:185px;border-radius:15px;}
+  #page-post .post-hero-content{min-height:185px;padding:28px 20px;}
+  #page-post .post-hero h1{font-size:27px;}
+  #page-post .post-hero p{font-size:11.5px;}
+  #page-post .post-section{padding:16px 14px 17px;border-radius:14px;}
+  #page-post .form-grid{grid-template-columns:1fr;gap:12px;}
+  #page-post .form-group.full{grid-column:auto;}
+  #page-post .post-actions{grid-template-columns:1fr;}
+  #page-post .post-side{padding:18px 15px;}
+  #page-post .post-side-title{font-size:15px;}
+}
+
 /* COMPANY ADS BANNER */
 .mega-ad-banner{position:relative;width:100%;height:300px;border-radius:16px;overflow:hidden;background:var(--dark3);border:1px solid var(--border);}
 .mega-slide-inner{position:absolute;inset:0;display:block;text-decoration:none;color:#fff;}
@@ -1327,65 +1473,147 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
 
 <!-- POST AD -->
 <div class="page" id="page-post">
-  <div class="section-page" style="max-width:800px;margin:0 auto;">
-    <h2 style="font-size:24px;font-weight:800;margin-bottom:20px;"><span class="ico ico-car"></span> نشر إعلان سيارة</h2>
-    <div class="post-section">
-      <div class="post-section-title">معلومات السيارة</div>
-      <div class="form-grid">
-        <div class="form-group"><label class="form-label">الشركة *</label><select class="form-input" id="adMake" onchange="updateModels()"><option value="">اختر الشركة</option></select></div>
-        <div class="form-group"><label class="form-label">الموديل *</label><select class="form-input" id="adModel"><option value="">اختر الموديل</option></select></div>
-        <div class="form-group"><label class="form-label">سنة الصنع *</label><input type="number" class="form-input" id="adYear" placeholder="2024" min="1990" max="2026"></div>
-        <div class="form-group"><label class="form-label">نوع الوقود</label><select class="form-input" id="adFuel"><option value="">اختر</option><option>بنزين</option><option>ديزل</option><option>هايبرد</option><option>كهربائي</option></select></div>
-        <div class="form-group"><label class="form-label">المحرك</label><select class="form-input" id="adEngine"><option value="">اختر المحرك</option></select></div>
-        <div class="form-group"><label class="form-label">ناقل الحركة</label><select class="form-input" id="adGear"><option value="">اختر</option><option>أوتوماتيك</option><option>مانيوال</option></select></div>
-        <div class="form-group"><label class="form-label">الكيلومترات</label><div class="price-wrap"><input type="number" class="form-input" id="adKm" placeholder="50000"><select class="form-input" id="adKmUnit" style="width:90px"><option>كم</option><option>ميل</option></select></div></div>
-        <div class="form-group"><label class="form-label">اللون</label><input type="text" class="form-input" id="adColor" placeholder="أبيض"></div>
-        <div class="form-group"><label class="form-label">الحالة</label><select class="form-input" id="adCondition"><option value="مستخدم">مستخدم</option><option value="جديد">جديد</option></select></div>
-        <div class="form-group"><label class="form-label">نوع السيارة</label><select class="form-input" id="adBodyType"><option value="">اختر النوع</option><option value="sedan">سيدان</option><option value="suv">SUV</option><option value="hatchback">هاتشباك</option><option value="pickup">بيك أب</option><option value="coupe">كوبيه</option><option value="van">فان</option><option value="4x4">دفع رباعي</option></select></div>
-      </div>
-    </div>
-    <div class="post-section">
-      <div class="post-section-title">السعر والموقع</div>
-      <div class="form-grid">
-        <div class="form-group"><label class="form-label">السعر *</label><div class="price-wrap"><input type="number" class="form-input" id="adPrice" placeholder="15000"><div class="currency-toggle"><button class="cur-btn active" id="curUSD" onclick="setCurrency('USD')">USD</button><button class="cur-btn" id="curIQD" onclick="setCurrency('IQD')">IQD</button></div></div></div>
-        <div class="form-group"><label class="form-label">المدينة *</label><select class="form-input" id="adCity"><option value="">اختر المدينة</option><option>أربيل</option><option>الأنبار</option><option>بابل</option><option>البصرة</option><option>بغداد</option><option>دهوك</option><option>ديالى</option><option>ذي قار</option><option>السليمانية</option><option>صلاح الدين</option><option>القادسية</option><option>كربلاء</option><option>كركوك</option><option>المثنى</option><option>ميسان</option><option>النجف</option><option>نينوى</option><option>واسط</option></select></div>
-        <div class="form-group"><label class="form-label">رقم الواتساب *</label><input type="text" class="form-input" id="adPhone" placeholder="07701234567"></div>
-      </div>
-    </div>
-    <div class="post-section">
-      <div class="post-section-title">الوصف والشاصي</div>
-      <div class="form-group" style="margin-bottom:12px;"><label class="form-label">رقم الشاصي (اختياري)</label><input type="text" class="form-input" id="adVin" placeholder="مثال: 1HGBH41JXMN109186" maxlength="17"><div style="font-size:10px;color:var(--dim);margin-top:3px;">يزيد من مصداقية إعلانك</div></div>
-      <textarea class="form-input" id="adDesc" rows="3" placeholder="تفاصيل إضافية..." style="resize:vertical;"></textarea>
-    </div>
-    <div class="post-section">
-      <div class="post-section-title">صور السيارة (حتى 15 صورة)</div>
-      <div class="photos-upload-area" onclick="document.getElementById('photoInp').click()"><div style="font-size:32px;margin-bottom:7px;"><span class="ico ico-camera"></span></div><div style="font-size:14px;color:var(--dim);">اضغط لإضافة الصور</div></div>
-      <input type="file" id="photoInp" accept="image/*" multiple style="display:none" onchange="addCarPhotos(this)">
-      <div class="photos-preview" id="photosPreview"></div>
-      <div class="photos-info" id="photosInfo">0 / 15 صورة</div>
-    </div>
-    <div class="post-section">
-      <div class="post-section-title"><span class="ico ico-video"></span> فيديو السيارة (اختياري)</div>
-      <div class="form-group full"><label class="form-label">رابط فيديو جاهز (مثلاً رابط من GitHub أو أي استضافة)</label><input type="text" class="form-input" id="carVideoUrlInp" placeholder="https://example.com/video.mp4" oninput="setCarVideoUrl(this)"></div>
-    </div>
-    <div class="post-section">
-      <div class="post-section-title"><span class="ico ico-wrench"></span> معلومات الحوادث (اختياري)</div>
-      <select class="form-input" id="adAccident" onchange="toggleAccident()" style="margin-bottom:12px;"><option value="no">لا — سالمة</option><option value="yes">نعم — فيها حادث</option></select>
-      <div id="accidentSection" style="display:none;">
-        <div style="font-size:12px;color:var(--dim);margin-bottom:7px;">القطع المتضررة</div>
-        <div class="acc-parts-grid" id="accPartsGrid"></div>
-        <div style="margin-top:12px;">
-          <div class="photos-upload-area" onclick="document.getElementById('accInp').click()" style="padding:14px;"><div style="font-size:13px;color:var(--dim);">إضافة صور الحادث</div></div>
-          <input type="file" id="accInp" accept="image/*" multiple style="display:none" onchange="addAccPhotos(this)">
-          <div class="photos-preview" id="accPreview"></div>
-          <div class="photos-info" id="accInfo">0 / 10 صور</div>
+  <div class="post-page-wrap">
+
+    <section class="post-hero">
+      <img id="postHeroImg" class="post-hero-img" alt="" src="">
+      <div class="post-hero-content">
+        <div class="post-hero-copy">
+          <div class="post-hero-kicker"><span class="ico ico-car"></span> IRAQ MOTORS</div>
+          <h1><span>نشر إعلان</span> سيارة</h1>
+          <p>أضف تفاصيل سيارتك بدقة ليصل إعلانك إلى أكبر عدد من المشترين داخل العراق.</p>
         </div>
       </div>
+    </section>
+
+    <div class="post-layout">
+      <main class="post-main">
+
+        <div class="post-section">
+          <div class="post-section-head">
+            <div class="post-step">1</div>
+            <div class="post-section-title"><span class="ico ico-car"></span> معلومات السيارة</div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label">الشركة *</label><select class="form-input" id="adMake" onchange="updateModels()"><option value="">اختر الشركة</option></select></div>
+            <div class="form-group"><label class="form-label">الموديل *</label><select class="form-input" id="adModel"><option value="">اختر الموديل</option></select></div>
+            <div class="form-group"><label class="form-label">سنة الصنع *</label><input type="number" class="form-input" id="adYear" placeholder="2024" min="1990" max="2026"></div>
+            <div class="form-group"><label class="form-label">نوع الوقود</label><select class="form-input" id="adFuel"><option value="">اختر</option><option>بنزين</option><option>ديزل</option><option>هايبرد</option><option>كهربائي</option></select></div>
+            <div class="form-group"><label class="form-label">المحرك</label><select class="form-input" id="adEngine"><option value="">اختر المحرك</option></select></div>
+            <div class="form-group"><label class="form-label">ناقل الحركة</label><select class="form-input" id="adGear"><option value="">اختر</option><option>أوتوماتيك</option><option>مانيوال</option></select></div>
+            <div class="form-group"><label class="form-label">الممشى</label><div class="price-wrap"><input type="number" class="form-input" id="adKm" placeholder="50000"><select class="form-input" id="adKmUnit" style="width:90px"><option>كم</option><option>ميل</option></select></div></div>
+            <div class="form-group"><label class="form-label">اللون</label><input type="text" class="form-input" id="adColor" placeholder="أبيض"></div>
+            <div class="form-group"><label class="form-label">الحالة</label><select class="form-input" id="adCondition"><option value="مستخدم">مستخدم</option><option value="جديد">جديد</option></select></div>
+            <div class="form-group"><label class="form-label">نوع السيارة</label><select class="form-input" id="adBodyType"><option value="">اختر النوع</option><option value="sedan">سيدان</option><option value="suv">SUV</option><option value="hatchback">هاتشباك</option><option value="pickup">بيك أب</option><option value="coupe">كوبيه</option><option value="van">فان</option><option value="4x4">دفع رباعي</option></select></div>
+          </div>
+        </div>
+
+        <div class="post-section">
+          <div class="post-section-head">
+            <div class="post-step">2</div>
+            <div class="post-section-title"><span class="ico ico-calculator"></span> السعر والموقع</div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label">السعر *</label><div class="price-wrap"><input type="number" class="form-input" id="adPrice" placeholder="15000"><div class="currency-toggle"><button type="button" class="cur-btn active" id="curUSD" onclick="setCurrency('USD')">USD</button><button type="button" class="cur-btn" id="curIQD" onclick="setCurrency('IQD')">IQD</button></div></div></div>
+            <div class="form-group"><label class="form-label">المدينة *</label><select class="form-input" id="adCity"><option value="">اختر المدينة</option><option>أربيل</option><option>الأنبار</option><option>بابل</option><option>البصرة</option><option>بغداد</option><option>دهوك</option><option>ديالى</option><option>ذي قار</option><option>السليمانية</option><option>صلاح الدين</option><option>القادسية</option><option>كربلاء</option><option>كركوك</option><option>المثنى</option><option>ميسان</option><option>النجف</option><option>نينوى</option><option>واسط</option></select></div>
+            <div class="form-group full"><label class="form-label">رقم الواتساب *</label><input type="text" class="form-input" id="adPhone" placeholder="07701234567"></div>
+          </div>
+        </div>
+
+        <div class="post-section">
+          <div class="post-section-head">
+            <div class="post-step">3</div>
+            <div class="post-section-title"><span class="ico ico-edit"></span> وصف الإعلان</div>
+          </div>
+          <div class="form-group" style="margin-bottom:14px;">
+            <label class="form-label">رقم الشاصي (اختياري)</label>
+            <input type="text" class="form-input" id="adVin" placeholder="مثال: 1HGBH41JXMN109186" maxlength="17">
+            <div style="font-size:10px;color:var(--dim);margin-top:3px;">يزيد من مصداقية إعلانك</div>
+          </div>
+          <textarea class="form-input" id="adDesc" rows="5" placeholder="اكتب وصفاً مفصلاً عن السيارة..." style="resize:vertical;min-height:125px;"></textarea>
+        </div>
+
+        <div class="post-section">
+          <div class="post-section-head">
+            <div class="post-step">4</div>
+            <div class="post-section-title"><span class="ico ico-camera"></span> صور السيارة</div>
+          </div>
+          <div class="photos-upload-area" onclick="document.getElementById('photoInp').click()">
+            <div style="font-size:30px;margin-bottom:6px;"><span class="ico ico-camera" style="width:30px;height:30px;margin:0;background:var(--gold2);"></span></div>
+            <div style="font-size:13px;color:var(--dim);">اضغط لإضافة الصور</div>
+            <div style="font-size:10px;color:#68758a;margin-top:4px;">حتى 15 صورة</div>
+          </div>
+          <input type="file" id="photoInp" accept="image/*" multiple style="display:none" onchange="addCarPhotos(this)">
+          <div class="photos-preview" id="photosPreview"></div>
+          <div class="photos-info" id="photosInfo">0 / 15 صورة</div>
+        </div>
+
+        <div class="post-section">
+          <div class="post-section-head">
+            <div class="post-step">5</div>
+            <div class="post-section-title"><span class="ico ico-video"></span> إضافات الإعلان</div>
+          </div>
+          <div class="form-group full" style="margin-bottom:14px;">
+            <label class="form-label">رابط فيديو جاهز (اختياري)</label>
+            <input type="text" class="form-input" id="carVideoUrlInp" placeholder="https://example.com/video.mp4" oninput="setCarVideoUrl(this)">
+          </div>
+          <div class="form-group full">
+            <label class="form-label">معلومات الحوادث (اختياري)</label>
+            <select class="form-input" id="adAccident" onchange="toggleAccident()"><option value="no">لا — سالمة</option><option value="yes">نعم — فيها حادث</option></select>
+          </div>
+          <div id="accidentSection" style="display:none;margin-top:14px;">
+            <div style="font-size:12px;color:var(--dim);margin-bottom:7px;">القطع المتضررة</div>
+            <div class="acc-parts-grid" id="accPartsGrid"></div>
+            <div style="margin-top:12px;">
+              <div class="photos-upload-area" onclick="document.getElementById('accInp').click()" style="padding:14px;min-height:70px;"><div style="font-size:12px;color:var(--dim);">إضافة صور الحادث</div></div>
+              <input type="file" id="accInp" accept="image/*" multiple style="display:none" onchange="addAccPhotos(this)">
+              <div class="photos-preview" id="accPreview"></div>
+              <div class="photos-info" id="accInfo">0 / 10 صور</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="progress-wrap" id="progressWrap"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><div class="progress-text" id="progressText">جاري الرفع...</div></div>
+        <div class="post-actions">
+          <button type="button" class="post-save-btn" onclick="try{localStorage.setItem('iqPostDraft',JSON.stringify({make:document.getElementById('adMake').value,model:document.getElementById('adModel').value,year:document.getElementById('adYear').value,price:document.getElementById('adPrice').value,city:document.getElementById('adCity').value,desc:document.getElementById('adDesc').value}));showMsg2('adMsg','تم حفظ المسودة بنجاح','#2ecc71')}catch(e){}"><span class="ico ico-save" style="background:currentColor;"></span> حفظ كمسودة</button>
+          <button type="button" class="btn-submit-big" onclick="submitAd()">نشر الإعلان <span style="font-size:15px;">➤</span></button>
+        </div>
+        <div class="msg-box" id="adMsg"></div>
+      </main>
+
+      <aside class="post-side">
+        <div class="post-side-image"><img id="postSideImg" alt="" src=""></div>
+        <div class="post-side-title">سيارتك <strong>تستحق</strong><br>أن تُرى من الجميع</div>
+        <div class="post-benefit">
+          <div class="benefit-ico"><span class="ico ico-chart-up"></span></div>
+          <div><b>وصول أكبر للمشترين</b><span>اعرض سيارتك أمام الباحثين عنها</span></div>
+        </div>
+        <div class="post-benefit">
+          <div class="benefit-ico"><span class="ico ico-check"></span></div>
+          <div><b>منصة موثوقة وآمنة</b><span>تجربة نشر واضحة وسهلة</span></div>
+        </div>
+        <div class="post-benefit">
+          <div class="benefit-ico"><span class="ico ico-gear"></span></div>
+          <div><b>إدارة سهلة لإعلاناتك</b><span>تستطيع تعديلها ومتابعتها من حسابك</span></div>
+        </div>
+        <div style="height:1px;background:rgba(255,255,255,.07);margin:12px 0 16px;"></div>
+        <div style="text-align:center;color:var(--gold2);font-size:12px;font-weight:800;">Iraq Motors</div>
+        <div style="text-align:center;color:var(--dim);font-size:10px;margin-top:4px;">كل سيارات العراق في مكان واحد</div>
+      </aside>
     </div>
-    <div class="progress-wrap" id="progressWrap"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><div class="progress-text" id="progressText">جاري الرفع...</div></div>
-    <button class="btn-submit-big" onclick="submitAd()">🚀 نشر الإعلان</button>
-    <div class="msg-box" id="adMsg"></div>
   </div>
+  <script>
+    (function(){
+      try{
+        var source=document.querySelector('#heroBannerWrap img');
+        if(source && source.src){
+          var a=document.getElementById('postHeroImg'),b=document.getElementById('postSideImg');
+          if(a)a.src=source.src;
+          if(b)b.src=source.src;
+        }
+      }catch(e){}
+    })();
+  </script>
 </div>
 
 <!-- PROFILE -->
