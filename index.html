@@ -249,152 +249,6 @@ table{max-width:100%;}
 .currency-toggle{display:flex;border:1px solid var(--border);border-radius:10px;overflow:hidden;}
 .cur-btn{padding:0 14px;background:transparent;color:var(--dim);border:none;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:13px;transition:all .2s;}
 .cur-btn.active{background:var(--gold);color:#000;font-weight:700;}
-
-/* =========================================================
-   IRAQ MOTORS — PUBLISH AD REDESIGN
-   Scoped to #page-post so existing site pages/functionality
-   are not visually or behaviorally affected.
-   ========================================================= */
-#page-post .post-page-wrap{max-width:1160px;margin:0 auto;padding:28px 24px 56px;}
-#page-post .post-hero{
-  position:relative;min-height:205px;border:1px solid rgba(201,168,76,.28);
-  border-radius:20px;overflow:hidden;margin-bottom:22px;
-  background:linear-gradient(110deg,#070b10 0%,#0d141c 52%,#101923 100%);
-  box-shadow:0 18px 55px rgba(0,0,0,.28);
-}
-#page-post .post-hero:before{
-  content:"";position:absolute;inset:0;
-  background:radial-gradient(circle at 18% 60%,rgba(201,168,76,.15),transparent 34%),
-             linear-gradient(90deg,rgba(8,10,15,.05),rgba(8,10,15,.7));
-  pointer-events:none;z-index:1;
-}
-#page-post .post-hero-img{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.34;
-  filter:saturate(.75) contrast(1.08);
-}
-#page-post .post-hero-content{
-  position:relative;z-index:2;min-height:205px;display:flex;align-items:center;
-  justify-content:flex-start;padding:34px 42px;
-}
-#page-post .post-hero-copy{max-width:650px;text-align:right;}
-#page-post .post-hero-kicker{
-  color:var(--gold2);font-size:12px;font-weight:800;letter-spacing:.5px;
-  display:flex;align-items:center;gap:7px;margin-bottom:8px;
-}
-#page-post .post-hero-kicker .ico{width:19px;height:19px;margin:0;background:var(--gold2);}
-#page-post .post-hero h1{font-size:34px;line-height:1.2;font-weight:900;margin:0 0 9px;color:#fff;}
-#page-post .post-hero h1 span{color:var(--gold2);}
-#page-post .post-hero p{font-size:13px;color:#b8c1cf;line-height:1.9;margin:0;max-width:610px;}
-
-#page-post .post-layout{
-  display:grid;grid-template-columns:minmax(0,1fr) 255px;gap:18px;align-items:start;
-}
-#page-post .post-main{min-width:0;}
-#page-post .post-side{
-  background:linear-gradient(180deg,#151b22,#0d1219);
-  border:1px solid rgba(201,168,76,.28);border-radius:18px;padding:24px 18px;
-  position:sticky;top:84px;overflow:hidden;
-}
-#page-post .post-side:after{
-  content:"";position:absolute;width:150px;height:150px;border-radius:50%;
-  left:-70px;bottom:-80px;background:rgba(201,168,76,.07);
-}
-#page-post .post-side-image{
-  height:125px;border-radius:12px;overflow:hidden;margin:-2px -2px 20px;
-  background:#090d12;border:1px solid rgba(255,255,255,.05);
-}
-#page-post .post-side-image img{width:100%;height:100%;object-fit:cover;opacity:.72;}
-#page-post .post-side-title{font-size:17px;font-weight:900;line-height:1.55;margin-bottom:18px;}
-#page-post .post-side-title strong{color:var(--gold2);}
-#page-post .post-benefit{
-  display:flex;align-items:center;gap:11px;padding:14px 0;
-  border-top:1px solid rgba(255,255,255,.07);
-}
-#page-post .post-benefit .benefit-ico{
-  width:36px;height:36px;border:1px solid rgba(201,168,76,.35);border-radius:10px;
-  display:flex;align-items:center;justify-content:center;flex:0 0 36px;
-  background:rgba(201,168,76,.07);
-}
-#page-post .post-benefit .ico{width:18px;height:18px;margin:0;background:var(--gold2);}
-#page-post .post-benefit b{display:block;font-size:12px;margin-bottom:2px;}
-#page-post .post-benefit span{display:block;color:var(--dim);font-size:10px;line-height:1.5;}
-
-#page-post .post-section{
-  background:linear-gradient(180deg,rgba(18,24,32,.98),rgba(11,17,24,.98));
-  border:1px solid rgba(201,168,76,.28);border-radius:17px;
-  padding:20px 22px 22px;margin-bottom:16px;box-shadow:0 8px 30px rgba(0,0,0,.12);
-}
-#page-post .post-section-head{
-  display:flex;align-items:center;gap:11px;padding-bottom:14px;
-  border-bottom:1px solid rgba(201,168,76,.18);margin-bottom:18px;
-}
-#page-post .post-step{
-  width:31px;height:31px;border-radius:50%;background:rgba(201,168,76,.13);
-  border:1px solid rgba(201,168,76,.45);color:var(--gold2);font:700 14px/29px Rajdhani,Arial,sans-serif;
-  text-align:center;flex:0 0 31px;
-}
-#page-post .post-section-title{
-  margin:0;border:0;padding:0;color:var(--gold2);font-size:16px;font-weight:900;
-  display:flex;align-items:center;gap:7px;
-}
-#page-post .post-section-title .ico{width:19px;height:19px;margin:0;background:var(--gold2);}
-#page-post .form-grid{gap:15px 20px;}
-#page-post .form-group{gap:6px;}
-#page-post .form-label{font-size:11.5px;color:#aeb8c7;font-weight:700;}
-#page-post .form-input{
-  min-height:45px;background:#0d151e;border:1px solid #34404e;border-radius:10px;
-  padding:11px 13px;color:var(--text);font-size:13px;box-shadow:inset 0 1px 0 rgba(255,255,255,.02);
-}
-#page-post .form-input:hover{border-color:#526071;}
-#page-post .form-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.08);}
-#page-post select.form-input{appearance:auto;}
-#page-post .price-wrap{gap:8px;}
-#page-post .price-wrap .form-input{min-width:0;}
-#page-post .currency-toggle{height:45px;flex:0 0 auto;border-color:#34404e;border-radius:10px;}
-#page-post .cur-btn{min-width:62px;}
-#page-post .photos-upload-area{
-  min-height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  border:1px dashed #465363;background:#0c141d;border-radius:12px;margin:0;
-}
-#page-post .photos-upload-area:hover{border-color:var(--gold);background:rgba(201,168,76,.04);}
-#page-post .photos-preview{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
-#page-post .photos-info{font-size:10px;color:var(--dim);margin-top:7px;}
-#page-post .progress-wrap{margin:14px 0 0;}
-#page-post .btn-submit-big{
-  width:100%;height:52px;margin-top:4px;border-radius:11px;background:linear-gradient(135deg,#e5b94e,#f2cf77);
-  color:#080a0f;font-size:15px;font-weight:900;box-shadow:0 10px 25px rgba(201,168,76,.16);
-}
-#page-post .btn-submit-big:hover{transform:translateY(-1px);filter:brightness(1.04);}
-#page-post .msg-box{margin-top:10px;}
-#page-post .post-actions{
-  display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px;
-}
-#page-post .post-save-btn{
-  height:52px;border-radius:11px;background:transparent;color:var(--text);
-  border:1px solid var(--gold);font-family:Tajawal,sans-serif;font-size:14px;font-weight:800;cursor:pointer;
-}
-#page-post .post-save-btn:hover{background:rgba(201,168,76,.08);}
-
-@media(max-width:900px){
-  #page-post .post-page-wrap{padding:20px 14px 40px;}
-  #page-post .post-layout{grid-template-columns:1fr;}
-  #page-post .post-side{position:relative;top:auto;order:-1;}
-  #page-post .post-side-image{display:none;}
-  #page-post .post-benefit{padding:10px 0;}
-}
-@media(max-width:620px){
-  #page-post .post-hero{min-height:185px;border-radius:15px;}
-  #page-post .post-hero-content{min-height:185px;padding:28px 20px;}
-  #page-post .post-hero h1{font-size:27px;}
-  #page-post .post-hero p{font-size:11.5px;}
-  #page-post .post-section{padding:16px 14px 17px;border-radius:14px;}
-  #page-post .form-grid{grid-template-columns:1fr;gap:12px;}
-  #page-post .form-group.full{grid-column:auto;}
-  #page-post .post-actions{grid-template-columns:1fr;}
-  #page-post .post-side{padding:18px 15px;}
-  #page-post .post-side-title{font-size:15px;}
-}
-
 /* COMPANY ADS BANNER */
 .mega-ad-banner{position:relative;width:100%;height:300px;border-radius:16px;overflow:hidden;background:var(--dark3);border:1px solid var(--border);}
 .mega-slide-inner{position:absolute;inset:0;display:block;text-decoration:none;color:#fff;}
@@ -1473,147 +1327,65 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
 
 <!-- POST AD -->
 <div class="page" id="page-post">
-  <div class="post-page-wrap">
-
-    <section class="post-hero">
-      <img id="postHeroImg" class="post-hero-img" alt="" src="">
-      <div class="post-hero-content">
-        <div class="post-hero-copy">
-          <div class="post-hero-kicker"><span class="ico ico-car"></span> IRAQ MOTORS</div>
-          <h1><span>نشر إعلان</span> سيارة</h1>
-          <p>أضف تفاصيل سيارتك بدقة ليصل إعلانك إلى أكبر عدد من المشترين داخل العراق.</p>
+  <div class="section-page" style="max-width:800px;margin:0 auto;">
+    <h2 style="font-size:24px;font-weight:800;margin-bottom:20px;"><span class="ico ico-car"></span> نشر إعلان سيارة</h2>
+    <div class="post-section">
+      <div class="post-section-title">معلومات السيارة</div>
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">الشركة *</label><select class="form-input" id="adMake" onchange="updateModels()"><option value="">اختر الشركة</option></select></div>
+        <div class="form-group"><label class="form-label">الموديل *</label><select class="form-input" id="adModel"><option value="">اختر الموديل</option></select></div>
+        <div class="form-group"><label class="form-label">سنة الصنع *</label><input type="number" class="form-input" id="adYear" placeholder="2024" min="1990" max="2026"></div>
+        <div class="form-group"><label class="form-label">نوع الوقود</label><select class="form-input" id="adFuel"><option value="">اختر</option><option>بنزين</option><option>ديزل</option><option>هايبرد</option><option>كهربائي</option></select></div>
+        <div class="form-group"><label class="form-label">المحرك</label><select class="form-input" id="adEngine"><option value="">اختر المحرك</option></select></div>
+        <div class="form-group"><label class="form-label">ناقل الحركة</label><select class="form-input" id="adGear"><option value="">اختر</option><option>أوتوماتيك</option><option>مانيوال</option></select></div>
+        <div class="form-group"><label class="form-label">الكيلومترات</label><div class="price-wrap"><input type="text" inputmode="numeric" class="form-input" id="adKm" placeholder="50,000" oninput="formatCommaInput(this)"><select class="form-input" id="adKmUnit" style="width:90px"><option>كم</option><option>ميل</option></select></div></div>
+        <div class="form-group"><label class="form-label">اللون</label><input type="hidden" id="adColor" value=""><div class="color-picker" id="adColorPicker"><button type="button" class="color-choice" data-color="أبيض" onclick="selectAdColor(this)"><span class="color-dot white"></span>أبيض</button><button type="button" class="color-choice" data-color="أسود" onclick="selectAdColor(this)"><span class="color-dot black"></span>أسود</button><button type="button" class="color-choice" data-color="فضي" onclick="selectAdColor(this)"><span class="color-dot silver"></span>فضي</button><button type="button" class="color-choice" data-color="رمادي" onclick="selectAdColor(this)"><span class="color-dot gray"></span>رمادي</button><button type="button" class="color-choice" data-color="أحمر" onclick="selectAdColor(this)"><span class="color-dot red"></span>أحمر</button><button type="button" class="color-choice" data-color="أزرق" onclick="selectAdColor(this)"><span class="color-dot blue"></span>أزرق</button><button type="button" class="color-choice" data-color="بني" onclick="selectAdColor(this)"><span class="color-dot brown"></span>بني</button><button type="button" class="color-choice" data-color="أخضر" onclick="selectAdColor(this)"><span class="color-dot green"></span>أخضر</button><button type="button" class="color-choice" data-color="ذهبي" onclick="selectAdColor(this)"><span class="color-dot gold"></span>ذهبي</button><button type="button" class="color-choice" data-color="بيج" onclick="selectAdColor(this)"><span class="color-dot beige"></span>بيج</button></div></div>
+        <div class="form-group"><label class="form-label">الحالة</label><select class="form-input" id="adCondition"><option value="مستخدم">مستخدم</option><option value="جديد">جديد</option></select></div>
+        <div class="form-group"><label class="form-label">نوع السيارة</label><select class="form-input" id="adBodyType"><option value="">اختر النوع</option><option value="sedan">سيدان</option><option value="suv">SUV</option><option value="hatchback">هاتشباك</option><option value="pickup">بيك أب</option><option value="coupe">كوبيه</option><option value="van">فان</option><option value="4x4">دفع رباعي</option></select></div>
+      </div>
+    </div>
+    <div class="post-section">
+      <div class="post-section-title">السعر والموقع</div>
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">السعر</label><div class="price-wrap"><input type="text" inputmode="numeric" class="form-input" id="adPrice" placeholder="15,000" oninput="formatCommaInput(this)"><div class="currency-toggle"><button type="button" class="cur-btn active" id="curUSD" onclick="setCurrency('USD')">USD</button><button type="button" class="cur-btn" id="curIQD" onclick="setCurrency('IQD')">IQD</button></div></div><div class="price-optional-box"><label class="price-optional-label"><input type="checkbox" id="adNoPrice" onchange="toggleNoPrice(this)"> السعر عند الاتصال</label><span class="price-optional-hint">اترك السعر مخفياً إذا كنت تفضّل التفاوض هاتفياً</span></div></div>
+        <div class="form-group"><label class="form-label">المدينة *</label><select class="form-input" id="adCity"><option value="">اختر المدينة</option><option>أربيل</option><option>الأنبار</option><option>بابل</option><option>البصرة</option><option>بغداد</option><option>دهوك</option><option>ديالى</option><option>ذي قار</option><option>السليمانية</option><option>صلاح الدين</option><option>القادسية</option><option>كربلاء</option><option>كركوك</option><option>المثنى</option><option>ميسان</option><option>النجف</option><option>نينوى</option><option>واسط</option></select></div>
+        <div class="form-group"><label class="form-label">رقم الواتساب *</label><input type="text" class="form-input" id="adPhone" placeholder="07701234567"></div>
+      </div>
+    </div>
+    <div class="post-section">
+      <div class="post-section-title">الوصف والشاصي</div>
+      <div class="form-group" style="margin-bottom:12px;"><label class="form-label">رقم الشاصي (اختياري)</label><input type="text" class="form-input" id="adVin" placeholder="مثال: 1HGBH41JXMN109186" maxlength="17"><div style="font-size:10px;color:var(--dim);margin-top:3px;">يزيد من مصداقية إعلانك</div></div>
+      <textarea class="form-input" id="adDesc" rows="3" placeholder="تفاصيل إضافية..." style="resize:vertical;"></textarea>
+    </div>
+    <div class="post-section">
+      <div class="post-section-title">صور السيارة (حتى 15 صورة)</div>
+      <div class="photos-upload-area" onclick="document.getElementById('photoInp').click()"><div style="font-size:32px;margin-bottom:7px;"><span class="ico ico-camera"></span></div><div style="font-size:14px;color:var(--dim);">اضغط لإضافة الصور</div></div>
+      <input type="file" id="photoInp" accept="image/*" multiple style="display:none" onchange="addCarPhotos(this)">
+      <div class="photos-preview" id="photosPreview"></div>
+      <div class="photos-info" id="photosInfo">0 / 15 صورة</div>
+    </div>
+    <div class="post-section">
+      <div class="post-section-title"><span class="ico ico-video"></span> فيديو السيارة (اختياري)</div>
+      <div class="form-group full"><label class="form-label">رابط فيديو جاهز (مثلاً رابط من GitHub أو أي استضافة)</label><input type="text" class="form-input" id="carVideoUrlInp" placeholder="https://example.com/video.mp4" oninput="setCarVideoUrl(this)"></div>
+    </div>
+    <div class="post-section">
+      <div class="post-section-title"><span class="ico ico-wrench"></span> معلومات الحوادث (اختياري)</div>
+      <select class="form-input" id="adAccident" onchange="toggleAccident()" style="margin-bottom:12px;"><option value="no">لا — سالمة</option><option value="yes">نعم — فيها حادث</option></select>
+      <div id="accidentSection" style="display:none;">
+        <div style="font-size:12px;color:var(--dim);margin-bottom:7px;">القطع المتضررة</div>
+        <div class="acc-parts-grid" id="accPartsGrid"></div>
+        <div style="margin-top:12px;">
+          <div class="photos-upload-area" onclick="document.getElementById('accInp').click()" style="padding:14px;"><div style="font-size:13px;color:var(--dim);">إضافة صور الحادث</div></div>
+          <input type="file" id="accInp" accept="image/*" multiple style="display:none" onchange="addAccPhotos(this)">
+          <div class="photos-preview" id="accPreview"></div>
+          <div class="photos-info" id="accInfo">0 / 10 صور</div>
         </div>
       </div>
-    </section>
-
-    <div class="post-layout">
-      <main class="post-main">
-
-        <div class="post-section">
-          <div class="post-section-head">
-            <div class="post-step">1</div>
-            <div class="post-section-title"><span class="ico ico-car"></span> معلومات السيارة</div>
-          </div>
-          <div class="form-grid">
-            <div class="form-group"><label class="form-label">الشركة *</label><select class="form-input" id="adMake" onchange="updateModels()"><option value="">اختر الشركة</option></select></div>
-            <div class="form-group"><label class="form-label">الموديل *</label><select class="form-input" id="adModel"><option value="">اختر الموديل</option></select></div>
-            <div class="form-group"><label class="form-label">سنة الصنع *</label><input type="number" class="form-input" id="adYear" placeholder="2024" min="1990" max="2026"></div>
-            <div class="form-group"><label class="form-label">نوع الوقود</label><select class="form-input" id="adFuel"><option value="">اختر</option><option>بنزين</option><option>ديزل</option><option>هايبرد</option><option>كهربائي</option></select></div>
-            <div class="form-group"><label class="form-label">المحرك</label><select class="form-input" id="adEngine"><option value="">اختر المحرك</option></select></div>
-            <div class="form-group"><label class="form-label">ناقل الحركة</label><select class="form-input" id="adGear"><option value="">اختر</option><option>أوتوماتيك</option><option>مانيوال</option></select></div>
-            <div class="form-group"><label class="form-label">الممشى</label><div class="price-wrap"><input type="number" class="form-input" id="adKm" placeholder="50000"><select class="form-input" id="adKmUnit" style="width:90px"><option>كم</option><option>ميل</option></select></div></div>
-            <div class="form-group"><label class="form-label">اللون</label><input type="text" class="form-input" id="adColor" placeholder="أبيض"></div>
-            <div class="form-group"><label class="form-label">الحالة</label><select class="form-input" id="adCondition"><option value="مستخدم">مستخدم</option><option value="جديد">جديد</option></select></div>
-            <div class="form-group"><label class="form-label">نوع السيارة</label><select class="form-input" id="adBodyType"><option value="">اختر النوع</option><option value="sedan">سيدان</option><option value="suv">SUV</option><option value="hatchback">هاتشباك</option><option value="pickup">بيك أب</option><option value="coupe">كوبيه</option><option value="van">فان</option><option value="4x4">دفع رباعي</option></select></div>
-          </div>
-        </div>
-
-        <div class="post-section">
-          <div class="post-section-head">
-            <div class="post-step">2</div>
-            <div class="post-section-title"><span class="ico ico-calculator"></span> السعر والموقع</div>
-          </div>
-          <div class="form-grid">
-            <div class="form-group"><label class="form-label">السعر *</label><div class="price-wrap"><input type="number" class="form-input" id="adPrice" placeholder="15000"><div class="currency-toggle"><button type="button" class="cur-btn active" id="curUSD" onclick="setCurrency('USD')">USD</button><button type="button" class="cur-btn" id="curIQD" onclick="setCurrency('IQD')">IQD</button></div></div></div>
-            <div class="form-group"><label class="form-label">المدينة *</label><select class="form-input" id="adCity"><option value="">اختر المدينة</option><option>أربيل</option><option>الأنبار</option><option>بابل</option><option>البصرة</option><option>بغداد</option><option>دهوك</option><option>ديالى</option><option>ذي قار</option><option>السليمانية</option><option>صلاح الدين</option><option>القادسية</option><option>كربلاء</option><option>كركوك</option><option>المثنى</option><option>ميسان</option><option>النجف</option><option>نينوى</option><option>واسط</option></select></div>
-            <div class="form-group full"><label class="form-label">رقم الواتساب *</label><input type="text" class="form-input" id="adPhone" placeholder="07701234567"></div>
-          </div>
-        </div>
-
-        <div class="post-section">
-          <div class="post-section-head">
-            <div class="post-step">3</div>
-            <div class="post-section-title"><span class="ico ico-edit"></span> وصف الإعلان</div>
-          </div>
-          <div class="form-group" style="margin-bottom:14px;">
-            <label class="form-label">رقم الشاصي (اختياري)</label>
-            <input type="text" class="form-input" id="adVin" placeholder="مثال: 1HGBH41JXMN109186" maxlength="17">
-            <div style="font-size:10px;color:var(--dim);margin-top:3px;">يزيد من مصداقية إعلانك</div>
-          </div>
-          <textarea class="form-input" id="adDesc" rows="5" placeholder="اكتب وصفاً مفصلاً عن السيارة..." style="resize:vertical;min-height:125px;"></textarea>
-        </div>
-
-        <div class="post-section">
-          <div class="post-section-head">
-            <div class="post-step">4</div>
-            <div class="post-section-title"><span class="ico ico-camera"></span> صور السيارة</div>
-          </div>
-          <div class="photos-upload-area" onclick="document.getElementById('photoInp').click()">
-            <div style="font-size:30px;margin-bottom:6px;"><span class="ico ico-camera" style="width:30px;height:30px;margin:0;background:var(--gold2);"></span></div>
-            <div style="font-size:13px;color:var(--dim);">اضغط لإضافة الصور</div>
-            <div style="font-size:10px;color:#68758a;margin-top:4px;">حتى 15 صورة</div>
-          </div>
-          <input type="file" id="photoInp" accept="image/*" multiple style="display:none" onchange="addCarPhotos(this)">
-          <div class="photos-preview" id="photosPreview"></div>
-          <div class="photos-info" id="photosInfo">0 / 15 صورة</div>
-        </div>
-
-        <div class="post-section">
-          <div class="post-section-head">
-            <div class="post-step">5</div>
-            <div class="post-section-title"><span class="ico ico-video"></span> إضافات الإعلان</div>
-          </div>
-          <div class="form-group full" style="margin-bottom:14px;">
-            <label class="form-label">رابط فيديو جاهز (اختياري)</label>
-            <input type="text" class="form-input" id="carVideoUrlInp" placeholder="https://example.com/video.mp4" oninput="setCarVideoUrl(this)">
-          </div>
-          <div class="form-group full">
-            <label class="form-label">معلومات الحوادث (اختياري)</label>
-            <select class="form-input" id="adAccident" onchange="toggleAccident()"><option value="no">لا — سالمة</option><option value="yes">نعم — فيها حادث</option></select>
-          </div>
-          <div id="accidentSection" style="display:none;margin-top:14px;">
-            <div style="font-size:12px;color:var(--dim);margin-bottom:7px;">القطع المتضررة</div>
-            <div class="acc-parts-grid" id="accPartsGrid"></div>
-            <div style="margin-top:12px;">
-              <div class="photos-upload-area" onclick="document.getElementById('accInp').click()" style="padding:14px;min-height:70px;"><div style="font-size:12px;color:var(--dim);">إضافة صور الحادث</div></div>
-              <input type="file" id="accInp" accept="image/*" multiple style="display:none" onchange="addAccPhotos(this)">
-              <div class="photos-preview" id="accPreview"></div>
-              <div class="photos-info" id="accInfo">0 / 10 صور</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="progress-wrap" id="progressWrap"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><div class="progress-text" id="progressText">جاري الرفع...</div></div>
-        <div class="post-actions">
-          <button type="button" class="post-save-btn" onclick="try{localStorage.setItem('iqPostDraft',JSON.stringify({make:document.getElementById('adMake').value,model:document.getElementById('adModel').value,year:document.getElementById('adYear').value,price:document.getElementById('adPrice').value,city:document.getElementById('adCity').value,desc:document.getElementById('adDesc').value}));showMsg2('adMsg','تم حفظ المسودة بنجاح','#2ecc71')}catch(e){}"><span class="ico ico-save" style="background:currentColor;"></span> حفظ كمسودة</button>
-          <button type="button" class="btn-submit-big" onclick="submitAd()">نشر الإعلان <span style="font-size:15px;">➤</span></button>
-        </div>
-        <div class="msg-box" id="adMsg"></div>
-      </main>
-
-      <aside class="post-side">
-        <div class="post-side-image"><img id="postSideImg" alt="" src=""></div>
-        <div class="post-side-title">سيارتك <strong>تستحق</strong><br>أن تُرى من الجميع</div>
-        <div class="post-benefit">
-          <div class="benefit-ico"><span class="ico ico-chart-up"></span></div>
-          <div><b>وصول أكبر للمشترين</b><span>اعرض سيارتك أمام الباحثين عنها</span></div>
-        </div>
-        <div class="post-benefit">
-          <div class="benefit-ico"><span class="ico ico-check"></span></div>
-          <div><b>منصة موثوقة وآمنة</b><span>تجربة نشر واضحة وسهلة</span></div>
-        </div>
-        <div class="post-benefit">
-          <div class="benefit-ico"><span class="ico ico-gear"></span></div>
-          <div><b>إدارة سهلة لإعلاناتك</b><span>تستطيع تعديلها ومتابعتها من حسابك</span></div>
-        </div>
-        <div style="height:1px;background:rgba(255,255,255,.07);margin:12px 0 16px;"></div>
-        <div style="text-align:center;color:var(--gold2);font-size:12px;font-weight:800;">Iraq Motors</div>
-        <div style="text-align:center;color:var(--dim);font-size:10px;margin-top:4px;">كل سيارات العراق في مكان واحد</div>
-      </aside>
     </div>
+    <div class="progress-wrap" id="progressWrap"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><div class="progress-text" id="progressText">جاري الرفع...</div></div>
+    <button class="btn-submit-big" onclick="submitAd()">🚀 نشر الإعلان</button>
+    <div class="msg-box" id="adMsg"></div>
   </div>
-  <script>
-    (function(){
-      try{
-        var source=document.querySelector('#heroBannerWrap img');
-        if(source && source.src){
-          var a=document.getElementById('postHeroImg'),b=document.getElementById('postSideImg');
-          if(a)a.src=source.src;
-          if(b)b.src=source.src;
-        }
-      }catch(e){}
-    })();
-  </script>
 </div>
 
 <!-- PROFILE -->
@@ -1640,16 +1412,154 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
   </div>
 </div>
 
+
+<style>
+/* ===== IRAQ MOTORS SMART COMPARE V2 ===== */
+#page-compare .cmpx-wrap{max-width:1280px;margin:0 auto;padding:24px 22px 60px;direction:rtl}
+#page-compare .cmpx-hero{position:relative;min-height:190px;overflow:hidden;border:1px solid rgba(201,168,76,.28);border-radius:22px;background:linear-gradient(110deg,#071018,#0b151f 55%,#101722);display:flex;align-items:center;justify-content:space-between;padding:34px 38px;margin-bottom:18px;box-shadow:0 22px 60px rgba(0,0,0,.28)}
+#page-compare .cmpx-hero:after{content:"";position:absolute;inset:auto -80px -130px auto;width:430px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.19),transparent 65%);pointer-events:none}
+#page-compare .cmpx-hero-glow{position:absolute;inset:0;background:linear-gradient(90deg,transparent 25%,rgba(201,168,76,.035),transparent 75%);pointer-events:none}
+#page-compare .cmpx-hero-content{position:relative;z-index:2;max-width:720px}
+#page-compare .cmpx-kicker{color:var(--gold2);font-size:10px;font-weight:900;letter-spacing:1px;margin-bottom:8px;display:flex;align-items:center;gap:7px}
+#page-compare .cmpx-kicker .ico{width:16px;height:16px;margin:0;background:var(--gold2)}
+#page-compare .cmpx-hero h1{font-size:36px;font-weight:950;margin:0 0 8px;line-height:1.15;color:#fff}
+#page-compare .cmpx-hero p{margin:0;color:#aeb9c8;font-size:13px;line-height:1.9}
+#page-compare .cmpx-hero-actions{position:relative;z-index:2;display:flex;gap:8px;align-self:flex-end}
+#page-compare .cmpx-outline-btn,#page-compare .cmpx-gold-btn{height:42px;padding:0 15px;border-radius:10px;font-family:Tajawal,sans-serif;font-size:11px;font-weight:900;cursor:pointer;display:flex;align-items:center;gap:7px}
+#page-compare .cmpx-outline-btn{background:rgba(255,255,255,.02);color:#d6dce5;border:1px solid #3a4654}
+#page-compare .cmpx-gold-btn{background:linear-gradient(135deg,#dba83d,#f1cd71);color:#0a0c10;border:0}
+#page-compare .cmpx-selectors{display:grid;grid-template-columns:1fr 72px 1fr;gap:14px;align-items:center;margin-bottom:18px}
+#page-compare .cmpx-selector-card{position:relative;padding:20px;background:linear-gradient(180deg,#121b25,#0c141c);border:1px solid rgba(201,168,76,.28);border-radius:17px;box-shadow:0 10px 32px rgba(0,0,0,.18)}
+#page-compare .cmpx-selector-top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+#page-compare .cmpx-number{width:32px;height:32px;border-radius:9px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.38);color:var(--gold2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900}
+#page-compare .cmpx-selector-top b{display:block;font-size:14px;color:#fff}
+#page-compare .cmpx-selector-top small{display:block;color:var(--dim);font-size:9px;margin-top:2px}
+#page-compare .cmpx-select-row{display:flex;gap:8px;margin-bottom:9px}
+#page-compare .cmpx-select-row .form-input{margin:0}
+#page-compare .cmpx-brand-mark{width:45px;height:45px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:#0a1119;border:1px solid #394655;color:var(--gold2);font-weight:950;font-size:13px;flex:0 0 45px}
+#page-compare .cmpx-vs-badge{width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#090d13;border:1px solid var(--gold);color:var(--gold2);font-size:17px;font-weight:950;box-shadow:0 0 30px rgba(201,168,76,.12);justify-self:center}
+#page-compare .cmpx-empty{padding:55px 20px;text-align:center;border:1px dashed #354250;border-radius:17px;background:rgba(12,18,25,.72)}
+#page-compare .cmpx-empty-icon{width:60px;height:60px;border-radius:17px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.28);display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+#page-compare .cmpx-empty-icon .ico{width:28px;height:28px;margin:0;background:var(--gold2)}
+#page-compare .cmpx-empty h3{font-size:17px;margin:0 0 5px}
+#page-compare .cmpx-empty p{font-size:11px;color:var(--dim);margin:0}
+#page-compare .cmpx-cars-head{display:grid;grid-template-columns:1fr 100px 1fr;gap:14px;align-items:stretch;margin-bottom:14px}
+#page-compare .cmpx-car-card{overflow:hidden;border:1px solid rgba(201,168,76,.28);border-radius:17px;background:linear-gradient(180deg,#111a24,#0b121a)}
+#page-compare .cmpx-car-card-head{padding:19px 20px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid rgba(255,255,255,.06)}
+#page-compare .cmpx-car-card-head h2{font-size:18px;margin:0;font-weight:950;color:#fff}
+#page-compare .cmpx-car-card-head p{font-size:10px;color:var(--dim);margin:4px 0 0}
+#page-compare .cmpx-car-logo{width:45px;height:45px;border-radius:12px;background:linear-gradient(135deg,#1a222d,#080c11);border:1px solid #3d4855;color:var(--gold2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:950}
+#page-compare .cmpx-price{font-size:21px;font-weight:950;color:var(--gold2);padding:13px 20px 4px}
+#page-compare .cmpx-price small{display:block;color:var(--dim);font-size:8px;font-weight:500;margin-top:2px}
+#page-compare .cmpx-mini-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:12px 20px 18px}
+#page-compare .cmpx-mini-stat{background:#0a121b;border:1px solid #26323f;border-radius:9px;padding:9px;text-align:center}
+#page-compare .cmpx-mini-stat b{display:block;font-size:12px;color:#e7ebf0}.cmpx-mini-stat span{display:block;font-size:8px;color:var(--dim);margin-top:2px}
+#page-compare .cmpx-mid{display:flex;align-items:center;justify-content:center;color:var(--gold2);font-size:18px;font-weight:950}
+#page-compare .cmpx-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+#page-compare .cmpx-summary-card{background:#0d151e;border:1px solid #273441;border-radius:12px;padding:14px;text-align:center}
+#page-compare .cmpx-summary-card b{display:block;font-size:15px;color:#fff}.cmpx-summary-card span{display:block;color:var(--dim);font-size:9px;margin-top:4px}
+#page-compare .cmpx-table-card{overflow:hidden;border:1px solid rgba(201,168,76,.26);border-radius:17px;background:#0b1219;margin-bottom:14px}
+#page-compare .cmpx-table-title{padding:15px 18px;border-bottom:1px solid rgba(255,255,255,.07);font-size:14px;font-weight:900;color:var(--gold2);display:flex;align-items:center;gap:7px}
+#page-compare .cmpx-table-title .ico{width:17px;height:17px;margin:0;background:var(--gold2)}
+#page-compare .cmpx-table-wrap{overflow-x:auto}
+#page-compare .cmpx-table{width:100%;border-collapse:collapse;min-width:680px;direction:rtl}
+#page-compare .cmpx-table th,#page-compare .cmpx-table td{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.055);font-size:11px;text-align:center}
+#page-compare .cmpx-table th{background:#111a24;color:#fff;font-size:10px}
+#page-compare .cmpx-table th:first-child,#page-compare .cmpx-table td:first-child{color:#aeb8c7;font-weight:700;width:24%}
+#page-compare .cmpx-table td:not(:first-child){color:#e5e9ef;font-weight:700}
+#page-compare .cmpx-table tr:last-child td{border-bottom:0}
+#page-compare .cmpx-value-hot{color:var(--gold2)!important;background:rgba(201,168,76,.06)}
+#page-compare .cmpx-feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#page-compare .cmpx-feature-card{border:1px solid #283542;border-radius:13px;background:#0d151e;padding:14px}
+#page-compare .cmpx-feature-card h3{font-size:12px;margin:0 0 9px;color:#fff}.cmpx-feature-card ul{padding:0;margin:0;list-style:none}.cmpx-feature-card li{padding:6px 0;border-top:1px solid rgba(255,255,255,.05);font-size:10px;color:#aeb8c7}.cmpx-feature-card li:before{content:"✓";color:var(--gold2);font-weight:900;margin-left:7px}
+@media(max-width:900px){#page-compare .cmpx-hero{display:block;padding:25px 22px}.cmpx-hero-actions{margin-top:18px!important}.cmpx-selectors{grid-template-columns:1fr!important}.cmpx-vs-badge{display:none!important}.cmpx-cars-head{grid-template-columns:1fr!important}.cmpx-mid{display:none}.cmpx-summary{grid-template-columns:repeat(2,1fr)!important}}
+@media(max-width:560px){#page-compare .cmpx-wrap{padding:14px 10px 40px}#page-compare .cmpx-hero h1{font-size:28px}#page-compare .cmpx-hero p{font-size:11px}.cmpx-hero-actions{display:grid!important;grid-template-columns:1fr 1fr}.cmpx-outline-btn,.cmpx-gold-btn{justify-content:center}.cmpx-mini-stats{grid-template-columns:1fr 1fr!important}.cmpx-feature-grid{grid-template-columns:1fr!important}}
+
+
+/* =========================================================
+   IRAQ MOTORS — LISTING UX + FILTER + MEDIA PERFORMANCE
+   ========================================================= */
+.price-optional-box{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px;padding:10px 12px;border:1px solid rgba(201,168,76,.18);border-radius:11px;background:rgba(201,168,76,.045)}
+.price-optional-label{display:flex;align-items:center;gap:8px;font-size:11px;color:#c8d0dc;cursor:pointer}
+.price-optional-label input{accent-color:var(--gold);width:16px;height:16px}
+.price-optional-hint{font-size:10px;color:#7e8998}
+#page-post .price-wrap .form-input{font-variant-numeric:tabular-nums;letter-spacing:.2px}
+.color-picker{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:2px}
+.color-choice{position:relative;min-height:47px;border:1px solid #303d4c;background:#0d151e;color:#b9c3d0;border-radius:10px;display:flex;align-items:center;justify-content:center;gap:7px;font:700 11px Tajawal,sans-serif;cursor:pointer;transition:.2s}
+.color-choice:hover{border-color:rgba(201,168,76,.55);transform:translateY(-1px)}
+.color-choice.active{border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,168,76,.12);color:#fff;background:rgba(201,168,76,.08)}
+.color-dot{width:16px;height:16px;border-radius:50%;border:1px solid rgba(255,255,255,.28);box-shadow:0 1px 5px rgba(0,0,0,.25)}
+.color-dot.white{background:#fff}.color-dot.black{background:#0b0d10}.color-dot.silver{background:#bfc5ca}.color-dot.gray{background:#707782}.color-dot.red{background:#c92a31}.color-dot.blue{background:#315bd7}.color-dot.brown{background:#70452b}.color-dot.green{background:#237347}.color-dot.gold{background:#c5a04b}.color-dot.beige{background:#d3c0a0}
+/* Premium filter drawer */
+#filterOverlay{backdrop-filter:blur(8px);background:rgba(3,6,10,.72)}
+#filterOverlay .filter-panel{max-width:680px;height:min(92vh,860px);border:1px solid rgba(201,168,76,.28);border-radius:22px;background:linear-gradient(180deg,#0b1118 0%,#080d13 100%);box-shadow:0 30px 90px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.02);}
+#filterOverlay .filter-panel-head{padding:18px 20px 15px;background:linear-gradient(180deg,rgba(201,168,76,.08),transparent);border-bottom:1px solid rgba(201,168,76,.14)}
+#filterOverlay .filter-panel-head>span{display:flex;align-items:center;gap:9px;font-size:18px}
+#filterOverlay .filter-panel-head .ico{width:20px;height:20px;margin:0;background:var(--gold2)}
+#filterOverlay .filter-panel-head button{width:36px;height:36px;border-radius:10px;border:1px solid #293544;background:#101822;display:flex;align-items:center;justify-content:center}
+#filterOverlay .filter-panel-head button:hover{border-color:var(--gold);color:var(--gold)}
+.filter-hero{margin:15px 20px 4px;padding:14px 15px;border-radius:14px;border:1px solid rgba(201,168,76,.17);background:radial-gradient(circle at 10% 50%,rgba(201,168,76,.13),transparent 38%),#0d151e;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.filter-hero-title{font-size:12px;font-weight:900;color:#fff}.filter-hero-sub{font-size:10px;color:#7f8b9b;margin-top:3px}.filter-hero-count{font-family:Rajdhani,sans-serif;color:var(--gold2);font-size:18px;font-weight:900;white-space:nowrap}.filter-hero-count small{font-family:Tajawal,sans-serif;font-size:9px;color:#8590a0;margin-right:4px}
+#filterOverlay .filter-panel-body{padding:8px 20px 22px;scrollbar-width:thin;scrollbar-color:#3a4655 transparent}
+#filterOverlay .filter-section-title{margin:18px 0 9px;padding:0 2px;font-size:11px;color:#d9e0e9;display:flex;align-items:center;gap:7px}
+#filterOverlay .filter-section-title:before{content:"";width:3px;height:15px;border-radius:4px;background:var(--gold);box-shadow:0 0 12px rgba(201,168,76,.35)}
+#filterOverlay .inp{width:100%;height:44px;background:#0d151e;border:1px solid #2c3948;border-radius:11px;color:#eef2f6;padding:0 12px;font-family:Tajawal,sans-serif;outline:none;transition:.2s}
+#filterOverlay .inp:focus{border-color:rgba(201,168,76,.8);box-shadow:0 0 0 3px rgba(201,168,76,.08)}
+#filterOverlay .filter-row>div{background:#0b121a;border:1px solid rgba(255,255,255,.045);border-radius:12px;padding:9px}
+#filterOverlay .filter-row label{font-size:9px;color:#758194;margin:0 0 5px 2px}
+#filterOverlay .brand-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+#filterOverlay .brand-grid-item{height:68px;border:1px solid #2c3948;background:linear-gradient(180deg,#111a24,#0c141d);border-radius:12px;position:relative}
+#filterOverlay .brand-grid-item:after{content:"";position:absolute;inset:auto 9px 5px;height:2px;border-radius:2px;background:transparent;transition:.2s}
+#filterOverlay .brand-grid-item.active{border-color:var(--gold);box-shadow:0 0 0 1px rgba(201,168,76,.2),0 10px 24px rgba(0,0,0,.18)}
+#filterOverlay .brand-grid-item.active:after{background:var(--gold)}
+#filterOverlay .toggle-group,#filterOverlay .icon-btn-row,#filterOverlay .swatch-row{padding:5px;border-radius:13px;background:#0b121a;border:1px solid rgba(255,255,255,.045)}
+#filterOverlay .toggle-btn,#filterOverlay .icon-btn{border-color:#2c3948;background:#111a24}
+#filterOverlay .toggle-btn:hover,#filterOverlay .icon-btn:hover{border-color:rgba(201,168,76,.5)}
+#filterOverlay .toggle-btn.active,#filterOverlay .icon-btn.active{box-shadow:0 6px 18px rgba(201,168,76,.12)}
+#filterOverlay .color-swatch{width:38px;height:38px;box-shadow:inset 0 0 0 3px rgba(0,0,0,.15)}
+#filterOverlay .filter-panel-footer{padding:14px 20px;background:#090f16;border-top:1px solid rgba(201,168,76,.14)}
+#filterOverlay .filter-panel-footer a{padding:10px 12px;border-radius:9px}.filter-panel-footer a:hover{color:#fff;background:rgba(255,255,255,.04)}
+#filterOverlay #filterApplyBtn{min-width:190px;border-radius:11px;box-shadow:0 8px 24px rgba(201,168,76,.15)}
+@media(max-width:620px){#filterOverlay .filter-panel{height:94vh;max-width:calc(100vw - 14px);border-radius:18px}#filterOverlay .brand-grid{grid-template-columns:repeat(3,1fr)}#filterOverlay .filter-panel-body{padding-left:13px;padding-right:13px}.filter-hero{margin-left:13px;margin-right:13px}.color-picker{grid-template-columns:repeat(2,1fr)}}
+/* Faster / smoother media rendering */
+.card-slider img,.gallery-main img,.gallery-thumb img,.acc-img img,.mega-slide-inner img,.hero-ad-slide img{content-visibility:auto}
+.card-slider img,.gallery-main img,.gallery-thumb img,.acc-img img{background:#0b1219}
+.photo-thumb img{display:block;object-fit:cover}
+
+</style>
 <!-- COMPARE -->
 <div class="page" id="page-compare">
-  <div class="section-page" style="max-width:1000px;margin:0 auto;">
-    <h2 style="font-size:24px;font-weight:800;margin-bottom:6px;"><span class="ico ico-compare"></span> مقارنة السيارات</h2>
-    <p style="color:var(--dim);font-size:14px;margin-bottom:24px;">اختر سيارتين وقارن بينهما</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px;">
-      <div class="post-section"><div class="post-section-title">السيارة الأولى</div><select class="form-input" id="cmp1Make" onchange="updateCmpModels(1)"><option value="">اختر الشركة</option></select><select class="form-input" id="cmp1Model" style="margin-top:9px;" onchange="runCompare()"><option value="">اختر الموديل</option></select></div>
-      <div class="post-section"><div class="post-section-title">السيارة الثانية</div><select class="form-input" id="cmp2Make" onchange="updateCmpModels(2)"><option value="">اختر الشركة</option></select><select class="form-input" id="cmp2Model" style="margin-top:9px;" onchange="runCompare()"><option value="">اختر الموديل</option></select></div>
+  <div class="cmpx-wrap">
+    <section class="cmpx-hero">
+      <div class="cmpx-hero-glow"></div>
+      <div class="cmpx-hero-content">
+        <div class="cmpx-kicker"><span class="ico ico-compare"></span> IRAQ MOTORS • SMART COMPARISON</div>
+        <h1>مقارنة السيارات</h1>
+        <p>قارن سيارتين بالتفصيل وشوف المواصفات، الأداء، السعر، الاستهلاك، الأبعاد والمزايا في شاشة واحدة.</p>
+      </div>
+      <div class="cmpx-hero-actions">
+        <button class="cmpx-outline-btn" onclick="resetCompare()"><span class="ico ico-refresh"></span> إعادة الاختيار</button>
+        <button class="cmpx-gold-btn" onclick="shareCompare()"><span class="ico ico-share"></span> مشاركة المقارنة</button>
+      </div>
+    </section>
+
+    <section class="cmpx-selectors">
+      <div class="cmpx-selector-card">
+        <div class="cmpx-selector-top"><span class="cmpx-number">01</span><div><b>السيارة الأولى</b><small>اختر الشركة والموديل</small></div></div>
+        <div class="cmpx-select-row"><span class="cmpx-brand-mark" id="cmp1BrandMark">1</span><select class="form-input" id="cmp1Make" onchange="updateModelsAndCompare(1)"><option value="">اختر الشركة</option></select></div>
+        <select class="form-input" id="cmp1Model" onchange="runCompare()"><option value="">اختر الموديل</option></select>
+      </div>
+      <div class="cmpx-vs-badge">VS</div>
+      <div class="cmpx-selector-card">
+        <div class="cmpx-selector-top"><span class="cmpx-number">02</span><div><b>السيارة الثانية</b><small>اختر الشركة والموديل</small></div></div>
+        <div class="cmpx-select-row"><span class="cmpx-brand-mark" id="cmp2BrandMark">2</span><select class="form-input" id="cmp2Make" onchange="updateModelsAndCompare(2)"><option value="">اختر الشركة</option></select></div>
+        <select class="form-input" id="cmp2Model" onchange="runCompare()"><option value="">اختر الموديل</option></select>
+      </div>
+    </section>
+
+    <div id="compareResult">
+      <section class="cmpx-empty"><div class="cmpx-empty-icon"><span class="ico ico-compare"></span></div><h3>ابدأ المقارنة</h3><p>اختَر سيارتين من الأعلى حتى تظهر كل البيانات والمواصفات بالتفصيل.</p></section>
     </div>
-    <div id="compareResult"></div>
   </div>
 </div>
 
@@ -1998,9 +1908,10 @@ body.iq-mobile-nav .pub-profile-chip span{display:none;}
 <div class="overlay" id="filterOverlay">
   <div class="filter-panel">
     <div class="filter-panel-head">
-      <span><span class="ico ico-sliders"></span> الفلتر</span>
+      <span><span class="ico ico-sliders"></span> الفلتر الذكي</span>
       <button onclick="closeFilterPanel()"><span class="ico ico-cross"></span></button>
     </div>
+    <div class="filter-hero"><div><div class="filter-hero-title">خصّص بحثك عن السيارة</div><div class="filter-hero-sub">اختَر المواصفات التي تريدها ثم اعرض النتائج فوراً</div></div><div class="filter-hero-count" id="filterHeroCount">0 <small>سيارة</small></div></div>
     <div class="filter-panel-body">
       <div class="filter-section-title">العلامات التجارية</div>
       <div class="brand-grid" id="fBrandGrid"></div>
@@ -3049,6 +2960,25 @@ function setCurrency(c){
   document.getElementById('curIQD').classList.toggle('active',c==='IQD');
 }
 
+function formatCommaInput(el){
+  var raw=(el.value||'').replace(/[^0-9]/g,'');
+  el.value=raw?Number(raw).toLocaleString('en-US'):'';
+}
+function numericInputValue(id){var el=document.getElementById(id);return el?(el.value||'').replace(/,/g,''):'';}
+function toggleNoPrice(cb){
+  var inp=document.getElementById('adPrice');
+  if(!inp)return;
+  inp.disabled=cb.checked;
+  inp.placeholder=cb.checked?'السعر مخفي':'15,000';
+  if(cb.checked)inp.value='';
+}
+function selectAdColor(btn){
+  var picker=document.getElementById('adColorPicker'),hidden=document.getElementById('adColor');
+  if(!picker||!hidden)return;
+  picker.querySelectorAll('.color-choice').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');hidden.value=btn.dataset.color||'';
+}
+
 // PHOTOS
 function addCarPhotos(inp){var f=Array.from(inp.files);carPhotos=[...carPhotos,...f.slice(0,15-carPhotos.length)];renderPhotos('photosPreview',carPhotos,'car','photosInfo',15);inp.value='';}
 function addAccPhotos(inp){var f=Array.from(inp.files);accPhotos=[...accPhotos,...f.slice(0,10-accPhotos.length)];renderPhotos('accPreview',accPhotos,'acc','accInfo',10);inp.value='';}
@@ -3070,9 +3000,9 @@ async function uploadImg(file){
 async function submitAd(){
   if(!auth.currentUser){openAuthGate('سجل مجانًا لتنشر إعلان سيارتك خلال دقيقة');return;}
   var make=document.getElementById('adMake').value,model=document.getElementById('adModel').value;
-  var price=document.getElementById('adPrice').value,year=document.getElementById('adYear').value;
+  var priceRaw=document.getElementById('adPrice').value, price=priceRaw.replace(/,/g,''), noPrice=document.getElementById('adNoPrice').checked,year=document.getElementById('adYear').value;
   var city=document.getElementById('adCity').value,phone=document.getElementById('adPhone').value.trim();
-  if(!make||!model||!price||!year||!city||!phone){showMsg2('adMsg','<span class="ico ico-cross"></span> الرجاء ملء جميع الحقول المطلوبة','#e74c3c');return;}
+  if(!make||!model||(!noPrice&&!price)||!year||!city||!phone){showMsg2('adMsg','<span class="ico ico-cross"></span> الرجاء ملء جميع الحقول المطلوبة','#e74c3c');return;}
   document.getElementById('progressWrap').style.display='block';
   showMsg2('adMsg','<span class="ico ico-hourglass"></span> جاري رفع الصور...','#f39c12');
   try{
@@ -3085,7 +3015,7 @@ async function submitAd(){
     document.getElementById('progressFill').style.width='95%';
     showMsg2('adMsg','<span class="ico ico-hourglass"></span> جاري النشر...','#f39c12');
     await db.collection('cars').add({
-      make,model,price:parseInt(price),currency,year:parseInt(year),city,phone,
+      make,model,price:noPrice?null:parseInt(price),priceHidden:!!noPrice,currency,year:parseInt(year),city,phone,
       km:parseInt(document.getElementById('adKm').value)||0,
       kmUnit:document.getElementById('adKmUnit').value,
       fuel:document.getElementById('adFuel').value,
@@ -3132,12 +3062,12 @@ async function loadCars(){
   }
 }
 
-function priceStr(car){return car.currency==='IQD'?(car.price||0).toLocaleString('en-US')+' د.ع':'$'+(car.price||0).toLocaleString('en-US');}
+function priceStr(car){if(car.priceHidden||car.price==null||car.price==='')return 'اتصل للسعر';return car.currency==='IQD'?Number(car.price).toLocaleString('en-US')+' د.ع':'$'+Number(car.price).toLocaleString('en-US');}
 function isFav(id){try{return JSON.parse(localStorage.getItem('iqFavs')||'[]').includes(id);}catch(e){return false;}}
 function getMarketPrice(make,model){var d=COMPARE_DB[make+' '+model];return d?d.price:null;}
 function getPriceBadge(car){
   var mp=getMarketPrice(car.make,car.model);
-  if(!mp||car.currency==='IQD')return '';
+  if(!mp||car.currency==='IQD'||car.priceHidden||car.price==null)return '';
   var diff=((car.price-mp)/mp)*100;
   if(diff<-10)return '<span class="price-badge price-good">🔥 مميز -'+Math.abs(Math.round(diff))+'%</span>';
   if(diff>15)return '<span class="price-badge price-bad"><span class="ico ico-warning"></span> أعلى +'+Math.round(diff)+'%</span>';
@@ -3155,7 +3085,7 @@ function renderCars(cars,gridId){
     var carLabel=[car.make,car.model,car.year].filter(Boolean).join(' ');
     return '<div class="car-card" onclick="openCarDetail(\''+car.id+'\')">'+
       (imgs.length?'<div class="card-slider" id="cs-'+car.id+'">'+
-        imgs.map(function(img,i){return '<img src="'+img+'" alt="'+carLabel+'" class="'+(i===0?'on':'')+'" loading="lazy">';}).join('')+
+        imgs.map(function(img,i){return '<img src="'+img+'" alt="'+carLabel+'" class="'+(i===0?'on':'')+'" loading="'+(i<2?'eager':'lazy')+'" fetchpriority="'+(i===0?'high':'auto')+'" decoding="async">';}).join('')+
         (imgs.length>1?'<button class="sl-btn p" onclick="event.stopPropagation();slPrev(\''+car.id+'\')">›</button><button class="sl-btn n" onclick="event.stopPropagation();slNext(\''+car.id+'\')">‹</button><div class="card-img-counter" id="cscnt-'+car.id+'">1/'+imgs.length+'</div>':'')+
         (car.condition==='جديد'&&!car.accident?'<div class="card-new-badge">جديد</div>':'')+
         (car.accident?'<div class="card-badge"><span class="ico ico-wrench"></span> حادث</div>':'')+
@@ -3241,7 +3171,7 @@ function countMatchingCars(){
 }
 function updateFilterLiveCount(){
   var btn=document.getElementById('filterApplyBtn');
-  if(btn)btn.textContent='اظهار '+countMatchingCars().toLocaleString('en-US')+' سيارة';
+  var count=countMatchingCars(); if(btn)btn.textContent='اظهار '+count.toLocaleString('en-US')+' سيارة'; var hc=document.getElementById('filterHeroCount');if(hc)hc.innerHTML=count.toLocaleString('en-US')+' <small>سيارة</small>';
 }
 function openFilterPanel(){
   initFilterPanelOptions();
@@ -3341,7 +3271,7 @@ function openCarDetail(id,_skipPush){
   var carPath='/car/'+id+(iqCarSlug(car)?'-'+iqCarSlug(car):'');
   var shareUrl=iqFullPath(carPath);
   var galInner=imgs.length?
-    '<div class="gallery-main" id="galMain" onclick="openLightbox()">'+imgs.map(function(img,i){return '<img src="'+img+'" alt="'+carLabel+'" class="'+(i===0?'on':'')+'" loading="lazy">';}).join('')+
+    '<div class="gallery-main" id="galMain" onclick="openLightbox()">'+imgs.map(function(img,i){return '<img src="'+img+'" alt="'+carLabel+'" class="'+(i===0?'on':'')+'" loading="'+(i===0?'eager':'lazy')+'" fetchpriority="'+(i===0?'high':'auto')+'" decoding="async">';}).join('')+
     (imgs.length>1?'<button class="gal-btn p" onclick="event.stopPropagation();galSlide(1)">›</button><button class="gal-btn n" onclick="event.stopPropagation();galSlide(-1)">‹</button>':'')+
     '</div>':
     '<div class="card-no-img" style="border-radius:13px;height:380px;"><span class="ico ico-lg ico-car"></span></div>';
@@ -5280,7 +5210,7 @@ function renderMegaSlide(i){
   var s=megaSlides[i];
   var mediaHtml=s.video?
     '<video src="'+s.video+'" autoplay muted loop playsinline></video>':
-    '<img src="'+s.img+'" loading="lazy">';
+    '<img src="'+s.img+'" loading="eager" fetchpriority="high" decoding="async">';
   wrap.innerHTML='<a class="mega-slide-inner"'+(s.link?' href="'+s.link+'" target="_blank" rel="noopener"':' href="javascript:void(0)"')+'>'+mediaHtml+
     '<div class="mega-overlay"><span class="mega-tag">إعلان</span><span class="mega-name">'+(s.name||'')+'</span></div></a>'+
     (megaSlides.length>1?'<div class="mega-dots">'+megaSlides.map(function(_,j){return '<button class="mega-dot'+(j===i?' on':'')+'" onclick="event.stopPropagation();event.preventDefault();goMegaSlide('+j+')"></button>';}).join('')+'</div>':'');
@@ -5347,7 +5277,7 @@ function renderHeroSlide(i){
   var s=heroSlides[i];
   var mediaHtml=s.video?
     '<video src="'+s.video+'" autoplay muted loop playsinline></video>':
-    '<img src="'+s.img+'" loading="lazy">';
+    '<img src="'+s.img+'" loading="eager" fetchpriority="high" decoding="async">';
   wrap.innerHTML='<a class="hero-ad-slide"'+(s.link?' href="'+s.link+'" target="_blank" rel="noopener"':' href="javascript:void(0)"')+'>'+mediaHtml+
     '<div class="hero-ad-overlay"><span class="hero-ad-tag">إعلان</span><span class="hero-ad-name">'+(s.name||'')+'</span></div></a>'+
     (heroSlides.length>1?'<div class="hero-ad-dots">'+heroSlides.map(function(_,j){return '<button class="hero-ad-dot'+(j===i?' on':'')+'" onclick="event.stopPropagation();event.preventDefault();goHeroSlide('+j+')"></button>';}).join('')+'</div>':'');
@@ -5447,33 +5377,40 @@ function updateCmpModels(num){
   if(make&&CAR_DATA[make])CAR_DATA[make].models.forEach(function(m){mel.innerHTML+='<option>'+m+'</option>';});
   runCompare();
 }
+function updateModelsAndCompare(num){
+  var make=document.getElementById('cmp'+num+'Make').value;
+  var mel=document.getElementById('cmp'+num+'Model');
+  mel.innerHTML='<option value="">اختر الموديل</option>';
+  if(make&&CAR_DATA[make])CAR_DATA[make].models.forEach(function(m){mel.innerHTML+='<option>'+m+'</option>';});
+  var mark=document.getElementById('cmp'+num+'BrandMark');
+  if(mark)mark.textContent=make?make.slice(0,2).toUpperCase():String(num);
+  runCompare();
+}
+function escCmp(v){return String(v==null?'—':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function cmpVal(d,k,unit){var v=d[k];if(v==null||v==='')return k==='price'?'اتصل للسعر':'—';if(k==='price')return '$'+Number(v).toLocaleString('en-US');return escCmp(v)+(unit?' '+unit:'');}
+function resetCompare(){['1','2'].forEach(function(n){var a=document.getElementById('cmp'+n+'Make'),b=document.getElementById('cmp'+n+'Model');if(a)a.value='';if(b)b.innerHTML='<option value="">اختر الموديل</option>';var m=document.getElementById('cmp'+n+'BrandMark');if(m)m.textContent=n;});document.getElementById('compareResult').innerHTML='<section class="cmpx-empty"><div class="cmpx-empty-icon"><span class="ico ico-compare"></span></div><h3>ابدأ المقارنة</h3><p>اختَر سيارتين من الأعلى حتى تظهر كل البيانات والمواصفات بالتفصيل.</p></section>';}
+function shareCompare(){try{if(navigator.share){navigator.share({title:'مقارنة السيارات | Iraq Motors',text:'شوف مقارنة السيارات على Iraq Motors',url:location.href});}else{navigator.clipboard.writeText(location.href).then(function(){alert('تم نسخ رابط المقارنة');});}}catch(e){}}
 function runCompare(){
-  var m1=document.getElementById('cmp1Make').value,mo1=document.getElementById('cmp1Model').value;
-  var m2=document.getElementById('cmp2Make').value,mo2=document.getElementById('cmp2Model').value;
-  if(!m1||!mo1||!m2||!mo2){document.getElementById('compareResult').innerHTML='';return;}
+  var m1=document.getElementById('cmp1Make').value,mo1=document.getElementById('cmp1Model').value,m2=document.getElementById('cmp2Make').value,mo2=document.getElementById('cmp2Model').value;
+  var box=document.getElementById('compareResult');
+  if(!m1||!mo1||!m2||!mo2){box.innerHTML='<section class="cmpx-empty"><div class="cmpx-empty-icon"><span class="ico ico-compare"></span></div><h3>اختَر السيارتين</h3><p>بعد اختيار الشركة والموديل للسيارتين ستظهر المقارنة الكاملة هنا.</p></section>';return;}
   var d1=COMPARE_DB[m1+' '+mo1],d2=COMPARE_DB[m2+' '+mo2];
-  if(!d1||!d2){document.getElementById('compareResult').innerHTML='<div style="text-align:center;padding:40px;color:var(--dim);"><span class="ico ico-warning"></span> بيانات المقارنة غير متوفرة لهذا الموديل</div>';return;}
+  if(!d1||!d2){box.innerHTML='<section class="cmpx-empty"><div class="cmpx-empty-icon"><span class="ico ico-warning"></span></div><h3>بيانات المقارنة غير متوفرة</h3><p>هذا الموديل موجود ضمن القائمة، لكن لا توجد له بيانات تفصيلية في قاعدة المقارنة الحالية.</p></section>';return;}
   var rows=[
-    {label:'القوة (HP)',k:'hp',unit:'HP',h:true},{label:'عزم الدوران (Nm)',k:'torque',unit:'Nm',h:true},
-    {label:'المحرك',k:'engine',unit:'',h:null},{label:'نوع الوقود',k:'fuel',unit:'',h:null},
-    {label:'ناقل الحركة',k:'gear',unit:'',h:null},{label:'الوزن (كغ)',k:'weight',unit:'كغ',h:false},
-    {label:'0-100 كم/س (ث)',k:'accel',unit:'ث',h:false},{label:'السرعة القصوى',k:'top',unit:'كم/س',h:true},
-    {label:'استهلاك الوقود',k:'consumption',unit:'كم/L',h:true},{label:'السعر التقريبي',k:'price',unit:'$',h:false},
+    ['المحرك','engine',''],['القوة الحصانية','hp','HP'],['عزم الدوران','torque','Nm'],['نوع الوقود','fuel',''],['ناقل الحركة','gear',''],['الوزن','weight','كغ'],['التسارع 0–100','accel','ث'],['السرعة القصوى','top','كم/س'],['استهلاك الوقود','consumption','كم/L'],['السعر التقريبي','price','']
   ];
-  var s1=0,s2=0;
-  var trows=rows.map(function(row){
-    var v1=d1[row.k],v2=d2[row.k];var c1='',c2='';
-    if(row.h!==null&&typeof v1==='number'){if(row.h?v1>v2:v1<v2){c1='cmp-win';s1++;}else if(row.h?v2>v1:v2<v1){c2='cmp-win';s2++;}}
-    var f1=row.k==='price'?'$'+v1.toLocaleString('en-US'):(v1+(row.unit?' '+row.unit:''));
-    var f2=row.k==='price'?'$'+v2.toLocaleString('en-US'):(v2+(row.unit?' '+row.unit:''));
-    return '<tr><td>'+row.label+'</td><td class="'+c1+'">'+f1+'</td><td class="'+c2+'">'+f2+'</td></tr>';
-  }).join('');
-  var winner=s1>s2?m1+' '+mo1:s2>s1?m2+' '+mo2:'تعادل';
-  document.getElementById('compareResult').innerHTML=
-    '<div class="cmp-header"><div><div class="cmp-car-name">'+mo1+'</div><div class="cmp-car-sub">'+m1+'</div><div class="cmp-score">'+s1+'</div></div><div class="cmp-vs">VS</div><div><div class="cmp-car-name">'+mo2+'</div><div class="cmp-car-sub">'+m2+'</div><div class="cmp-score">'+s2+'</div></div></div>'+
-    (winner!=='تعادل'?'<div style="text-align:center;margin-bottom:14px;background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);border-radius:9px;padding:9px;color:var(--green);font-weight:700;"><span class="ico ico-trophy"></span> الفائز: '+winner+'</div>':
-     '<div style="text-align:center;margin-bottom:14px;background:rgba(201,168,76,0.1);border:1px solid var(--border);border-radius:9px;padding:9px;color:var(--gold);font-weight:700;">🤝 تعادل!</div>')+
-    '<div class="post-section" style="overflow-x:auto;"><table class="cmp-table"><thead><tr><th>المواصفة</th><th>'+mo1+'</th><th>'+mo2+'</th></tr></thead><tbody>'+trows+'</tbody></table></div>';
+  var body=rows.map(function(r){var a=d1[r[1]],b=d2[r[1]],hotA='',hotB='';if(typeof a==='number'&&typeof b==='number'){var high=['hp','torque','top','consumption'].includes(r[1]);var low=['weight','accel','price'].includes(r[1]);if(high){if(a>b)hotA='cmpx-value-hot';else if(b>a)hotB='cmpx-value-hot';}else if(low){if(a<b)hotA='cmpx-value-hot';else if(b<a)hotB='cmpx-value-hot';}}return '<tr><td>'+r[0]+'</td><td class="'+hotA+'">'+cmpVal(d1,r[1],r[2])+'</td><td class="'+hotB+'">'+cmpVal(d2,r[1],r[2])+'</td></tr>';}).join('');
+  var facts=[['القوة',d1.hp+' HP',d2.hp+' HP'],['0–100',d1.accel+' ث',d2.accel+' ث'],['السرعة القصوى',d1.top+' كم/س',d2.top+' كم/س'],['السعر', d1.price==null?'اتصل للسعر':'$'+Number(d1.price).toLocaleString('en-US'), d2.price==null?'اتصل للسعر':'$'+Number(d2.price).toLocaleString('en-US')]];
+  var summary=facts.map(function(f){return '<div class="cmpx-summary-card"><b>'+escCmp(f[1])+' <span style="color:var(--dim);font-size:9px">VS</span> '+escCmp(f[2])+'</b><span>'+f[0]+'</span></div>';}).join('');
+  var features1=(d1.features||['مواصفات أداء واضحة','بيانات مقارنة متاحة','اختيار قابل للتخصيص']);
+  var features2=(d2.features||['مواصفات أداء واضحة','بيانات مقارنة متاحة','اختيار قابل للتخصيص']);
+  box.innerHTML='<div class="cmpx-cars-head">'+
+    '<article class="cmpx-car-card"><div class="cmpx-car-card-head"><div><h2>'+escCmp(m1)+' '+escCmp(mo1)+'</h2><p>السيارة الأولى • بيانات Iraq Motors</p></div><div class="cmpx-car-logo">'+escCmp(m1.slice(0,3).toUpperCase())+'</div></div><div class="cmpx-price">'+(d1.price==null?'اتصل للسعر':'$'+Number(d1.price).toLocaleString('en-US'))+'<small>السعر</small></div><div class="cmpx-mini-stats"><div class="cmpx-mini-stat"><b>'+d1.hp+'</b><span>حصان</span></div><div class="cmpx-mini-stat"><b>'+d1.engine+'</b><span>المحرك</span></div><div class="cmpx-mini-stat"><b>'+d1.fuel+'</b><span>الوقود</span></div></div></article>'+
+    '<div class="cmpx-mid">VS</div>'+
+    '<article class="cmpx-car-card"><div class="cmpx-car-card-head"><div><h2>'+escCmp(m2)+' '+escCmp(mo2)+'</h2><p>السيارة الثانية • بيانات Iraq Motors</p></div><div class="cmpx-car-logo">'+escCmp(m2.slice(0,3).toUpperCase())+'</div></div><div class="cmpx-price">'+(d2.price==null?'اتصل للسعر':'$'+Number(d2.price).toLocaleString('en-US'))+'<small>السعر</small></div><div class="cmpx-mini-stats"><div class="cmpx-mini-stat"><b>'+d2.hp+'</b><span>حصان</span></div><div class="cmpx-mini-stat"><b>'+d2.engine+'</b><span>المحرك</span></div><div class="cmpx-mini-stat"><b>'+d2.fuel+'</b><span>الوقود</span></div></div></article></div>'+
+    '<div class="cmpx-summary">'+summary+'</div>'+
+    '<section class="cmpx-table-card"><div class="cmpx-table-title"><span class="ico ico-chart-up"></span> المواصفات الأساسية والتفصيلية</div><div class="cmpx-table-wrap"><table class="cmpx-table"><thead><tr><th>المواصفة</th><th>'+escCmp(m1)+' '+escCmp(mo1)+'</th><th>'+escCmp(m2)+' '+escCmp(mo2)+'</th></tr></thead><tbody>'+body+'</tbody></table></div></section>'+
+    '<section class="cmpx-feature-grid"><div class="cmpx-feature-card"><h3>'+escCmp(m1)+' '+escCmp(mo1)+' — بيانات إضافية</h3><ul>'+features1.map(function(x){return '<li>'+escCmp(x)+'</li>';}).join('')+'</ul></div><div class="cmpx-feature-card"><h3>'+escCmp(m2)+' '+escCmp(mo2)+' — بيانات إضافية</h3><ul>'+features2.map(function(x){return '<li>'+escCmp(x)+'</li>';}).join('')+'</ul></div></section>';
 }
 
 // AI
