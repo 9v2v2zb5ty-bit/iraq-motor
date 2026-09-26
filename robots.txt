@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /profile
+Disallow: /settings
+Disallow: /favorites
+Disallow: /garage
+
+Sitemap: https://iraqmotors.site/sitemap.xml
