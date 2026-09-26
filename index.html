@@ -14,6 +14,7 @@
 <meta name="description" content="منصة Iraq Motors لبيع وشراء السيارات الجديدة والمستعملة في العراق. آلاف الإعلانات من أفضل المعارض والوكلاء، مقارنة أسعار، ومستشار ذكاء اصطناعي لمساعدتك على اختيار سيارتك.">
 <meta name="keywords" content="سيارات للبيع, بيع وشراء سيارات, سوق السيارات العراق, معارض سيارات, وكالات سيارات, سيارات مستعملة, سيارات جديدة">
 <meta name="robots" content="index, follow">
+<link rel="alternate" type="application/json" title="Iraq Motors public car inventory" href="https://iraqmotorsai.iraqmotors.workers.dev/inventory.json">
 <link rel="canonical" href="https://iraqmotors.site/">
 
 <!-- Open Graph -->
@@ -33,10 +34,10 @@
 
 <!-- Structured data -->
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"AutomotiveBusiness","name":"Iraq Motors","description":"منصة لبيع وشراء السيارات الجديدة والمستعملة في العراق","url":"https://9v2v2zb5ty-bit.github.io/iraq-motor/","areaServed":{"@type":"Country","name":"Iraq"}}
+{"@context":"https://schema.org","@type":"AutomotiveBusiness","name":"Iraq Motors","description":"منصة لبيع وشراء السيارات الجديدة والمستعملة في العراق","url":"https://iraqmotors.site/","areaServed":{"@type":"Country","name":"Iraq"}}
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","name":"Iraq Motors","url":"https://9v2v2zb5ty-bit.github.io/iraq-motor/"}
+{"@context":"https://schema.org","@type":"WebSite","name":"Iraq Motors","url":"https://iraqmotors.site/"}
 </script>
 
 <!-- PWA: Manifest -->
@@ -1144,6 +1145,8 @@ img{content-visibility:auto}.card-slider img,.my-ad-img,.agency-logo,.dealer-car
 @media(max-width:560px){#myAdsGrid{grid-template-columns:1fr}.im-profile-side{grid-template-columns:1fr}.dealers-layout{grid-template-columns:1fr}.dealers-hero-stats{grid-template-columns:1fr 1fr!important}.im-compare-table{font-size:10px}.im-compare-table th,.im-compare-table td{padding:10px 7px}.im-profile-stats{gap:7px}.im-stat{padding:12px 7px}.im-stat b{font-size:16px}}
 /* ===== END PATCH ===== */
 
+
+.public-inventory-seo{max-width:1200px;margin:18px auto 34px;padding:18px 20px;background:var(--card);border:1px solid var(--border);border-radius:14px;direction:rtl}.public-inventory-title{font-size:16px;font-weight:900;color:var(--text);margin-bottom:10px}.public-inventory-links{display:flex;flex-wrap:wrap;gap:7px 10px}.public-inventory-links a{color:var(--dim);font-size:12px;text-decoration:none;padding:5px 8px;border:1px solid var(--border);border-radius:8px}.public-inventory-links a:hover{color:var(--gold);border-color:var(--gold)}.public-inventory-empty{color:var(--dim);font-size:12px}
 </style>
 </head>
 <body>
@@ -2448,6 +2451,7 @@ img{content-visibility:auto}.card-slider img,.my-ad-img,.agency-logo,.dealer-car
   </div>
 </div>
 
+<section id="publicInventorySeo" class="public-inventory-seo" aria-label="السيارات المتاحة على Iraq Motors"><div class="public-inventory-title">السيارات المتاحة حالياً على Iraq Motors</div><div class="public-inventory-empty">جاري تحميل السيارات...</div></section>
 <footer class="site-footer">
   <p>تنويه: هذا الموقع مستقل وغير تابع لأي شركة أو وكيل رسمي. جميع العلامات التجارية والأسماء والشعارات المعروضة داخل الموقع تعود إلى مالكيها، وتُستخدم لأغراض تعريفية فقط.</p>
   <p>© 2026 Iraq Motors — جميع الحقوق محفوظة</p>
@@ -2788,6 +2792,33 @@ function iqSetMeta(title,desc,path,noindex,image){
 function iqCarSlug(car){
   return [car.make,car.model,car.year].filter(Boolean).join('-').toLowerCase().replace(/[^a-z0-9\u0600-\u06FF]+/g,'-').replace(/^-+|-+$/g,'');
 }
+/* Public inventory SEO: keep the currently approved listings discoverable to
+   search engines/crawlers after Firestore finishes loading. This does not
+   expose seller phone numbers or private account data. */
+function iqUpdateInventorySeo(cars){
+  try{
+    var list=Array.isArray(cars)?cars.filter(function(c){return c&&c.approved!==false;}):[];
+    var old=document.getElementById('inventoryJsonLd');if(old)old.remove();
+    var items=list.slice(0,100).map(function(c,i){
+      var id=c.id||'';
+      var url=location.origin+'/car/'+encodeURIComponent(id)+(iqCarSlug(c)?'-'+iqCarSlug(c):'');
+      var imgs=c.imgs&&c.imgs.length?c.imgs:(c.img?[c.img]:[]);
+      var item={"@type":"ListItem","position":i+1,"url":url,"name":[c.make,c.model,c.year].filter(Boolean).join(' ')};
+      if(imgs[0])item.image=imgs[0];
+      return item;
+    });
+    var sc=document.createElement('script');sc.type='application/ld+json';sc.id='inventoryJsonLd';
+    sc.textContent=JSON.stringify({"@context":"https://schema.org","@type":"ItemList","name":"السيارات المتاحة حالياً على Iraq Motors","url":location.origin+'/cars',"numberOfItems":list.length,"itemListElement":items});
+    document.head.appendChild(sc);
+    var box=document.getElementById('publicInventorySeo');
+    if(!box)return;
+    box.innerHTML='<div class="public-inventory-title">السيارات المتاحة حالياً على Iraq Motors</div>'+
+      (list.length?'<div class="public-inventory-links">'+list.slice(0,60).map(function(c){
+        var id=c.id||'';var url='/car/'+encodeURIComponent(id)+(iqCarSlug(c)?'-'+iqCarSlug(c):'');
+        return '<a href="'+url+'" onclick="event.preventDefault();openCarDetail(\''+String(id).replace(/'/g,"\\'")+'\')">'+[c.make,c.model,c.year].filter(Boolean).join(' ')+'</a>';
+      }).join('')+'</div>':'<div class="public-inventory-empty">لا توجد إعلانات منشورة حالياً.</div>');
+  }catch(e){}
+}
 
 // PAGES
 function goPage(p,_skipPush){
@@ -2805,7 +2836,13 @@ function goPage(p,_skipPush){
   el.classList.add('active');
   window.scrollTo(0,0);
   setTimeout(function(){runMotionScan();},40);
-  if(p==='cars'){initMakeFilter();loadCars();loadCompanyBanners();}
+  if(p==='cars'){
+    initMakeFilter();
+    if(!window._preserveCarsFilter) resetCarsBrowseState();
+    window._preserveCarsFilter=false;
+    loadCars();
+    loadCompanyBanners();
+  }
   else if(p==='post'){
     if(!auth.currentUser){goPage('home');openAuthGate('سجل مجانًا لتنشر إعلان سيارتك خلال دقيقة');return;}
     initPostForm();
@@ -2814,10 +2851,15 @@ function goPage(p,_skipPush){
   else if(p==='settings'){if(!auth.currentUser){goPage('home');openAuthGate('سجل مجانًا للوصول إلى الإعدادات');return;}initUserSettings();}
   else if(p==='compare')initCmpSelects();
   else if(p==='admin'){if(!isAdmin()){goPage('home');return;}loadAdminPage();}
-  else if(p==='favorites')loadFavorites();
+  else if(p==='favorites'){
+    if(!auth.currentUser){goPage('home');openAuthGate('سجل دخولك حتى تقدر تشوف وتدير سياراتك المفضلة');return;}
+    loadFavorites();
+  }
   else if(p==='dealers')loadDealers();
   else if(p==='garage'){if(!auth.currentUser){goPage('home');openAuthGate('سجل مجانًا لإدارة كراجك');return;}loadGarage();}
-  else if(p==='ai'){if(!auth.currentUser){goPage('home');openAuthGate('سجل مجانًا لتسأل مستشار السيارات الذكي');return;}}
+  else if(p==='ai'){
+    loadCars().catch(function(){});
+  }
   else if(p==='market')loadMarketIndex();
   else if(p==='agencies')loadAgencies();
 }
@@ -2847,6 +2889,7 @@ function qsChipChange(sel,labelId,defaultText){
 }
 function runQuickSearch(){
   filterState={brand:'',model:'',city:'',yearFrom:'',yearTo:'',priceFrom:'',priceTo:'',kmFrom:'',kmTo:'',condition:'',color:'',fuel:'',gear:'',bodyType:'',keyword:''};
+  window._preserveCarsFilter=true;
   var pf=document.getElementById('qsPriceFrom'),pt=document.getElementById('qsPriceTo');
   var bt=document.getElementById('qsBodyType'),city=document.getElementById('qsCity');
   var kwEl=document.getElementById('qsKeyword');
@@ -3020,6 +3063,7 @@ async function loadCars(force){
     try{
       var snap=isAdmin()?await db.collection('cars').get():await db.collection('cars').where('approved','==',true).get();
       allCars=snap.docs.map(function(d){return Object.assign({id:d.id},d.data());});
+      iqUpdateInventorySeo(allCars);
       _carsLoaded=true;_carsLastError=null;
       var cntEl=document.getElementById('cntCars');if(cntEl)cntEl.textContent=allCars.length;
       filterCars();pubLoadHomeExtras();
@@ -3108,6 +3152,11 @@ function slNext(id){var s=document.getElementById('cs-'+id);if(!s)return;var img
 function slPrev(id){var s=document.getElementById('cs-'+id);if(!s)return;var imgs=s.querySelectorAll('img');var i=window['si_'+id]||0;imgs[i].classList.remove('on');i=(i-1+imgs.length)%imgs.length;imgs[i].classList.add('on');window['si_'+id]=i;var cnt=document.getElementById('cscnt-'+id);if(cnt)cnt.textContent=(i+1)+'/'+imgs.length;}
 
 var filterState={brand:'',model:'',city:'',yearFrom:'',yearTo:'',priceFrom:'',priceTo:'',kmFrom:'',kmTo:'',condition:'',color:'',fuel:'',gear:'',bodyType:'',keyword:''};
+window._preserveCarsFilter=false;
+function resetCarsBrowseState(){
+  filterState={brand:'',model:'',city:'',yearFrom:'',yearTo:'',priceFrom:'',priceTo:'',kmFrom:'',kmTo:'',condition:'',color:'',fuel:'',gear:'',bodyType:'',keyword:''};
+  ['searchInput','filterMake','filterModel','filterEngine','filterCity'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+}
 
 function filterCars(){
   var si=document.getElementById('searchInput');
@@ -3362,6 +3411,7 @@ function closeLightbox(){document.getElementById('lightboxOverlay').classList.re
 async function toggleSold(id,cur){try{await db.collection('cars').doc(id).update({sold:!cur});var c=allCars.find(function(x){return x.id===id;});if(c)c.sold=!cur;openCarDetail(id);}catch(e){alert('خطأ: '+e.message);}}
 function deleteAd(id){customConfirm('هل تريد حذف هذا الإعلان؟',async function(){try{await db.collection('cars').doc(id).delete();allCars=allCars.filter(function(c){return c.id!==id;});goPage('cars');}catch(e){alert('خطأ: '+e.message);}});}
 function reportAd(carId,carName){
+  if(!auth.currentUser){openAuthGate('سجل دخولك حتى تقدر تبلغ عن إعلان');return;}
   _reportCarId=carId;_reportCarName=carName;
   document.getElementById('reportCarName').textContent=carName||'';
   document.querySelectorAll('input[name="reportReason"]').forEach(function(r){r.checked=false;});
@@ -5403,6 +5453,62 @@ function runCompare(){
   rows.forEach(function(r){if(r[0]!==last){html+='<tr><td colspan="3" class="im-compare-section">'+r[0]+'</td></tr>';last=r[0];}var a=d1[r[2]],b=d2[r[2]],ca='',cb='';if(r[4]&&typeof a==='number'&&typeof b==='number'){if(r[4]===1){if(a>b)ca='cmp-win';else if(b>a)cb='cmp-win';}else{if(a<b)ca='cmp-win';else if(b<a)cb='cmp-win';}}var fa=r[2]==='price'?'$'+Number(a||0).toLocaleString('en-US'):(a==null?'—':String(a)+(r[3]?' '+r[3]:''));var fb=r[2]==='price'?'$'+Number(b||0).toLocaleString('en-US'):(b==null?'—':String(b)+(r[3]?' '+r[3]:''));html+='<tr><td>'+r[1]+'</td><td class="'+ca+'">'+fa+'</td><td class="'+cb+'">'+fb+'</td></tr>';});
   html+='</tbody></table><div class="im-data-note" style="padding:10px 14px;">'+(d1.dataQuality||'')+' • '+(d2.dataQuality||'')+'</div>';box.innerHTML=html;
 }
+
+// AI — أبو سيارة
+var aiHistory=[];
+function aiInventoryContext(){
+  var cars=Array.isArray(allCars)?allCars.slice(0,120):[];
+  if(!cars.length)return 'لا توجد حالياً سيارات عامة محمّلة في سياق الموقع. لا تخترع سيارات أو أسعاراً.';
+  return cars.map(function(c,i){
+    var price=c.contactPrice||c.price===null||c.price===undefined?'اتصل للسعر':((c.currency==='IQD'?Number(c.price).toLocaleString('en-US')+' د.ع':'$'+Number(c.price||0).toLocaleString('en-US')));
+    return (i+1)+'. '+[c.make,c.model,c.year].filter(Boolean).join(' ')+' | السعر: '+price+' | المدينة: '+(c.city||'غير محدد')+' | كم: '+Number(c.km||0).toLocaleString('en-US')+' | الوقود: '+(c.fuel||'غير محدد')+' | القير: '+(c.gear||'غير محدد')+' | الهيكل: '+(c.bodyType||'غير محدد')+' | اللون: '+(c.color||'غير محدد');
+  }).join('\n');
+}
+function aiLocalFallback(msg){
+  var q=(msg||'').toLowerCase();
+  var cars=Array.isArray(allCars)?allCars:[];
+  if(/موجود|عندكم|سيارات بالموقع|شنو.*سيارات|اي سيارات|السيارات.*الموقع/.test(q)){
+    if(!cars.length)return 'حالياً ما قدرت أحمّل قائمة السيارات العامة من الموقع. جرّب تحديث الصفحة وبعدها اسألني مرة ثانية.';
+    return 'إي، عندنا سيارات ظاهرة بالموقع حالياً. مثال: '+cars.slice(0,8).map(function(c){return [c.make,c.model,c.year].filter(Boolean).join(' ');}).join('، ')+(cars.length>8?' وغيرها.':'');
+  }
+  if(/سعر|اسعار|أسعار|بكم|كم.*سيارة/.test(q)&&cars.length){
+    return 'أكدر أطلع لك السيارات وأسعارها من الإعلانات الظاهرة بالموقع. اكتب مثلاً: «شنو سيارات تويوتا الموجودة؟» أو «اريد سيارة تحت 20 ألف». الآن عندي '+cars.length+' إعلان عام محمّل.';
+  }
+  return 'أبو سيارة جاهز، بس صار تعذر مؤقت بالاتصال بخدمة الذكاء الاصطناعي. اسألني عن سيارة، محرك، صيانة، مقارنة أو السيارات الموجودة بالموقع وأنا أساعدك.';
+}
+async function sendAiMsg(){
+  var inp=document.getElementById('aiInput');var msg=inp?inp.value.trim():'';if(!msg)return;
+  inp.value='';addAiMsg(msg,'user');
+  var chat=document.getElementById('aiChat');var tid='t_'+Date.now();
+  chat.innerHTML+='<div class="ai-msg ai-msg-bot" id="'+tid+'"><div class="ai-msg-inner"><div class="ai-typing"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div></div></div>';
+  chat.scrollTop=chat.scrollHeight;
+  aiHistory.push({role:'user',content:msg});
+  try{
+    if(!allCars.length){try{await loadCars();}catch(e){}}
+    var inventory=aiInventoryContext();
+    var system='انت مستشار سيارات عراقي داخل موقع Iraq Motors واسمك أبو سيارة. تحچي بالعامية العراقية. مهم جداً: قائمة السيارات التالية هي المخزون العام الظاهر حالياً في الموقع، واستخدمها عند سؤال المستخدم عن سيارات الموقع أو الأسعار أو المدن. لا تقل إن الموقع فارغ إذا كانت القائمة تحتوي سيارات. لا تخترع سيارة أو سعر أو مدينة غير موجودة في القائمة. إذا طلب المستخدم شيئاً غير متعلق بالسيارات، قل باختصار إن اختصاصك السيارات. لا تعرض أرقام هواتف أو بيانات شخصية للبائعين.\n\nمخزون Iraq Motors الحالي:\n'+inventory;
+    var res=await fetch(AI_WORKER_URL,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({system:system,messages:aiHistory.slice(-10)})});
+    if(!res.ok)throw new Error('AI_HTTP_'+res.status);
+    var data=await res.json();
+    var reply=(data&&data.reply)?String(data.reply):'';
+    if(!reply)throw new Error('AI_EMPTY');
+    aiHistory.push({role:'assistant',content:reply});
+    var el=document.getElementById(tid);if(el)el.remove();
+    addAiMsg(reply,'bot');
+  }catch(e){
+    var el=document.getElementById(tid);if(el)el.remove();
+    var fallback=aiLocalFallback(msg);
+    aiHistory.push({role:'assistant',content:fallback});
+    addAiMsg(fallback,'bot');
+  }
+}
+function addAiMsg(text,type){
+  var chat=document.getElementById('aiChat');if(!chat)return;
+  var safe=String(text||'').replace(/[<>&]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c];});
+  chat.innerHTML+='<div class="ai-msg ai-msg-'+type+'"><div class="ai-msg-inner">'+safe.replace(/\n/g,'<br>')+'</div></div>';
+  chat.scrollTop=chat.scrollHeight;
+}
+function askSuggested(btn){var inp=document.getElementById('aiInput');if(inp){inp.value=btn.textContent;sendAiMsg();}}
 
 // GARAGE
 function openGarageAdd(){
