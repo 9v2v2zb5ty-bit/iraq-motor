@@ -1103,6 +1103,7 @@ body{background:radial-gradient(circle at 70% -10%,rgba(216,178,76,.06),transpar
 body.im-lite *{animation-duration:.01ms!important;transition-duration:.01ms!important;backdrop-filter:none!important;}
 body.im-compact .post-section,body.im-compact .profile-card,body.im-compact .settings-card{padding:14px!important;}
 body.im-no-motion .im-reveal{opacity:1!important;transform:none!important;}
+.brand-logo-wrap{display:inline-flex;align-items:center;justify-content:center;width:100%;height:100%;}.brand-logo-fallback{align-items:center;justify-content:center;min-width:44px;height:44px;border-radius:10px;font-weight:900;font-family:Rajdhani,Tajawal,sans-serif;}
 .im-reveal{opacity:0;transform:translateY(24px) scale(.985);transition:opacity .48s cubic-bezier(.2,.8,.2,1),transform .48s cubic-bezier(.2,.8,.2,1);}
 .im-reveal.im-visible{opacity:1;transform:none;}
 .im-stagger>*{--im-delay:0ms;transition-delay:var(--im-delay);}
@@ -1135,6 +1136,7 @@ body.im-no-motion .im-reveal{opacity:1!important;transform:none!important;}
 #page-post{padding:20px 16px 70px!important;background:radial-gradient(circle at 50% 0%,rgba(216,178,76,.07),transparent 25%)}
 #page-post>.section-page{max-width:1080px!important}.im-post-shell{display:grid;grid-template-columns:1fr 290px;gap:18px;direction:ltr}.im-post-main,.im-post-side{direction:rtl}.im-post-hero{position:relative;overflow:hidden;border:1px solid var(--im-line);border-radius:24px;padding:28px;margin-bottom:15px;background:linear-gradient(135deg,#121b27,#090d13)}.im-post-hero:after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;background:rgba(216,178,76,.1);filter:blur(25px);left:-100px;top:-130px}.im-post-hero h2{position:relative;z-index:1;font-size:29px;margin:0 0 7px}.im-post-hero p{position:relative;z-index:1;color:#8290a4;font-size:12px;margin:0}.im-post-progress{position:relative;z-index:2;margin-top:18px;display:flex;gap:7px}.im-post-step{flex:1;height:5px;border-radius:99px;background:#1d2632}.im-post-step.on{background:linear-gradient(90deg,#b88e2e,#f0d06b)}
 #page-post .post-section{border:1px solid rgba(216,178,76,.16);background:linear-gradient(145deg,rgba(15,23,33,.98),rgba(10,15,22,.98));border-radius:18px;padding:20px;box-shadow:0 10px 35px rgba(0,0,0,.15);margin-bottom:13px}.im-post-side-card{position:sticky;top:82px;border:1px solid var(--im-line);background:#0d141d;border-radius:18px;padding:18px}.im-post-side-card h3{font-size:14px;margin:0 0 14px}.im-tip{display:flex;gap:9px;align-items:flex-start;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:11px;color:#8c9aad;line-height:1.7}.im-tip:last-child{border-bottom:0}.im-tip .ico{color:var(--im-gold);margin-top:2px}.im-price-optional{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 11px;border:1px solid rgba(216,178,76,.15);border-radius:10px;background:rgba(216,178,76,.04);margin-top:8px}.im-color-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.im-color{border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:7px 10px;background:#0b1118;color:#b9c3d0;cursor:pointer;font-family:inherit;font-size:11px}.im-color.active{border-color:var(--im-gold);color:var(--im-gold);background:rgba(216,178,76,.1)}
+.card-category-badge{display:inline-flex;align-items:center;width:max-content;padding:4px 8px;border-radius:999px;background:rgba(216,178,76,.10);border:1px solid rgba(216,178,76,.22);color:var(--im-gold);font-size:9px;font-weight:800;margin-bottom:6px}.im-compare-card .form-input{margin-bottom:0}.im-compare-card .post-section-title{margin-bottom:10px}.im-category-note{font-size:11px;color:#7f8da1;margin-top:6px}
 /* compare */
 #page-compare{padding:24px 16px 70px!important}.im-compare-shell{max-width:1180px;margin:auto}.im-compare-head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:18px}.im-compare-picks{display:grid;grid-template-columns:1fr 90px 1fr;gap:12px;align-items:stretch}.im-compare-card{border:1px solid var(--im-line);background:linear-gradient(145deg,#101923,#0b1118);border-radius:20px;padding:18px}.im-vs{display:flex;align-items:center;justify-content:center;font-size:25px;font-weight:900;color:var(--im-gold);text-shadow:0 0 20px rgba(216,178,76,.25)}.im-compare-result{margin-top:18px;border:1px solid var(--im-line);border-radius:20px;overflow:hidden;background:#0b1118}.im-compare-table{width:100%;border-collapse:collapse}.im-compare-table th,.im-compare-table td{padding:13px 14px;border-bottom:1px solid rgba(255,255,255,.06);font-size:11.5px}.im-compare-table th{background:#111a24;color:#fff}.im-compare-table td:first-child{color:#8391a5}.im-compare-table td:nth-child(2),.im-compare-table td:nth-child(3){text-align:center;color:#e8edf5;font-weight:700}.im-compare-table .cmp-win{color:var(--im-gold)!important;background:rgba(216,178,76,.07)}.im-compare-section{padding:13px 15px;background:#111a24;color:var(--im-gold);font-weight:900;border-top:1px solid rgba(216,178,76,.12)}.im-data-note{font-size:9.5px;color:#718095;margin-top:8px}
 /* dealers */
@@ -1199,8 +1201,8 @@ img{content-visibility:auto}.card-slider img,.my-ad-img,.agency-logo,.dealer-car
   <button class="pub-nav-item" onclick="pubQuickFilter({condition:'جديد'})"><span class="ico ico-sparkle"></span><span class="lbl">سيارات جديدة</span></button>
   <button class="pub-nav-item" onclick="pubQuickFilter({condition:'مستخدم'})"><span class="ico ico-car"></span><span class="lbl">سيارات مستعملة</span></button>
   <button class="pub-nav-item" onclick="pubQuickFilter({bodyType:'4x4'})"><span class="ico ico-road"></span><span class="lbl">دفع رباعي</span></button>
-  <button class="pub-nav-item" onclick="goPage('cars')"><span class="ico ico-money"></span><span class="lbl">اقتصادية</span></button>
-  <button class="pub-nav-item" onclick="goPage('cars')"><span class="ico ico-trophy"></span><span class="lbl">فاخرة</span></button>
+  <button class="pub-nav-item" onclick="pubQuickFilter({_key:'eco',category:'economical'})"><span class="ico ico-money"></span><span class="lbl">اقتصادية</span></button>
+  <button class="pub-nav-item" onclick="pubQuickFilter({_key:'lux',category:'luxury'})"><span class="ico ico-trophy"></span><span class="lbl">فاخرة</span></button>
   <button class="pub-nav-item" onclick="pubQuickFilter({fuel:'كهربائي'})"><span class="ico ico-bolt"></span><span class="lbl">كهربائية</span></button>
   <div class="pub-nav-sep"></div>
   <button class="pub-nav-item" data-pg="dealers" onclick="goPage('dealers')"><span class="ico ico-building"></span><span class="lbl">الشركات والمعارض</span></button>
@@ -1298,8 +1300,8 @@ img{content-visibility:auto}.card-slider img,.my-ad-img,.agency-logo,.dealer-car
     <button class="pub-cat-pill" data-key="new" onclick="pubQuickFilter({_key:'new',condition:'جديد'})"><span class="ico ico-sparkle"></span><span>سيارات جديدة</span></button>
     <button class="pub-cat-pill" data-key="used" onclick="pubQuickFilter({_key:'used',condition:'مستخدم'})"><span class="ico ico-car"></span><span>سيارات مستعملة</span></button>
     <button class="pub-cat-pill" data-key="4x4" onclick="pubQuickFilter({_key:'4x4',bodyType:'4x4'})"><span class="ico ico-road"></span><span>دفع رباعي</span></button>
-    <button class="pub-cat-pill" data-key="eco" onclick="goPage('cars')"><span class="ico ico-money"></span><span>اقتصادية</span></button>
-    <button class="pub-cat-pill" data-key="lux" onclick="goPage('cars')"><span class="ico ico-trophy"></span><span>فاخرة</span></button>
+    <button class="pub-cat-pill" data-key="eco" onclick="pubQuickFilter({_key:'eco',category:'economical'})"><span class="ico ico-money"></span><span>اقتصادية</span></button>
+    <button class="pub-cat-pill" data-key="lux" onclick="pubQuickFilter({_key:'lux',category:'luxury'})"><span class="ico ico-trophy"></span><span>فاخرة</span></button>
     <button class="pub-cat-pill" data-key="ev" onclick="pubQuickFilter({_key:'ev',fuel:'كهربائي'})"><span class="ico ico-bolt"></span><span>كهربائية</span></button>
     <button class="pub-cat-pill" data-key="more" onclick="openAdvancedFromHome()"><span class="ico ico-sliders"></span><span>المزيد</span></button>
   </div>
@@ -1515,9 +1517,9 @@ img{content-visibility:auto}.card-slider img,.my-ad-img,.agency-logo,.dealer-car
   <div class="im-compare-shell">
     <div class="im-compare-head im-reveal"><div><h2 style="font-size:28px;margin:0 0 5px;"><span class="ico ico-compare" style="color:var(--im-gold)"></span> مقارنة السيارات</h2><p style="color:#7f8da1;font-size:12px;margin:0;">مقارنة موسعة للمحرك والأداء والأبعاد والأمان والتقنية والتجهيزات.</p></div><button class="im-ghost-btn" onclick="resetCompare()"><span class="ico ico-refresh"></span> إعادة الاختيار</button></div>
     <div class="im-compare-picks im-reveal">
-      <div class="im-compare-card"><div class="post-section-title">السيارة الأولى</div><select class="form-input" id="cmp1Make" onchange="updateCmpModels(1)"><option value="">اختر الشركة</option></select><select class="form-input" id="cmp1Model" style="margin-top:9px;" onchange="runCompare()"><option value="">اختر الموديل</option></select></div>
+      <div class="im-compare-card"><div class="post-section-title">السيارة الأولى</div><select class="form-input" id="cmp1Make" onchange="updateCmpModels(1)"><option value="">اختر الشركة</option></select><select class="form-input" id="cmp1Model" style="margin-top:9px;" onchange="updateCmpSpecs(1)"><option value="">اختر الموديل</option></select><select class="form-input" id="cmp1Spec" style="margin-top:9px;" onchange="updateCmpEngines(1)"><option value="">اختر الفئة / المواصفات</option></select><select class="form-input" id="cmp1Engine" style="margin-top:9px;" onchange="runCompare()"><option value="">اختر المحرك</option></select></div>
       <div class="im-vs">VS</div>
-      <div class="im-compare-card"><div class="post-section-title">السيارة الثانية</div><select class="form-input" id="cmp2Make" onchange="updateCmpModels(2)"><option value="">اختر الشركة</option></select><select class="form-input" id="cmp2Model" style="margin-top:9px;" onchange="runCompare()"><option value="">اختر الموديل</option></select></div>
+      <div class="im-compare-card"><div class="post-section-title">السيارة الثانية</div><select class="form-input" id="cmp2Make" onchange="updateCmpModels(2)"><option value="">اختر الشركة</option></select><select class="form-input" id="cmp2Model" style="margin-top:9px;" onchange="updateCmpSpecs(2)"><option value="">اختر الموديل</option></select><select class="form-input" id="cmp2Spec" style="margin-top:9px;" onchange="updateCmpEngines(2)"><option value="">اختر الفئة / المواصفات</option></select><select class="form-input" id="cmp2Engine" style="margin-top:9px;" onchange="runCompare()"><option value="">اختر المحرك</option></select></div>
     </div>
     <div id="compareResult" class="im-compare-result im-reveal"></div>
   </div>
@@ -2699,13 +2701,14 @@ const CHINESE_BRAND_LOGOS={
 
 function brandBadge(make){
   var logo=BRAND_LOGO[make]||CHINESE_BRAND_LOGOS[make];
+  var st=BRAND_STYLE[make]||{bg:'#ece8dc',fg:'#111',short:String(make||'').slice(0,3).toUpperCase()};
   if(logo){
-    if(DARK_LOGO_BRANDS.indexOf(make)>-1)return '<span class="brand-logo-chip"><img class="brand-logo-img" src="'+logo+'" alt="'+make+'" loading="eager" fetchpriority="high" decoding="async"></span>';
-    return '<img class="brand-logo-img" src="'+logo+'" alt="'+make+'" loading="eager" fetchpriority="high" decoding="async">';
+    var fallback='<span class=\"brand-badge brand-logo-fallback\" style=\"background:'+st.bg+';color:'+st.fg+';display:none;\">'+st.short+'</span>';
+    var img='<img class=\"brand-logo-img\" src=\"'+logo+'\" alt=\"'+make+'\" loading=\"eager\" fetchpriority=\"high\" decoding=\"async\" onerror=\"this.style.display=\'none\';this.nextElementSibling.style.display=\'inline-flex\';\">';
+    if(DARK_LOGO_BRANDS.indexOf(make)>-1)return '<span class=\"brand-logo-chip\">'+img+fallback+'</span>';
+    return '<span class=\"brand-logo-wrap\">'+img+fallback+'</span>';
   }
-  var st=BRAND_STYLE[make];
-  if(!st)return '';
-  return '<span class="brand-badge" style="background:'+st.bg+';color:'+st.fg+';">'+st.short+'</span>';
+  return '<span class=\"brand-badge\" style=\"background:'+st.bg+';color:'+st.fg+';\">'+st.short+'</span>';
 }
 
 /* Expanded verified brand/model catalog: real manufacturers and model families. */
@@ -2871,7 +2874,7 @@ function qsChipChange(sel,labelId,defaultText){
   lbl.textContent=sel.value?sel.options[sel.selectedIndex].textContent:defaultText;
 }
 function runQuickSearch(){
-  filterState={brand:'',model:'',city:'',yearFrom:'',yearTo:'',priceFrom:'',priceTo:'',kmFrom:'',kmTo:'',condition:'',color:'',fuel:'',gear:'',bodyType:'',keyword:''};
+  filterState={brand:'',model:'',city:'',yearFrom:'',yearTo:'',priceFrom:'',priceTo:'',kmFrom:'',kmTo:'',condition:'',color:'',fuel:'',gear:'',bodyType:'',keyword:'',category:''};
   var pf=document.getElementById('qsPriceFrom'),pt=document.getElementById('qsPriceTo');
   var bt=document.getElementById('qsBodyType'),city=document.getElementById('qsCity');
   var kwEl=document.getElementById('qsKeyword');
@@ -3094,7 +3097,7 @@ function renderCars(cars,gridId){
         (car.sold?'<div class="card-sold-badge"><span class="ico ico-check"></span> مباع</div>':'')+
         '<button class="card-fav-btn" onclick="event.stopPropagation();toggleFav(\''+car.id+'\')">'+(isFav(car.id)?'<span class="ico ico-heart-fill"></span>':'<span class="ico ico-heart"></span>')+'</button>'+
       '</div>':'<div class="card-no-img"><span class="ico ico-lg ico-car"></span>'+(car.condition==='جديد'?'<div class="card-new-badge">جديد</div>':'')+'<button class="card-fav-btn" onclick="event.stopPropagation();toggleFav(\''+car.id+'\')">'+(isFav(car.id)?'<span class="ico ico-heart-fill"></span>':'<span class="ico ico-heart"></span>')+'</button></div>')+
-      '<div class="card-body">'+
+      '<div class="card-body">'+(carCategoryLabel(car)?'<div class="card-category-badge">'+carCategoryLabel(car)+'</div>':'')+
         '<div class="card-make">'+brandBadge(car.make)+(car.make||'')+'</div>'+
         '<div class="card-name">'+(car.model||'')+'</div>'+
         '<div class="card-specs">'+
@@ -3132,7 +3135,41 @@ function startSlTimer(id){
 function slNext(id){var s=document.getElementById('cs-'+id);if(!s)return;var imgs=s.querySelectorAll('img');var i=window['si_'+id]||0;imgs[i].classList.remove('on');i=(i+1)%imgs.length;imgs[i].classList.add('on');window['si_'+id]=i;var cnt=document.getElementById('cscnt-'+id);if(cnt)cnt.textContent=(i+1)+'/'+imgs.length;}
 function slPrev(id){var s=document.getElementById('cs-'+id);if(!s)return;var imgs=s.querySelectorAll('img');var i=window['si_'+id]||0;imgs[i].classList.remove('on');i=(i-1+imgs.length)%imgs.length;imgs[i].classList.add('on');window['si_'+id]=i;var cnt=document.getElementById('cscnt-'+id);if(cnt)cnt.textContent=(i+1)+'/'+imgs.length;}
 
-var filterState={brand:'',model:'',city:'',yearFrom:'',yearTo:'',priceFrom:'',priceTo:'',kmFrom:'',kmTo:'',condition:'',color:'',fuel:'',gear:'',bodyType:'',keyword:''};
+var filterState={brand:'',model:'',city:'',yearFrom:'',yearTo:'',priceFrom:'',priceTo:'',kmFrom:'',kmTo:'',condition:'',color:'',fuel:'',gear:'',bodyType:'',keyword:'',category:''};
+
+function carUsdPrice(car){
+  if(!car||car.contactPrice||car.price===null||car.price===undefined||car.price==='')return 0;
+  var n=Number(car.price)||0;
+  return String(car.currency||'USD').toUpperCase()==='IQD'?n/1310:n;
+}
+function carCategoryMatch(car,category){
+  if(!category)return true;
+  var raw=((car.make||'')+' '+(car.model||'')+' '+(car.bodyType||'')+' '+(car.fuel||'')+' '+(car.engine||'')).toLowerCase();
+  var db=COMPARE_DB[car.make+' '+car.model]||{};
+  var body=String(car.bodyType||db.bodyType||'').toLowerCase();
+  var fuel=String(car.fuel||db.fuel||'').toLowerCase();
+  var drive=String(car.drive||db.drive||'').toLowerCase();
+  var hp=Number(car.hp||db.hp||0), price=carUsdPrice(car)||Number(db.price||0);
+  if(category==='luxury')return price>60000;
+  if(category==='economical')return price>0&&price<=20000;
+  if(category==='4x4')return /4x4|دفع رباعي|suv/.test(body+raw)||/awd|4wd|4x4/.test(drive);
+  if(category==='electric')return /كهربائي|electric|ev/.test(fuel+raw);
+  if(category==='performance')return hp>=300||/رياضية|sport|coupe|gti|amg|m|rs|r\b|mustang|charger|challenger|911/.test(raw);
+  if(category==='family')return /suv|wagon|ستيشن|van|مني فان|عائل/.test(body+raw)||Number(car.seats||db.seats||0)>=5;
+  if(category==='pickup')return /بيك أب|pickup|pick-up|hilux|ranger|raptor|poer|wingle|tunland|t8|t9|silverado|f-150/.test(raw+body);
+  return false;
+}
+function carCategoryLabel(car){
+  var p=carUsdPrice(car);
+  if(p>60000)return 'فاخرة';
+  if(carCategoryMatch(car,'performance'))return 'أداء';
+  if(carCategoryMatch(car,'electric'))return 'كهربائية';
+  if(carCategoryMatch(car,'4x4'))return 'دفع رباعي';
+  if(carCategoryMatch(car,'pickup'))return 'بيك أب';
+  if(carCategoryMatch(car,'family'))return 'عائلية';
+  if(p>0&&p<=20000)return 'اقتصادية';
+  return 'سيارات';
+}
 
 function filterCars(){
   var si=document.getElementById('searchInput');
@@ -3150,7 +3187,7 @@ function filterCars(){
       (!fs.color||(c.color||'').includes(fs.color))&&
       (!fs.fuel||c.fuel===fs.fuel)&&
       (!fs.gear||c.gear===fs.gear)&&
-      (!fs.bodyType||c.bodyType===fs.bodyType);
+      (!fs.bodyType||c.bodyType===fs.bodyType)&&(!fs.category||carCategoryMatch(c,fs.category));
   }));
 }
 
@@ -3168,7 +3205,7 @@ function countMatchingCars(){
       (!fs.color||(c.color||'').includes(fs.color))&&
       (!fs.fuel||c.fuel===fs.fuel)&&
       (!fs.gear||c.gear===fs.gear)&&
-      (!fs.bodyType||c.bodyType===fs.bodyType);
+      (!fs.bodyType||c.bodyType===fs.bodyType)&&(!fs.category||carCategoryMatch(c,fs.category));
   }).length;
 }
 function updateFilterLiveCount(){
@@ -3244,7 +3281,7 @@ function selectToggle(groupId,btn){
   updateFilterLiveCount();
 }
 function clearFilterPanel(){
-  filterState={brand:'',model:'',city:'',yearFrom:'',yearTo:'',priceFrom:'',priceTo:'',kmFrom:'',kmTo:'',condition:'',color:'',fuel:'',gear:'',bodyType:'',keyword:''};
+  filterState={brand:'',model:'',city:'',yearFrom:'',yearTo:'',priceFrom:'',priceTo:'',kmFrom:'',kmTo:'',condition:'',color:'',fuel:'',gear:'',bodyType:'',keyword:'',category:''};
   document.querySelectorAll('#fBrandGrid .brand-grid-item').forEach(function(b){b.classList.remove('active');});
   ['fModel','fCity','fYearFrom','fYearTo','fPriceFrom','fPriceTo','fKmFrom','fKmTo'].forEach(function(id){document.getElementById(id).value='';});
   ['fCondition','fColor','fFuel','fGear','fBodyType'].forEach(function(gid){
@@ -5396,31 +5433,56 @@ function initCmpSelects(){
     if(el&&el.options.length<2)Object.keys(CAR_DATA).forEach(function(m){el.innerHTML+='<option>'+m+'</option>';});
   });
 }
+function getCmpSpecOptions(make,model){
+  var raw=((make||'')+' '+(model||'')).toLowerCase();
+  var out=['ستاندرد','Comfort','Premium','Luxury'];
+  if(/m5|m3|amg|rs|gti|r\b|mustang|charger|challenger|911|cayman|corvette/.test(raw))out=['Performance','Track','Premium'];
+  if(/g-class|s-class|7-series|x7|range rover|bentley|rolls|maybach|lx|land cruiser/.test(raw))out=['Base','Premium','Luxury'];
+  if(/electric|zeekr|nio|xpeng|tesla|ev|e5|ex5/.test(raw))out=['Standard','Long Range','Performance'];
+  return out;
+}
 function updateCmpModels(num){
   var make=document.getElementById('cmp'+num+'Make').value;
   var mel=document.getElementById('cmp'+num+'Model');
   mel.innerHTML='<option value="">اختر الموديل</option>';
   if(make&&CAR_DATA[make])CAR_DATA[make].models.forEach(function(m){mel.innerHTML+='<option>'+m+'</option>';});
+  var spec=document.getElementById('cmp'+num+'Spec'),eng=document.getElementById('cmp'+num+'Engine');
+  if(spec)spec.innerHTML='<option value="">اختر الفئة / المواصفات</option>';
+  if(eng)eng.innerHTML='<option value="">اختر المحرك</option>';
   runCompare();
 }
-function getCompareRecord(make,model){
+function updateCmpSpecs(num){
+  var make=document.getElementById('cmp'+num+'Make').value,model=document.getElementById('cmp'+num+'Model').value;
+  var spec=document.getElementById('cmp'+num+'Spec'),eng=document.getElementById('cmp'+num+'Engine');
+  if(spec){spec.innerHTML='<option value="">اختر الفئة / المواصفات</option>';if(make&&model)getCmpSpecOptions(make,model).forEach(function(x){spec.innerHTML+='<option>'+x+'</option>';});}
+  if(eng)eng.innerHTML='<option value="">اختر المحرك</option>';
+  runCompare();
+}
+function updateCmpEngines(num){
+  var make=document.getElementById('cmp'+num+'Make').value,model=document.getElementById('cmp'+num+'Model').value;
+  var eng=document.getElementById('cmp'+num+'Engine');
+  if(eng){eng.innerHTML='<option value="">اختر المحرك</option>';if(make&&model&&CAR_DATA[make]&&CAR_DATA[make].engines)CAR_DATA[make].engines.forEach(function(x){eng.innerHTML+='<option>'+x+'</option>';});}
+  runCompare();
+}
+function getCompareRecord(make,model,spec,engine){
   var exact=COMPARE_DB[make+' '+model],raw=((model||'')+' '+(make||'')).toLowerCase();
   var body=/f-|ranger|hilux|poer|wingle|t8|t9|tunland|silverado|f-150|raptor/.test(raw)?'بيك أب':(/q\d|x\d|suv|gx|lx|rx|nx|ux|tx|cx-|tiggo|h6|jolion|dargo|gs\d|j7|j8|vx|txl|bj\d|tank|c10|c11|c16|es5|es6|es7|el6|el7|el8|g6|g9|x9|l6|l7|l8|l9|ex5|ex2|monjaro|coolray|starray|cityray/.test(raw)?'SUV':'سيدان');
-  var engine=(CAR_DATA[make]&&CAR_DATA[make].engines&&CAR_DATA[make].engines[0])||'محرك حسب الفئة';
-  var electric=/كهربائي|zeekr|nio|xpeng|leapmotor|ex5|ex2/.test(raw),hybrid=/hybrid|هايبرد|phev|em-i/.test(raw);
+  var chosenEngine=engine||((CAR_DATA[make]&&CAR_DATA[make].engines&&CAR_DATA[make].engines[0])||'محرك حسب الفئة');
+  var electric=/كهربائي|zeekr|nio|xpeng|leapmotor|ex5|ex2/.test((chosenEngine+' '+raw).toLowerCase()),hybrid=/hybrid|هايبرد|phev|em-i/.test((chosenEngine+' '+raw).toLowerCase());
   var hp=body==='بيك أب'?190:(body==='SUV'?185:165);if(/m5|rs6|911|continental|g-class|demon|hellcat|mustang|charger|challenger/.test(raw))hp=450;
-  var base={hp:hp,torque:Math.round(hp*1.35),engine:engine,fuel:electric?'كهربائي':(hybrid?'هايبرد':'بنزين'),gear:electric?'أوتوماتيك':'أوتوماتيك',weight:body==='بيك أب'?2100:(body==='SUV'?1750:1500),price:body==='SUV'?32000:26000,accel:electric?7.5:9.2,top:190,consumption:electric?'—':13,bodyType:body,seats:body==='بيك أب'?5:5,drive:body==='SUV'?'AWD/FWD':'FWD/RWD',length:'مرجعي حسب الفئة',width:'مرجعي حسب الفئة',height:'مرجعي حسب الفئة',wheelbase:'مرجعي حسب الفئة',trunk:'مرجعي حسب الفئة',airbags:'6+ حسب الفئة',screen:'شاشة رقمية حسب الفئة',safety:'أنظمة ADAS حسب الفئة',battery:electric?'بطارية ليثيوم —':'—',range:electric?'مدى يختلف حسب الفئة':'—',charging:electric?'شحن سريع حسب الفئة':'—',warranty:'تختلف حسب السوق',dataQuality:exact?'بيانات تجمع المواصفات المدرجة مع حقول مرجعية للفئة':'بيانات مرجعية عامة — راجع سنة التجهيز والفئة قبل الاعتماد'};
-  return exact?Object.assign(base,exact):base;
+  var base={hp:hp,torque:Math.round(hp*1.35),engine:chosenEngine,fuel:electric?'كهربائي':(hybrid?'هايبرد':'بنزين'),gear:electric?'أوتوماتيك':'أوتوماتيك',weight:body==='بيك أب'?2100:(body==='SUV'?1750:1500),price:body==='SUV'?32000:26000,accel:electric?7.5:9.2,top:190,consumption:electric?'—':13,bodyType:body,seats:body==='بيك أب'?5:5,drive:body==='SUV'?'AWD/FWD':'FWD/RWD',trim:spec||'—',length:'مرجعي حسب الفئة',width:'مرجعي حسب الفئة',height:'مرجعي حسب الفئة',wheelbase:'مرجعي حسب الفئة',trunk:'مرجعي حسب الفئة',airbags:'6+ حسب الفئة',screen:'شاشة رقمية حسب الفئة',safety:'أنظمة ADAS حسب الفئة',battery:electric?'بطارية ليثيوم —':'—',range:electric?'مدى يختلف حسب الفئة':'—',charging:electric?'شحن سريع حسب الفئة':'—',warranty:'تختلف حسب السوق',dataQuality:exact?'بيانات تجمع المواصفات المدرجة مع حقول مرجعية للفئة':'بيانات مرجعية عامة — راجع سنة التجهيز والفئة قبل الاعتماد'};
+  return exact?Object.assign(base,exact,{engine:chosenEngine,trim:spec||'—'}):base;
 }
-function resetCompare(){['cmp1Make','cmp2Make'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});['cmp1Model','cmp2Model'].forEach(function(id){var e=document.getElementById(id);if(e)e.innerHTML='<option value="">اختر الموديل</option>';});var r=document.getElementById('compareResult');if(r)r.innerHTML='';}
+function resetCompare(){['cmp1Make','cmp2Make','cmp1Spec','cmp2Spec','cmp1Engine','cmp2Engine'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});['cmp1Model','cmp2Model'].forEach(function(id){var e=document.getElementById(id);if(e)e.innerHTML='<option value="">اختر الموديل</option>';});var r=document.getElementById('compareResult');if(r)r.innerHTML='';}
 function runCompare(){
-  var m1=document.getElementById('cmp1Make').value,mo1=document.getElementById('cmp1Model').value,m2=document.getElementById('cmp2Make').value,mo2=document.getElementById('cmp2Model').value;
+  var m1=document.getElementById('cmp1Make').value,mo1=document.getElementById('cmp1Model').value,s1=document.getElementById('cmp1Spec').value,e1=document.getElementById('cmp1Engine').value;
+  var m2=document.getElementById('cmp2Make').value,mo2=document.getElementById('cmp2Model').value,s2=document.getElementById('cmp2Spec').value,e2=document.getElementById('cmp2Engine').value;
   var box=document.getElementById('compareResult');if(!box)return;
-  if(!m1||!mo1||!m2||!mo2){box.innerHTML='<div style="padding:38px;text-align:center;color:#718095;"><span class="ico ico-compare" style="width:34px;height:34px;color:var(--im-gold);margin:0 auto 10px;"></span><div>اختر سيارتين حتى تظهر المقارنة الموسعة</div></div>';return;}
-  var d1=getCompareRecord(m1,mo1),d2=getCompareRecord(m2,mo2);
+  if(!m1||!mo1||!s1||!e1||!m2||!mo2||!s2||!e2){box.innerHTML='<div style="padding:38px;text-align:center;color:#718095;"><span class="ico ico-compare" style="width:34px;height:34px;color:var(--im-gold);margin:0 auto 10px;"></span><div>اختَر الشركة والموديل والفئة/المواصفات والمحرك للسيارتين حتى تظهر المقارنة</div></div>';return;}
+  var d1=getCompareRecord(m1,mo1,s1,e1),d2=getCompareRecord(m2,mo2,s2,e2);
   var rows=[
     ['الأداء','القوة','hp','HP',1],['الأداء','عزم الدوران','torque','Nm',1],['الأداء','0-100 كم/س','accel','ث',-1],['الأداء','السرعة القصوى','top','كم/س',1],['الأداء','استهلاك الوقود','consumption','كم/ل',1],
-    ['المحرك','المحرك','engine','',0],['المحرك','الوقود','fuel','',0],['المحرك','ناقل الحركة','gear','',0],['المحرك','نظام الدفع','drive','',0],['المحرك','نوع الهيكل','bodyType','',0],
+    ['المحرك','الفئة / المواصفات','trim','',0],['المحرك','المحرك','engine','',0],['المحرك','الوقود','fuel','',0],['المحرك','ناقل الحركة','gear','',0],['المحرك','نظام الدفع','drive','',0],['المحرك','نوع الهيكل','bodyType','',0],
     ['الأبعاد','الوزن','weight','كغ',-1],['الأبعاد','الطول','length','',0],['الأبعاد','العرض','width','',0],['الأبعاد','الارتفاع','height','',0],['الأبعاد','قاعدة العجلات','wheelbase','',0],['الأبعاد','سعة الصندوق','trunk','',0],
     ['المقصورة','عدد المقاعد','seats','',0],['المقصورة','الشاشة','screen','',0],['الأمان','الوسائد الهوائية','airbags','',0],['الأمان','أنظمة الأمان','safety','',0],['الكهرباء','البطارية','battery','',0],['الكهرباء','المدى','range','',0],['الكهرباء','الشحن','charging','',0],['الملكية','الضمان','warranty','',0],['الملكية','السعر المرجعي','price','$',-1]
   ];
@@ -6624,6 +6686,7 @@ applyI18n();
 initHomeQuickSearch();
 pubLoadSocialLinks();
 checkMaintenanceMode();
+requestAnimationFrame(function(){runMotionScan();});
 initHomeBrands();
 loadCars();
 
@@ -6718,7 +6781,7 @@ function mobileNavClose(){var n=document.getElementById('mobileNav');if(n)n.clas
 function pubQuickFilter(overrides){
   overrides=overrides||{};
   var key=overrides._key;
-  filterState={brand:'',model:'',city:'',yearFrom:'',yearTo:'',priceFrom:'',priceTo:'',kmFrom:'',kmTo:'',condition:'',color:'',fuel:'',gear:'',bodyType:'',keyword:''};
+  filterState={brand:'',model:'',city:'',yearFrom:'',yearTo:'',priceFrom:'',priceTo:'',kmFrom:'',kmTo:'',condition:'',color:'',fuel:'',gear:'',bodyType:'',keyword:'',category:''};
   Object.keys(overrides).forEach(function(k){if(k!=='_key')filterState[k]=overrides[k];});
   if(document.getElementById('page-cars').classList.contains('active')||key!==undefined){
     document.querySelectorAll('.pub-cat-pill').forEach(function(p){p.classList.toggle('active',p.getAttribute('data-key')===(key||''));});
