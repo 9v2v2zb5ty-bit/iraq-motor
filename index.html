@@ -1149,6 +1149,18 @@ img{content-visibility:auto}.card-slider img,.my-ad-img,.agency-logo,.dealer-car
 /* ===== END PATCH ===== */
 
 </style>
+<style id="logo-fix">
+/* شعار صغير ومتناسق مع اسم الماركة */
+.card-make,.detail-make{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.5px;margin-bottom:6px;}
+.card-make .brand-logo-wrap,.detail-make .brand-logo-wrap,.im-compare-table .brand-logo-wrap{
+  width:26px;height:26px;flex:0 0 26px;border-radius:50%;background:#fff;padding:3px;box-sizing:border-box;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;}
+.detail-make .brand-logo-wrap{width:32px;height:32px;flex-basis:32px;}
+.card-make .brand-logo-wrap .brand-logo-img,.detail-make .brand-logo-wrap .brand-logo-img,.im-compare-table .brand-logo-wrap .brand-logo-img{width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;}
+.card-make .brand-badge,.detail-make .brand-badge{width:26px;height:26px;font-size:9px;}
+/* داخل شريط الماركات والفلتر */
+.brand-item-logo .brand-logo-wrap,.brand-grid-item .brand-logo-wrap{width:100%;height:100%;}
+.brand-item-logo .brand-logo-wrap .brand-logo-img,.brand-grid-item .brand-logo-wrap .brand-logo-img{width:100%;height:100%;}
+</style>
 </head>
 <body>
 <div id="maintenanceScreen" style="display:none;position:fixed;inset:0;z-index:850;background:var(--dark);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;">
@@ -6985,53 +6997,32 @@ function pubUpdateBadges(user){
 (function(){
   var AI_BUSY=false;
   function aiEscape(s){return String(s||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
-  function aiAddMessage(text, who){
-    var chat=document.getElementById('aiChat'); if(!chat)return;
-    var wrap=document.createElement('div'); wrap.className='ai-msg '+(who==='user'?'ai-msg-user':'ai-msg-bot');
-    wrap.innerHTML='<div class="ai-msg-inner">'+aiEscape(text).replace(/\n/g,'<br>')+'</div>';
-    chat.appendChild(wrap); chat.scrollTop=chat.scrollHeight;
-    return wrap;
-  }
-  function aiExtract(data){
-    if(typeof data==='string') return data;
-    if(!data||typeof data!=='object') return '';
-    var v=data.reply||data.response||data.answer||data.text||data.output||data.message||data.content;
-    if(typeof v==='string') return v;
-    if(v&&typeof v==='object') return aiExtract(v);
-    if(Array.isArray(data.candidates)&&data.candidates[0]){
-      var c=data.candidates[0];
-      if(c.content&&Array.isArray(c.content.parts)) return c.content.parts.map(function(p){return p.text||'';}).join('');
-      return aiExtract(c);
-    }
-    return '';
-  }
-  window.askSuggested=function(btn){
-    var input=document.getElementById('aiInput'); if(!input)return;
-    input.value=(btn&&btn.textContent||'').trim(); window.sendAiMsg();
-  };
+  function aiAddMessage(text,who){var chat=document.getElementById('aiChat');if(!chat)return;var wrap=document.createElement('div');wrap.className='ai-msg '+(who==='user'?'ai-msg-user':'ai-msg-bot');wrap.innerHTML='<div class="ai-msg-inner">'+aiEscape(text).replace(/\n/g,'<br>')+'</div>';chat.appendChild(wrap);chat.scrollTop=chat.scrollHeight;return wrap;}
+  function aiExtract(data){if(typeof data==='string')return data;if(!data||typeof data!=='object')return '';var v=data.reply||data.response||data.answer||data.text||data.output||data.message||data.content;if(typeof v==='string')return v;if(v&&typeof v==='object')return aiExtract(v);if(Array.isArray(data.candidates)&&data.candidates[0]){var c=data.candidates[0];if(c.content&&Array.isArray(c.content.parts))return c.content.parts.map(function(p){return p.text||'';}).join('');return aiExtract(c);}return '';}
+  window.askSuggested=function(btn){var input=document.getElementById('aiInput');if(!input)return;input.value=(btn&&btn.textContent||'').trim();window.sendAiMsg();};
+  var AI_HISTORY=[];
+  var AI_SYSTEM='انت مستشار سيارات عراقي خبير اسمك ابو سيارة. تحكي بالعامية العراقية. تفهم: چنجر=تغيير قطعة، يشتل=يشتغل، طاح=خربان، دهن=زيت محرك، بنشر=إطار مثقوب، گير=ناقل حركة، فرامل=فرامل، ردياتير=مبرد محرك، عفشة=تعليق، مكينة=محرك. تجيب فقط على اسئلة السيارات. اذا سالك غيرها گل: والله اخوي انا بس افهم بالسيارات 😄';
   window.sendAiMsg=async function(){
     if(AI_BUSY)return;
-    var input=document.getElementById('aiInput'), chat=document.getElementById('aiChat');
-    if(!input||!chat)return;
-    var msg=input.value.trim(); if(!msg)return;
-    input.value=''; aiAddMessage(msg,'user');
-    var typing=aiAddMessage('جاري التفكير...','bot'); AI_BUSY=true;
+    try{if(typeof auth!=='undefined'&&!auth.currentUser&&typeof openAuthGate==='function'){openAuthGate('سجل مجانًا لتسأل مستشار السيارات الذكي');return;}}catch(e){}
+    var input=document.getElementById('aiInput'),chat=document.getElementById('aiChat');if(!input||!chat)return;
+    var msg=input.value.trim();if(!msg)return;input.value='';
+    aiAddMessage(msg,'user');var typing=aiAddMessage('جاري التفكير...','bot');AI_BUSY=true;
+    AI_HISTORY.push({role:'user',content:msg});
     try{
-      var res=await fetch(AI_WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({message:msg,prompt:msg,question:msg})});
-      var raw=await res.text(), data;
-      try{data=JSON.parse(raw);}catch(e){data=raw;}
-      var reply=aiExtract(data);
-      if(!res.ok) throw new Error((data&&data.error)||('HTTP '+res.status));
-      if(!reply) throw new Error('empty_response');
-      if(typing&&typing.parentNode)typing.parentNode.removeChild(typing);
-      aiAddMessage(reply,'bot');
+      var res=await fetch(AI_WORKER_URL,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({system:AI_SYSTEM,messages:AI_HISTORY.slice(-10)})});
+      var raw=await res.text(),data;try{data=JSON.parse(raw);}catch(e){data=raw;}
+      var reply=(data&&data.reply)||aiExtract(data);
+      if(!res.ok||!reply)throw new Error('HTTP '+res.status+' '+String(raw).slice(0,160));
+      AI_HISTORY.push({role:'assistant',content:reply});
+      if(typing&&typing.parentNode)typing.parentNode.removeChild(typing);aiAddMessage(reply,'bot');
     }catch(err){
+      AI_HISTORY.pop();
       if(typing&&typing.parentNode)typing.parentNode.removeChild(typing);
-      aiAddMessage('تعذر الاتصال بمستشار السيارات حالياً. جرّب مرة ثانية بعد قليل.','bot');
-      console.error('Iraq Motors AI error:',err);
-    }finally{AI_BUSY=false; input.focus();}
+      aiAddMessage('تعذر الاتصال بمستشار السيارات حالياً.\n['+((err&&err.message)||'')+']','bot');console.error('Iraq Motors AI error:',err);
+    }finally{AI_BUSY=false;input.focus();}
   };
-})();
+  })();
 </script>
 </body>
 </html>
