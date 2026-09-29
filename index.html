@@ -33,10 +33,10 @@
 
 <!-- Structured data -->
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"AutomotiveBusiness","name":"Iraq Motors","description":"منصة لبيع وشراء السيارات الجديدة والمستعملة في العراق","url":"https://9v2v2zb5ty-bit.github.io/iraq-motor/","areaServed":{"@type":"Country","name":"Iraq"}}
+{"@context":"https://schema.org","@type":"AutomotiveBusiness","name":"Iraq Motors","description":"منصة لبيع وشراء السيارات الجديدة والمستعملة في العراق","url":"https://iraqmotors.site/","areaServed":{"@type":"Country","name":"Iraq"}}
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","name":"Iraq Motors","url":"https://9v2v2zb5ty-bit.github.io/iraq-motor/"}
+{"@context":"https://schema.org","@type":"WebSite","name":"Iraq Motors","url":"https://iraqmotors.site/"}
 </script>
 
 <!-- PWA: Manifest -->
@@ -6980,8 +6980,7 @@ function pubUpdateBadges(user){
 }
 
 
-
-<!-- Iraq Motors AI restored -->
+</script>
 <script>
 (function(){
   var AI_BUSY=false;
@@ -7008,7 +7007,7 @@ function pubUpdateBadges(user){
   }
   window.askSuggested=function(btn){
     var input=document.getElementById('aiInput'); if(!input)return;
-    input.value=(btn&&btn.textContent||'').trim(); sendAiMsg();
+    input.value=(btn&&btn.textContent||'').trim(); window.sendAiMsg();
   };
   window.sendAiMsg=async function(){
     if(AI_BUSY)return;
@@ -7028,15 +7027,11 @@ function pubUpdateBadges(user){
       aiAddMessage(reply,'bot');
     }catch(err){
       if(typing&&typing.parentNode)typing.parentNode.removeChild(typing);
-      var msgText='تعذر الاتصال بمستشار السيارات حالياً. جرّب مرة ثانية بعد قليل.';
-      if(err&&err.message==='Failed to fetch') msgText='تعذر الاتصال بسيرفر الذكاء الاصطناعي. تأكد أن السيرفر شغال وأن الاتصال مسموح من الموقع.';
-      aiAddMessage(msgText,'bot');
+      aiAddMessage('تعذر الاتصال بمستشار السيارات حالياً. جرّب مرة ثانية بعد قليل.','bot');
       console.error('Iraq Motors AI error:',err);
     }finally{AI_BUSY=false; input.focus();}
   };
 })();
-
-</script>
 </script>
 </body>
 </html>
