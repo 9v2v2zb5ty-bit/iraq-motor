@@ -33,10 +33,10 @@
 
 <!-- Structured data -->
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"AutomotiveBusiness","name":"Iraq Motors","description":"منصة لبيع وشراء السيارات الجديدة والمستعملة في العراق","url":"https://9v2v2zb5ty-bit.github.io/iraq-motor/","areaServed":{"@type":"Country","name":"Iraq"}}
+{"@context":"https://schema.org","@type":"AutomotiveBusiness","name":"Iraq Motors","description":"منصة لبيع وشراء السيارات الجديدة والمستعملة في العراق","url":"https://iraqmotors.site/","areaServed":{"@type":"Country","name":"Iraq"}}
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","name":"Iraq Motors","url":"https://9v2v2zb5ty-bit.github.io/iraq-motor/"}
+{"@context":"https://schema.org","@type":"WebSite","name":"Iraq Motors","url":"https://iraqmotors.site/"}
 </script>
 
 <!-- PWA: Manifest -->
@@ -6980,63 +6980,16 @@ function pubUpdateBadges(user){
 }
 
 
-
-<!-- Iraq Motors AI restored -->
+</script>
 <script>
 (function(){
   var AI_BUSY=false;
   function aiEscape(s){return String(s||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
-  function aiAddMessage(text, who){
-    var chat=document.getElementById('aiChat'); if(!chat)return;
-    var wrap=document.createElement('div'); wrap.className='ai-msg '+(who==='user'?'ai-msg-user':'ai-msg-bot');
-    wrap.innerHTML='<div class="ai-msg-inner">'+aiEscape(text).replace(/\n/g,'<br>')+'</div>';
-    chat.appendChild(wrap); chat.scrollTop=chat.scrollHeight;
-    return wrap;
-  }
-  function aiExtract(data){
-    if(typeof data==='string') return data;
-    if(!data||typeof data!=='object') return '';
-    var v=data.reply||data.response||data.answer||data.text||data.output||data.message||data.content;
-    if(typeof v==='string') return v;
-    if(v&&typeof v==='object') return aiExtract(v);
-    if(Array.isArray(data.candidates)&&data.candidates[0]){
-      var c=data.candidates[0];
-      if(c.content&&Array.isArray(c.content.parts)) return c.content.parts.map(function(p){return p.text||'';}).join('');
-      return aiExtract(c);
-    }
-    return '';
-  }
-  window.askSuggested=function(btn){
-    var input=document.getElementById('aiInput'); if(!input)return;
-    input.value=(btn&&btn.textContent||'').trim(); sendAiMsg();
-  };
-  window.sendAiMsg=async function(){
-    if(AI_BUSY)return;
-    var input=document.getElementById('aiInput'), chat=document.getElementById('aiChat');
-    if(!input||!chat)return;
-    var msg=input.value.trim(); if(!msg)return;
-    input.value=''; aiAddMessage(msg,'user');
-    var typing=aiAddMessage('جاري التفكير...','bot'); AI_BUSY=true;
-    try{
-      var res=await fetch(AI_WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({message:msg,prompt:msg,question:msg})});
-      var raw=await res.text(), data;
-      try{data=JSON.parse(raw);}catch(e){data=raw;}
-      var reply=aiExtract(data);
-      if(!res.ok) throw new Error((data&&data.error)||('HTTP '+res.status));
-      if(!reply) throw new Error('empty_response');
-      if(typing&&typing.parentNode)typing.parentNode.removeChild(typing);
-      aiAddMessage(reply,'bot');
-    }catch(err){
-      if(typing&&typing.parentNode)typing.parentNode.removeChild(typing);
-      var msgText='تعذر الاتصال بمستشار السيارات حالياً. جرّب مرة ثانية بعد قليل.';
-      if(err&&err.message==='Failed to fetch') msgText='تعذر الاتصال بسيرفر الذكاء الاصطناعي. تأكد أن السيرفر شغال وأن الاتصال مسموح من الموقع.';
-      aiAddMessage(msgText,'bot');
-      console.error('Iraq Motors AI error:',err);
-    }finally{AI_BUSY=false; input.focus();}
-  };
+  function aiAddMessage(text,who){var chat=document.getElementById('aiChat');if(!chat)return;var wrap=document.createElement('div');wrap.className='ai-msg '+(who==='user'?'ai-msg-user':'ai-msg-bot');wrap.innerHTML='<div class="ai-msg-inner">'+aiEscape(text).replace(/\n/g,'<br>')+'</div>';chat.appendChild(wrap);chat.scrollTop=chat.scrollHeight;return wrap;}
+  function aiExtract(data){if(typeof data==='string')return data;if(!data||typeof data!=='object')return '';var v=data.reply||data.response||data.answer||data.text||data.output||data.message||data.content;if(typeof v==='string')return v;if(v&&typeof v==='object')return aiExtract(v);if(Array.isArray(data.candidates)&&data.candidates[0]){var c=data.candidates[0];if(c.content&&Array.isArray(c.content.parts))return c.content.parts.map(function(p){return p.text||'';}).join('');return aiExtract(c);}return '';}
+  window.askSuggested=function(btn){var input=document.getElementById('aiInput');if(!input)return;input.value=(btn&&btn.textContent||'').trim();window.sendAiMsg();};
+  window.sendAiMsg=async function(){if(AI_BUSY)return;var input=document.getElementById('aiInput'),chat=document.getElementById('aiChat');if(!input||!chat)return;var msg=input.value.trim();if(!msg)return;input.value='';aiAddMessage(msg,'user');var typing=aiAddMessage('جاري التفكير...','bot');AI_BUSY=true;try{var res=await fetch(AI_WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({message:msg,prompt:msg,question:msg})});var raw=await res.text(),data;try{data=JSON.parse(raw);}catch(e){data=raw;}var reply=aiExtract(data);if(!res.ok)throw new Error((data&&data.error)||('HTTP '+res.status));if(!reply)throw new Error('empty_response');if(typing&&typing.parentNode)typing.parentNode.removeChild(typing);aiAddMessage(reply,'bot');}catch(err){if(typing&&typing.parentNode)typing.parentNode.removeChild(typing);aiAddMessage('تعذر الاتصال بمستشار السيارات حالياً. جرّب مرة ثانية بعد قليل.','bot');console.error('Iraq Motors AI error:',err);}finally{AI_BUSY=false;input.focus();}};
 })();
-
-</script>
 </script>
 </body>
 </html>
