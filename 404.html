@@ -1161,14 +1161,11 @@ img{content-visibility:auto}.card-slider img,.my-ad-img,.agency-logo,.dealer-car
 .brand-item-logo .brand-logo-wrap,.brand-grid-item .brand-logo-wrap{width:100%;height:100%;}
 .brand-item-logo .brand-logo-wrap .brand-logo-img,.brand-grid-item .brand-logo-wrap .brand-logo-img{width:100%;height:100%;}
 </style>
+<!--SNAPSHOT_HEAD_START--><!--SNAPSHOT_HEAD_END-->
 </head>
 <body>
-<div id="maintenanceScreen" style="display:none;position:fixed;inset:0;z-index:850;background:var(--dark);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;">
-  <span class="ico ico-wrench" style="width:56px;height:56px;color:var(--gold);margin-left:0;margin-bottom:22px;"></span>
-  <div style="font-size:24px;font-weight:900;color:var(--text);margin-bottom:10px;">الموقع تحت الصيانة</div>
-  <div style="font-size:14px;color:var(--dim);max-width:420px;line-height:1.9;margin-bottom:26px;">نعمل حالياً على تطوير وتحديث الموقع. راح نرجع خدمتنا قريباً، نعتذر عن أي إزعاج 🙏</div>
-  <div style="font-size:12px;color:var(--dim);cursor:pointer;text-decoration:underline;" onclick="openLogin()">دخول الإدارة</div>
-</div>
+<!--SNAPSHOT_BODY_START--><!--SNAPSHOT_BODY_END-->
+<!-- maintenance screen is created by JS only when maintenance mode is ON -->
 <button id="pwaInstallBtn" onclick="installPWA()" style="display:none;position:fixed;left:16px;bottom:16px;z-index:900;background:var(--gold);color:#000;border:none;border-radius:30px;padding:11px 18px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:13px;box-shadow:0 6px 18px rgba(0,0,0,0.4);cursor:pointer;align-items:center;gap:7px;">
   <span class="ico ico-md" style="background-color:#000;-webkit-mask-image:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%203v11M6%2010l4%204%204-4%22/%3E%3Cpath%20d%3D%22M4%2016v1a1%201%200%200%200%201%201h10a1%201%200%200%200%201-1v-1%22/%3E%3C/svg%3E');mask-image:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%203v11M6%2010l4%204%204-4%22/%3E%3Cpath%20d%3D%22M4%2016v1a1%201%200%200%200%201%201h10a1%201%200%200%200%201-1v-1%22/%3E%3C/svg%3E');"></span>
   تثبيت التطبيق
@@ -1354,7 +1351,7 @@ img{content-visibility:auto}.card-slider img,.my-ad-img,.agency-logo,.dealer-car
     </div>
     <div class="feature-item">
       <div class="feature-icon"><span class="ico ico-car"></span></div>
-      <div><div class="feature-title"><span id="cntCars">0</span> سيارة معروضة</div><div class="feature-desc">تحديث يومي لأحدث السيارات المعروضة</div></div>
+      <div><div class="feature-title"><span id="cntCars"></span> سيارة معروضة</div><div class="feature-desc">تحديث يومي لأحدث السيارات المعروضة</div></div>
     </div>
     <div class="feature-item">
       <div class="feature-icon"><span class="ico ico-users"></span></div>
@@ -6933,11 +6930,19 @@ function checkMaintenanceMode(){
   }).catch(function(){window._maintenanceModeOn=false;applyMaintenanceState();});
 }
 function applyMaintenanceState(){
-  var scr=document.getElementById('maintenanceScreen');
-  if(!scr)return;
   var isAdminUser=!!(auth.currentUser&&ADMIN_EMAILS.includes(auth.currentUser.email));
   var shouldBlock=!!window._maintenanceModeOn&&!isAdminUser;
-  scr.style.display=shouldBlock?'flex':'none';
+  var scr=document.getElementById('maintenanceScreen');
+  if(shouldBlock&&!scr){
+    scr=document.createElement('div');scr.id='maintenanceScreen';
+    scr.style.cssText='position:fixed;inset:0;z-index:850;background:var(--dark);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;';
+    scr.innerHTML='<span class="ico ico-wrench" style="width:56px;height:56px;color:var(--gold);margin-left:0;margin-bottom:22px;"></span>'
+      +'<div style="font-size:24px;font-weight:900;color:var(--text);margin-bottom:10px;">'+'\u0627\u0644\u0645\u0648\u0642\u0639 \u062a\u062d\u062a \u0627\u0644\u0635\u064a\u0627\u0646\u0629'+'</div>'
+      +'<div style="font-size:14px;color:var(--dim);max-width:420px;line-height:1.9;margin-bottom:26px;">'+'\u0646\u0639\u0645\u0644 \u062d\u0627\u0644\u064a\u0627\u064b \u0639\u0644\u0649 \u062a\u0637\u0648\u064a\u0631 \u0648\u062a\u062d\u062f\u064a\u062b \u0627\u0644\u0645\u0648\u0642\u0639. \u0631\u0627\u062d \u0646\u0631\u062c\u0639 \u062e\u062f\u0645\u062a\u0646\u0627 \u0642\u0631\u064a\u0628\u0627\u064b \ud83d\ude4f'+'</div>'
+      +'<div style="font-size:12px;color:var(--dim);cursor:pointer;text-decoration:underline;" onclick="openLogin()">'+'\u062f\u062e\u0648\u0644 \u0627\u0644\u0625\u062f\u0627\u0631\u0629'+'</div>';
+    document.body.appendChild(scr);
+  }
+  if(scr){if(shouldBlock)scr.style.display='flex';else scr.remove();}
   document.body.style.overflow=shouldBlock?'hidden':'';
 }
 
