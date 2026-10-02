@@ -50,15 +50,20 @@ const head = `<script type="application/ld+json">${ld}</script>`;
 const HIDE = 'position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap';
 const body = `<div id="seo-snapshot" style="${HIDE}"><h2>Iraq Motors - سيارات معروضة للبيع في العراق</h2><p>عدد السيارات المعروضة حالياً في الموقع: ${avail.length}. الموقع شغال ومفتوح للجميع.</p><ul>${top.map((c) => `<li>${name(c)}${priceTxt(c) ? ' - ' + priceTxt(c) : ''}${c.city ? ' - ' + esc(c.city) : ''}</li>`).join('')}</ul></div>`;
 
+// ملاحظة: نستعمل دالة بدل نص للاستبدال، لأن علامة $ بالأسعار ($20,000) كانت تخرّب الاستبدال.
+// والمطابقة greedy (من أول علامة بداية لآخر علامة نهاية) حتى تصلّح أي ملف انخرب سابقاً.
 const swap = (html, tag, content) =>
-  html.replace(new RegExp(`(<!--SNAPSHOT_${tag}_START-->)[\\s\\S]*?(<!--SNAPSHOT_${tag}_END-->)`), `$1${content}$2`);
+  html.replace(
+    new RegExp(`<!--SNAPSHOT_${tag}_START-->[\\s\\S]*<!--SNAPSHOT_${tag}_END-->`),
+    () => `<!--SNAPSHOT_${tag}_START-->${content}<!--SNAPSHOT_${tag}_END-->`
+  );
 
 for (const file of FILES) {
   let html = fs.readFileSync(file, 'utf8');
   const before = html;
   html = swap(html, 'HEAD', head);
   html = swap(html, 'BODY', body);
-  html = html.replace(/(<span id="cntCars">)[^<]*(<\/span>)/, `$1${avail.length}$2`);
+  html = html.replace(/<span id="cntCars">[^<]*<\/span>/, () => `<span id="cntCars">${avail.length}</span>`);
   if (html !== before) { fs.writeFileSync(file, html); console.log('updated', file, '-', avail.length, 'cars'); }
   else console.log('no change', file);
 }
